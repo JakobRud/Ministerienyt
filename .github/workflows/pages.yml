@@ -38,10 +38,9 @@ jobs:
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: |
           mkdir -p site
-          python ministerienyt_nyheder.py \
+          python ministerier_nyheder.py \
             --html-output site/index.html \
             --rss-output site/feed.xml \
-            --status-output site/status.json \
             --site-url "$PAGES_URL" \
             --feed-url "${PAGES_URL}feed.xml"
 
