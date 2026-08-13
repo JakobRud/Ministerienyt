@@ -1,0 +1,221 @@
+[
+  {
+    "name": "Statsministeriet",
+    "start_urls": [
+      "https://stm.dk/presse/pressemeddelelser/"
+    ],
+    "article_prefixes": [
+      "/presse/pressemeddelelser/"
+    ],
+    "home_url": "https://stm.dk/"
+  },
+  {
+    "name": "Økonomi- og Indenrigsministeriet",
+    "start_urls": [
+      "https://oem.dk/nyheder/nyhedsarkiv/"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyhedsarkiv/"
+    ],
+    "home_url": "https://oem.dk/"
+  },
+  {
+    "name": "Udenrigsministeriet",
+    "start_urls": [
+      "https://um.dk/nyheder/"
+    ],
+    "article_prefixes": [
+      "/nyheder/"
+    ],
+    "home_url": "https://um.dk/"
+  },
+  {
+    "name": "Erhvervsministeriet",
+    "start_urls": [
+      "https://www.em.dk/aktuelt/nyheder"
+    ],
+    "article_prefixes": [
+      "/aktuelt/nyheder/"
+    ],
+    "home_url": "https://www.em.dk/"
+  },
+  {
+    "name": "Finansministeriet",
+    "start_urls": [
+      "https://fm.dk/nyheder/nyhedsarkiv/"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyhedsarkiv/"
+    ],
+    "rss_urls": [
+      "https://fm.dk/nyheder/nyhedsarkiv/?rss=true"
+    ],
+    "home_url": "https://fm.dk/"
+  },
+  {
+    "name": "Justitsministeriet",
+    "start_urls": [
+      "https://www.justitsministeriet.dk/pressemeddelelse/"
+    ],
+    "article_prefixes": [
+      "/pressemeddelelse/"
+    ],
+    "home_url": "https://www.justitsministeriet.dk/"
+  },
+  {
+    "name": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
+    "start_urls": [
+      "https://ufm.dk/aktuelt/nyheder",
+      "https://ufm.dk/aktuelt/pressemeddelelser"
+    ],
+    "article_prefixes": [
+      "/aktuelt/nyheder/",
+      "/aktuelt/pressemeddelelser/"
+    ],
+    "home_url": "https://ufm.dk/"
+  },
+  {
+    "name": "Klima-, Energi- og Forsyningsministeriet",
+    "start_urls": [
+      "https://www.kefm.dk/aktuelt/nyheder/"
+    ],
+    "article_prefixes": [
+      "/aktuelt/nyheder/"
+    ],
+    "home_url": "https://www.kefm.dk/"
+  },
+  {
+    "name": "By-, Land- og Transportministeriet",
+    "start_urls": [
+      "https://www.bltm.dk/nyheder"
+    ],
+    "article_prefixes": [
+      "/nyheder/"
+    ],
+    "home_url": "https://www.bltm.dk/"
+  },
+  {
+    "name": "Udlændinge- og Integrationsministeriet",
+    "start_urls": [
+      "https://uim.dk/nyhedsarkiv"
+    ],
+    "article_prefixes": [
+      "/nyhedsarkiv/"
+    ],
+    "home_url": "https://uim.dk/"
+  },
+  {
+    "name": "Undervisningsministeriet",
+    "start_urls": [
+      "https://uvm.dk/aktuelt/nyheder"
+    ],
+    "article_prefixes": [
+      "/aktuelt/nyheder/"
+    ],
+    "home_url": "https://uvm.dk/"
+  },
+  {
+    "name": "Beskæftigelses- og Ligestillingsministeriet",
+    "start_urls": [
+      "https://bm.dk/nyheder/"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyheder/"
+    ],
+    "home_url": "https://www.bm.dk/"
+  },
+  {
+    "name": "Forsvarsministeriet",
+    "start_urls": [
+      "https://www.fmn.dk/da/nyheder/"
+    ],
+    "article_prefixes": [
+      "/da/nyheder/"
+    ],
+    "home_url": "https://www.fmn.dk/"
+  },
+  {
+    "name": "Skatte- og Vækstministeriet",
+    "start_urls": [
+      "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser",
+      "https://svmn.dk/aktuelt/presse-nyheder/nyheder"
+    ],
+    "article_prefixes": [
+      "/aktuelt/presse-nyheder/pressemeddelelser/",
+      "/aktuelt/presse-nyheder/nyheder/"
+    ],
+    "home_url": "https://svmn.dk/"
+  },
+  {
+    "name": "Sundheds- og Kirkeministeriet",
+    "start_urls": [
+      "https://www.ism.dk/nyheder"
+    ],
+    "article_prefixes": [
+      "/nyheder/"
+    ],
+    "home_url": "https://www.ism.dk/"
+  },
+  {
+    "name": "Ministeriet for Natur og Dyrevelfærd",
+    "start_urls": [
+      "https://mgtp.dk/nyheder"
+    ],
+    "article_prefixes": [
+      "/nyheder/"
+    ],
+    "home_url": "https://mgtp.dk/"
+  },
+  {
+    "name": "Kulturministeriet",
+    "start_urls": [
+      "https://kum.dk/aktuelt/nyheder"
+    ],
+    "article_prefixes": [
+      "/aktuelt/nyheder/"
+    ],
+    "home_url": "https://kum.dk/"
+  },
+  {
+    "name": "Ministeriet for Samfundssikkerhed og Beredskab",
+    "start_urls": [
+      "https://mssb.dk/nyheder/"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyhedsarkiv/"
+    ],
+    "home_url": "https://mssb.dk/"
+  },
+  {
+    "name": "Børne-, Ældre- og Boligministeriet",
+    "start_urls": [
+      "https://aeldremin.dk/nyheder/nyhedsarkiv"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyhedsarkiv/"
+    ],
+    "home_url": "https://aeldremin.dk/"
+  },
+  {
+    "name": "Socialministeriet",
+    "start_urls": [
+      "https://www.sm.dk/nyheder"
+    ],
+    "article_prefixes": [
+      "/nyheder/nyhedsarkiv/"
+    ],
+    "home_url": "https://www.sm.dk/"
+  },
+  {
+    "name": "Miljøministeriet",
+    "start_urls": [
+      "https://mim.dk/nyheder/pressemeddelelser",
+      "https://mim.dk/nyheder"
+    ],
+    "article_prefixes": [
+      "/nyheder/pressemeddelelser/",
+      "/nyheder/"
+    ],
+    "home_url": "https://mim.dk/"
+  }
+]
