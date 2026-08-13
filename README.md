@@ -1,31 +1,48 @@
-# Ministerienyt
+# Ministerienyt – komplet arkiv fra 2026
 
-Ministerienyt samler nyheder og pressemeddelelser fra 21 danske ministeriers officielle hjemmesider på én offentlig webside.
+Ministerienyt samler officielle nyheder fra 21 danske ministerielle hjemmesider samt Regeringen.dk.
 
-Siden bliver automatisk genopbygget én gang i timen med GitHub Actions og udgivet gratis med GitHub Pages.
+## Denne version gør følgende
 
-## Hvad du får
+- henter nyheder fra **1. januar 2026 og frem**
+- har ingen grænse på 12 artikler pr. ministerium
+- kombinerer RSS/Atom, HTML-arkiver, paginering og sitemaps
+- gemmer fundne artikler i `archive.json`, så de ikke forsvinder ved senere opdateringer
+- markerer artikler, der er kommet til siden siden brugerens sidste besøg
+- har knappen **Kun nye**
+- inkluderer Regeringen.dk
+- medtager også de officielle 2026-arkiver på tidligere domæner, hvor ressortområder er flyttet (bl.a. trm.dk, skm.dk og digmin.dk)
+- håndterer Beskæftigelses- og Ligestillingsministeriets redirectlinks og både nyheder og pressemeddelelser
+- opdaterer automatisk én gang i timen
 
-- Én kronologisk nyhedsstrøm fra alle ministerier
-- Søgning på tværs af nyhederne
-- Filter efter ministerium
-- Direkte link til originalartiklen
-- En kildeliste over alle 21 ministerier nederst på siden
-- Et samlet RSS-feed på `/feed.xml`
+## Opdater eksisterende GitHub-repository
 
-## Kom i gang
+1. Pak ZIP-filen ud.
+2. Åbn dit Ministerienyt-repository på GitHub.
+3. Vælg **Add file → Upload files**.
+4. Upload og erstat disse filer:
+   - `ministerier_nyheder.py`
+   - `sources.json`
+   - `archive.json`
+   - `requirements.txt`
+   - `.github/workflows/pages.yml`
+5. Klik **Commit changes** direkte til `main`.
+6. Gå til **Actions → Opdater Ministerienyt** og følg den nye kørsel.
 
-Se `TRIN-FOR-TRIN.md` for den komplette opsætningsguide.
+Første fulde kørsel skal gennemgå 2026-arkiverne og tager normalt cirka 5–15 minutter, men kan tage længere, hvis en officiel hjemmeside svarer langsomt. GitHub-workflowet har en tidsgrænse på 45 minutter. Senere timekørsler tager typisk 1–4 minutter, fordi kendte artikler genbruges fra arkivet.
 
-Hvis dit GitHub-brugernavn er `ditnavn`, og dit repository hedder `ministerienyt`, bliver adresserne normalt:
+## Sådan virker “Ny siden sidst”
 
-- Hjemmeside: `https://ditnavn.github.io/ministerienyt/`
-- RSS: `https://ditnavn.github.io/ministerienyt/feed.xml`
+Første besøg efter opdateringen etablerer et udgangspunkt. Fra det næste besøg markeres artikler, der ikke var på siden ved det foregående besøg. Oplysningen gemmes lokalt i browseren, så markeringen gælder separat for hver browser/enhed.
 
-## Filer
+## Vedvarende historik
 
-- `sources.json` – listen over de 21 ministerier og deres nyhedskilder
-- `ministerier_nyheder.py` – henter nyheder og bygger HTML + RSS
-- `.github/workflows/pages.yml` – opdaterer og publicerer siden automatisk
-- `requirements.txt` – Python-afhængigheder
-- `TRIN-FOR-TRIN.md` – installationsguide
+`archive.json` bliver automatisk opdateret og committed af GitHub Actions. Det betyder, at en artikel bliver i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller RSS-feed.
+
+## Kildestatus
+
+Nederst på hjemmesiden vises antallet af arkiverede artikler pr. kilde. `site/status.json` indeholder desuden teknisk status og eventuelle kildeadvarsler fra seneste kørsel.
+
+## Om fuldstændighed
+
+Løsningen har ingen vilkårlig artikelgrænse og gemmer alle artikler fra 1. januar 2026, som kan opdages via ministeriernes officielle RSS-feeds, arkivsider, paginering og sitemaps. Et officielt site kan dog ændre struktur eller undlade at eksponere ældre artikler. Kildestatus nederst på siden og `site/status.json` gør sådanne huller synlige.
