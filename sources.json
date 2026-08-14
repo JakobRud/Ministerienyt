@@ -138,7 +138,9 @@
     "article_prefixes": [
       "/nyheder/nyheder/",
       "/nyheder/pressemeddelelser/"
-    ]
+    ],
+    "always_fetch_articles": true,
+    "refresh_before_schema": 3
   },
   {
     "name": "Forsvarsministeriet",
