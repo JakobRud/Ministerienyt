@@ -140,7 +140,18 @@
       "/nyheder/pressemeddelelser/"
     ],
     "always_fetch_articles": true,
-    "refresh_before_schema": 3
+    "refresh_before_schema": 3,
+    "description_selectors": [
+      ".manchet",
+      ".lead",
+      ".intro",
+      ".article__lead",
+      ".article__intro",
+      ".article-summary",
+      "[class*=\"manchet\"]",
+      "[class*=\"lead\"]",
+      "[class*=\"intro\"]"
+    ]
   },
   {
     "name": "Forsvarsministeriet",

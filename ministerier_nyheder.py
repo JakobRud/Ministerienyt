@@ -406,22 +406,111 @@ def title_from_soup(soup: BeautifulSoup) -> str:
     return clean_text(soup.title.get_text(" ", strip=True) if soup.title else "")
 
 
-def description_from_soup(soup: BeautifulSoup, source: dict | None = None) -> str:
-    source_name = clean_text(str((source or {}).get("name", "")))
-    main = soup.find("main") or soup.find("article")
+def tidy_description_text(value: str, title: str = "") -> str:
+    """Rens en manchet eller det første brødtekstafsnit fra en artikelside."""
+    text = clean_text(value)
+    if not text:
+        return ""
 
-    # bm.dk's listing cards contain type, date and title, but normally no
-    # useful summary. On the article page the first substantial paragraph is
-    # the real standfirst. Prefer it over generic metadata for this source.
-    if source_name == "Beskæftigelses- og Ligestillingsministeriet" and main:
-        for paragraph in main.find_all("p"):
-            paragraph_text = clean_text(paragraph.get_text(" ", strip=True))
-            folded = paragraph_text.casefold()
-            if len(paragraph_text) < 40:
+    text = re.sub(
+        r"^(?:pressemeddelelse|nyhed)(?:\s*-\s*ligestilling)?\s*/?\s*"
+        r"\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}\s*",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    if title and text.casefold().startswith(title.casefold()):
+        text = text[len(title) :].lstrip(" .:–—-/")
+    text = re.sub(r"^\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}\s*", "", text)
+    return clean_text(text)
+
+
+def useful_description(value: str, title: str = "") -> str:
+    text = tidy_description_text(value, title)
+    if len(text) < 40:
+        return ""
+    folded = text.casefold()
+    if title and folded == title.casefold():
+        return ""
+    if any(
+        folded.startswith(prefix)
+        for prefix in (
+            "vi bruger cookies",
+            "denne hjemmeside bruger cookies",
+            "gå til sidens indhold",
+            "beskæftigelsesministeriet nyheder",
+        )
+    ):
+        return ""
+    return text[:900]
+
+
+def description_from_soup(
+    soup: BeautifulSoup,
+    title: str = "",
+    selectors: Iterable[str] | None = None,
+) -> str:
+    """Find en kort, læsbar manchet eller begyndelsen af brødteksten.
+
+    Nogle ministeriesider har ingen brugbar meta-description. Derfor søger vi
+    også i JSON-LD, manchet-/lead-felter og de første afsnit efter H1. Når en
+    kilde har egne selectors, prioriteres sidens synlige tekst før metadata.
+    Det er især nødvendigt på bm.dk's pressemeddelelser.
+    """
+    scope = soup.find("main") or soup.find("article") or soup
+
+    def from_selectors(values: Iterable[str]) -> str:
+        seen_nodes: set[int] = set()
+        for selector in values:
+            try:
+                nodes = scope.select(selector)
+            except Exception:
                 continue
-            if any(token in folded for token in ("presse@bm.dk", "pressetelefon", "cookie", "kontakt os")):
-                continue
-            return paragraph_text[:900]
+            for node in nodes:
+                marker = id(node)
+                if marker in seen_nodes:
+                    continue
+                seen_nodes.add(marker)
+                candidate = useful_description(node.get_text(" ", strip=True), title)
+                if candidate:
+                    return candidate
+        return ""
+
+    configured = list(selectors or [])
+    if configured:
+        candidate = from_selectors(configured)
+        if candidate:
+            return candidate
+
+        h1 = scope.find("h1")
+        if h1:
+            for paragraph in h1.find_all_next("p", limit=16):
+                if scope is not soup and paragraph not in scope.descendants:
+                    break
+                candidate = useful_description(paragraph.get_text(" ", strip=True), title)
+                if candidate:
+                    return candidate
+
+    for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = tag.string or tag.get_text()
+        if not raw:
+            continue
+        try:
+            obj = json.loads(raw)
+        except Exception:
+            continue
+        stack = obj if isinstance(obj, list) else [obj]
+        while stack:
+            current = stack.pop()
+            if isinstance(current, dict):
+                for field in ("description", "articleBody"):
+                    if current.get(field):
+                        candidate = useful_description(str(current[field]), title)
+                        if candidate:
+                            return candidate
+                stack.extend(v for v in current.values() if isinstance(v, (dict, list)))
+            elif isinstance(current, list):
+                stack.extend(current)
 
     for attrs in (
         {"property": "og:description"},
@@ -430,16 +519,41 @@ def description_from_soup(soup: BeautifulSoup, source: dict | None = None) -> st
     ):
         tag = soup.find("meta", attrs=attrs)
         if tag and tag.get("content"):
-            return clean_text(str(tag["content"]))[:900]
+            candidate = useful_description(str(tag["content"]), title)
+            if candidate:
+                return candidate
 
-    if main:
-        for paragraph in main.find_all("p"):
-            paragraph_text = clean_text(paragraph.get_text(" ", strip=True))
-            if len(paragraph_text) >= 40:
-                return paragraph_text[:900]
-    paragraph = soup.find("p")
-    return clean_text(paragraph.get_text(" ", strip=True) if paragraph else "")[:900]
+    preferred = [
+        ".manchet",
+        ".lead",
+        ".intro",
+        ".teaser",
+        ".article__lead",
+        ".article__intro",
+        ".article-summary",
+        ".page-intro",
+        '[class*="manchet"]',
+        '[class*="lead"]',
+        '[class*="intro"]',
+    ]
+    candidate = from_selectors(preferred)
+    if candidate:
+        return candidate
 
+    h1 = scope.find("h1")
+    if h1:
+        for paragraph in h1.find_all_next("p", limit=16):
+            if scope is not soup and paragraph not in scope.descendants:
+                break
+            candidate = useful_description(paragraph.get_text(" ", strip=True), title)
+            if candidate:
+                return candidate
+
+    for paragraph in scope.find_all("p"):
+        candidate = useful_description(paragraph.get_text(" ", strip=True), title)
+        if candidate:
+            return candidate
+    return ""
 
 def article_targets_in_node(node, base_url: str, source: dict) -> set[str]:
     result: set[str] = set()
@@ -918,7 +1032,11 @@ def item_from_candidate(
             page_title = title_from_soup(soup)
             if page_title and not is_generic_title(page_title):
                 title = page_title
-            page_description = description_from_soup(soup, source)
+            page_description = description_from_soup(
+                soup,
+                title,
+                source.get("description_selectors"),
+            )
             if page_description:
                 description = page_description
         except Exception as exc:
@@ -1198,7 +1316,7 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 4.2"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 4.1"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -1252,8 +1370,8 @@ def build_html(
     cards: list[str] = []
     for item in items:
         description = clean_text(item.description)
-        if len(description) > 360:
-            description = description[:357].rstrip() + "..."
+        if len(description) > 280:
+            description = description[:277].rstrip() + "..."
         article_id = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
         cards.append(
             f'''<article class="card" data-id="{article_id}" data-published="{esc(item.published.isoformat())}" data-ministry="{esc(item.source.casefold())}" data-search="{esc((item.source + ' ' + item.title + ' ' + description).casefold())}">
@@ -1288,11 +1406,11 @@ def build_html(
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}">
 <style>
-:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:30px 0 22px}}.eyebrow{{margin:0 0 5px;color:var(--brand);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em}}h1{{font-size:clamp(1.9rem,4vw,3.15rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:820px;color:var(--muted);font-size:1rem;margin:10px 0 0}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:12px;margin-top:18px;align-items:end}}label{{display:block;font-size:.84rem;font-weight:750;margin-bottom:6px}}input,select{{width:100%;min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit}}.new-only{{min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 14px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:24px 0 58px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:15px}}.head h2{{font-size:1.22rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:3px}}.new-summary{{margin:0;color:var(--brand2);font-size:.92rem;font-weight:700}}.list{{display:grid;gap:14px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:18px;background:var(--new);box-shadow:0 2px 10px rgba(95,20,32,.08)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.88rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 8px;font-size:.76rem;line-height:1.5;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.18rem,2.6vw,1.55rem);line-height:1.25;letter-spacing:-.012em;margin:8px 0 10px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 14px;max-width:900px}}.more{{display:inline-block;color:var(--brand2);font-size:.94rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px;text-align:center;color:var(--muted)}}.load-more-wrap{{display:flex;justify-content:center;margin:20px 0 0}}.load-more{{min-height:46px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:10px 18px;font:800 .95rem/1 system-ui;cursor:pointer}}.load-more:hover{{background:#f7eef0}}.load-more[hidden]{{display:none}}.sources{{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}}.sources h2{{margin:0 0 6px}}.sources>p{{color:var(--muted);margin:0 0 14px}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:28px 0 38px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:24px 0 20px}}.card{{padding:18px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
+:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}[hidden]{{display:none!important}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:24px 0 20px}}h1{{font-size:clamp(1.9rem,4vw,3rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:none;color:var(--muted);font-size:1rem;margin:8px 0 0}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:10px;margin-top:16px;align-items:end}}label{{display:block;font-size:.82rem;font-weight:750;margin-bottom:5px}}input,select{{width:100%;min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:8px 11px;font:inherit}}.new-only{{min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:9px 13px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:22px 0 48px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:11px}}.head h2{{font-size:1.16rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:2px}}.new-summary{{margin:0;color:var(--brand2);font-size:.88rem;font-weight:700}}.list{{display:grid;gap:10px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:17px 18px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:14px;background:var(--new);box-shadow:0 2px 8px rgba(95,20,32,.07)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.82rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 7px;font-size:.72rem;line-height:1.45;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.08rem,2.3vw,1.38rem);line-height:1.23;letter-spacing:-.01em;margin:5px 0 7px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 9px;max-width:900px;line-height:1.42}}.more{{display:inline-block;color:var(--brand2);font-size:.9rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.load-more{{display:block;margin:16px auto 0;min-height:44px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:9px 18px;font:750 .94rem/1 system-ui;cursor:pointer}}.load-more:hover{{background:#f8f1f2}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}}.sources{{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}}.sources h2{{margin:0 0 6px}}.sources>p{{color:var(--muted);margin:0 0 14px}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:24px 0 32px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(min-width:700px){{.intro{{white-space:nowrap}}}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:20px 0 18px}}.card{{padding:15px 16px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
 </style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><a class="rss" href="{feed_href}">RSS-feed</a></div></div>
-<header class="hero"><div class="wrap"><p class="eyebrow">Samlet nyhedsoverblik</p><h1>Nyheder fra danske ministerier</h1><p class="intro">Nyheder og pressemeddelelser fra 21 ministerielle hjemmesider samt Regeringen.dk, samlet i én kronologisk oversigt.</p><div class="controls" role="search"><div><label for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Fx klima, økonomi eller sundhed" autocomplete="off"></div><div><label for="ministry">Kilde</label><select id="ministry">{''.join(options)}</select></div><div><label for="new-only">Visning</label><button id="new-only" class="new-only" type="button" aria-pressed="false">Kun nye</button></div></div></div></header>
-<main class="wrap"><div class="head"><div class="head-left"><h2>Seneste nyheder</h2><p id="new-summary" class="new-summary" aria-live="polite"></p></div><p id="count">{len(items)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><div class="load-more-wrap"><button id="load-more" class="load-more" type="button" aria-controls="list">Læs flere nyheder</button></div><section class="sources"><h2>Kilder og dækning</h2><p>Antallet viser, hvor mange artikler fra 1. januar 2026 der aktuelt er gemt i arkivet. Nogle historier kan optræde både hos et ministerium og på Regeringen.dk.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></section></main>
+<header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><p class="intro">Seneste nyt fra ministerierne og Regeringen.dk – samlet ét sted.</p><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label for="ministry">Kilde</label><select id="ministry">{''.join(options)}</select></div><div><label for="new-only">Visning</label><button id="new-only" class="new-only" type="button" aria-pressed="false">Kun nye</button></div></div></div></header>
+<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><p id="new-summary" class="new-summary" aria-live="polite"></p></div><p id="count">{len(items)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><section class="sources"><h2>Kilder og dækning</h2><p>Antallet viser, hvor mange artikler fra 1. januar 2026 der aktuelt er gemt i arkivet. Nogle historier kan optræde både hos et ministerium og på Regeringen.dk.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></section></main>
 <footer><div class="wrap"><p><strong>Ministerienyt</strong> er en uafhængig samling af links til officielle kilder.</p><p>Alle artikler åbner hos den oprindelige udgiver. Senest opdateret {esc(fmt_datetime_da(updated))}. <a href="{feed_href}">RSS-feed</a>.</p></div></footer>
 <script>(()=>{{
 const search=document.getElementById('search'),sourceSelect=document.getElementById('ministry'),newOnly=document.getElementById('new-only'),loadMore=document.getElementById('load-more'),cards=[...document.querySelectorAll('.card')],count=document.getElementById('count'),empty=document.getElementById('empty'),newSummary=document.getElementById('new-summary');
@@ -1305,9 +1423,20 @@ if(previousIds){{for(const card of cards){{if(card.dataset.id&&!previousIds.has(
 function visitText(value){{if(!value)return'';const date=new Date(value);if(Number.isNaN(date.getTime()))return'';return new Intl.DateTimeFormat('da-DK',{{dateStyle:'medium',timeStyle:'short'}}).format(date)}}
 if(!previousIds){{newSummary.textContent='Nye artikler markeres fra dit næste besøg.'}}else if(newCount===0){{newSummary.textContent='Ingen nye artikler siden dit sidste besøg.'}}else{{const when=visitText(lastVisit);newSummary.textContent=(newCount===1?'1 ny artikel':newCount+' nye artikler')+' siden dit sidste besøg'+(when?' ('+when+')':'')+'.'}}
 try{{const merged=[...(previousIds?[...previousIds]:[]),...currentIds];const unique=[...new Set(merged)].slice(-10000);localStorage.setItem(SEEN_KEY,JSON.stringify(unique));localStorage.setItem(VISIT_KEY,new Date().toISOString())}}catch(error){{}}
-function matchingCards(){{const query=norm(search.value),selected=norm(sourceSelect.value),onlyNew=newOnly.getAttribute('aria-pressed')==='true';return cards.filter(card=>(!query||card.dataset.search.includes(query))&&(!selected||card.dataset.ministry===selected)&&(!onlyNew||card.classList.contains('is-new')))}}
-function applyFilters(resetLimit=false){{if(resetLimit)visibleLimit=PAGE_SIZE;const matches=matchingCards();const shown=Math.min(visibleLimit,matches.length);const matchSet=new Set(matches.slice(0,shown));for(const card of cards)card.hidden=!matchSet.has(card);count.textContent=matches.length===0?'0 nyheder':(shown===matches.length?(matches.length===1?'1 nyhed':matches.length+' nyheder'):'Viser '+shown+' af '+matches.length+' nyheder');empty.style.display=matches.length?'none':'block';const remaining=Math.max(0,matches.length-shown);loadMore.hidden=remaining===0;if(remaining)loadMore.textContent=remaining<=PAGE_SIZE?'Læs de sidste '+remaining+' nyheder':'Læs '+PAGE_SIZE+' flere nyheder';const query=norm(search.value),selected=norm(sourceSelect.value),onlyNew=newOnly.getAttribute('aria-pressed')==='true';const url=new URL(location);query?url.searchParams.set('q',search.value.trim()):url.searchParams.delete('q');selected?url.searchParams.set('kilde',sourceSelect.value):url.searchParams.delete('kilde');onlyNew?url.searchParams.set('nye','1'):url.searchParams.delete('nye');history.replaceState(null,'',url)}}
-const params=new URLSearchParams(location.search);if(params.get('q'))search.value=params.get('q');if(params.get('kilde'))sourceSelect.value=params.get('kilde');if(params.get('nye')==='1')newOnly.setAttribute('aria-pressed','true');search.addEventListener('input',()=>applyFilters(true));sourceSelect.addEventListener('change',()=>applyFilters(true));newOnly.addEventListener('click',()=>{{newOnly.setAttribute('aria-pressed',newOnly.getAttribute('aria-pressed')==='true'?'false':'true');applyFilters(true)}});loadMore.addEventListener('click',()=>{{visibleLimit+=PAGE_SIZE;applyFilters(false)}});applyFilters(true);
+function applyFilters(resetLimit=false){{
+ if(resetLimit)visibleLimit=PAGE_SIZE;
+ const query=norm(search.value),selected=norm(sourceSelect.value),onlyNew=newOnly.getAttribute('aria-pressed')==='true',matching=[];
+ for(const card of cards){{const match=(!query||card.dataset.search.includes(query))&&(!selected||card.dataset.ministry===selected)&&(!onlyNew||card.classList.contains('is-new'));if(match)matching.push(card);else card.hidden=true}}
+ matching.forEach((card,index)=>{{card.hidden=index>=visibleLimit}});
+ const shown=Math.min(visibleLimit,matching.length),remaining=Math.max(0,matching.length-shown);
+ if(matching.length===0)count.textContent='0 nyheder';else if(remaining>0)count.textContent=shown+' af '+matching.length+' nyheder';else count.textContent=matching.length===1?'1 nyhed':matching.length+' nyheder';
+ empty.style.display=matching.length?'none':'block';
+ loadMore.hidden=remaining===0;
+ if(remaining>0){{const next=Math.min(PAGE_SIZE,remaining);loadMore.textContent=remaining<=PAGE_SIZE?'Vis de sidste '+remaining+' nyheder':'Vis '+next+' flere nyheder'}}
+ const url=new URL(location);query?url.searchParams.set('q',search.value.trim()):url.searchParams.delete('q');selected?url.searchParams.set('kilde',sourceSelect.value):url.searchParams.delete('kilde');onlyNew?url.searchParams.set('nye','1'):url.searchParams.delete('nye');history.replaceState(null,'',url)
+}}
+const params=new URLSearchParams(location.search);if(params.get('q'))search.value=params.get('q');if(params.get('kilde'))sourceSelect.value=params.get('kilde');if(params.get('nye')==='1')newOnly.setAttribute('aria-pressed','true');
+search.addEventListener('input',()=>applyFilters(true));sourceSelect.addEventListener('change',()=>applyFilters(true));newOnly.addEventListener('click',()=>{{newOnly.setAttribute('aria-pressed',newOnly.getAttribute('aria-pressed')==='true'?'false':'true');applyFilters(true)}});loadMore.addEventListener('click',()=>{{visibleLimit+=PAGE_SIZE;applyFilters(false)}});applyFilters(true);
 }})();</script>
 </body></html>'''
 
