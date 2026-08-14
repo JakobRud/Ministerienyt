@@ -26,7 +26,7 @@ import sys
 import time
 from collections import Counter, deque
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 from urllib.parse import parse_qsl, parse_qs, unquote, urlencode, urljoin, urlparse, urlunparse
@@ -40,14 +40,14 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/4.0 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/4.1 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 1
+ARCHIVE_SCHEMA_VERSION = 2
 
 DANISH_MONTHS = {
     "januar": 1,
@@ -168,6 +168,7 @@ class Candidate:
     context: str = ""
     published: datetime | None = None
     discovered_by: str = "HTML"
+    title_priority: int = 0
 
 
 @dataclass
@@ -244,7 +245,12 @@ def canonical_url(url: str) -> str:
 
 def source_hosts(source: dict) -> set[str]:
     urls = [source.get("home_url", ""), *source.get("start_urls", []), *source.get("sitemap_urls", [])]
-    return {normalize_host(urlparse(url).netloc) for url in urls if url}
+    hosts = {normalize_host(urlparse(url).netloc) for url in urls if url}
+    for value in source.get("extra_hosts", []):
+        host = normalize_host(urlparse(value).netloc) if "://" in value else normalize_host(value)
+        if host:
+            hosts.add(host)
+    return hosts
 
 
 def source_origins(source: dict) -> set[str]:
@@ -260,18 +266,35 @@ def same_source_site(url: str, source: dict) -> bool:
     return normalize_host(urlparse(url).netloc) in source_hosts(source)
 
 
+def plausible_published_date(dt: datetime) -> datetime | None:
+    """Normalisér en publiceringsdato og afvis åbenlyst fejltolkede fremtidsår."""
+    dt = (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+    if dt.year < 2000:
+        return None
+    # En lille margen håndterer tidszoner og planlagte udgivelser samme døgn,
+    # men forhindrer at beløb som "75 mio." bliver tolket som år 2075.
+    if dt > datetime.now(timezone.utc) + timedelta(days=1):
+        return None
+    return dt
+
+
 def parse_date(value: str) -> datetime | None:
     if not value:
         return None
     value = clean_text(value)
 
-    # ISO-format, også med tidspunkt.
-    match = re.search(r"\b(20\d{2})-(\d{2})-(\d{2})(?:[T ]([^\s<]+))?", value)
+    # ISO-format, også med millisekunder og tidszone.
+    match = re.search(
+        r"\b(20\d{2}-\d{2}-\d{2})(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?",
+        value,
+        flags=re.IGNORECASE,
+    )
     if match:
-        candidate = match.group(0)
         try:
-            dt = date_parser.parse(candidate)
-            return (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+            parsed = date_parser.parse(match.group(0))
+            result = plausible_published_date(parsed)
+            if result:
+                return result
         except Exception:
             pass
 
@@ -281,36 +304,47 @@ def parse_date(value: str) -> datetime | None:
         value.casefold(),
     )
     if match:
-        return datetime(
-            int(match.group(3)),
-            DANISH_MONTHS[match.group(2)],
-            int(match.group(1)),
-            tzinfo=timezone.utc,
-        )
+        try:
+            return plausible_published_date(
+                datetime(
+                    int(match.group(3)),
+                    DANISH_MONTHS[match.group(2)],
+                    int(match.group(1)),
+                    tzinfo=timezone.utc,
+                )
+            )
+        except ValueError:
+            return None
 
     # 03-06-2026, 03.06.2026 eller 03/06/2026.
     match = re.search(r"\b(\d{1,2})[./-](\d{1,2})[./-](20\d{2})\b", value)
     if match:
         try:
-            return datetime(
-                int(match.group(3)),
-                int(match.group(2)),
-                int(match.group(1)),
-                tzinfo=timezone.utc,
+            return plausible_published_date(
+                datetime(
+                    int(match.group(3)),
+                    int(match.group(2)),
+                    int(match.group(1)),
+                    tzinfo=timezone.utc,
+                )
             )
         except ValueError:
             return None
 
-    # RFC-datoer og øvrige korte datoformater fra feeds/meta-felter.
-    if len(value) <= 250:
+    # RFC-datoer fra RSS/Atom, fx "Sat, 1 Aug 2026 09:00:00 +0200".
+    english_month = re.search(
+        r"\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|"
+        r"Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b",
+        value,
+        flags=re.IGNORECASE,
+    )
+    if english_month and re.search(r"\b20\d{2}\b", value):
         try:
-            dt = date_parser.parse(value, dayfirst=True, fuzzy=True)
-            if dt.year >= 2000:
-                return (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+            parsed = date_parser.parse(value, dayfirst=True, fuzzy=True)
+            return plausible_published_date(parsed)
         except Exception:
             pass
     return None
-
 
 def date_from_soup(soup: BeautifulSoup) -> datetime | None:
     candidates: list[str] = []
@@ -392,15 +426,88 @@ def description_from_soup(soup: BeautifulSoup) -> str:
     return clean_text(paragraph.get_text(" ", strip=True) if paragraph else "")[:900]
 
 
-def closest_context(anchor) -> str:
-    for tag_name in ("article", "li", "section", "div"):
-        node = anchor.find_parent(tag_name)
-        if node:
-            text = clean_text(node.get_text(" ", strip=True))
-            if 10 <= len(text) <= 2200:
-                return text
-    parent = anchor.parent
-    return clean_text(parent.get_text(" ", strip=True) if parent else anchor.get_text(" ", strip=True))
+def article_targets_in_node(node, base_url: str, source: dict) -> set[str]:
+    result: set[str] = set()
+    for link in node.find_all("a", href=True):
+        target = normalize_url(urljoin(base_url, str(link["href"])), keep_query=True)
+        if target and looks_like_article(target, source):
+            result.add(canonical_url(target))
+    return result
+
+
+def listing_context_node(anchor, target: str, base_url: str, source: dict):
+    """Find det mindste kort, som indeholder både artiklen og dens dato.
+
+    Flere ministeriesider – især kum.dk – har ét link omkring overskriften og
+    et andet link omkring manchetten. Det gamle udtræk kunne derfor bruge
+    manchetten som overskrift og et tal i teksten som årstal. Her går vi op i
+    DOM-træet, indtil vi finder det fælles artikelkort med en rigtig dato.
+    """
+    target_key = canonical_url(target)
+    fallback = None
+    for node in anchor.parents:
+        if getattr(node, "name", None) not in {"article", "li", "div", "section"}:
+            continue
+        text = clean_text(node.get_text(" ", strip=True))
+        if not (10 <= len(text) <= 5000):
+            continue
+        targets = article_targets_in_node(node, base_url, source)
+        if target_key not in targets or len(targets) > 2:
+            continue
+        if fallback is None:
+            fallback = node
+        if parse_date(text):
+            return node
+    return fallback or anchor.parent or anchor
+
+
+def heading_title_in_node(node, target: str, base_url: str) -> str:
+    target_key = canonical_url(target)
+    for heading in node.find_all(["h1", "h2", "h3", "h4", "h5"]):
+        link = heading.find("a", href=True)
+        if link:
+            linked = canonical_url(normalize_url(urljoin(base_url, str(link["href"])), keep_query=True))
+            if linked != target_key:
+                continue
+        title = clean_text(heading.get_text(" ", strip=True))
+        if not is_generic_title(title):
+            return title
+    return ""
+
+
+def listing_description(node, target: str, base_url: str, title: str) -> str:
+    target_key = canonical_url(target)
+    choices: list[str] = []
+    for link in node.find_all("a", href=True):
+        linked = canonical_url(normalize_url(urljoin(base_url, str(link["href"])), keep_query=True))
+        if linked != target_key:
+            continue
+        text = clean_text(link.get_text(" ", strip=True))
+        if not text or text.casefold() == title.casefold() or is_generic_title(text):
+            continue
+        if 25 <= len(text) <= 1200:
+            choices.append(text)
+    for paragraph in node.find_all("p"):
+        text = clean_text(paragraph.get_text(" ", strip=True))
+        if text and text.casefold() != title.casefold() and 25 <= len(text) <= 1200:
+            choices.append(text)
+    if not choices:
+        return ""
+    # En manchet er typisk længere end overskriften, men kortere end hele kortet.
+    return max(choices, key=len)[:900]
+
+
+def listing_fields(anchor, target: str, base_url: str, source: dict) -> tuple[str, str, datetime | None, int]:
+    node = listing_context_node(anchor, target, base_url, source)
+    title = heading_title_in_node(node, target, base_url)
+    priority = 3 if title else 1
+    if not title:
+        title = clean_text(anchor.get_text(" ", strip=True))
+        if getattr(anchor.parent, "name", "") in {"h1", "h2", "h3", "h4", "h5"}:
+            priority = 3
+    description = listing_description(node, target, base_url, title)
+    published = parse_date(clean_text(node.get_text(" ", strip=True)))
+    return title, description, published, priority
 
 
 def create_session() -> requests.Session:
@@ -475,16 +582,25 @@ def merge_candidate(existing: Candidate | None, new: Candidate) -> Candidate:
     if existing is None:
         return new
     title = existing.title
-    if is_generic_title(title) and not is_generic_title(new.title):
+    title_priority = existing.title_priority
+    if (
+        new.title_priority > title_priority
+        or (is_generic_title(title) and not is_generic_title(new.title))
+        or (
+            new.title_priority == title_priority
+            and not is_generic_title(new.title)
+            and len(title) > 220
+            and len(new.title) < len(title)
+        )
+    ):
         title = new.title
-    elif len(new.title) > len(title) and not is_generic_title(new.title):
-        title = new.title
+        title_priority = new.title_priority
     context = new.context if len(new.context) > len(existing.context) else existing.context
     published = existing.published or new.published
     discovered_by = existing.discovered_by
     if new.discovered_by not in discovered_by.split("+"):
         discovered_by += "+" + new.discovered_by
-    return Candidate(existing.url, title, context, published, discovered_by)
+    return Candidate(existing.url, title, context, published, discovered_by, title_priority)
 
 
 def discovered_feed_urls(soup: BeautifulSoup, base_url: str) -> list[str]:
@@ -536,7 +652,8 @@ def crawl_listing_pages(
     candidates: dict[str, Candidate] = {}
     feed_urls: list[str] = []
 
-    while queue and len(visited) < MAX_LISTING_PAGES_PER_SOURCE:
+    max_pages = int(source.get("max_listing_pages", MAX_LISTING_PAGES_PER_SOURCE))
+    while queue and len(visited) < max_pages:
         requested_url = queue.popleft()
         page_key = normalize_url(requested_url, keep_query=True)
         if not page_key or page_key in visited:
@@ -566,20 +683,16 @@ def crawl_listing_pages(
                 continue
 
             if looks_like_article(target, source):
-                title = clean_text(anchor.get_text(" ", strip=True))
-                context = closest_context(anchor)
-                if is_generic_title(title):
-                    heading = anchor.find_parent(["article", "li", "section", "div"])
-                    if heading:
-                        h = heading.find(["h1", "h2", "h3", "h4"])
-                        if h:
-                            title = clean_text(h.get_text(" ", strip=True))
+                title, context, published, title_priority = listing_fields(
+                    anchor, target, final_url, source
+                )
                 candidate = Candidate(
                     url=target,
                     title=title,
                     context=context,
-                    published=parse_date(context),
+                    published=published,
                     discovered_by="HTML",
+                    title_priority=title_priority,
                 )
                 key = canonical_url(target)
                 candidates[key] = merge_candidate(candidates.get(key), candidate)
@@ -590,7 +703,7 @@ def crawl_listing_pages(
     if queue:
         append_error(
             status,
-            f"Sikkerhedsgrænsen på {MAX_LISTING_PAGES_PER_SOURCE} listesider blev nået; kontrollér kilden ved meget store arkiver.",
+            f"Sikkerhedsgrænsen på {max_pages} listesider blev nået; kontrollér kilden ved meget store arkiver.",
         )
     return candidates, list(dict.fromkeys(url for url in feed_urls if url))
 
@@ -779,7 +892,7 @@ def item_from_candidate(
 
     if published and published < ARCHIVE_START:
         return None
-    must_fetch = not published or is_generic_title(title)
+    must_fetch = bool(source.get("always_fetch_articles")) or not published or is_generic_title(title)
     if must_fetch:
         try:
             response = fetch(session, candidate.url)
@@ -818,18 +931,107 @@ def better_item(existing: Item | None, new: Item) -> Item:
     return Item(new.source or existing.source, title, new.url or existing.url, published, description)
 
 
+
+def ritzau_public_url(raw_url: str) -> str:
+    parsed = urlparse(urljoin("https://via.ritzau.dk", raw_url))
+    path = parsed.path
+    if path.startswith("/release/"):
+        path = "/pressemeddelelse/" + path[len("/release/") :]
+    return normalize_url(urlunparse((parsed.scheme, parsed.netloc, path, "", parsed.query, "")), keep_query=True)
+
+
+def collect_ritzau_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    pressroom_id = source.get("ritzau_pressroom_id")
+    if not pressroom_id:
+        return [], False
+
+    page_size = int(source.get("ritzau_page_size", 20))
+    max_pages = int(source.get("ritzau_max_pages", 50))
+    result: dict[str, Item] = {}
+    api_ok = False
+    candidate_count = 0
+
+    for page in range(max_pages):
+        endpoint = (
+            f"https://via.ritzau.dk/public-website-api/pressroom/{pressroom_id}/"
+            f"releases/{page_size}/{page}"
+        )
+        try:
+            response = fetch(session, endpoint)
+            payload = response.json()
+            api_ok = True
+        except Exception as exc:
+            append_error(status, f"Via Ritzau API kunne ikke hentes: {exc}")
+            break
+
+        releases = payload.get("releases", []) if isinstance(payload, dict) else []
+        if not releases:
+            break
+
+        reached_older = False
+        for release in releases:
+            if not isinstance(release, dict):
+                continue
+            published = parse_date(str(release.get("date", "")))
+            if not published:
+                continue
+            if published < ARCHIVE_START:
+                reached_older = True
+                continue
+            versions = release.get("versions", {})
+            if not isinstance(versions, dict) or not versions:
+                continue
+            version = versions.get("da") or next(iter(versions.values()), {})
+            if not isinstance(version, dict):
+                continue
+            title = clean_text(str(version.get("title", "")))
+            url = ritzau_public_url(str(version.get("url", "")))
+            if not url or is_generic_title(title):
+                continue
+            candidate_count += 1
+            key = canonical_url(url)
+            if key in known_urls:
+                continue
+            description = clean_text(str(version.get("metadescription", "")))[:900]
+            result[key] = Item(source["name"], title, url, published, description)
+
+        paging = payload.get("paging", {}) if isinstance(payload, dict) else {}
+        total = int(paging.get("count", 0) or 0) if isinstance(paging, dict) else 0
+        if reached_older or (total and (page + 1) * page_size >= total):
+            break
+
+    if api_ok:
+        status.methods.append("Via Ritzau API")
+        status.article_candidates = candidate_count
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), api_ok
+
 def collect_source(
     session: requests.Session,
     source: dict,
     known_urls: set[str],
 ) -> tuple[list[Item], SourceStatus]:
     status = SourceStatus(source["name"], source.get("home_url", source.get("start_urls", [""])[0]))
+
+    ritzau_items, ritzau_ok = collect_ritzau_items(session, source, known_urls, status)
+    if ritzau_ok:
+        status.fresh_items = len(ritzau_items)
+        return ritzau_items, status
+
     listing_candidates, discovered_feeds = crawl_listing_pages(session, source, status)
     if listing_candidates:
         status.methods.append("HTML")
 
     feed_items = collect_feed_items(session, source, discovered_feeds, status)
-    sitemap_candidates = discover_sitemap_candidates(session, source, status)
+    sitemap_candidates = (
+        {}
+        if source.get("disable_sitemap")
+        else discover_sitemap_candidates(session, source, status)
+    )
 
     candidates = dict(listing_candidates)
     for key, candidate in sitemap_candidates.items():
@@ -901,14 +1103,15 @@ def item_from_archive_dict(raw: dict) -> Item | None:
         return None
 
 
-def load_archive(path: Path, allowed_sources: set[str]) -> list[Item]:
+def load_archive(path: Path, allowed_sources: set[str]) -> tuple[list[Item], int]:
     if not path.exists():
-        return []
+        return [], 0
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
         print(f"Advarsel: kunne ikke læse {path}: {exc}", file=sys.stderr)
-        return []
+        return [], 0
+    schema_version = int(raw.get("schema_version", 0) or 0) if isinstance(raw, dict) else 0
     rows = raw.get("items", []) if isinstance(raw, dict) else raw
     result: dict[str, Item] = {}
     if isinstance(rows, list):
@@ -920,8 +1123,7 @@ def load_archive(path: Path, allowed_sources: set[str]) -> list[Item]:
                 continue
             key = canonical_url(item.url)
             result[key] = better_item(result.get(key), item)
-    return sorted(result.values(), key=lambda item: item.published, reverse=True)
-
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), schema_version
 
 def merge_archive(existing: Iterable[Item], fresh: Iterable[Item]) -> list[Item]:
     merged: dict[str, Item] = {}
@@ -981,7 +1183,7 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 4.0"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 4.1"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -1071,7 +1273,7 @@ def build_html(
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}">
 <style>
-:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:48px 0 34px}}.eyebrow{{margin:0 0 10px;color:var(--brand);font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em}}h1{{font-size:clamp(2.15rem,5vw,3.8rem);line-height:1.02;letter-spacing:-.04em;margin:0;max-width:900px}}.intro{{max-width:820px;color:var(--muted);font-size:1.08rem;margin:18px 0 0}}.archive-note{{display:inline-flex;margin-top:15px;padding:6px 10px;border-radius:999px;background:#f3e9eb;color:var(--brand2);font-weight:750;font-size:.88rem}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:12px;margin-top:28px;align-items:end}}label{{display:block;font-size:.84rem;font-weight:750;margin-bottom:6px}}input,select{{width:100%;min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit}}.new-only{{min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 14px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:32px 0 58px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:15px}}.head h2{{font-size:1.22rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:3px}}.new-summary{{margin:0;color:var(--brand2);font-size:.92rem;font-weight:700}}.list{{display:grid;gap:14px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:18px;background:var(--new);box-shadow:0 2px 10px rgba(95,20,32,.08)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.88rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 8px;font-size:.76rem;line-height:1.5;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.18rem,2.6vw,1.55rem);line-height:1.25;letter-spacing:-.012em;margin:8px 0 10px}}.card h2 a{{text-decoration:none}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 14px;max-width:900px}}.more{{display:inline-block;color:var(--brand2);font-size:.94rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px;text-align:center;color:var(--muted)}}.sources{{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}}.sources h2{{margin:0 0 6px}}.sources>p{{color:var(--muted);margin:0 0 14px}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:28px 0 38px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:34px 0 28px}}.card{{padding:18px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
+:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:48px 0 34px}}.eyebrow{{margin:0 0 10px;color:var(--brand);font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em}}h1{{font-size:clamp(2.15rem,5vw,3.8rem);line-height:1.02;letter-spacing:-.04em;margin:0;max-width:900px}}.intro{{max-width:820px;color:var(--muted);font-size:1.08rem;margin:18px 0 0}}.archive-note{{display:inline-flex;margin-top:15px;padding:6px 10px;border-radius:999px;background:#f3e9eb;color:var(--brand2);font-weight:750;font-size:.88rem}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:12px;margin-top:28px;align-items:end}}label{{display:block;font-size:.84rem;font-weight:750;margin-bottom:6px}}input,select{{width:100%;min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit}}.new-only{{min-height:49px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:10px 14px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:32px 0 58px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:15px}}.head h2{{font-size:1.22rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:3px}}.new-summary{{margin:0;color:var(--brand2);font-size:.92rem;font-weight:700}}.list{{display:grid;gap:14px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:18px;background:var(--new);box-shadow:0 2px 10px rgba(95,20,32,.08)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.88rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 8px;font-size:.76rem;line-height:1.5;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.18rem,2.6vw,1.55rem);line-height:1.25;letter-spacing:-.012em;margin:8px 0 10px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 14px;max-width:900px}}.more{{display:inline-block;color:var(--brand2);font-size:.94rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px;text-align:center;color:var(--muted)}}.sources{{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}}.sources h2{{margin:0 0 6px}}.sources>p{{color:var(--muted);margin:0 0 14px}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:28px 0 38px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:34px 0 28px}}.card{{padding:18px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
 </style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><a class="rss" href="{feed_href}">RSS-feed</a></div></div>
 <header class="hero"><div class="wrap"><p class="eyebrow">Samlet nyhedsoverblik</p><h1>Nyheder fra danske ministerier</h1><p class="intro">Nyheder og pressemeddelelser fra 21 ministerielle hjemmesider samt Regeringen.dk, samlet i én kronologisk oversigt.</p><span class="archive-note">Arkiv fra 1. januar 2026</span><div class="controls" role="search"><div><label for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Fx klima, økonomi eller sundhed" autocomplete="off"></div><div><label for="ministry">Kilde</label><select id="ministry">{''.join(options)}</select></div><div><label for="new-only">Visning</label><button id="new-only" class="new-only" type="button" aria-pressed="false">Kun nye</button></div></div></div></header>
@@ -1126,7 +1328,22 @@ def main() -> int:
     sources = json.loads(sources_path.read_text(encoding="utf-8"))
     allowed_sources = {source["name"] for source in sources}
     archive_path = Path(args.archive)
-    existing = load_archive(archive_path, allowed_sources)
+    existing, archive_version = load_archive(archive_path, allowed_sources)
+    refresh_sources = {
+        source["name"]
+        for source in sources
+        if int(source.get("refresh_before_schema", 0) or 0) > archive_version
+    }
+    if refresh_sources:
+        before = len(existing)
+        existing = [item for item in existing if item.source not in refresh_sources]
+        removed = before - len(existing)
+        print(
+            "Genopbygger korrigerede kilder: "
+            + ", ".join(sorted(refresh_sources))
+            + f" ({removed} gamle poster fjernet).",
+            file=sys.stderr,
+        )
     known_urls = {canonical_url(item.url) for item in existing}
     print(f"Eksisterende arkiv: {len(existing)} artikler.", file=sys.stderr)
 

@@ -28,6 +28,12 @@
     ],
     "article_prefixes": [
       "/nyheder/"
+    ],
+    "ritzau_pressroom_id": 2012662,
+    "ritzau_page_size": 4,
+    "ritzau_max_pages": 100,
+    "extra_hosts": [
+      "via.ritzau.dk"
     ]
   },
   {
@@ -186,7 +192,11 @@
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
-    ]
+    ],
+    "max_listing_pages": 6,
+    "always_fetch_articles": true,
+    "refresh_before_schema": 2,
+    "disable_sitemap": true
   },
   {
     "name": "Ministeriet for Samfundssikkerhed og Beredskab",
