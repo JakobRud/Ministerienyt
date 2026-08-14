@@ -1,15 +1,8 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "archive_start": "2026-01-01",
-  "updated_at": "2026-08-14T12:39:22.201396+00:00",
+  "updated_at": "2026-08-14T13:09:18.642810+00:00",
   "items": [
-    {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Tommy Ahlers er ny bestyrelsesformand for Energinet",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jul/tommy-ahlers-er-ny-bestyrelsesformand-for-energinet",
-      "published": "2026-08-15T00:00:00+00:00",
-      "description": "Klima-, energi- og forsyningsminister Samira Nawa udpeger en ny bestyrelse for Energinet, der også får ny bestyrelsesformand."
-    },
     {
       "source": "Statsministeriet",
       "title": "De nordiske stats- og regeringsledere drøfter styrket forsvarssamarbejde til nordisk sommermøde i Danmark",
@@ -102,18 +95,18 @@
       "description": "Publiceret 05.08.2026 Nyhed Undervisningsministeriet gør opmærksom på vejledning om sikkerhed og kriseberedskab til skoler og uddannelsessteder, efter at myndighederne har afværget et planlagt angreb på Hadsten Skole."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Vattenfall Vindkraft A/S skal bygge havvindmølleparker i Nordsøen og Kattegat",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/aug/vattenfall-vindkraft-as-skal-bygge-havvindmoelleparker-i-nordsoeen-og-kattegat",
-      "published": "2026-08-04T00:00:00+00:00",
-      "description": "Vinderen af udbuddene af havvindmølleparkerne Nordsøen Midt og Hesselø er fundet. Vattenfall skal bygge havvindmøller, der kan levere strøm svarende til forbruget i 1,8 millioner danske hjem."
-    },
-    {
       "source": "Udlændinge- og Integrationsministeriet",
       "title": "Bødskov: Bred opbakning til danske forslag på EU-møde",
       "url": "https://uim.dk/nyhedsarkiv/2026/august/boedskov-bred-opbakning-til-danske-forslag-paa-eu-moede/",
       "published": "2026-08-04T00:00:00+00:00",
       "description": "Publiceret 04.08.2026 Udlændinge- og integrationsminister Morten Bødskov har tirsdag formiddag deltaget i et EU-hastemøde om situationen i Ceuta. Her gjorde den danske minister det klart, at det er et fælles EU-ansvar a..."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Vattenfall Vindkraft A/S skal bygge havvindmølleparker i Nordsøen og Kattegat",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/aug/vattenfall-vindkraft-as-skal-bygge-havvindmoelleparker-i-nordsoeen-og-kattegat",
+      "published": "2026-08-04T00:00:00+00:00",
+      "description": "Vinderen af udbuddene af havvindmølleparkerne Nordsøen Midt og Hesselø er fundet. Vattenfall skal bygge havvindmøller, der kan levere strøm svarende til forbruget i 1,8 millioner danske hjem."
     },
     {
       "source": "Justitsministeriet",
@@ -417,6 +410,13 @@
       "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner."
     },
     {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Tommy Ahlers er ny bestyrelsesformand for Energinet",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jul/tommy-ahlers-er-ny-bestyrelsesformand-for-energinet",
+      "published": "2026-07-02T00:00:00+00:00",
+      "description": "Klima-, energi- og forsyningsminister Samira Nawa udpeger en ny bestyrelse for Energinet, der også får ny bestyrelsesformand."
+    },
+    {
       "source": "Økonomi- og Indenrigsministeriet",
       "title": "Udmelding om tilskud og udligning for 2027 er nu sendt ud til kommuner og regioner",
       "url": "https://oem.dk/nyheder/nyhedsarkiv/2026/juli/udmelding-om-tilskud-og-udligning-for-2027-er-nu-sendt-ud-til-kommuner-og-regioner/",
@@ -627,13 +627,6 @@
       "description": "29. juni 2026 Danske havne skal ikke være arbejdsplads for bandemedlemmer eller indgangsport for narkotika. Derfor vil regeringen gøre baggrundstjek af relevante havnemedarbejdere til et krav."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Bred politisk opbakning til akutplan for elnettet",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/bred-politisk-opbakning-til-akutplan-for-elnettet",
-      "published": "2026-06-29T00:00:00+00:00",
-      "description": "Ny akutplan skal sikre, at elnettet bruges på det, der er vigtigst for Danmark, og at man fra politisk hold sætter rammerne for, hvem der skal prioriteres på den ledige plads, der er i elnettet."
-    },
-    {
       "source": "Forsvarsministeriet",
       "title": "Forsvarsminister Jeppe Bruus møder Zelenskyy i Kyiv",
       "url": "https://www.fmn.dk/da/nyheder/2026/forsvarsminister-jeppe-bruus-besoger-ukraine/",
@@ -662,6 +655,13 @@
       "description": "I rapporten kortlægger VIVE blandt andet, hvad der karakteriserer gerningsmænd og ofre, hvad risikofaktorerne er, og hvordan drabene foregår – og peger samtidig på, hvor forebyggelsen kan styrkes."
     },
     {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Bred politisk opbakning til akutplan for elnettet",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/bred-politisk-opbakning-til-akutplan-for-elnettet",
+      "published": "2026-06-29T00:00:00+00:00",
+      "description": "Ny akutplan skal sikre, at elnettet bruges på det, der er vigtigst for Danmark, og at man fra politisk hold sætter rammerne for, hvem der skal prioriteres på den ledige plads, der er i elnettet."
+    },
+    {
       "source": "Socialministeriet",
       "title": "Socialministeriet har ansat særlige rådgivere",
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2026/jun/nyhedsside",
@@ -683,13 +683,6 @@
       "description": "En ny række investeringer støttet af Danmark skal genoprette kritisk infrastruktur og forbedre kommunale ydelser i lokalsamfund i Mykolaiv-regionen i det sydlige Ukraine. Initiativerne bidrager også til en grøn og robust genopbygning af Ukraine."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Klima-, Energi- og Forsyningsministeriet ansætter Kristian Brandrup som særlig rådgiver",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/klima-energi-og-forsyningsministeriet-ansaetter-kristian-brandrup-som-saerlig-raadgiver",
-      "published": "2026-06-26T00:00:00+00:00",
-      "description": "Kristian Brandrup er ny særlig rådgiver for klima-, energi- og forsyningsminister Samira Nawa."
-    },
-    {
       "source": "Undervisningsministeriet",
       "title": "Nu kan alle igen give input til udkast til folkeskolens fagplaner",
       "url": "https://uvm.dk/aktuelt/nyheder/2026/juni/260624-nu-kan-alle-igen-give-input-til-udkast-til-folkeskolens-fagplaner/",
@@ -709,6 +702,13 @@
       "url": "https://bm.dk/nyheder/pressemeddelelser/2026/06/fem-projekter-skal-goere-unges-hjemtur-fra-nattelivet-mere-tryg",
       "published": "2026-06-26T00:00:00+00:00",
       "description": "PRESSEMEDDELELSE / Ligestilling / 26-06-2026"
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Klima-, Energi- og Forsyningsministeriet ansætter Kristian Brandrup som særlig rådgiver",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/klima-energi-og-forsyningsministeriet-ansaetter-kristian-brandrup-som-saerlig-raadgiver",
+      "published": "2026-06-26T00:00:00+00:00",
+      "description": "Kristian Brandrup er ny særlig rådgiver for klima-, energi- og forsyningsminister Samira Nawa."
     },
     {
       "source": "Statsministeriet",
@@ -984,13 +984,6 @@
       "description": "Publiceret 19.06.2026 Nyhed Aftalen mellem regeringen og Danske Regioner om regionernes økonomi for 2027 gør det muligt at investere i det danske sundhedsvæsen og sørge for, at der kommer en akutplan for børne- og ungdomspsyk..."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Regeringen er klar med strakstilskud til udfasning af olie- og gasfyr",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/regeringen-er-klar-med-strakstilskud-til-udfasning-af-olie-og-gasfyr",
-      "published": "2026-06-19T00:00:00+00:00",
-      "description": "Tempoet skal tilbage i den grønne varmeudrulning. Derfor er regeringen nu klar med mere end 500 millioner kroner, der skal gøre det grønne valg billigere og bedre."
-    },
-    {
       "source": "Forsvarsministeriet",
       "title": "Forligskredsen er enige om geografisk placering af jordbaseret luftforsvar",
       "url": "https://www.fmn.dk/da/nyheder/2026/forligskredsen-er-enige-om-geografisk-placering-af-jordbaseret-luftforsvar/",
@@ -1017,6 +1010,13 @@
       "url": "https://mgtp.dk/nyheder/2026/jun/stor-reduktion-af-kvaelstofudledningen-fra-landbruget-skal-genoprette-livet-under-vandoverfladen",
       "published": "2026-06-19T00:00:00+00:00",
       "description": "Med regeringens første miljø- og naturaftale efter valget genbekræfter partierne bag den grønne trepart nu tidsplanen og ambitionerne for at genoprette livet i havet med en bindende kvælstofregulering. Den nye kvælstofregulering er den mest ambitiøse reduktion af kvælstofudledninger i Danmark nogensinde og en vigtig brik i den grønne trepart."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Regeringen er klar med strakstilskud til udfasning af olie- og gasfyr",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/regeringen-er-klar-med-strakstilskud-til-udfasning-af-olie-og-gasfyr",
+      "published": "2026-06-19T00:00:00+00:00",
+      "description": "Tempoet skal tilbage i den grønne varmeudrulning. Derfor er regeringen nu klar med mere end 500 millioner kroner, der skal gøre det grønne valg billigere og bedre."
     },
     {
       "source": "Miljøministeriet",
@@ -1488,6 +1488,13 @@
       "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner."
     },
     {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Samira Nawa er ny klima-, energi- og forsyningsminister",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jun/samira-nawa-er-ny-klima-energi-og-forsyningsminister",
+      "published": "2026-06-03T00:00:00+00:00",
+      "description": "Danmark har fået en ny regering, og statsministeren har udpeget Samira Nawa som ny klima, energi- og forsyningsminister. Ministeroverdragelse klokken 13:30."
+    },
+    {
       "source": "Statsministeriet",
       "title": "Regeringsdannelse",
       "url": "https://stm.dk/presse/pressemeddelelser/2026/regeringsdannelse/",
@@ -1565,18 +1572,18 @@
       "description": "Fungerende udenrigsminister Lars Løkke Rasmussen rejser torsdag til Moldova for at deltage i udenrigsministermøde i Europarådet den 14.-15. maj."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Presseinvitation til Copenhagen Climate Ministerial 20.-21. maj",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/maj/presseinvitation-til-copenhagen-climate-ministerial-20-21-maj",
-      "published": "2026-05-13T00:00:00+00:00",
-      "description": "Klima-, Energi- og Forsyningsministeriet afholder for femte år i træk Copenhagen Climate Ministerial, hvor ministre og beslutningstagere fra hele verden kommer til København."
-    },
-    {
       "source": "Kulturministeriet",
       "title": "Danmark sender fælles opfordring til EU om musikeres rettigheder",
       "url": "https://kum.dk/aktuelt/nyheder/danmark-sender-faelles-opfordring-til-eu-om-musikeres-rettigheder",
       "published": "2026-05-13T00:00:00+00:00",
       "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Presseinvitation til Copenhagen Climate Ministerial 20.-21. maj",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/maj/presseinvitation-til-copenhagen-climate-ministerial-20-21-maj",
+      "published": "2026-05-13T00:00:00+00:00",
+      "description": "Klima-, Energi- og Forsyningsministeriet afholder for femte år i træk Copenhagen Climate Ministerial, hvor ministre og beslutningstagere fra hele verden kommer til København."
     },
     {
       "source": "Udenrigsministeriet",
@@ -1761,13 +1768,6 @@
       "description": "Hvis du ikke kan stemme til folketingsvalget på valgdagen, er fredag den 20. marts 2026 sidste dag, du kan brevstemme i Danmark."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Klima-, Energi- og Forsyningsministeren deltager i statsbesøget til Australien",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/mar/klima-energi-og-forsyningsministeren-deltager-i-statsbesoeget-til-australien",
-      "published": "2026-03-19T00:00:00+00:00",
-      "description": "Deres Majestæter Kongen og Dronningen aflægger statsbesøg til Australien fra den 14. – 19. marts 2026 med ledsagelse af klima-, energi- og forsyningsminister Lars Aagaard."
-    },
-    {
       "source": "Sundheds- og Kirkeministeriet",
       "title": "Fredag den 13. marts 2026 kl. 12 er sidste frist for at anmelde kandidater til folketingsvalget",
       "url": "https://www.ism.dk/nyheder/2026/februar/fredag-den-13-marts-2026-kl-12-er-sidste-frist-for-at-anmelde-kandidater-til-folketingsvalget",
@@ -1778,7 +1778,7 @@
       "source": "Klima-, Energi- og Forsyningsministeriet",
       "title": "Danmark frigiver olie fra de danske olieberedskabslagre",
       "url": "https://www.kefm.dk/aktuelt/nyheder/2026/mar/danmark-frigiver-olie-fra-de-danske-olieberedskabslagre",
-      "published": "2026-03-12T00:00:00+00:00",
+      "published": "2026-03-13T00:00:00+00:00",
       "description": "Forsyningssituationen i Danmark og resten af Europa er for nuværende stabil. Men flere andre lande er kraftigt påvirket af situationen i Mellemøsten. Derfor har klima-, energi- og forsyningsminister Lars Aagaard på anmodning fra Det Internationale Energiagentur besluttet, at Danmark kan frigive olie fra de danske olieberedskabslagre."
     },
     {
@@ -1836,6 +1836,13 @@
       "url": "https://uim.dk/nyhedsarkiv/2026/marts/behandling-af-visse-sager-om-statsborgerskab-saettes-i-bero/",
       "published": "2026-03-06T00:00:00+00:00",
       "description": "Publiceret 06.03.2026 Behandlingen af visse ansøgninger om statsborgerskab er blevet berosat efter udskrivelsen af valget til Folketinget. Behandlingen af sagerne vil blive genoptaget, når der er klarhed over, hvilke be..."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Klima-, Energi- og Forsyningsministeren deltager i statsbesøget til Australien",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/mar/klima-energi-og-forsyningsministeren-deltager-i-statsbesoeget-til-australien",
+      "published": "2026-03-05T00:00:00+00:00",
+      "description": "Deres Majestæter Kongen og Dronningen aflægger statsbesøg til Australien fra den 14. – 19. marts 2026 med ledsagelse af klima-, energi- og forsyningsminister Lars Aagaard."
     },
     {
       "source": "Justitsministeriet",
@@ -2153,18 +2160,18 @@
       "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Regeringen vil styrke Europas forsyningssikkerhed",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/regeringen-vil-styrke-europas-forsyningssikkerhed",
-      "published": "2026-02-22T00:00:00+00:00",
-      "description": "Markedsaktører har spurgt, om licenser i den danske del af Nordsøen kan forlænges indtil 2050. Samtidig understreger den geopolitiske virkelighed behovet for, at Europa tager mere ansvar for sin egen energiforsyning. Regeringen vil derfor igangsætte en proces, der skal forberede en mulig forlængelse af en eller flere licenser med henblik på at bidrage til Europas energiforsyning, -sikkerhed og uafhængighed."
-    },
-    {
       "source": "Forsvarsministeriet",
       "title": "Regeringen afsætter 3,8 mia. kr. ekstra til Ukrainefonden i år",
       "url": "https://www.fmn.dk/da/nyheder/2026/regeringen-afsatter-38-mia.-kr.-ekstra-til-ukrainefonden-i-ar",
       "published": "2026-02-22T00:00:00+00:00",
       "description": "Regeringen afsætter yderligere 3,8 mia. kr. til Ukrainefonden i 2026. Dermed afsætter regeringen midler svarende til, at Danmarks forsvarsudgifter udgør 3,5 pct. af BNP i 2026."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Regeringen vil styrke Europas forsyningssikkerhed",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/regeringen-vil-styrke-europas-forsyningssikkerhed",
+      "published": "2026-02-22T00:00:00+00:00",
+      "description": "Markedsaktører har spurgt, om licenser i den danske del af Nordsøen kan forlænges indtil 2050. Samtidig understreger den geopolitiske virkelighed behovet for, at Europa tager mere ansvar for sin egen energiforsyning. Regeringen vil derfor igangsætte en proces, der skal forberede en mulig forlængelse af en eller flere licenser med henblik på at bidrage til Europas energiforsyning, -sikkerhed og uafhængighed."
     },
     {
       "source": "Miljøministeriet",
@@ -2186,13 +2193,6 @@
       "url": "https://www.justitsministeriet.dk/pressemeddelelse/straffelovraadet-hvis-de-kriminelle-flytter-skal-politiet-kunne-flytte-opholdsforbuddet-med/",
       "published": "2026-02-20T00:00:00+00:00",
       "description": "20. februar 2026 20. februar 2026 I dag bliver Straffelovrådets udtalelse om rettighedstab sendt i offentlig høring. Rådet anbefaler bl.a. at give politiet mulighed for løbende at flytte eller udvide et opholdsforbud, så det bliver muligt at følge de kriminelles bevægelser, hvis gruppen flytter opholdssted. Regeringen ser positivt på anbefalingerne, som vil indgå i regeringens videre arbejde med indsatsen mod bandekriminalitet."
-    },
-    {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Yderligere 100 millioner til at gøre beredskabet i energi- og forsyningssektoren mere robust",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/yderligere-100-millioner-til-at-goere-beredskabet-i-energi-og-forsyningssektoren-mere-robust",
-      "published": "2026-02-20T00:00:00+00:00",
-      "description": "Energisektoren skal være gearet til at modstå hændelser i et forandret trusselsbillede. Som led i at regeringen afsætter 1,2 mia. til en akutpakke på beredskabsområdet, bliver der også sat massivt ind på en yderligere robustgørelse af energi- og forsyningssektoren."
     },
     {
       "source": "Undervisningsministeriet",
@@ -2235,6 +2235,13 @@
       "url": "https://kum.dk/aktuelt/nyheder/direktoer-for-nationalmuseet",
       "published": "2026-02-20T00:00:00+00:00",
       "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Yderligere 100 millioner til at gøre beredskabet i energi- og forsyningssektoren mere robust",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/yderligere-100-millioner-til-at-goere-beredskabet-i-energi-og-forsyningssektoren-mere-robust",
+      "published": "2026-02-20T00:00:00+00:00",
+      "description": "Energisektoren skal være gearet til at modstå hændelser i et forandret trusselsbillede. Som led i at regeringen afsætter 1,2 mia. til en akutpakke på beredskabsområdet, bliver der også sat massivt ind på en yderligere robustgørelse af energi- og forsyningssektoren."
     },
     {
       "source": "Udenrigsministeriet",
@@ -2314,13 +2321,6 @@
       "description": "Regeringen sender nu et lovforslag i høring, der fastsætter en ny model for producentgebyret, så virksomhederne er sikret en gennemsigtig og fast pris for kommunernes håndtering af emballageaffald. Lovforslaget skal sænke prisen for emballage, herunder særligt prisen på glas."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Nye, højere klimamål i høring",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/nye-hoejere-klimamaal-i-hoering-",
-      "published": "2026-02-18T00:00:00+00:00",
-      "description": "Lovforslag om ændring af klimaloven er netop sendt i høring. Det indeholder 2035-målet på 82 pct., fremrykning af mål for klimaneutralitet samt et nyt mål for 110 pct. reduktion senest i 2050."
-    },
-    {
       "source": "Forsvarsministeriet",
       "title": "Merudgifter til bygninger ved national ammunitionsproduktion håndteres inden for afsatte reserver",
       "url": "https://www.fmn.dk/da/nyheder/2026/merudgifter-til-bygninger-ved-national-ammunitionsproduktion-handteres-inden-for-afsatte-reserver/",
@@ -2333,6 +2333,13 @@
       "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/bredt-politisk-flertal-aendrer-skatteregler-for-at-styrke-den-groenne-omstilling",
       "published": "2026-02-18T00:00:00+00:00",
       "description": "En ny politisk aftale ændrer reglerne om beskatning af langvarige prissikringskontrakter. Aftalen betyder, at virksomhederne fremover kun beskattes af deres realiserede indtægter og udgifter. Det skal hindre likviditetsudfordringer og sikre, at skattereglerne understøtter den grønne omstilling."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Nye, højere klimamål i høring",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/nye-hoejere-klimamaal-i-hoering-",
+      "published": "2026-02-18T00:00:00+00:00",
+      "description": "Lovforslag om ændring af klimaloven er netop sendt i høring. Det indeholder 2035-målet på 82 pct., fremrykning af mål for klimaneutralitet samt et nyt mål for 110 pct. reduktion senest i 2050."
     },
     {
       "source": "Udenrigsministeriet",
@@ -2377,18 +2384,18 @@
       "description": "Med aftalen overgår omkring 230 statslige tjenestemænd i Grønland til de løn- og ansættelsesvilkår, der gælder for statens ansatte i Danmark. Aftalen er en milepæl i et samlet arbejde med at ligestille løn- og ansættelsesvilkårene for alle statens ansatte i Grønland."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "På vej mod vådere vejr: Klimatilpasningsordning forlænges",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/paa-vej-mod-vaadere-vejr-klimatilpasningsordning-forlaenges",
-      "published": "2026-02-16T00:00:00+00:00",
-      "description": "Et voldsommere og vådere vejr ligger i kortene for Danmark. Regeringen ønsker derfor at forlænge den ordning, der gør det muligt for kommuner at færdiggøre visse større klimatilpasningsprojekter, som er på tegnebrættet."
-    },
-    {
       "source": "Regeringen.dk",
       "title": "Nye initiativer: Justitsministeren vil straffe bestillingskriminalitet og kriminelle familier hårdere",
       "url": "https://regeringen.dk/aktuelt/nyheder/2026/nye-initiativer-justitsministeren-vil-straffe-bestillingskriminalitet-og-kriminelle-familier-haardere/",
       "published": "2026-02-16T00:00:00+00:00",
       "description": "I dag præsenterer justitsminister Peter Hummelgaard nye initiativer, som skal bekæmpe bandernes brutale vold og gøre op med nye tendenser i den kriminelle underverden. Med hårdere straffe og bedre mulighed for at retsforfølge i sager om kriminalitet på bestilling samt en ændring af bandeparagraffen vil justitsministeren stramme grebet yderligere om de organiserede kriminelle."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "På vej mod vådere vejr: Klimatilpasningsordning forlænges",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/paa-vej-mod-vaadere-vejr-klimatilpasningsordning-forlaenges",
+      "published": "2026-02-16T00:00:00+00:00",
+      "description": "Et voldsommere og vådere vejr ligger i kortene for Danmark. Regeringen ønsker derfor at forlænge den ordning, der gør det muligt for kommuner at færdiggøre visse større klimatilpasningsprojekter, som er på tegnebrættet."
     },
     {
       "source": "Udenrigsministeriet",
@@ -2403,13 +2410,6 @@
       "url": "https://via.ritzau.dk/pressemeddelelse/14791803/udenrigsminister-lars-lokke-rasmussen-deltager-ved-sikkerhedskonferencen-i-munchen?lang=da&publisherId=2012662",
       "published": "2026-02-13T08:47:30.319000+00:00",
       "description": "Sammen med statsministeren og forsvarsministeren vil udenrigsminister Lars Løkke Rasmussen deltage ved den årlige sikkerhedskonference i München, der i år afvikles fra 13.-15. februar."
-    },
-    {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Danmark fastholder en høj elforsyningssikkerhed både nu og om 10 år",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/danmark-fastholder-en-hoej-elforsyningssikkerhed-baade-nu-og-om-10-aar",
-      "published": "2026-02-13T00:00:00+00:00",
-      "description": "Klima-, energi- og forsyningsminister Lars Aagaard har fastsat planlægningsmålet for elforsyningssikkerheden for 2035 på 38 afbrudsminutter. Det er en stigning på to minutter i forhold til forrige mål."
     },
     {
       "source": "Forsvarsministeriet",
@@ -2431,6 +2431,13 @@
       "url": "https://aeldremin.dk/nyheder/nyhedsarkiv/2026/feb/fremtidens-aeldreliv-paa-dagsordenen-ved-uformelt-eu-raadsmoede-paa-cypern",
       "published": "2026-02-13T00:00:00+00:00",
       "description": "Flere ældre og mangel på arbejdskraft presser ældreplejen i hele Europa. På et uformelt EU-rådsmøde på Cypern den 12.–13. februar deler ældreminister Henrik Frandsen de danske erfaringer."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Danmark fastholder en høj elforsyningssikkerhed både nu og om 10 år",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/danmark-fastholder-en-hoej-elforsyningssikkerhed-baade-nu-og-om-10-aar",
+      "published": "2026-02-13T00:00:00+00:00",
+      "description": "Klima-, energi- og forsyningsminister Lars Aagaard har fastsat planlægningsmålet for elforsyningssikkerheden for 2035 på 38 afbrudsminutter. Det er en stigning på to minutter i forhold til forrige mål."
     },
     {
       "source": "Statsministeriet",
@@ -2622,13 +2629,6 @@
       "description": "4. februar 2026 2. februar 2026 Regeringen og et bredt flertal af Folketingets partier har indgået en aftale med 8 initiativer, der skal styrke beskyttelsen af bl.a. folkevalgte, offentligt ansatte og deres pårørende. Partierne er i den forbindelse bl.a. enige om, at det fremover skal være strafbart, hvis man uberettiget kontakter en person på baggrund af dennes nærmestes ytringer i den offentlige debat eller udførelse af offentlig tjeneste eller hverv. Det skal også være en strafskærpende omstændighed, hvis en kriminel handling er politisk motiveret og har baggrund i den forurettedes erhverv. Herudover skal kandidater til bl.a. folketingsvalg og regions- og kommunalvalg nyde den samme skærpede strafferetlige beskyttelse under deres valgkamp som folkevalgte."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Flere bud i puljen for CO2-fangst og lagring",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/flere-bud-i-puljen-for-co2-fangst-og-lagring",
-      "published": "2026-02-04T00:00:00+00:00",
-      "description": "Fristen er nået, og der er kommet to bud på puljen for CO2-fangst og lagring. Nu begynder arbejdet med at vurdere buddene, så der kan tildeles kontrakt i løbet af de næste måneder."
-    },
-    {
       "source": "Ministeriet for Samfundssikkerhed og Beredskab",
       "title": "Ekspertpanel for beredskabsområdet præsenterer anbefalinger for redningsberedskabet",
       "url": "https://mssb.dk/nyheder/nyhedsarkiv/2026/februar/ekspertpanel-for-beredskabsomraadet-praesenterer-sine-anbefalinger-for-redningsberedskabet/",
@@ -2641,6 +2641,13 @@
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2026/feb/hoejere-maksimumbeloeb-for-almene-boliger-er-nu-traadt-i-kraft-",
       "published": "2026-02-04T00:00:00+00:00",
       "description": "Regeringen indgik i december en aftale om styrkede rammer for alment boligbyggeri med Socialistisk Folkeparti, Konservative Folkeparti og Enhedslisten."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Flere bud i puljen for CO2-fangst og lagring",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/flere-bud-i-puljen-for-co2-fangst-og-lagring",
+      "published": "2026-02-04T00:00:00+00:00",
+      "description": "Fristen er nået, og der er kommet to bud på puljen for CO2-fangst og lagring. Nu begynder arbejdet med at vurdere buddene, så der kan tildeles kontrakt i løbet af de næste måneder."
     },
     {
       "source": "Statsministeriet",
@@ -2678,13 +2685,6 @@
       "description": "Publiceret 03. februar 2026 Uddannelses- og forskningsminister Christina Egelund rejser til München for at besøge en af Europas førende regioner, når det kommer til koblingen af viden, industri, startups og kapital. Besøget s..."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Bred politisk aftale om Energiø Bornholm",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/bred-politisk-aftale-om-energioe-bornholm",
-      "published": "2026-02-03T00:00:00+00:00",
-      "description": "Med bred politisk opbakning er der truffet beslutning om at etablere Energiø Bornholm, der skal sende grøn strøm til både Danmark og Tyskland. Det vil blive det første projekt i verden, hvor en energiø fungerer som et centralt knudepunkt, der både samler og fordeler store mængder strøm fra havvind til flere lande."
-    },
-    {
       "source": "Forsvarsministeriet",
       "title": "Danmark bidrager til svensk donation af luftforsvarskanoner til Ukraine",
       "url": "https://www.fmn.dk/da/nyheder/2026/danmark-bidrager-til-svensk-donation-af-luftforsvarskanoner-til-ukraine/",
@@ -2704,6 +2704,13 @@
       "url": "https://regeringen.dk/aktuelt/nyheder/2026/aendringer-i-regeringen-1/",
       "published": "2026-02-03T00:00:00+00:00",
       "description": "Indholdet på denne side vedrører regeringen Mette Frederiksen II (2022-2026)"
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Bred politisk aftale om Energiø Bornholm",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/feb/bred-politisk-aftale-om-energioe-bornholm",
+      "published": "2026-02-03T00:00:00+00:00",
+      "description": "Med bred politisk opbakning er der truffet beslutning om at etablere Energiø Bornholm, der skal sende grøn strøm til både Danmark og Tyskland. Det vil blive det første projekt i verden, hvor en energiø fungerer som et centralt knudepunkt, der både samler og fordeler store mængder strøm fra havvind til flere lande."
     },
     {
       "source": "Miljøministeriet",
@@ -2839,13 +2846,6 @@
       "description": "Et nyt ’Nationalt forum for bekæmpelse af digital svindel’ skal bidrage til vidensdeling, koordination og udvikling af nye tiltag, der kan sætte en stopper for digital svindel. Forummet er ét af initiativerne i Aftale om strategi for cyber- og informationssikkerhed 2026-2029, som blev præsenteret i går."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Stor kortlægning af Danmarks potentiale for havvind",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/stor-kortlaegning-af-danmarks-potentiale-for-havvind",
-      "published": "2026-01-29T00:00:00+00:00",
-      "description": "Danmark har fået ny, omfattende viden om havarealet, som baner vejen for mere effektiv planlægning af fremtidens havvindmølleparker."
-    },
-    {
       "source": "Udlændinge- og Integrationsministeriet",
       "title": "Det sidste medlem af ekspertgruppen for screening af statsborgerskabsansøgere er udpeget",
       "url": "https://uim.dk/nyhedsarkiv/2026/januar/det-sidste-medlem-af-ekspertgruppen-for-screening-af-statsborgerskabsansoegere-er-udpeget/",
@@ -2914,6 +2914,13 @@
       "url": "https://regeringen.dk/aktuelt/nyheder/2026/danmark-indgaar-aftale-med-tyskland-om-energioe-bornholm/",
       "published": "2026-01-29T00:00:00+00:00",
       "description": "Europa skal være mere energiuafhængig og have mere grøn strøm. Derfor er Danmark og Tyskland på Nordsøtopmødet i Hamborg blevet enige om fordeling af omkostningerne for Energiø Bornholm."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Stor kortlægning af Danmarks potentiale for havvind",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/stor-kortlaegning-af-danmarks-potentiale-for-havvind",
+      "published": "2026-01-29T00:00:00+00:00",
+      "description": "Danmark har fået ny, omfattende viden om havarealet, som baner vejen for mere effektiv planlægning af fremtidens havvindmølleparker."
     },
     {
       "source": "Miljøministeriet",
@@ -3035,20 +3042,6 @@
       "description": "Publiceret 26. januar 2026 Regeringen og DD, SF, LA, KF, DF, RV og ALT er enige om, at universiteterne skal være en central drivkraft bag innovation og iværksætteri, så langt mere forskning kan omsættes til innovative løsnin..."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Ny aftale om transparent og hurtig elnetudbygning",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/ny-aftale-om-transparent-og-hurtig-elnetudbygning",
-      "published": "2026-01-26T00:00:00+00:00",
-      "description": "Der er brug for en transparent og hurtigere netudbygning, der kan sikre de fremtidige behov for VE-tilslutning og elektrificering i Danmark. Derfor er der indgået en ny politisk aftale om at styrke processerne for orientering af Folketingets partier, så det bliver muligt at handle tidligt på barrierer for netudbygningen."
-    },
-    {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Danmark indgår aftale med Tyskland om Energiø Bornholm",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/danmark-indgaar-aftale-med-tyskland-om-energioe-bornholm-",
-      "published": "2026-01-26T00:00:00+00:00",
-      "description": "Europa skal være mere energiuafhængig og have mere grøn strøm. Derfor er Danmark og Tyskland på Nordsøtopmødet i Hamborg blevet enige om fordeling af omkostningerne for Energiø Bornholm."
-    },
-    {
       "source": "Undervisningsministeriet",
       "title": "Ansøg nu: Bliv tilsynsførende for pædagogikumkandidater ved de gymnasiale uddannelser",
       "url": "https://uvm.dk/aktuelt/nyheder/2026/januar/260121-ansoeg-nu-bliv-tilsynsfoerende-for-paedagogikumkandidater-ved-de-gymnasiale-uddannelser/",
@@ -3061,6 +3054,20 @@
       "url": "https://mssb.dk/nyheder/nyhedsarkiv/2026/januar/virksomheder-skal-bidrage-til-at-styrke-samfundssikkerheden-i-danmark/",
       "published": "2026-01-26T00:00:00+00:00",
       "description": "Medlemmerne af Erhvervsforum for Samfundssikkerhed og Beredskab har i dag drøftet"
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Ny aftale om transparent og hurtig elnetudbygning",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/ny-aftale-om-transparent-og-hurtig-elnetudbygning",
+      "published": "2026-01-26T00:00:00+00:00",
+      "description": "Der er brug for en transparent og hurtigere netudbygning, der kan sikre de fremtidige behov for VE-tilslutning og elektrificering i Danmark. Derfor er der indgået en ny politisk aftale om at styrke processerne for orientering af Folketingets partier, så det bliver muligt at handle tidligt på barrierer for netudbygningen."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Danmark indgår aftale med Tyskland om Energiø Bornholm",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/danmark-indgaar-aftale-med-tyskland-om-energioe-bornholm-",
+      "published": "2026-01-26T00:00:00+00:00",
+      "description": "Europa skal være mere energiuafhængig og have mere grøn strøm. Derfor er Danmark og Tyskland på Nordsøtopmødet i Hamborg blevet enige om fordeling af omkostningerne for Energiø Bornholm."
     },
     {
       "source": "Sundheds- og Kirkeministeriet",
@@ -3140,13 +3147,6 @@
       "description": "Publiceret 22.01.2026 Nyhed EU-Kommissionen har godkendt fjerde betalingsanmodning som led i implementeringen af Danmarks genopretningsplan. Det betyder, at Danmark nu får udbetalt ca. 1,3 mia. kr. til blandt andet grønne ini..."
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Grundlaget for analysen af nye atomkraftteknologier er nu klart",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/grundlaget-for-analysen-af-nye-atomkraftteknologier-er-nu-klart",
-      "published": "2026-01-22T00:00:00+00:00",
-      "description": "Rammerne for at undersøge potentialer og risici ved nye atomkraftteknologier og ophævelse af forbuddet i Danmark er nu på plads. Analysen skal blandt andet se på, hvad der skal til af ny regulering og kompetencer, hvis der skal kunne etableres nukleare anlæg af typen SMR i Danmark."
-    },
-    {
       "source": "Undervisningsministeriet",
       "title": "I år deltager alle rigsfællesskabets tre lande i sommerskolen i Grønland",
       "url": "https://uvm.dk/aktuelt/nyheder/2026/januar/260122-i-aar-deltager-alle-rigsfaellesskabets-tre-lande-i-sommerskolen-i-groenland/",
@@ -3159,6 +3159,13 @@
       "url": "https://www.fmn.dk/da/nyheder/2026/forsvaret-har-indgaet-kontrakt-om-opforelse-af-indkvarteringsbygninger-pa-danske-kaserner/",
       "published": "2026-01-22T00:00:00+00:00",
       "description": "Torsdag underskrev Forsvarskommandoen OPP-kontrakt med PensionDanmark om opførelse af indkvarteringsbygninger til kaserner rundt om i landet. Dele af byggeriet forsinkes, men det samlede byggeri forventes fortsat at være endeligt færdigt til tiden - ultimo 2028. Forsinkelsen håndteres med den midlertidige indkvartering, som allerede er planlagt og undervejs."
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "title": "Grundlaget for analysen af nye atomkraftteknologier er nu klart",
+      "url": "https://www.kefm.dk/aktuelt/nyheder/2026/jan/grundlaget-for-analysen-af-nye-atomkraftteknologier-er-nu-klart",
+      "published": "2026-01-22T00:00:00+00:00",
+      "description": "Rammerne for at undersøge potentialer og risici ved nye atomkraftteknologier og ophævelse af forbuddet i Danmark er nu på plads. Analysen skal blandt andet se på, hvad der skal til af ny regulering og kompetencer, hvis der skal kunne etableres nukleare anlæg af typen SMR i Danmark."
     },
     {
       "source": "Udenrigsministeriet",
