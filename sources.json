@@ -95,7 +95,9 @@
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
-    ]
+    ],
+    "always_fetch_articles": true,
+    "refresh_before_schema": 4
   },
   {
     "name": "By-, Land- og Transportministeriet",

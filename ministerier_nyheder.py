@@ -40,14 +40,14 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/4.2 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/4.4 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 3
+ARCHIVE_SCHEMA_VERSION = 4
 
 DANISH_MONTHS = {
     "januar": 1,
@@ -267,13 +267,16 @@ def same_source_site(url: str, source: dict) -> bool:
 
 
 def plausible_published_date(dt: datetime) -> datetime | None:
-    """Normalisér en publiceringsdato og afvis åbenlyst fejltolkede fremtidsår."""
+    """Normalisér en publiceringsdato og afvis enhver dato i fremtiden.
+
+    Ministerienyt viser kun allerede publicerede artikler. Derfor accepterer vi
+    ikke planlagte udgivelsesdatoer eller datoer, som ved en fejl er hentet fra
+    artikelteksten. En datoværdi uden tidszone behandles som UTC.
+    """
     dt = (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
     if dt.year < 2000:
         return None
-    # En lille margen håndterer tidszoner og planlagte udgivelser samme døgn,
-    # men forhindrer at beløb som "75 mio." bliver tolket som år 2075.
-    if dt > datetime.now(timezone.utc) + timedelta(days=1):
+    if dt > datetime.now(timezone.utc):
         return None
     return dt
 
@@ -346,25 +349,70 @@ def parse_date(value: str) -> datetime | None:
             pass
     return None
 
-def date_from_soup(soup: BeautifulSoup) -> datetime | None:
-    candidates: list[str] = []
+def parse_labeled_publication_date(value: str) -> datetime | None:
+    """Læs kun en dato, når teksten eksplicit markerer den som publiceringsdato."""
+    if not value:
+        return None
+    text = clean_text(value)
+    month_names = "|".join(DANISH_MONTHS)
+    date_pattern = (
+        rf"(\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
+        r"|20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?)"
+    )
+    match = re.search(
+        rf"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b\s*(?:den\s*)?(?::|[-–—])?\s*{date_pattern}",
+        text,
+        flags=re.IGNORECASE,
+    )
+    return parse_date(match.group(1)) if match else None
+
+
+def metadata_publication_dates(soup: BeautifulSoup) -> list[datetime]:
+    """Returnér publiceringsdatoer fra sidens strukturerede, officielle metadata."""
+    values: list[str] = []
     for key, value in [
         ("property", "article:published_time"),
+        ("property", "og:published_time"),
         ("name", "article:published_time"),
         ("itemprop", "datePublished"),
         ("name", "date"),
         ("name", "publish-date"),
         ("name", "dcterms.date"),
     ]:
-        tag = soup.find("meta", attrs={key: value})
-        if tag and tag.get("content"):
-            candidates.append(str(tag["content"]))
+        for tag in soup.find_all("meta", attrs={key: value}):
+            if tag.get("content"):
+                values.append(str(tag["content"]))
 
+    # Semantiske <time>-felter er metadata. Almindelige <time>-tags i brødteksten
+    # bruges ikke, medmindre de tydeligt er markeret som publiceringsdato.
     for tag in soup.find_all("time"):
+        attrs_text = " ".join(
+            [
+                str(tag.get("itemprop", "")),
+                str(tag.get("class", "")),
+                str(tag.get("id", "")),
+                str(tag.get("aria-label", "")),
+            ]
+        ).casefold()
+        nearby = clean_text(tag.parent.get_text(" ", strip=True) if tag.parent else "")[:350]
+        is_publication_time = (
+            "datepublished" in attrs_text
+            or "publish" in attrs_text
+            or "publiceret" in attrs_text
+            or parse_labeled_publication_date(nearby) is not None
+        )
+        if not is_publication_time:
+            continue
         if tag.get("datetime"):
-            candidates.append(str(tag["datetime"]))
-        candidates.append(tag.get_text(" ", strip=True))
+            values.append(str(tag["datetime"]))
+        else:
+            values.append(tag.get_text(" ", strip=True))
 
+    # JSON-LD: datePublished er førstevalg. dateCreated bruges kun som officiel
+    # fallback, hvis siden ikke leverer datePublished.
+    published_values: list[str] = []
+    created_values: list[str] = []
     for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
         raw = tag.string or tag.get_text()
         if not raw:
@@ -377,19 +425,69 @@ def date_from_soup(soup: BeautifulSoup) -> datetime | None:
         while stack:
             current = stack.pop()
             if isinstance(current, dict):
-                for field in ("datePublished", "dateCreated"):
-                    if current.get(field):
-                        candidates.append(str(current[field]))
+                if current.get("datePublished"):
+                    published_values.append(str(current["datePublished"]))
+                if current.get("dateCreated"):
+                    created_values.append(str(current["dateCreated"]))
                 stack.extend(v for v in current.values() if isinstance(v, (dict, list)))
             elif isinstance(current, list):
                 stack.extend(current)
+    values.extend(published_values or created_values)
 
-    main = soup.find("main")
-    visible = (main or soup).get_text(" ", strip=True)
-    candidates.append(visible[:8000])
+    result: list[datetime] = []
+    for value in values:
+        parsed = parse_date(value)
+        if parsed:
+            result.append(parsed)
+    return result
 
-    for candidate in candidates:
-        parsed = parse_date(candidate)
+
+def labeled_publication_date_from_soup(soup: BeautifulSoup) -> datetime | None:
+    """Find en synlig 'Publiceret …'-dato uden at scanne artikelens brødtekst."""
+    label_re = re.compile(r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b", re.IGNORECASE)
+    for text_node in soup.find_all(string=label_re):
+        node = getattr(text_node, "parent", None)
+        # Gå kun få niveauer op og accepter kun små metadata-lignende blokke.
+        for _ in range(4):
+            if node is None:
+                break
+            text = clean_text(node.get_text(" ", strip=True))
+            if 0 < len(text) <= 500:
+                parsed = parse_labeled_publication_date(text)
+                if parsed:
+                    return parsed
+            node = getattr(node, "parent", None)
+    return None
+
+
+def date_from_soup(soup: BeautifulSoup) -> datetime | None:
+    """Find artikelens publiceringsdato uden at læse vilkårlige brødtekstdatoer.
+
+    Prioritet:
+    1) officielle strukturerede metadata (article:published_time, datePublished osv.)
+    2) en synlig dato eksplicit markeret 'Publiceret', 'Udgivet' mv.
+
+    Der er bevidst ingen fallback til hele sidens tekst.
+    """
+    metadata_dates = metadata_publication_dates(soup)
+    if metadata_dates:
+        return metadata_dates[0]
+    return labeled_publication_date_from_soup(soup)
+
+
+def date_from_listing_node(node) -> datetime | None:
+    """Læs kun semantisk eller eksplicit markeret dato fra et nyhedskort."""
+    metadata_dates = metadata_publication_dates(node)
+    if metadata_dates:
+        return metadata_dates[0]
+    labeled = parse_labeled_publication_date(clean_text(node.get_text(" ", strip=True)))
+    if labeled:
+        return labeled
+    # Et <time datetime> i en liste er i sig selv semantisk metadata og ikke
+    # artikelbrødtekst. Det må derfor bruges som sidste listing-fallback.
+    for tag in node.find_all("time"):
+        value = str(tag.get("datetime", "")) or tag.get_text(" ", strip=True)
+        parsed = parse_date(value)
         if parsed:
             return parsed
     return None
@@ -406,22 +504,58 @@ def title_from_soup(soup: BeautifulSoup) -> str:
     return clean_text(soup.title.get_text(" ", strip=True) if soup.title else "")
 
 
-def tidy_description_text(value: str, title: str = "") -> str:
-    """Rens en manchet eller det første brødtekstafsnit fra en artikelside."""
+def strip_leading_publication_date(value: str) -> str:
+    """Fjern publiceringsmetadata fra starten af en manchet/brødtekst.
+
+    Datoen vises allerede separat på nyhedskortet. Funktionen er bevidst
+    begrænset til starten af teksten, så datoer inde i den egentlige artikel
+    ikke fjernes. Den køres også ved HTML-rendering, så gamle poster i
+    archive.json bliver rettet uden at arkivet skal slettes.
+    """
     text = clean_text(value)
     if not text:
         return ""
 
-    text = re.sub(
-        r"^(?:pressemeddelelse|nyhed)(?:\s*-\s*ligestilling)?\s*/?\s*"
-        r"\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}\s*",
-        "",
-        text,
-        flags=re.IGNORECASE,
+    month_names = "|".join(DANISH_MONTHS)
+    date_pattern = (
+        rf"(?:\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
+        r"|20\d{2}-\d{2}-\d{2})"
     )
+    prefix_pattern = (
+        r"(?:(?:pressemeddelelse|nyhed)(?:\s*-\s*ligestilling)?\s*(?:[/|–—-]\s*)?)?"
+        r"(?:(?:publiceret|offentliggjort|udgivet|opdateret|senest\s+opdateret)"
+        r"\s*(?:den\s*)?(?::|[-–—])?\s*)?"
+    )
+    time_pattern = r"(?:\s*(?:kl\.?|klokken)\s*\d{1,2}(?::|\.)\d{2})?"
+    trailing_separator = r"\s*(?:[|/–—:-]\s*)?"
+
+    # Højst et par runder er nødvendige, fx hvis både type og dato gentages.
+    for _ in range(3):
+        updated = re.sub(
+            rf"^{prefix_pattern}{date_pattern}{time_pattern}{trailing_separator}",
+            "",
+            text,
+            count=1,
+            flags=re.IGNORECASE,
+        ).strip()
+        if updated == text:
+            break
+        text = updated
+    return clean_text(text)
+
+
+def tidy_description_text(value: str, title: str = "") -> str:
+    """Rens en manchet eller det første brødtekstafsnit fra en artikelside."""
+    text = strip_leading_publication_date(value)
+    if not text:
+        return ""
+
     if title and text.casefold().startswith(title.casefold()):
         text = text[len(title) :].lstrip(" .:–—-/")
-    text = re.sub(r"^\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}\s*", "", text)
+
+    # Datoen kan stå umiddelbart efter en gentaget overskrift.
+    text = strip_leading_publication_date(text)
     return clean_text(text)
 
 
@@ -635,7 +769,7 @@ def listing_fields(anchor, target: str, base_url: str, source: dict) -> tuple[st
         if getattr(anchor.parent, "name", "") in {"h1", "h2", "h3", "h4", "h5"}:
             priority = 3
     description = listing_description(node, target, base_url, title)
-    published = parse_date(clean_text(node.get_text(" ", strip=True)))
+    published = date_from_listing_node(node)
     return title, description, published, priority
 
 
@@ -1316,7 +1450,7 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 4.1"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 4.4"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -1369,7 +1503,9 @@ def build_html(
 
     cards: list[str] = []
     for item in items:
-        description = clean_text(item.description)
+        # Rens også ved rendering, så allerede arkiverede beskrivelser ikke
+        # viser en dubleret publiceringsdato i selve brødteksten.
+        description = tidy_description_text(item.description, item.title)
         if len(description) > 280:
             description = description[:277].rstrip() + "..."
         article_id = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
@@ -1406,11 +1542,11 @@ def build_html(
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}">
 <style>
-:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}[hidden]{{display:none!important}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:24px 0 20px}}h1{{font-size:clamp(1.9rem,4vw,3rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:none;color:var(--muted);font-size:1rem;margin:8px 0 0}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:10px;margin-top:16px;align-items:end}}label{{display:block;font-size:.82rem;font-weight:750;margin-bottom:5px}}input,select{{width:100%;min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:8px 11px;font:inherit}}.new-only{{min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:9px 13px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:22px 0 48px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:11px}}.head h2{{font-size:1.16rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:2px}}.new-summary{{margin:0;color:var(--brand2);font-size:.88rem;font-weight:700}}.list{{display:grid;gap:10px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:17px 18px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:14px;background:var(--new);box-shadow:0 2px 8px rgba(95,20,32,.07)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.82rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 7px;font-size:.72rem;line-height:1.45;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.08rem,2.3vw,1.38rem);line-height:1.23;letter-spacing:-.01em;margin:5px 0 7px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 9px;max-width:900px;line-height:1.42}}.more{{display:inline-block;color:var(--brand2);font-size:.9rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.load-more{{display:block;margin:16px auto 0;min-height:44px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:9px 18px;font:750 .94rem/1 system-ui;cursor:pointer}}.load-more:hover{{background:#f8f1f2}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}}.sources{{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}}.sources h2{{margin:0 0 6px}}.sources>p{{color:var(--muted);margin:0 0 14px}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:24px 0 32px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(min-width:700px){{.intro{{white-space:nowrap}}}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:20px 0 18px}}.card{{padding:15px 16px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
+:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}[hidden]{{display:none!important}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:24px 0 20px}}h1{{font-size:clamp(1.9rem,4vw,3rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:none;color:var(--muted);font-size:1rem;margin:8px 0 0}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:10px;margin-top:16px;align-items:end}}label{{display:block;font-size:.82rem;font-weight:750;margin-bottom:5px}}input,select{{width:100%;min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:8px 11px;font:inherit}}.new-only{{min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:9px 13px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:22px 0 48px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:11px}}.head h2{{font-size:1.16rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:2px}}.new-summary{{margin:0;color:var(--brand2);font-size:.88rem;font-weight:700}}.list{{display:grid;gap:10px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:17px 18px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:14px;background:var(--new);box-shadow:0 2px 8px rgba(95,20,32,.07)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.82rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 7px;font-size:.72rem;line-height:1.45;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.08rem,2.3vw,1.38rem);line-height:1.23;letter-spacing:-.01em;margin:5px 0 7px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 9px;max-width:900px;line-height:1.42}}.more{{display:inline-block;color:var(--brand2);font-size:.9rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.load-more{{display:block;margin:16px auto 0;min-height:44px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:9px 18px;font:750 .94rem/1 system-ui;cursor:pointer}}.load-more:hover{{background:#f8f1f2}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}}.sources{{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}}.sources summary{{display:flex;align-items:center;gap:6px;cursor:pointer;list-style:none;width:max-content;max-width:100%;color:var(--brand2);font-weight:800;font-size:.96rem;padding:7px 0}}.sources summary::-webkit-details-marker{{display:none}}.sources summary::before{{content:"＋";display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;border:1px solid #b8c0c7;border-radius:50%;font-size:.9rem;line-height:1;color:var(--brand2);background:#fff}}.sources[open] summary::before{{content:"−"}}.source-count{{color:var(--muted);font-weight:500}}.sources-content{{padding-top:6px}}.sources-content>p{{color:var(--muted);margin:0 0 12px;font-size:.9rem}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:24px 0 32px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(min-width:700px){{.intro{{white-space:nowrap}}}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:20px 0 18px}}.card{{padding:15px 16px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
 </style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><a class="rss" href="{feed_href}">RSS-feed</a></div></div>
 <header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><p class="intro">Seneste nyt fra ministerierne og Regeringen.dk – samlet ét sted.</p><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label for="ministry">Kilde</label><select id="ministry">{''.join(options)}</select></div><div><label for="new-only">Visning</label><button id="new-only" class="new-only" type="button" aria-pressed="false">Kun nye</button></div></div></div></header>
-<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><p id="new-summary" class="new-summary" aria-live="polite"></p></div><p id="count">{len(items)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><section class="sources"><h2>Kilder og dækning</h2><p>Antallet viser, hvor mange artikler fra 1. januar 2026 der aktuelt er gemt i arkivet. Nogle historier kan optræde både hos et ministerium og på Regeringen.dk.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></section></main>
+<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><p id="new-summary" class="new-summary" aria-live="polite"></p></div><p id="count">{len(items)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder)</span></summary><div class="sources-content"><p>Antallet viser, hvor mange artikler fra 1. januar 2026 der aktuelt er gemt i arkivet. Nogle historier kan optræde både hos et ministerium og på Regeringen.dk.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
 <footer><div class="wrap"><p><strong>Ministerienyt</strong> er en uafhængig samling af links til officielle kilder.</p><p>Alle artikler åbner hos den oprindelige udgiver. Senest opdateret {esc(fmt_datetime_da(updated))}. <a href="{feed_href}">RSS-feed</a>.</p></div></footer>
 <script>(()=>{{
 const search=document.getElementById('search'),sourceSelect=document.getElementById('ministry'),newOnly=document.getElementById('new-only'),loadMore=document.getElementById('load-more'),cards=[...document.querySelectorAll('.card')],count=document.getElementById('count'),empty=document.getElementById('empty'),newSummary=document.getElementById('new-summary');
