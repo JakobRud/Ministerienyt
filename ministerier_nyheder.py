@@ -47,7 +47,7 @@ REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 4
+ARCHIVE_SCHEMA_VERSION = 5
 
 DANISH_MONTHS = {
     "januar": 1,
@@ -303,7 +303,7 @@ def parse_date(value: str) -> datetime | None:
 
     # Dansk månedsnavn: 3. juni 2026.
     match = re.search(
-        r"\b(\d{1,2})\.?\s+(" + "|".join(DANISH_MONTHS) + r")\s+(20\d{2})\b",
+        r"\b(\d{1,2})\.?\s+(" + "|".join(DANISH_MONTHS) + r"),?\s+(20\d{2})\b",
         value.casefold(),
     )
     if match:
@@ -460,23 +460,91 @@ def labeled_publication_date_from_soup(soup: BeautifulSoup) -> datetime | None:
     return None
 
 
-def date_from_soup(soup: BeautifulSoup) -> datetime | None:
+def exact_date_text(value: str) -> datetime | None:
+    """Læs en tekst, kun hvis hele feltet i praksis er en dato.
+
+    Bruges udelukkende i afgrænsede metadata-/kortområder. Det er derfor ikke
+    en genvej til at scanne artikelens brødtekst for datoer.
+    """
+    if not value:
+        return None
+    value = clean_text(value)
+    month_names = "|".join(DANISH_MONTHS)
+    patterns = [
+        rf"^\d{{1,2}}\.?\s+(?:{month_names}),?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
+        r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
+        r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
+    ]
+    if not any(re.fullmatch(pattern, value, flags=re.IGNORECASE) for pattern in patterns):
+        return None
+    return parse_date(value)
+
+
+def header_publication_date_from_soup(soup: BeautifulSoup) -> datetime | None:
+    """Læs en umærket datolinje umiddelbart før artikelens H1.
+
+    Nogle officielle ministeriesider (fx svmn.dk) viser publiceringsdatoen som
+    en selvstændig datolinje lige før overskriften, uden schema.org-metadata og
+    uden ordet 'Publiceret'. Vi accepterer kun en dato, hvis hele tekstnoden er
+    en dato og den ligger blandt de nærmeste tekstnoder FØR H1. Dermed kan en
+    dato senere i brødteksten aldrig blive brugt som publiceringsdato.
+    """
+    h1 = soup.find("h1")
+    if h1 is None:
+        return None
+    checked = 0
+    for text_node in h1.find_all_previous(string=True):
+        value = clean_text(str(text_node))
+        if not value:
+            continue
+        checked += 1
+        parsed = exact_date_text(value)
+        if parsed:
+            return parsed
+        # Hold søgningen helt tæt på artikelhovedet; navigationsdatoer længere
+        # oppe på siden må ikke kunne blive valgt.
+        if checked >= 12:
+            break
+    return None
+
+
+def plain_listing_date_from_node(node) -> datetime | None:
+    """Læs en ren datolinje fra ét officielt nyhedskort.
+
+    Denne fallback er opt-in pr. kilde og bruges fx på kum.dk, hvor datoen står
+    i samme kort som overskrift/manchet, men uden 'Publiceret'-label. Vi ser kun
+    efter tekstnoder, der udelukkende består af en dato.
+    """
+    for text_node in node.find_all(string=True):
+        parsed = exact_date_text(str(text_node))
+        if parsed:
+            return parsed
+    return None
+
+
+def date_from_soup(soup: BeautifulSoup, source: dict | None = None) -> datetime | None:
     """Find artikelens publiceringsdato uden at læse vilkårlige brødtekstdatoer.
 
     Prioritet:
     1) officielle strukturerede metadata (article:published_time, datePublished osv.)
     2) en synlig dato eksplicit markeret 'Publiceret', 'Udgivet' mv.
+    3) kun for opt-in-kilder: en ren datolinje helt tæt på og FØR artikelens H1
 
     Der er bevidst ingen fallback til hele sidens tekst.
     """
     metadata_dates = metadata_publication_dates(soup)
     if metadata_dates:
         return metadata_dates[0]
-    return labeled_publication_date_from_soup(soup)
+    labeled = labeled_publication_date_from_soup(soup)
+    if labeled:
+        return labeled
+    if source and source.get("allow_unlabeled_header_date"):
+        return header_publication_date_from_soup(soup)
+    return None
 
 
-def date_from_listing_node(node) -> datetime | None:
-    """Læs kun semantisk eller eksplicit markeret dato fra et nyhedskort."""
+def date_from_listing_node(node, source: dict | None = None) -> datetime | None:
+    """Læs publiceringsdato fra et afgrænset officielt nyhedskort."""
     metadata_dates = metadata_publication_dates(node)
     if metadata_dates:
         return metadata_dates[0]
@@ -484,12 +552,14 @@ def date_from_listing_node(node) -> datetime | None:
     if labeled:
         return labeled
     # Et <time datetime> i en liste er i sig selv semantisk metadata og ikke
-    # artikelbrødtekst. Det må derfor bruges som sidste listing-fallback.
+    # artikelbrødtekst. Det må derfor bruges som næste listing-fallback.
     for tag in node.find_all("time"):
         value = str(tag.get("datetime", "")) or tag.get_text(" ", strip=True)
         parsed = parse_date(value)
         if parsed:
             return parsed
+    if source and source.get("allow_plain_listing_date"):
+        return plain_listing_date_from_node(node)
     return None
 
 
@@ -769,7 +839,7 @@ def listing_fields(anchor, target: str, base_url: str, source: dict) -> tuple[st
         if getattr(anchor.parent, "name", "") in {"h1", "h2", "h3", "h4", "h5"}:
             priority = 3
     description = listing_description(node, target, base_url, title)
-    published = date_from_listing_node(node)
+    published = date_from_listing_node(node, source)
     return title, description, published, priority
 
 
@@ -1162,7 +1232,7 @@ def item_from_candidate(
             status.article_fetches += 1
             final_url = normalize_url(response.url, keep_query=True) or candidate.url
             soup = BeautifulSoup(response.text, "html.parser")
-            published = date_from_soup(soup) or published
+            published = date_from_soup(soup, source) or published
             page_title = title_from_soup(soup)
             if page_title and not is_generic_title(page_title):
                 title = page_title

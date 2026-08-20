@@ -68,7 +68,8 @@
     ],
     "article_prefixes": [
       "/pressemeddelelse/"
-    ]
+    ],
+    "allow_plain_listing_date": true
   },
   {
     "name": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
@@ -163,7 +164,8 @@
     ],
     "article_prefixes": [
       "/da/nyheder/"
-    ]
+    ],
+    "allow_plain_listing_date": true
   },
   {
     "name": "Skatte- og Vækstministeriet",
@@ -177,7 +179,9 @@
     "article_prefixes": [
       "/aktuelt/presse-nyheder/pressemeddelelser/",
       "/aktuelt/presse-nyheder/nyheder/"
-    ]
+    ],
+    "allow_unlabeled_header_date": true,
+    "refresh_before_schema": 5
   },
   {
     "name": "Sundheds- og Kirkeministeriet",
@@ -187,7 +191,8 @@
     ],
     "article_prefixes": [
       "/nyheder/"
-    ]
+    ],
+    "allow_unlabeled_header_date": true
   },
   {
     "name": "Ministeriet for Natur og Dyrevelfærd",
@@ -210,8 +215,10 @@
     ],
     "max_listing_pages": 6,
     "always_fetch_articles": true,
-    "refresh_before_schema": 2,
-    "disable_sitemap": true
+    "refresh_before_schema": 5,
+    "disable_sitemap": true,
+    "allow_plain_listing_date": true,
+    "allow_unlabeled_header_date": true
   },
   {
     "name": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -231,7 +238,8 @@
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
-    ]
+    ],
+    "allow_unlabeled_header_date": true
   },
   {
     "name": "Socialministeriet",
@@ -254,7 +262,8 @@
     "article_prefixes": [
       "/nyheder/pressemeddelelser/",
       "/nyheder/"
-    ]
+    ],
+    "allow_unlabeled_header_date": true
   },
   {
     "name": "Regeringen.dk",
