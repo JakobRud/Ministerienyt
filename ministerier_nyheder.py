@@ -40,7 +40,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/4.6 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/4.7 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
@@ -1846,7 +1846,7 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 4.4"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 4.7"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -1896,6 +1896,11 @@ def build_html(
     status_lookup = {status.name: status for status in statuses}
     counts = Counter(item.source for item in items)
     updated = datetime.now(timezone.utc)
+
+    # Forsiden bygges altid kronologisk, nyeste publiceringsdato først.
+    # Browseren kan derefter løfte artikler markeret "Ny siden sidst" helt op,
+    # uden at ændre den indbyrdes kronologi i de nye og gamle grupper.
+    items = sorted(items, key=lambda item: item.published, reverse=True)
 
     cards: list[str] = []
     for item in items:
@@ -1952,6 +1957,16 @@ let previousIds=null,lastVisit=null,visibleLimit=PAGE_SIZE;
 try{{const raw=localStorage.getItem(SEEN_KEY);if(raw)previousIds=new Set(JSON.parse(raw));lastVisit=localStorage.getItem(VISIT_KEY)}}catch(error){{previousIds=null;lastVisit=null}}
 const currentIds=cards.map(card=>card.dataset.id).filter(Boolean);let newCount=0;
 if(previousIds){{for(const card of cards){{if(card.dataset.id&&!previousIds.has(card.dataset.id)){{card.classList.add('is-new');newCount++}}}}}}
+// Nye siden sidste besøg står altid øverst. Inden for både nye og tidligere
+// sete artikler sorteres der fortsat efter publiceringsdato, nyeste først.
+const list=document.getElementById('list');
+cards.sort((a,b)=>{{
+ const newDifference=Number(b.classList.contains('is-new'))-Number(a.classList.contains('is-new'));
+ if(newDifference!==0)return newDifference;
+ const aTime=Date.parse(a.dataset.published||'')||0,bTime=Date.parse(b.dataset.published||'')||0;
+ return bTime-aTime;
+}});
+for(const card of cards)list.appendChild(card);
 function visitText(value){{if(!value)return'';const date=new Date(value);if(Number.isNaN(date.getTime()))return'';return new Intl.DateTimeFormat('da-DK',{{dateStyle:'medium',timeStyle:'short'}}).format(date)}}
 if(!previousIds){{newSummary.textContent='Nye artikler markeres fra dit næste besøg.'}}else if(newCount===0){{newSummary.textContent='Ingen nye artikler siden dit sidste besøg.'}}else{{const when=visitText(lastVisit);newSummary.textContent=(newCount===1?'1 ny artikel':newCount+' nye artikler')+' siden dit sidste besøg'+(when?' ('+when+')':'')+'.'}}
 try{{const merged=[...(previousIds?[...previousIds]:[]),...currentIds];const unique=[...new Set(merged)].slice(-10000);localStorage.setItem(SEEN_KEY,JSON.stringify(unique));localStorage.setItem(VISIT_KEY,new Date().toISOString())}}catch(error){{}}
