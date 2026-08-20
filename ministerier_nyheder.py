@@ -40,7 +40,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/4.4 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/4.6 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
@@ -149,6 +149,19 @@ PAGINATION_QUERY_KEYS = {
     "pagenumber",
     "currentpage",
     "pageindex",
+}
+
+
+# Afviste kandidater gemmes kun som diagnostik i repositoryets rod. Filen
+# publiceres ikke via GitHub Pages og indgår ikke i forsiden.
+REJECTED_CANDIDATES: dict[tuple[str, str, str], dict] = {}
+
+REJECTION_REASON_DA = {
+    "missing_safe_publication_date": "Ingen sikker publiceringsdato",
+    "future_publication_date": "Publiceringsdato ligger i fremtiden",
+    "before_archive_start": "Publiceringsdato er før 1. januar 2026",
+    "generic_title": "Manglende eller generisk overskrift",
+    "not_article_url": "URL matcher ikke kildens nyhedsartikler",
 }
 
 
@@ -279,6 +292,70 @@ def plausible_published_date(dt: datetime) -> datetime | None:
     if dt > datetime.now(timezone.utc):
         return None
     return dt
+
+
+def parse_date_unchecked(value: str) -> datetime | None:
+    """Parse de samme datoformater som parse_date, men uden fremtidsfilter.
+
+    Bruges kun diagnostisk til at kunne skelne mellem "ingen sikker dato" og
+    "en ellers sikker publiceringsdato ligger i fremtiden". Funktionen må ikke
+    bruges til at godkende en artikel.
+    """
+    if not value:
+        return None
+    value = clean_text(value)
+
+    match = re.search(
+        r"\b(20\d{2}-\d{2}-\d{2})(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?",
+        value,
+        flags=re.IGNORECASE,
+    )
+    if match:
+        try:
+            parsed = date_parser.parse(match.group(0))
+            return (parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+        except Exception:
+            pass
+
+    match = re.search(
+        r"\b(\d{1,2})\.?\s+(" + "|".join(DANISH_MONTHS) + r"),?\s+(20\d{2})\b",
+        value.casefold(),
+    )
+    if match:
+        try:
+            return datetime(
+                int(match.group(3)), DANISH_MONTHS[match.group(2)], int(match.group(1)), tzinfo=timezone.utc
+            )
+        except ValueError:
+            return None
+
+    match = re.search(r"\b(\d{1,2})[./-](\d{1,2})[./-](20\d{2})\b", value)
+    if match:
+        try:
+            return datetime(int(match.group(3)), int(match.group(2)), int(match.group(1)), tzinfo=timezone.utc)
+        except ValueError:
+            return None
+
+    english_month = re.search(
+        r"\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|"
+        r"Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b",
+        value,
+        flags=re.IGNORECASE,
+    )
+    if english_month and re.search(r"\b20\d{2}\b", value):
+        try:
+            parsed = date_parser.parse(value, dayfirst=True, fuzzy=True)
+            return (parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+        except Exception:
+            pass
+    return None
+
+
+def future_date(value: str) -> datetime | None:
+    parsed = parse_date_unchecked(value)
+    if parsed and parsed > datetime.now(timezone.utc):
+        return parsed
+    return None
 
 
 def parse_date(value: str) -> datetime | None:
@@ -560,6 +637,135 @@ def date_from_listing_node(node, source: dict | None = None) -> datetime | None:
             return parsed
     if source and source.get("allow_plain_listing_date"):
         return plain_listing_date_from_node(node)
+    return None
+
+
+def trusted_future_publication_date_from_soup(
+    soup: BeautifulSoup,
+    source: dict | None = None,
+) -> datetime | None:
+    """Find kun en FREMTIDIG dato i de samme sikre felter som date_from_soup.
+
+    Funktionen er diagnostik til afvisningsloggen. Den scanner aldrig den
+    egentlige artikelbrødtekst for vilkårlige datoer.
+    """
+    raw_values: list[str] = []
+    for key, value in [
+        ("property", "article:published_time"),
+        ("property", "og:published_time"),
+        ("name", "article:published_time"),
+        ("itemprop", "datePublished"),
+        ("name", "date"),
+        ("name", "publish-date"),
+        ("name", "dcterms.date"),
+    ]:
+        for tag in soup.find_all("meta", attrs={key: value}):
+            if tag.get("content"):
+                raw_values.append(str(tag["content"]))
+
+    for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = tag.string or tag.get_text()
+        if not raw:
+            continue
+        try:
+            obj = json.loads(raw)
+        except Exception:
+            continue
+        stack = obj if isinstance(obj, list) else [obj]
+        published_values: list[str] = []
+        created_values: list[str] = []
+        while stack:
+            current = stack.pop()
+            if isinstance(current, dict):
+                if current.get("datePublished"):
+                    published_values.append(str(current["datePublished"]))
+                if current.get("dateCreated"):
+                    created_values.append(str(current["dateCreated"]))
+                stack.extend(v for v in current.values() if isinstance(v, (dict, list)))
+            elif isinstance(current, list):
+                stack.extend(current)
+        raw_values.extend(published_values or created_values)
+
+    label_re = re.compile(r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b", re.IGNORECASE)
+    month_names = "|".join(DANISH_MONTHS)
+    date_pattern = (
+        rf"(\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
+        r"|20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?)"
+    )
+    for text_node in soup.find_all(string=label_re):
+        node = getattr(text_node, "parent", None)
+        for _ in range(4):
+            if node is None:
+                break
+            value = clean_text(node.get_text(" ", strip=True))
+            if 0 < len(value) <= 500:
+                match = re.search(
+                    rf"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b\s*(?:den\s*)?(?::|[-–—])?\s*{date_pattern}",
+                    value,
+                    flags=re.IGNORECASE,
+                )
+                if match:
+                    raw_values.append(match.group(1))
+            node = getattr(node, "parent", None)
+
+    if source and source.get("allow_unlabeled_header_date"):
+        h1 = soup.find("h1")
+        if h1 is not None:
+            checked = 0
+            for text_node in h1.find_all_previous(string=True):
+                value = clean_text(str(text_node))
+                if not value:
+                    continue
+                checked += 1
+                month_names = "|".join(DANISH_MONTHS)
+                patterns = [
+                    rf"^\d{{1,2}}\.?\s+(?:{month_names}),?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
+                    r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
+                    r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
+                ]
+                if any(re.fullmatch(pattern, value, flags=re.IGNORECASE) for pattern in patterns):
+                    raw_values.append(value)
+                if checked >= 12:
+                    break
+
+    futures = [future_date(value) for value in raw_values]
+    futures = [value for value in futures if value]
+    return min(futures) if futures else None
+
+
+def trusted_future_publication_date_from_context(context: str, source: dict) -> datetime | None:
+    """Diagnostisk fremtidsdato fra et afgrænset listing-kort."""
+    text = clean_text(context)
+    if not text:
+        return None
+    # Mærket publiceringsdato er altid sikker metadata.
+    label_match = re.search(
+        r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b.{0,60}?"
+        r"(\d{1,2}[./-]\d{1,2}[./-]20\d{2}|\d{1,2}\.?\s+(?:"
+        + "|".join(DANISH_MONTHS)
+        + r")\s+20\d{2}|20\d{2}-\d{2}-\d{2})",
+        text,
+        flags=re.IGNORECASE,
+    )
+    if label_match:
+        future = future_date(label_match.group(1))
+        if future:
+            return future
+
+    if source.get("allow_plain_listing_date"):
+        # Context kommer fra ét afgrænset nyhedskort; find dato-tokenet, men kun
+        # på kilder hvor denne fallback eksplicit er godkendt.
+        patterns = [
+            r"\b\d{1,2}[./-]\d{1,2}[./-]20\d{2}\b",
+            r"\b\d{1,2}\.?\s+(?:" + "|".join(DANISH_MONTHS) + r")\s+20\d{2}\b",
+            r"\b20\d{2}-\d{2}-\d{2}\b",
+        ]
+        for pattern in patterns:
+            for match in re.finditer(pattern, text, flags=re.IGNORECASE):
+                future = future_date(match.group(0))
+                if future:
+                    return future
     return None
 
 
@@ -876,6 +1082,61 @@ def append_error(status: SourceStatus, message: str) -> None:
         status.errors.append(message[:400])
 
 
+def record_rejection(
+    source: str,
+    title: str,
+    url: str,
+    reason: str,
+    *,
+    discovered_by: str = "",
+    detail: str = "",
+    detected_date: datetime | None = None,
+) -> None:
+    normalized_url = normalize_url(url, keep_query=True) or url
+    key = (source, canonical_url(normalized_url) or normalized_url, reason)
+    entry = {
+        "source": source,
+        "title": clean_text(title),
+        "url": normalized_url,
+        "reason": reason,
+        "reason_da": REJECTION_REASON_DA.get(reason, reason),
+        "discovered_by": discovered_by,
+        "detail": clean_text(detail)[:500],
+    }
+    if detected_date:
+        entry["detected_date"] = detected_date.astimezone(timezone.utc).isoformat()
+    existing = REJECTED_CANDIDATES.get(key)
+    if existing:
+        # Bevar mest informative titel/detalje og kombiner fundmetoder.
+        if len(entry["title"]) > len(existing.get("title", "")):
+            existing["title"] = entry["title"]
+        if len(entry["detail"]) > len(existing.get("detail", "")):
+            existing["detail"] = entry["detail"]
+        methods = [m for m in (existing.get("discovered_by", "") + "+" + discovered_by).split("+") if m]
+        existing["discovered_by"] = "+".join(dict.fromkeys(methods))
+        if detected_date and not existing.get("detected_date"):
+            existing["detected_date"] = detected_date.astimezone(timezone.utc).isoformat()
+        return
+    REJECTED_CANDIDATES[key] = entry
+
+
+def save_rejection_log(path: Path) -> None:
+    entries = sorted(
+        REJECTED_CANDIDATES.values(),
+        key=lambda entry: (entry.get("reason", ""), entry.get("source", ""), entry.get("title", "")),
+    )
+    counts = Counter(entry.get("reason", "unknown") for entry in entries)
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
+        "total_rejected": len(entries),
+        "summary_by_reason": dict(sorted(counts.items())),
+        "rejected": entries,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def path_has_archive_year(url: str) -> bool:
     return bool(re.search(r"/(?:20)?26(?:/|$)", urlparse(url).path))
 
@@ -1080,17 +1341,37 @@ def collect_feed_items(
         used = True
         for entry in feed.entries:
             published = None
+            future_published = None
             for field in ("published", "updated", "created"):
                 value = getattr(entry, field, None)
                 if value:
-                    published = parse_date(str(value))
-                    if published:
+                    parsed = parse_date(str(value))
+                    if parsed:
+                        published = parsed
                         break
+                    if future_published is None:
+                        future_published = future_date(str(value))
             link = normalize_url(str(getattr(entry, "link", "") or ""), keep_query=True)
             title = clean_text(str(getattr(entry, "title", "") or ""))
-            if not published or published < ARCHIVE_START or not link or is_generic_title(title):
+            if not link or not looks_like_article(link, source):
                 continue
-            if not looks_like_article(link, source):
+            if is_generic_title(title):
+                record_rejection(source["name"], title, link, "generic_title", discovered_by="RSS/Atom")
+                continue
+            if not published:
+                if future_published:
+                    record_rejection(
+                        source["name"], title, link, "future_publication_date",
+                        discovered_by="RSS/Atom", detected_date=future_published,
+                    )
+                else:
+                    record_rejection(source["name"], title, link, "missing_safe_publication_date", discovered_by="RSS/Atom")
+                continue
+            if published < ARCHIVE_START:
+                record_rejection(
+                    source["name"], title, link, "before_archive_start",
+                    discovered_by="RSS/Atom", detected_date=published,
+                )
                 continue
             description = strip_markup(str(getattr(entry, "summary", "") or ""))[:900]
             item = Item(source["name"], title, link, published, description)
@@ -1098,7 +1379,6 @@ def collect_feed_items(
     if used:
         status.methods.append("RSS/Atom")
     return list(result.values())
-
 
 def decompress_if_needed(content: bytes) -> bytes:
     if content.startswith(b"\x1f\x8b"):
@@ -1222,36 +1502,71 @@ def item_from_candidate(
     published = candidate.published
     description = context_description(candidate)
     final_url = candidate.url
+    article_soup = None
+    fetch_error = ""
 
     if published and published < ARCHIVE_START:
+        record_rejection(
+            source["name"], title, final_url, "before_archive_start",
+            discovered_by=candidate.discovered_by, detected_date=published,
+        )
         return None
+
     must_fetch = bool(source.get("always_fetch_articles")) or not published or is_generic_title(title)
     if must_fetch:
         try:
             response = fetch(session, candidate.url)
             status.article_fetches += 1
             final_url = normalize_url(response.url, keep_query=True) or candidate.url
-            soup = BeautifulSoup(response.text, "html.parser")
-            published = date_from_soup(soup, source) or published
-            page_title = title_from_soup(soup)
+            article_soup = BeautifulSoup(response.text, "html.parser")
+            published = date_from_soup(article_soup, source) or published
+            page_title = title_from_soup(article_soup)
             if page_title and not is_generic_title(page_title):
                 title = page_title
             page_description = description_from_soup(
-                soup,
+                article_soup,
                 title,
                 source.get("description_selectors"),
             )
             if page_description:
                 description = page_description
         except Exception as exc:
+            fetch_error = str(exc)
             append_error(status, f"Artikel kunne ikke hentes: {candidate.url}: {exc}")
 
-    if not published or published < ARCHIVE_START or is_generic_title(title):
+    if not published:
+        future_published = None
+        if article_soup is not None:
+            future_published = trusted_future_publication_date_from_soup(article_soup, source)
+        if future_published is None:
+            future_published = trusted_future_publication_date_from_context(candidate.context, source)
+        if future_published:
+            record_rejection(
+                source["name"], title, final_url, "future_publication_date",
+                discovered_by=candidate.discovered_by,
+                detail=("Artikelhentning fejlede: " + fetch_error) if fetch_error else "",
+                detected_date=future_published,
+            )
+        else:
+            record_rejection(
+                source["name"], title, final_url, "missing_safe_publication_date",
+                discovered_by=candidate.discovered_by,
+                detail=("Artikelhentning fejlede: " + fetch_error) if fetch_error else "",
+            )
+        return None
+    if published < ARCHIVE_START:
+        record_rejection(
+            source["name"], title, final_url, "before_archive_start",
+            discovered_by=candidate.discovered_by, detected_date=published,
+        )
+        return None
+    if is_generic_title(title):
+        record_rejection(source["name"], title, final_url, "generic_title", discovered_by=candidate.discovered_by)
         return None
     if not looks_like_article(final_url, source):
+        record_rejection(source["name"], title, final_url, "not_article_url", discovered_by=candidate.discovered_by)
         return None
     return Item(source["name"], title, final_url, published, description[:900])
-
 
 def better_item(existing: Item | None, new: Item) -> Item:
     if existing is None:
@@ -1314,8 +1629,19 @@ def collect_ritzau_items(
         for release in releases:
             if not isinstance(release, dict):
                 continue
-            published = parse_date(str(release.get("date", "")))
+            raw_release_date = str(release.get("date", ""))
+            published = parse_date(raw_release_date)
             if not published:
+                future_published = future_date(raw_release_date)
+                versions = release.get("versions", {})
+                version = versions.get("da") if isinstance(versions, dict) else {}
+                title_hint = clean_text(str(version.get("title", ""))) if isinstance(version, dict) else ""
+                url_hint = ritzau_public_url(str(version.get("url", ""))) if isinstance(version, dict) else endpoint
+                record_rejection(
+                    source["name"], title_hint, url_hint,
+                    "future_publication_date" if future_published else "missing_safe_publication_date",
+                    discovered_by="Via Ritzau API", detected_date=future_published,
+                )
                 continue
             if published < ARCHIVE_START:
                 reached_older = True
@@ -1670,11 +1996,13 @@ def main() -> int:
     parser.add_argument("--rss-output", default="site/feed.xml")
     parser.add_argument("--html-output", default="site/index.html")
     parser.add_argument("--status-output", default="site/status.json")
+    parser.add_argument("--rejected-log", default="rejected_candidates.json")
     parser.add_argument("--site-url", default="https://example.invalid/")
     parser.add_argument("--feed-url", default="")
     args = parser.parse_args()
 
     started = time.monotonic()
+    REJECTED_CANDIDATES.clear()
     sources_path = Path(args.sources)
     sources = json.loads(sources_path.read_text(encoding="utf-8"))
     allowed_sources = {source["name"] for source in sources}
@@ -1699,6 +2027,8 @@ def main() -> int:
     print(f"Eksisterende arkiv: {len(existing)} artikler.", file=sys.stderr)
 
     fresh, statuses = collect_fresh_items(sources, known_urls)
+    save_rejection_log(Path(args.rejected_log))
+    print(f"Afvisningslog: {len(REJECTED_CANDIDATES)} kandidater.", file=sys.stderr)
     merged = merge_archive(existing, fresh)
     if not merged:
         print("Ingen artikler kunne findes, og arkivet er tomt. Output blev ikke overskrevet.", file=sys.stderr)
