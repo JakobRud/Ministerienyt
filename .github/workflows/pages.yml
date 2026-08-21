@@ -8,6 +8,7 @@ on:
       - "archive.json"
       - "rejected_candidates.json"
       - "health.json"
+      - "diagnostics.json"
   schedule:
     - cron: "17 * * * *"
 
@@ -57,21 +58,22 @@ jobs:
             --html-output site/index.html \
             --rss-output site/feed.xml \
             --health-output health.json \
+            --diagnostics-output diagnostics.json \
             --rejected-log rejected_candidates.json \
             --config site_config.json \
             --site-url "$PAGES_URL" \
             --feed-url "${PAGES_URL}feed.xml"
 
-      - name: Gem arkiv, helbred og afvisningslog i repositoryet
+      - name: Gem arkiv, helbred, diagnostik og afvisningslog i repositoryet
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add archive.json rejected_candidates.json health.json
+          git add archive.json rejected_candidates.json health.json diagnostics.json
           if ! git diff --cached --quiet; then
-            git commit -m "Opdater nyhedsarkiv og kildestatus [skip ci]"
+            git commit -m "Opdater nyhedsarkiv og diagnostik [skip ci]"
             git push
           else
-            echo "Arkiv, helbred og afvisningslog er uændret."
+            echo "Arkiv og diagnostikfiler er uændrede."
           fi
 
       - name: Upload hjemmeside
