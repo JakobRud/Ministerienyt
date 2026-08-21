@@ -1,0 +1,666 @@
+{
+  "version": "5.1",
+  "generated_at": "2026-08-21T12:41:13.858248+00:00",
+  "note": "Intern kvalitetsrapport fra seneste crawl. Filen publiceres ikke via GitHub Pages.",
+  "runtime_seconds": 668.609,
+  "archive_items": 499,
+  "display_items_after_deduplication": 490,
+  "duplicates_merged": 9,
+  "article_candidates": 4352,
+  "accepted_from_current_crawl": 70,
+  "rejected_during_current_crawl": 3876,
+  "rejection_reasons": {
+    "before_archive_start": 3065,
+    "missing_safe_publication_date": 811
+  },
+  "source_count": 22,
+  "healthy_sources": 16,
+  "unusually_silent_sources": 6,
+  "sources": [
+    {
+      "name": "Statsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 7,
+      "median_publication_gap_days": 8.0,
+      "silence_threshold_days": null,
+      "crawl_seconds": 64.402,
+      "listing_pages": 2,
+      "sitemap_files": 1,
+      "article_candidates": 248,
+      "article_fetches": 221,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 221,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 221
+      },
+      "archive_items": 27,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "De nordiske stats- og regeringsledere drøfter styrket forsvarssamarbejde til nordisk sommermøde i Danmark",
+        "url": "https://stm.dk/presse/pressemeddelelser/2026/de-nordiske-stats-og-regeringsledere-droefter-styrket-forsvarssamarbejde-til-nordisk-sommermoede-i-danmark/",
+        "published": "2026-08-14T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Økonomi- og Indenrigsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 3,
+      "median_publication_gap_days": 6.0,
+      "silence_threshold_days": 18,
+      "crawl_seconds": 5.133,
+      "listing_pages": 9,
+      "sitemap_files": 1,
+      "article_candidates": 77,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 67,
+      "rejection_reasons": {
+        "before_archive_start": 67
+      },
+      "archive_items": 10,
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Jakob Roland Munch udnævnes til overvismand og Morten Overgaard Ravn udnævnes til vismand",
+        "url": "https://oem.dk/nyheder/nyhedsarkiv/2026/august/udnaevnelse-af-overvismand/",
+        "published": "2026-08-18T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Udenrigsministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 20,
+      "median_publication_gap_days": 5.0,
+      "silence_threshold_days": 15,
+      "crawl_seconds": 6.091,
+      "listing_pages": 0,
+      "sitemap_files": 0,
+      "article_candidates": 46,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 0,
+      "rejection_reasons": {},
+      "archive_items": 46,
+      "methods": [
+        "Via Ritzau API"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Udenrigsministeriet ansætter særlig rådgiver",
+        "url": "https://via.ritzau.dk/pressemeddelelse/15057264/udenrigsministeriet-ansaetter-saerlig-radgiver?lang=da&publisherId=2012662",
+        "published": "2026-08-01T07:00:00+00:00"
+      }
+    },
+    {
+      "name": "Erhvervsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 52,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 15.83,
+      "listing_pages": 6,
+      "sitemap_files": 1,
+      "article_candidates": 26,
+      "article_fetches": 8,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 8,
+      "rejection_reasons": {
+        "before_archive_start": 8
+      },
+      "archive_items": 18,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Behov for yderligere overvejelser om den systemiske buffer",
+        "url": "https://www.em.dk/aktuelt/nyheder/2026/jan/behov-for-yderligere-overvejelser-om-den-systemiske-buffer",
+        "published": "2026-06-30T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Finansministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 42,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 12.443,
+      "listing_pages": 33,
+      "sitemap_files": 1,
+      "article_candidates": 319,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 18,
+      "rejected_during_current_crawl": 301,
+      "rejection_reasons": {
+        "before_archive_start": 301
+      },
+      "archive_items": 18,
+      "methods": [
+        "HTML",
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Arbejdet i Ekspertgruppen for en omlægning af bilafgifterne er genoptaget med et tillægskommissorium",
+        "url": "https://fm.dk/nyheder/nyhedsarkiv/2026/juli/arbejdet-i-ekspertgruppen-for-en-omlaegning-af-bilafgifterne-er-genoptaget-med-et-tillaegskommissorium/",
+        "published": "2026-07-10T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Justitsministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 18,
+      "median_publication_gap_days": 6.0,
+      "silence_threshold_days": 18,
+      "crawl_seconds": 85.943,
+      "listing_pages": 83,
+      "sitemap_files": 9,
+      "article_candidates": 809,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 785,
+      "rejection_reasons": {
+        "before_archive_start": 785
+      },
+      "archive_items": 24,
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Kommentar fra justitsminister Nicolai Wammen om terrorsag",
+        "url": "https://www.justitsministeriet.dk/pressemeddelelse/kommentar-fra-justitsminister-nicolai-wammen-om-terrorsag/",
+        "published": "2026-08-03T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 21,
+      "median_publication_gap_days": 5.5,
+      "silence_threshold_days": 16,
+      "crawl_seconds": 47.234,
+      "listing_pages": 109,
+      "sitemap_files": 2,
+      "article_candidates": 497,
+      "article_fetches": 23,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 477,
+      "rejection_reasons": {
+        "before_archive_start": 477
+      },
+      "archive_items": 20,
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Danmark melder sig på banen i projekt med AI gigafabrikker - skal styrke europæisk suverænitet og konkurrenceevne",
+        "url": "https://ufm.dk/aktuelt/pressemeddelelser/2026/juli/danmark-melder-sig-paa-banen-i-projekt-med-ai-gigafabrikker/",
+        "published": "2026-07-31T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Klima-, Energi- og Forsyningsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 1,
+      "median_publication_gap_days": 8.0,
+      "silence_threshold_days": null,
+      "crawl_seconds": 5.816,
+      "listing_pages": 3,
+      "sitemap_files": 1,
+      "article_candidates": 28,
+      "article_fetches": 3,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 3,
+      "rejection_reasons": {
+        "before_archive_start": 3
+      },
+      "archive_items": 25,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Regeringen fremsætter akutplan for elnettet",
+        "url": "https://www.kefm.dk/aktuelt/nyheder/2026/aug/regeringen-fremsaetter-akutplan-for-elnettet",
+        "published": "2026-08-20T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "By-, Land- og Transportministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 51,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 34.034,
+      "listing_pages": 2,
+      "sitemap_files": 1,
+      "article_candidates": 28,
+      "article_fetches": 22,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 22,
+      "rejection_reasons": {
+        "before_archive_start": 1,
+        "missing_safe_publication_date": 21
+      },
+      "archive_items": 6,
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Ny særlig rådgiver for by-, land- og transportministeren",
+        "url": "https://www.bltm.dk/nyheder/2026/ny-saerlig-raadgiver-for-by-land-og-transportministeren-1",
+        "published": "2026-07-01T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Udlændinge- og Integrationsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 1,
+      "median_publication_gap_days": 3.0,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 39.911,
+      "listing_pages": 138,
+      "sitemap_files": 1,
+      "article_candidates": 671,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 643,
+      "rejection_reasons": {
+        "before_archive_start": 643
+      },
+      "archive_items": 28,
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Bødskov fortsætter rundrejsen: Flyver til Haag og Berlin inden afgørende ministermøde",
+        "url": "https://uim.dk/nyhedsarkiv/2026/august/boedskov-fortsaetter-rundrejsen/",
+        "published": "2026-08-20T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Undervisningsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 3,
+      "median_publication_gap_days": 3.0,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 46.426,
+      "listing_pages": 160,
+      "sitemap_files": 1,
+      "article_candidates": 830,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 52,
+      "rejected_during_current_crawl": 778,
+      "rejection_reasons": {
+        "before_archive_start": 778
+      },
+      "archive_items": 52,
+      "methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "errors": [
+        "Sikkerhedsgrænsen på 160 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ],
+      "latest_article": {
+        "title": "Ny test skal hjælpe med at opspore elever i risiko for ordblindhed i 2. klasse",
+        "url": "https://uvm.dk/aktuelt/nyheder/2026/august/260818-ny-test-skal-hjaelpe-med-at-opspore-elever-i-risiko-for-ordblindhed-i-2-klasse/",
+        "published": "2026-08-18T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Beskæftigelses- og Ligestillingsministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 1,
+      "median_publication_gap_days": 3.0,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 3.025,
+      "listing_pages": 4,
+      "sitemap_files": 0,
+      "article_candidates": 10,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 0,
+      "rejection_reasons": {},
+      "archive_items": 12,
+      "methods": [
+        "HTML"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "26 mio. kroner til nye forskningsprojekter i arbejdsmiljø",
+        "url": "https://bm.dk/nyheder/nyheder/2026/08/26-mio-kroner-til-nye-forskningsprojekter-i-arbejdsmiljoe",
+        "published": "2026-08-20T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Forsvarsministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 18,
+      "median_publication_gap_days": 3.0,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 3.162,
+      "listing_pages": 1,
+      "sitemap_files": 1,
+      "article_candidates": 45,
+      "article_fetches": 0,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 0,
+      "rejection_reasons": {},
+      "archive_items": 45,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Forsvarsministeren deltager i mindehøjtideligheder for flyulykke på Færøerne",
+        "url": "https://www.fmn.dk/da/nyheder/2026/forsvarsministeren-deltager-i-mindehojtide-ligheder-for-flyulykke-pa-faroerne/",
+        "published": "2026-08-03T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Skatte- og Vækstministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 2,
+      "median_publication_gap_days": 2.0,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 6.573,
+      "listing_pages": 4,
+      "sitemap_files": 2,
+      "article_candidates": 33,
+      "article_fetches": 2,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 2,
+      "rejection_reasons": {
+        "before_archive_start": 2
+      },
+      "archive_items": 31,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "98 ulovlige spilsider blokeret: Væddemål på krig og drab vækker harme hos skatte- og vækstminister",
+        "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/98-ulovlige-spilsider-blokeret-vaeddemaal-paa-krig-og-drab-vaekker-harme-hos-skatte-og-vaekstminister",
+        "published": "2026-08-19T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Sundheds- og Kirkeministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 36,
+      "median_publication_gap_days": 4.0,
+      "silence_threshold_days": 12,
+      "crawl_seconds": 13.611,
+      "listing_pages": 1,
+      "sitemap_files": 1,
+      "article_candidates": 46,
+      "article_fetches": 5,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 5,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 5
+      },
+      "archive_items": 41,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Evalueringen af de lettilgængelige behandlingstilbud for børn og unge i psykisk mistrivsel",
+        "url": "https://www.ism.dk/nyheder/2026/juli/evalueringen-af-de-lettilgaengelige-behandlingstilbud-for-boern-og-unge-i-psykisk-mistrivsel",
+        "published": "2026-07-16T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Ministeriet for Natur og Dyrevelfærd",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 8,
+      "median_publication_gap_days": 6.0,
+      "silence_threshold_days": 18,
+      "crawl_seconds": 4.662,
+      "listing_pages": 1,
+      "sitemap_files": 1,
+      "article_candidates": 17,
+      "article_fetches": 4,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 4,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 4
+      },
+      "archive_items": 13,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Naturstyrelsen har skudt problemulv nær Houstrup",
+        "url": "https://mgtp.dk/nyheder/2026/aug/naturstyrelsen-har-skudt-problemulv-naer-houstrup",
+        "published": "2026-08-13T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Kulturministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 230,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 36.562,
+      "listing_pages": 6,
+      "sitemap_files": 0,
+      "article_candidates": 50,
+      "article_fetches": 49,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 49,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 49
+      },
+      "archive_items": 1,
+      "methods": [
+        "HTML"
+      ],
+      "errors": [
+        "Sikkerhedsgrænsen på 6 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ],
+      "latest_article": {
+        "title": "Her er de nominerede til Kulturministerens Parasportspris 2025",
+        "url": "https://kum.dk/aktuelt/nyheder/her-er-de-nominerede-til-kulturministerens-parasportspris-2025",
+        "published": "2026-01-03T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Ministeriet for Samfundssikkerhed og Beredskab",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 7,
+      "median_publication_gap_days": 7.0,
+      "silence_threshold_days": 21,
+      "crawl_seconds": 1.783,
+      "listing_pages": 1,
+      "sitemap_files": 1,
+      "article_candidates": 18,
+      "article_fetches": 1,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 1,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 1
+      },
+      "archive_items": 17,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Forbud mod bl.a. fiskeri med bundslæbende redskaber ved Lister Dyb, Rømø og Mandø ophæves",
+        "url": "https://mssb.dk/nyheder/nyhedsarkiv/2026/august/forbud-mod-bla-fiskeri-med-bundslaebende-redskaber-ved-lister-dyb-roemoe-og-mandoe-ophaeves/",
+        "published": "2026-08-14T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Børne-, Ældre- og Boligministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 14,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 118.883,
+      "listing_pages": 1,
+      "sitemap_files": 1,
+      "article_candidates": 222,
+      "article_fetches": 210,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 210,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 210
+      },
+      "archive_items": 13,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Nyt initiativ skal vække læseglæde blandt de mindste børn",
+        "url": "https://aeldremin.dk/nyheder/nyhedsarkiv/2026/aug/nyt-initiativ-skal-vaekke-laeseglaede-blandt-de-mindste-boern",
+        "published": "2026-08-07T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Socialministeriet",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 52,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 50.479,
+      "listing_pages": 6,
+      "sitemap_files": 1,
+      "article_candidates": 102,
+      "article_fetches": 86,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 86,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 86
+      },
+      "archive_items": 16,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Partnerskab udgiver afrapportering om vold i nære relationer",
+        "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2026/jun/partnerskab-udgiver-afrapportering-om-vold-i-naere-relationer-",
+        "published": "2026-06-30T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "Miljøministeriet",
+      "crawl_ok": true,
+      "health_ok": false,
+      "unusual_silence": true,
+      "days_since_last_publication": 12,
+      "median_publication_gap_days": 2.5,
+      "silence_threshold_days": 10,
+      "crawl_seconds": 2.856,
+      "listing_pages": 2,
+      "sitemap_files": 1,
+      "article_candidates": 1,
+      "article_fetches": 1,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 1,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 1
+      },
+      "archive_items": 20,
+      "methods": [
+        "HTML"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Miljøstyrelsen vil have undersøgt yderligere fem PFAS-sprøjtemidler",
+        "url": "https://mim.dk/nyheder/pressemeddelelser/2026/august/miljoestyrelsen-vil-have-undersoegt-yderligere-fem-pfas-sproejtemidler",
+        "published": "2026-08-09T16:42:00+00:00"
+      }
+    },
+    {
+      "name": "Regeringen.dk",
+      "crawl_ok": true,
+      "health_ok": true,
+      "unusual_silence": false,
+      "days_since_last_publication": 51,
+      "median_publication_gap_days": null,
+      "silence_threshold_days": null,
+      "crawl_seconds": 62.214,
+      "listing_pages": 2,
+      "sitemap_files": 1,
+      "article_candidates": 229,
+      "article_fetches": 213,
+      "accepted_from_current_crawl": 0,
+      "rejected_during_current_crawl": 213,
+      "rejection_reasons": {
+        "missing_safe_publication_date": 213
+      },
+      "archive_items": 16,
+      "methods": [
+        "Sitemap"
+      ],
+      "errors": [],
+      "latest_article": {
+        "title": "Bred politisk opbakning til akutplan for elnettet",
+        "url": "https://regeringen.dk/aktuelt/nyheder/2026/bred-politisk-opbakning-til-akutplan-for-elnettet/",
+        "published": "2026-07-01T00:00:00+00:00"
+      }
+    }
+  ]
+}
