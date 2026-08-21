@@ -18,6 +18,8 @@ from __future__ import annotations
 import argparse
 import email.utils
 import gzip
+import difflib
+import unicodedata
 import hashlib
 import html
 import json
@@ -27,6 +29,7 @@ import time
 from collections import Counter, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Iterable
 from urllib.parse import parse_qsl, parse_qs, unquote, urlencode, urljoin, urlparse, urlunparse
@@ -40,7 +43,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/4.7 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/5.0 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
@@ -1836,7 +1839,88 @@ def save_archive(path: Path, items: list[Item]) -> None:
     temporary.replace(path)
 
 
-def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
+
+@dataclass(frozen=True)
+class DisplayEntry:
+    primary: Item
+    also: tuple[Item, ...] = ()
+
+
+def duplicate_title_key(title: str) -> str:
+    value = unicodedata.normalize("NFKC", clean_text(title)).casefold()
+    value = re.sub(r"^(?:pressemeddelelse|nyhed|aktuelt)\s*[:\-–—]\s*", "", value)
+    value = re.sub(r"[^0-9a-zæøå]+", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def duplicate_match(a: Item, b: Item) -> bool:
+    """Sikker dubletkontrol, primært mellem Regeringen.dk og ministerierne."""
+    if a.source != "Regeringen.dk" and b.source != "Regeringen.dk":
+        return False
+    if a.source == b.source:
+        return False
+    if abs((a.published - b.published).total_seconds()) > 2 * 86400:
+        return False
+    left, right = duplicate_title_key(a.title), duplicate_title_key(b.title)
+    if not left or not right:
+        return False
+    if left == right:
+        return True
+    if min(len(left), len(right)) < 28:
+        return False
+    return difflib.SequenceMatcher(None, left, right).ratio() >= 0.94
+
+
+def deduplicate_for_display(items: Iterable[Item]) -> list[DisplayEntry]:
+    ministry_items = [item for item in items if item.source != "Regeringen.dk"]
+    government_items = [item for item in items if item.source == "Regeringen.dk"]
+    entries: list[DisplayEntry] = [DisplayEntry(item) for item in ministry_items]
+
+    for government_item in government_items:
+        best_index = None
+        best_score = -1.0
+        gov_key = duplicate_title_key(government_item.title)
+        for index, entry in enumerate(entries):
+            candidate = entry.primary
+            if not duplicate_match(government_item, candidate):
+                continue
+            score = difflib.SequenceMatcher(None, gov_key, duplicate_title_key(candidate.title)).ratio()
+            score -= min(abs((government_item.published - candidate.published).total_seconds()) / 86400, 2) * 0.01
+            if score > best_score:
+                best_score, best_index = score, index
+        if best_index is None:
+            entries.append(DisplayEntry(government_item))
+        else:
+            current = entries[best_index]
+            entries[best_index] = DisplayEntry(current.primary, current.also + (government_item,))
+
+    return sorted(entries, key=lambda entry: entry.primary.published, reverse=True)
+
+
+def infer_article_type(item: Item, source: dict | None = None) -> str:
+    path = urlparse(item.url).path.casefold()
+    title = item.title.casefold()
+    if "pressemeddelelse" in path or "pressemeddelelser" in path or title.startswith("pressemeddelelse"):
+        return "Pressemeddelelse"
+    if re.search(r"/(?:tale|taler)/", path) or title.startswith("tale:"):
+        return "Tale"
+    if "debatindlaeg" in path or "debatindlæg" in title:
+        return "Debatindlæg"
+    if "rapport" in path or title.startswith("rapport:"):
+        return "Rapport"
+    default_type = clean_text(str((source or {}).get("default_article_type", "")))
+    if default_type:
+        return default_type
+    if "/nyhed" in path or "/aktuelt/" in path or item.source == "Regeringen.dk":
+        return "Nyhed"
+    return ""
+
+
+def source_health_ok(status: SourceStatus) -> bool:
+    return bool((status.methods or []) or status.listing_pages > 0 or status.sitemap_files > 0)
+
+
+def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, source_lookup: dict[str, dict]) -> bytes:
     rss = ET.Element("rss", {"version": "2.0"})
     channel = ET.SubElement(rss, "channel")
     ET.SubElement(channel, "title").text = "Ministerienyt – nyheder fra danske ministerier og Regeringen.dk"
@@ -1846,17 +1930,14 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 4.7"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 5.0"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
-        ET.SubElement(
-            channel,
-            f"{{{atom}}}link",
-            {"href": feed_url, "rel": "self", "type": "application/rss+xml"},
-        )
+        ET.SubElement(channel, f"{{{atom}}}link", {"href": feed_url, "rel": "self", "type": "application/rss+xml"})
 
-    for item in items:
+    for entry in entries:
+        item = entry.primary
         node = ET.SubElement(channel, "item")
         ET.SubElement(node, "title").text = f"{item.source}: {item.title}"
         ET.SubElement(node, "link").text = item.url
@@ -1864,10 +1945,17 @@ def build_rss(items: Iterable[Item], site_url: str, feed_url: str) -> bytes:
         guid.text = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
         ET.SubElement(node, "pubDate").text = email.utils.format_datetime(item.published)
         ET.SubElement(node, "category").text = item.source
+        article_type = infer_article_type(item, source_lookup.get(item.source))
+        if article_type:
+            ET.SubElement(node, "category").text = article_type
         source_node = ET.SubElement(node, "source", {"url": item.url})
         source_node.text = item.source
-        if item.description:
-            ET.SubElement(node, "description").text = item.description
+        description = item.description
+        if entry.also:
+            extras = ", ".join(other.source for other in entry.also)
+            description = clean_text((description + " " if description else "") + f"Også publiceret på {extras}.")
+        if description:
+            ET.SubElement(node, "description").text = description
 
     ET.indent(rss, space="  ")
     return ET.tostring(rss, encoding="utf-8", xml_declaration=True)
@@ -1878,50 +1966,75 @@ def fmt_date_da(dt: datetime) -> str:
 
 
 def fmt_datetime_da(dt: datetime) -> str:
-    return f"{dt.day}. {MONTH_NAMES[dt.month]} {dt.year} kl. {dt:%H:%M} UTC"
+    try:
+        local = dt.astimezone(ZoneInfo("Europe/Copenhagen"))
+    except Exception:
+        local = dt.astimezone(timezone.utc)
+    return f"{local.day}. {MONTH_NAMES[local.month]} {local.year} kl. {local:%H:%M}"
 
 
 def esc(value: str) -> str:
     return html.escape(value or "", quote=True)
 
 
+
 def build_html(
-    items: list[Item],
+    entries: list[DisplayEntry],
     feed_url: str,
     sources: list[dict],
     statuses: list[SourceStatus],
+    *,
+    noindex: bool = False,
 ) -> str:
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
     source_lookup = {source["name"]: source for source in sources}
     status_lookup = {status.name: status for status in statuses}
-    counts = Counter(item.source for item in items)
+    raw_counts = Counter()
+    for entry in entries:
+        raw_counts[entry.primary.source] += 1
+        for extra in entry.also:
+            raw_counts[extra.source] += 1
     updated = datetime.now(timezone.utc)
+    healthy_count = sum(1 for status in statuses if source_health_ok(status))
+    health_class = "ok" if healthy_count == len(sources) else "warn"
+    health_text = f"{healthy_count}/{len(sources)} kilder OK"
 
-    # Forsiden bygges altid kronologisk, nyeste publiceringsdato først.
-    # Browseren kan derefter løfte artikler markeret "Ny siden sidst" helt op,
-    # uden at ændre den indbyrdes kronologi i de nye og gamle grupper.
-    items = sorted(items, key=lambda item: item.published, reverse=True)
-
+    entries = sorted(entries, key=lambda entry: entry.primary.published, reverse=True)
     cards: list[str] = []
-    for item in items:
-        # Rens også ved rendering, så allerede arkiverede beskrivelser ikke
-        # viser en dubleret publiceringsdato i selve brødteksten.
+    for entry in entries:
+        item = entry.primary
         description = tidy_description_text(item.description, item.title)
         if len(description) > 280:
             description = description[:277].rstrip() + "..."
         article_id = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
+        article_type = infer_article_type(item, source_lookup.get(item.source))
+        all_sources = [item.source, *(other.source for other in entry.also)]
+        source_keys = "|".join(source.casefold() for source in all_sources)
+        also_html = ""
+        if entry.also:
+            links = ", ".join(
+                f'<a href="{esc(other.url)}" target="_blank" rel="noopener noreferrer">{esc(other.source)}</a>'
+                for other in entry.also
+            )
+            also_html = f'<span class="also-published">Også publiceret på {links}</span>'
+        type_html = f'<span class="type-badge">{esc(article_type)}</span>' if article_type else ""
+        search_text = " ".join([*all_sources, item.title, description, article_type]).casefold()
         cards.append(
-            f'''<article class="card" data-id="{article_id}" data-published="{esc(item.published.isoformat())}" data-ministry="{esc(item.source.casefold())}" data-search="{esc((item.source + ' ' + item.title + ' ' + description).casefold())}">
-  <div class="meta"><span class="source-name">{esc(item.source)}</span><time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
+            f'''<article class="card" data-id="{article_id}" data-published="{esc(item.published.isoformat())}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
+  <div class="meta"><span class="source-name">{esc(item.source)}</span>{type_html}<time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
   <h2><a href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">{esc(item.title)}</a></h2>
   {f'<p>{esc(description)}</p>' if description else ''}
-  <a class="more" href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">Læs hos kilden &nearr;</a>
+  <div class="card-footer"><a class="more" href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">Læs hos kilden &nearr;</a>{also_html}</div>
 </article>'''
         )
 
     options = ['<option value="">Alle kilder</option>'] + [
         f'<option value="{esc(name.casefold())}">{esc(name)}</option>' for name in ministries
     ]
+    favorite_checks = "".join(
+        f'<label class="favorite-option"><input type="checkbox" value="{esc(name.casefold())}" data-label="{esc(name)}"> <span>{esc(name)}</span></label>'
+        for name in ministries
+    )
 
     source_rows: list[str] = []
     for name in ministries:
@@ -1930,78 +2043,95 @@ def build_html(
         methods = ", ".join(dict.fromkeys(status.methods or [])) if status else "Arkiv"
         if not methods:
             methods = "Arkiv"
-        errors = len(status.errors or []) if status else 0
+        ok = source_health_ok(status) if status else False
+        state = '<span class="source-ok">OK</span>' if ok else '<span class="source-warn">Tjek</span>'
         note = ""
-        if counts.get(name, 0) == 0:
+        if raw_counts.get(name, 0) == 0:
             warning_text = (status.errors or ["Ingen artikler fundet fra kilden."])[0] if status else "Ingen artikler fundet fra kilden."
             note = f' <span class="warning" title="{esc(warning_text)}">Ingen artikler</span>'
         source_rows.append(
-            f'''<tr><td><a href="{esc(source.get('home_url', source['start_urls'][0]))}" target="_blank" rel="noopener noreferrer">{esc(name)}</a>{note}</td><td>{counts.get(name, 0)}</td><td>{esc(methods)}</td></tr>'''
+            f'''<tr><td><a href="{esc(source.get('home_url', source['start_urls'][0]))}" target="_blank" rel="noopener noreferrer">{esc(name)}</a>{note}</td><td>{raw_counts.get(name, 0)}</td><td>{state}</td><td>{esc(methods)}</td></tr>'''
         )
 
     feed_href = esc(feed_url or "feed.xml")
+    robots_meta = '<meta name="robots" content="noindex,nofollow,noarchive">' if noindex else ''
     return f'''<!doctype html>
-<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}">
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{robots_meta}<meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}">
 <style>
-:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--max:1120px}}*{{box-sizing:border-box}}[hidden]{{display:none!important}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:24px 0 20px}}h1{{font-size:clamp(1.9rem,4vw,3rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:none;color:var(--muted);font-size:1rem;margin:8px 0 0}}.controls{{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr) auto;gap:10px;margin-top:16px;align-items:end}}label{{display:block;font-size:.82rem;font-weight:750;margin-bottom:5px}}input,select{{width:100%;min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:8px 11px;font:inherit}}.new-only{{min-height:44px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:9px 13px;font:700 .92rem/1 system-ui;cursor:pointer}}.new-only[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}main.wrap{{padding:22px 0 48px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:11px}}.head h2{{font-size:1.16rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:2px}}.new-summary{{margin:0;color:var(--brand2);font-size:.88rem;font-weight:700}}.list{{display:grid;gap:10px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:17px 18px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:14px;background:var(--new);box-shadow:0 2px 8px rgba(95,20,32,.07)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.82rem}}.source-name{{color:var(--brand2);font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 7px;font-size:.72rem;line-height:1.45;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.08rem,2.3vw,1.38rem);line-height:1.23;letter-spacing:-.01em;margin:5px 0 7px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 9px;max-width:900px;line-height:1.42}}.more{{display:inline-block;color:var(--brand2);font-size:.9rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.load-more{{display:block;margin:16px auto 0;min-height:44px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:9px 18px;font:750 .94rem/1 system-ui;cursor:pointer}}.load-more:hover{{background:#f8f1f2}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}}.sources{{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}}.sources summary{{display:flex;align-items:center;gap:6px;cursor:pointer;list-style:none;width:max-content;max-width:100%;color:var(--brand2);font-weight:800;font-size:.96rem;padding:7px 0}}.sources summary::-webkit-details-marker{{display:none}}.sources summary::before{{content:"＋";display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;border:1px solid #b8c0c7;border-radius:50%;font-size:.9rem;line-height:1;color:var(--brand2);background:#fff}}.sources[open] summary::before{{content:"−"}}.source-count{{color:var(--muted);font-weight:500}}.sources-content{{padding-top:6px}}.sources-content>p{{color:var(--muted);margin:0 0 12px;font-size:.9rem}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.72rem;font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:24px 0 32px;color:var(--muted);font-size:.9rem}}footer p{{margin:4px 0}}footer a{{color:var(--brand2)}}@media(min-width:700px){{.intro{{white-space:nowrap}}}}@media(max-width:800px){{.controls{{grid-template-columns:1fr}}.hero .wrap{{padding:20px 0 18px}}.card{{padding:15px 16px}}.head{{align-items:start;flex-direction:column;gap:3px}}.new-only{{width:100%}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
+:root{{--ink:#18222c;--muted:#5d6974;--line:#dce2e7;--bg:#f4f6f7;--paper:#fff;--brand:#7d1b2a;--brand2:#5f1420;--new:#fff7e6;--ok:#236c3b;--warn:#865900;--max:1120px}}*{{box-sizing:border-box}}[hidden]{{display:none!important}}html{{color-scheme:light}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}a{{color:inherit}}a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{{outline:3px solid #0867c8;outline-offset:3px}}.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}.top{{background:var(--brand2);color:#fff}}.wrap{{width:min(calc(100% - 32px),var(--max));margin:auto}}.top .wrap{{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px}}.brand{{font-weight:800;letter-spacing:.01em}}.rss{{color:#fff;text-decoration:none}}.rss:hover{{text-decoration:underline}}.hero{{background:var(--paper);border-bottom:1px solid var(--line)}}.hero .wrap{{padding:20px 0 18px}}h1{{font-size:clamp(1.85rem,4vw,2.8rem);line-height:1.04;letter-spacing:-.035em;margin:0;max-width:900px}}.intro{{max-width:none;color:var(--muted);font-size:.98rem;margin:6px 0 0}}.run-status{{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:8px;color:var(--muted);font-size:.82rem}}.health-link{{border:0;background:none;padding:0;color:var(--ok);font:800 inherit;cursor:pointer;text-decoration:none}}.health-link.warn{{color:var(--warn)}}.controls{{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(220px,.9fr) auto;gap:9px;margin-top:13px;align-items:end}}input,select{{width:100%;min-height:42px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:7px 10px;font:inherit}}.quick-actions{{display:flex;gap:7px;align-items:center;flex-wrap:wrap}}.filter-button,.favorites-menu>summary{{min-height:42px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:8px 11px;font:700 .88rem/1.1 system-ui;cursor:pointer;display:inline-flex;align-items:center}}.filter-button[aria-pressed="true"]{{background:var(--brand2);color:#fff;border-color:var(--brand2)}}.favorites-menu{{position:relative}}.favorites-menu>summary{{list-style:none}}.favorites-menu>summary::-webkit-details-marker{{display:none}}.favorites-panel{{position:absolute;z-index:20;right:0;top:48px;width:min(520px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:13px}}.favorites-grid{{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;max-height:300px;overflow:auto}}.favorite-option{{display:flex;gap:7px;align-items:flex-start;font-size:.88rem}}.favorite-option input{{width:auto;min-height:auto;margin-top:3px}}.favorites-footer{{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}}.text-button{{border:0;background:none;color:var(--brand2);font-weight:750;cursor:pointer;padding:3px}}main.wrap{{padding:20px 0 46px}}.head{{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:10px}}.head h2{{font-size:1.14rem;margin:0}}#count{{margin:0;color:var(--muted)}}.head-left{{display:grid;gap:3px}}.new-summary{{border:0;background:none;padding:0;color:var(--brand2);font:750 .86rem/1.35 system-ui;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}}.new-summary:disabled{{color:var(--muted);cursor:default;text-decoration:none}}.list{{display:grid;gap:9px}}.card{{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:16px 18px}}.card.is-new{{border-left:5px solid var(--brand);padding-left:14px;background:var(--new);box-shadow:0 2px 8px rgba(95,20,32,.07)}}.card:hover{{border-color:#c3cbd2}}.meta{{display:flex;gap:5px 10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.81rem}}.source-name{{color:var(--brand2);font-weight:800}}.type-badge{{display:inline-flex;background:#edf0f2;color:#46525d;border-radius:999px;padding:1px 7px;font-size:.7rem;font-weight:800}}.new-badge{{display:none;background:#f0d9dd;color:var(--brand2);border-radius:999px;padding:2px 7px;font-size:.7rem;line-height:1.4;text-transform:uppercase;letter-spacing:.04em;font-weight:850}}.card.is-new .new-badge{{display:inline-flex}}.card h2{{font-size:clamp(1.07rem,2.3vw,1.36rem);line-height:1.23;letter-spacing:-.01em;margin:5px 0 7px;font-weight:500}}.card.is-new h2{{font-weight:800}}.card h2 a{{text-decoration:none;font-weight:inherit}}.card h2 a:hover{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}}.card p{{color:#414d57;margin:0 0 8px;max-width:900px;line-height:1.4}}.card-footer{{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}}.more{{display:inline-block;color:var(--brand2);font-size:.88rem;font-weight:750;text-decoration:none}}.more:hover{{text-decoration:underline}}.also-published{{font-size:.78rem;color:var(--muted)}}.also-published a{{color:var(--brand2)}}.load-more{{display:block;margin:15px auto 0;min-height:42px;border:1px solid var(--brand2);border-radius:7px;background:#fff;color:var(--brand2);padding:8px 17px;font:750 .92rem/1 system-ui;cursor:pointer}}.empty{{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}}.sources{{margin-top:25px;border-top:1px solid var(--line);padding-top:12px}}.sources summary{{display:flex;align-items:center;gap:6px;cursor:pointer;list-style:none;width:max-content;max-width:100%;color:var(--brand2);font-weight:800;font-size:.94rem;padding:6px 0}}.sources summary::-webkit-details-marker{{display:none}}.sources summary::before{{content:"＋";display:inline-grid;place-items:center;width:1.3rem;height:1.3rem;border:1px solid #b8c0c7;border-radius:50%;font-size:.85rem;color:var(--brand2);background:#fff}}.sources[open] summary::before{{content:"−"}}.source-count{{color:var(--muted);font-weight:500}}.sources-content{{padding-top:5px}}.sources-content>p{{color:var(--muted);margin:0 0 10px;font-size:.88rem}}.table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}}table{{width:100%;border-collapse:collapse}}th,td{{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}}th{{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}}tr:last-child td{{border-bottom:0}}td a{{color:var(--brand2)}}.warning{{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff0cf;color:#784e00;font-size:.7rem;font-weight:800}}.source-ok{{color:var(--ok);font-weight:800}}.source-warn{{color:var(--warn);font-weight:800}}footer{{background:#fff;border-top:1px solid var(--line)}}footer .wrap{{padding:20px 0 28px;color:var(--muted);font-size:.86rem}}footer p{{margin:3px 0}}.version{{font-size:.76rem;color:#7a858f}}@media(min-width:700px){{.intro{{white-space:nowrap}}}}@media(max-width:900px){{.controls{{grid-template-columns:1fr 1fr}}.quick-actions{{grid-column:1/-1}}}}@media(max-width:650px){{.controls{{grid-template-columns:1fr}}.quick-actions{{grid-column:auto}}.hero .wrap{{padding:18px 0 16px}}.card{{padding:14px 15px}}.head{{align-items:start;flex-direction:column;gap:3px}}.favorites-grid{{grid-template-columns:1fr}}.favorites-panel{{left:0;right:auto}}}}@media(prefers-reduced-motion:reduce){{*{{scroll-behavior:auto!important}}}}
 </style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><a class="rss" href="{feed_href}">RSS-feed</a></div></div>
-<header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><p class="intro">Seneste nyt fra ministerierne og Regeringen.dk – samlet ét sted.</p><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label for="ministry">Kilde</label><select id="ministry">{''.join(options)}</select></div><div><label for="new-only">Visning</label><button id="new-only" class="new-only" type="button" aria-pressed="false">Kun nye</button></div></div></div></header>
-<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><p id="new-summary" class="new-summary" aria-live="polite"></p></div><p id="count">{len(items)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder)</span></summary><div class="sources-content"><p>Antallet viser, hvor mange artikler fra 1. januar 2026 der aktuelt er gemt i arkivet. Nogle historier kan optræde både hos et ministerium og på Regeringen.dk.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
-<footer><div class="wrap"><p><strong>Ministerienyt</strong> er en uafhængig samling af links til officielle kilder.</p><p>Alle artikler åbner hos den oprindelige udgiver. Senest opdateret {esc(fmt_datetime_da(updated))}. <a href="{feed_href}">RSS-feed</a>.</p></div></footer>
+<header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><p class="intro">Seneste nyt fra ministerierne og Regeringen.dk – samlet ét sted.</p><div class="run-status"><span>Senest opdateret {esc(fmt_datetime_da(updated))}</span><button id="health-link" class="health-link {health_class}" type="button">{esc(health_text)}</button></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><button id="mine-only" class="filter-button" type="button" aria-pressed="false">Mine ministerier</button><details id="favorites-menu" class="favorites-menu"><summary>★ Favoritter</summary><div class="favorites-panel"><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd favoritter</button></div></div></details></div></div></div></header>
+<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><p id="count">{len(entries)} nyheder</p></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder)</span></summary><div class="sources-content"><p>Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort. Kildetallene viser rå arkivposter fra 1. januar 2026.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Status</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
+<footer><div class="wrap"><p><strong>Ministerienyt</strong> er en uafhængig samling af links til officielle kilder.</p><p>Alle artikler åbner hos den oprindelige udgiver. <a href="{feed_href}">RSS-feed</a>. <span class="version">v5.0</span></p></div></footer>
 <script>(()=>{{
-const search=document.getElementById('search'),sourceSelect=document.getElementById('ministry'),newOnly=document.getElementById('new-only'),loadMore=document.getElementById('load-more'),cards=[...document.querySelectorAll('.card')],count=document.getElementById('count'),empty=document.getElementById('empty'),newSummary=document.getElementById('new-summary');
-const SEEN_KEY='ministerienyt.seenArticleIds.v2',VISIT_KEY='ministerienyt.lastVisit.v2',PAGE_SIZE=15;
-const norm=value=>(value||'').toLocaleLowerCase('da-DK').trim();
-let previousIds=null,lastVisit=null,visibleLimit=PAGE_SIZE;
-try{{const raw=localStorage.getItem(SEEN_KEY);if(raw)previousIds=new Set(JSON.parse(raw));lastVisit=localStorage.getItem(VISIT_KEY)}}catch(error){{previousIds=null;lastVisit=null}}
-const currentIds=cards.map(card=>card.dataset.id).filter(Boolean);let newCount=0;
-if(previousIds){{for(const card of cards){{if(card.dataset.id&&!previousIds.has(card.dataset.id)){{card.classList.add('is-new');newCount++}}}}}}
-// Nye siden sidste besøg står altid øverst. Inden for både nye og tidligere
-// sete artikler sorteres der fortsat efter publiceringsdato, nyeste først.
-const list=document.getElementById('list');
-cards.sort((a,b)=>{{
- const newDifference=Number(b.classList.contains('is-new'))-Number(a.classList.contains('is-new'));
- if(newDifference!==0)return newDifference;
- const aTime=Date.parse(a.dataset.published||'')||0,bTime=Date.parse(b.dataset.published||'')||0;
- return bTime-aTime;
-}});
-for(const card of cards)list.appendChild(card);
+const search=document.getElementById('search'),sourceSelect=document.getElementById('source'),newOnly=document.getElementById('new-only'),mineOnly=document.getElementById('mine-only'),favoritesMenu=document.getElementById('favorites-menu'),favoriteBoxes=[...favoritesMenu.querySelectorAll('input[type="checkbox"]')],favoritesCount=document.getElementById('favorites-count'),clearFavorites=document.getElementById('clear-favorites'),loadMore=document.getElementById('load-more'),cards=[...document.querySelectorAll('.card')],count=document.getElementById('count'),empty=document.getElementById('empty'),newSummary=document.getElementById('new-summary'),healthLink=document.getElementById('health-link'),sourcesDetails=document.getElementById('sources');
+const SEEN_KEY='ministerienyt.seenArticleIds.v2',VISIT_KEY='ministerienyt.lastVisit.v2',FAVORITES_KEY='ministerienyt.favoriteSources.v1',PAGE_SIZE=15;
+const norm=value=>(value||'').toLocaleLowerCase('da-DK').trim();let previousIds=null,lastVisit=null,visibleLimit=PAGE_SIZE,favorites=new Set();
+try{{const raw=localStorage.getItem(SEEN_KEY);if(raw)previousIds=new Set(JSON.parse(raw));lastVisit=localStorage.getItem(VISIT_KEY);const favRaw=localStorage.getItem(FAVORITES_KEY);if(favRaw)favorites=new Set(JSON.parse(favRaw))}}catch(error){{previousIds=null;lastVisit=null;favorites=new Set()}}
+const currentIds=cards.map(card=>card.dataset.id).filter(Boolean);let newCount=0;if(previousIds){{for(const card of cards){{if(card.dataset.id&&!previousIds.has(card.dataset.id)){{card.classList.add('is-new');newCount++}}}}}}
+const list=document.getElementById('list');cards.sort((a,b)=>{{const newDifference=Number(b.classList.contains('is-new'))-Number(a.classList.contains('is-new'));if(newDifference!==0)return newDifference;const aTime=Date.parse(a.dataset.published||'')||0,bTime=Date.parse(b.dataset.published||'')||0;return bTime-aTime}});for(const card of cards)list.appendChild(card);
 function visitText(value){{if(!value)return'';const date=new Date(value);if(Number.isNaN(date.getTime()))return'';return new Intl.DateTimeFormat('da-DK',{{dateStyle:'medium',timeStyle:'short'}}).format(date)}}
-if(!previousIds){{newSummary.textContent='Nye artikler markeres fra dit næste besøg.'}}else if(newCount===0){{newSummary.textContent='Ingen nye artikler siden dit sidste besøg.'}}else{{const when=visitText(lastVisit);newSummary.textContent=(newCount===1?'1 ny artikel':newCount+' nye artikler')+' siden dit sidste besøg'+(when?' ('+when+')':'')+'.'}}
+if(!previousIds){{newSummary.textContent='Nye artikler markeres fra dit næste besøg.'}}else if(newCount===0){{newSummary.textContent='Ingen nye artikler siden dit sidste besøg.'}}else{{const when=visitText(lastVisit);newSummary.disabled=false;newSummary.textContent=(newCount===1?'1 ny artikel':newCount+' nye artikler')+' siden dit sidste besøg'+(when?' ('+when+')':'')+' – vis dem'}}
 try{{const merged=[...(previousIds?[...previousIds]:[]),...currentIds];const unique=[...new Set(merged)].slice(-10000);localStorage.setItem(SEEN_KEY,JSON.stringify(unique));localStorage.setItem(VISIT_KEY,new Date().toISOString())}}catch(error){{}}
-function applyFilters(resetLimit=false){{
- if(resetLimit)visibleLimit=PAGE_SIZE;
- const query=norm(search.value),selected=norm(sourceSelect.value),onlyNew=newOnly.getAttribute('aria-pressed')==='true',matching=[];
- for(const card of cards){{const match=(!query||card.dataset.search.includes(query))&&(!selected||card.dataset.ministry===selected)&&(!onlyNew||card.classList.contains('is-new'));if(match)matching.push(card);else card.hidden=true}}
- matching.forEach((card,index)=>{{card.hidden=index>=visibleLimit}});
- const shown=Math.min(visibleLimit,matching.length),remaining=Math.max(0,matching.length-shown);
- if(matching.length===0)count.textContent='0 nyheder';else if(remaining>0)count.textContent=shown+' af '+matching.length+' nyheder';else count.textContent=matching.length===1?'1 nyhed':matching.length+' nyheder';
- empty.style.display=matching.length?'none':'block';
- loadMore.hidden=remaining===0;
- if(remaining>0){{const next=Math.min(PAGE_SIZE,remaining);loadMore.textContent=remaining<=PAGE_SIZE?'Vis de sidste '+remaining+' nyheder':'Vis '+next+' flere nyheder'}}
- const url=new URL(location);query?url.searchParams.set('q',search.value.trim()):url.searchParams.delete('q');selected?url.searchParams.set('kilde',sourceSelect.value):url.searchParams.delete('kilde');onlyNew?url.searchParams.set('nye','1'):url.searchParams.delete('nye');history.replaceState(null,'',url)
-}}
-const params=new URLSearchParams(location.search);if(params.get('q'))search.value=params.get('q');if(params.get('kilde'))sourceSelect.value=params.get('kilde');if(params.get('nye')==='1')newOnly.setAttribute('aria-pressed','true');
-search.addEventListener('input',()=>applyFilters(true));sourceSelect.addEventListener('change',()=>applyFilters(true));newOnly.addEventListener('click',()=>{{newOnly.setAttribute('aria-pressed',newOnly.getAttribute('aria-pressed')==='true'?'false':'true');applyFilters(true)}});loadMore.addEventListener('click',()=>{{visibleLimit+=PAGE_SIZE;applyFilters(false)}});applyFilters(true);
+function saveFavorites(){{try{{localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favorites]))}}catch(error){{}}}}
+function syncFavoritesUI(){{for(const box of favoriteBoxes)box.checked=favorites.has(box.value);favoritesCount.textContent=favorites.size===1?'1 valgt':favorites.size+' valgt';mineOnly.textContent=favorites.size?'Mine ministerier ('+favorites.size+')':'Mine ministerier'}}
+function cardSources(card){{return (card.dataset.sources||'').split('|').filter(Boolean)}}
+function applyFilters(resetLimit=false){{if(resetLimit)visibleLimit=PAGE_SIZE;const query=norm(search.value),selected=norm(sourceSelect.value),onlyNew=newOnly.getAttribute('aria-pressed')==='true',onlyMine=mineOnly.getAttribute('aria-pressed')==='true',matching=[];for(const card of cards){{const sources=cardSources(card);const matchSource=!selected||sources.includes(selected);const matchMine=!onlyMine||sources.some(source=>favorites.has(source));const match=(!query||card.dataset.search.includes(query))&&matchSource&&matchMine&&(!onlyNew||card.classList.contains('is-new'));if(match)matching.push(card);else card.hidden=true}}matching.forEach((card,index)=>{{card.hidden=index>=visibleLimit}});const shown=Math.min(visibleLimit,matching.length),remaining=Math.max(0,matching.length-shown);if(matching.length===0)count.textContent='0 nyheder';else if(remaining>0)count.textContent=shown+' af '+matching.length+' nyheder';else count.textContent=matching.length===1?'1 nyhed':matching.length+' nyheder';empty.style.display=matching.length?'none':'block';loadMore.hidden=remaining===0;if(remaining>0){{const next=Math.min(PAGE_SIZE,remaining);loadMore.textContent=remaining<=PAGE_SIZE?'Vis de sidste '+remaining+' nyheder':'Vis '+next+' flere nyheder'}}const url=new URL(location);query?url.searchParams.set('q',search.value.trim()):url.searchParams.delete('q');selected?url.searchParams.set('kilde',sourceSelect.value):url.searchParams.delete('kilde');onlyNew?url.searchParams.set('nye','1'):url.searchParams.delete('nye');onlyMine?url.searchParams.set('mine','1'):url.searchParams.delete('mine');history.replaceState(null,'',url)}}
+const params=new URLSearchParams(location.search);if(params.get('q'))search.value=params.get('q');if(params.get('kilde'))sourceSelect.value=params.get('kilde');if(params.get('nye')==='1')newOnly.setAttribute('aria-pressed','true');if(params.get('mine')==='1')mineOnly.setAttribute('aria-pressed','true');syncFavoritesUI();
+search.addEventListener('input',()=>applyFilters(true));sourceSelect.addEventListener('change',()=>{{mineOnly.setAttribute('aria-pressed','false');applyFilters(true)}});newOnly.addEventListener('click',()=>{{newOnly.setAttribute('aria-pressed',newOnly.getAttribute('aria-pressed')==='true'?'false':'true');applyFilters(true)}});mineOnly.addEventListener('click',()=>{{if(!favorites.size){{favoritesMenu.open=true;return}}mineOnly.setAttribute('aria-pressed',mineOnly.getAttribute('aria-pressed')==='true'?'false':'true');if(mineOnly.getAttribute('aria-pressed')==='true')sourceSelect.value='';applyFilters(true)}});favoriteBoxes.forEach(box=>box.addEventListener('change',()=>{{box.checked?favorites.add(box.value):favorites.delete(box.value);saveFavorites();syncFavoritesUI();if(mineOnly.getAttribute('aria-pressed')==='true'&&!favorites.size)mineOnly.setAttribute('aria-pressed','false');applyFilters(true)}}));clearFavorites.addEventListener('click',()=>{{favorites.clear();saveFavorites();syncFavoritesUI();mineOnly.setAttribute('aria-pressed','false');applyFilters(true)}});newSummary.addEventListener('click',()=>{{if(newCount>0){{newOnly.setAttribute('aria-pressed','true');applyFilters(true);window.scrollTo({{top:document.querySelector('main').offsetTop-10,behavior:'smooth'}})}}}});healthLink.addEventListener('click',()=>{{sourcesDetails.open=true;sourcesDetails.scrollIntoView({{behavior:'smooth',block:'start'}})}});loadMore.addEventListener('click',()=>{{visibleLimit+=PAGE_SIZE;applyFilters(false)}});applyFilters(true);
 }})();</script>
 </body></html>'''
 
 
-def status_payload(statuses: list[SourceStatus], items: list[Item]) -> dict:
+def load_previous_health(path: Path) -> dict[str, dict]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        rows = payload.get("sources", []) if isinstance(payload, dict) else []
+        return {str(row.get("name", "")): row for row in rows if isinstance(row, dict) and row.get("name")}
+    except Exception:
+        return {}
+
+
+def health_payload(statuses: list[SourceStatus], items: list[Item], previous: dict[str, dict], display_count: int) -> dict:
     counts = Counter(item.source for item in items)
+    now = datetime.now(timezone.utc).isoformat()
     rows = []
     for status in statuses:
         status.archived_items = counts.get(status.name, 0)
         raw = asdict(status)
         raw["methods"] = list(dict.fromkeys(raw.get("methods") or []))
+        ok = source_health_ok(status)
+        previous_row = previous.get(status.name, {})
+        raw["ok"] = ok
+        raw["last_checked_at"] = now
+        raw["last_successful_at"] = now if ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "version": "5.0",
+        "updated_at": now,
         "archive_start": ARCHIVE_START.date().isoformat(),
-        "total_items": len(items),
+        "total_archive_items": len(items),
+        "display_items_after_deduplication": display_count,
+        "source_count": len(statuses),
+        "healthy_sources": sum(1 for row in rows if row.get("ok")),
         "sources": rows,
     }
+
+
+def load_site_config(path: Path) -> dict:
+    defaults = {"noindex": False}
+    if not path.exists():
+        return defaults
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(raw, dict):
+            defaults.update(raw)
+    except Exception as exc:
+        print(f"Advarsel: kunne ikke læse {path}: {exc}", file=sys.stderr)
+    return defaults
 
 
 def main() -> int:
@@ -2010,8 +2140,10 @@ def main() -> int:
     parser.add_argument("--archive", default="archive.json")
     parser.add_argument("--rss-output", default="site/feed.xml")
     parser.add_argument("--html-output", default="site/index.html")
-    parser.add_argument("--status-output", default="site/status.json")
+    parser.add_argument("--health-output", default="health.json")
+    parser.add_argument("--status-output", default="")  # bagudkompatibel kopi, hvis ønsket
     parser.add_argument("--rejected-log", default="rejected_candidates.json")
+    parser.add_argument("--config", default="site_config.json")
     parser.add_argument("--site-url", default="https://example.invalid/")
     parser.add_argument("--feed-url", default="")
     args = parser.parse_args()
@@ -2020,24 +2152,20 @@ def main() -> int:
     REJECTED_CANDIDATES.clear()
     sources_path = Path(args.sources)
     sources = json.loads(sources_path.read_text(encoding="utf-8"))
-    allowed_sources = {source["name"] for source in sources}
+    source_lookup = {source["name"]: source for source in sources}
+    allowed_sources = set(source_lookup)
+    config = load_site_config(Path(args.config))
     archive_path = Path(args.archive)
     existing, archive_version = load_archive(archive_path, allowed_sources)
     refresh_sources = {
-        source["name"]
-        for source in sources
+        source["name"] for source in sources
         if int(source.get("refresh_before_schema", 0) or 0) > archive_version
     }
     if refresh_sources:
         before = len(existing)
         existing = [item for item in existing if item.source not in refresh_sources]
         removed = before - len(existing)
-        print(
-            "Genopbygger korrigerede kilder: "
-            + ", ".join(sorted(refresh_sources))
-            + f" ({removed} gamle poster fjernet).",
-            file=sys.stderr,
-        )
+        print("Genopbygger korrigerede kilder: " + ", ".join(sorted(refresh_sources)) + f" ({removed} gamle poster fjernet).", file=sys.stderr)
     known_urls = {canonical_url(item.url) for item in existing}
     print(f"Eksisterende arkiv: {len(existing)} artikler.", file=sys.stderr)
 
@@ -2055,26 +2183,35 @@ def main() -> int:
     else:
         print("Arkivet er uændret.", file=sys.stderr)
 
+    display_entries = deduplicate_for_display(merged)
+    duplicates_merged = len(merged) - len(display_entries)
+    print(f"Dubletkontrol: {duplicates_merged} Regeringen.dk/ministerie-dubletter samlet.", file=sys.stderr)
+
     rss_output = Path(args.rss_output)
     html_output = Path(args.html_output)
-    status_output = Path(args.status_output)
-    for output in (rss_output, html_output, status_output):
+    health_output = Path(args.health_output)
+    for output in (rss_output, html_output, health_output):
         output.parent.mkdir(parents=True, exist_ok=True)
 
-    rss_output.write_bytes(build_rss(merged, args.site_url, args.feed_url))
-    html_output.write_text(build_html(merged, args.feed_url or "feed.xml", sources, statuses), encoding="utf-8")
-    status_output.write_text(
-        json.dumps(status_payload(statuses, merged), ensure_ascii=False, indent=2) + "\n",
+    previous_health = load_previous_health(health_output)
+    health = health_payload(statuses, merged, previous_health, len(display_entries))
+    health_output.write_text(json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if args.status_output:
+        status_output = Path(args.status_output)
+        status_output.parent.mkdir(parents=True, exist_ok=True)
+        status_output.write_text(json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup))
+    html_output.write_text(
+        build_html(display_entries, args.feed_url or "feed.xml", sources, statuses, noindex=bool(config.get("noindex"))),
         encoding="utf-8",
     )
+    robots = "User-agent: *\nDisallow: /\n" if config.get("noindex") else "User-agent: *\nAllow: /\n"
+    (html_output.parent / "robots.txt").write_text(robots, encoding="utf-8")
 
     elapsed = time.monotonic() - started
     covered = sum(1 for source in sources if any(item.source == source["name"] for item in merged))
-    print(
-        f"Færdig: {len(merged)} artikler fra {covered}/{len(sources)} kilder. "
-        f"Kørselstid: {elapsed / 60:.1f} min.",
-        file=sys.stderr,
-    )
+    print(f"Færdig: {len(merged)} arkivposter / {len(display_entries)} viste historier fra {covered}/{len(sources)} kilder. Kørselstid: {elapsed / 60:.1f} min.", file=sys.stderr)
     return 0
 
 

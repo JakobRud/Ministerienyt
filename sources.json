@@ -18,7 +18,8 @@
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Udenrigsministeriet",
@@ -45,7 +46,8 @@
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Finansministeriet",
@@ -58,7 +60,8 @@
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Justitsministeriet",
@@ -98,7 +101,8 @@
       "/aktuelt/nyheder/"
     ],
     "always_fetch_articles": true,
-    "refresh_before_schema": 4
+    "refresh_before_schema": 4,
+    "default_article_type": "Nyhed"
   },
   {
     "name": "By-, Land- og Transportministeriet",
@@ -109,7 +113,8 @@
     ],
     "article_prefixes": [
       "/nyheder/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Udlændinge- og Integrationsministeriet",
@@ -119,7 +124,8 @@
     ],
     "article_prefixes": [
       "/nyhedsarkiv/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Undervisningsministeriet",
@@ -129,7 +135,8 @@
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Beskæftigelses- og Ligestillingsministeriet",
@@ -165,7 +172,8 @@
     "article_prefixes": [
       "/da/nyheder/"
     ],
-    "allow_plain_listing_date": true
+    "allow_plain_listing_date": true,
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Skatte- og Vækstministeriet",
@@ -192,7 +200,8 @@
     "article_prefixes": [
       "/nyheder/"
     ],
-    "allow_unlabeled_header_date": true
+    "allow_unlabeled_header_date": true,
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Ministeriet for Natur og Dyrevelfærd",
@@ -202,7 +211,8 @@
     ],
     "article_prefixes": [
       "/nyheder/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Kulturministeriet",
@@ -218,7 +228,8 @@
     "refresh_before_schema": 5,
     "disable_sitemap": true,
     "allow_plain_listing_date": true,
-    "allow_unlabeled_header_date": true
+    "allow_unlabeled_header_date": true,
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -228,7 +239,8 @@
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Børne-, Ældre- og Boligministeriet",
@@ -239,7 +251,8 @@
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
     ],
-    "allow_unlabeled_header_date": true
+    "allow_unlabeled_header_date": true,
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Socialministeriet",
@@ -250,7 +263,8 @@
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   },
   {
     "name": "Miljøministeriet",
@@ -274,6 +288,7 @@
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
-    ]
+    ],
+    "default_article_type": "Nyhed"
   }
 ]
