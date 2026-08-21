@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-21T06:40:20.795753+00:00",
+  "generated_at": "2026-08-21T08:20:38.292302+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3875,
+  "total_rejected": 3876,
   "summary_by_reason": {
     "before_archive_start": 3065,
-    "missing_safe_publication_date": 810
+    "missing_safe_publication_date": 811
   },
   "rejected": [
     {
@@ -30722,6 +30722,15 @@
     },
     {
       "source": "By-, Land- og Transportministeriet",
+      "title": "Flere direkte tog mellem Struer og København",
+      "url": "https://www.bltm.dk/nyheder/2026/flere-direkte-tog-mellem-struer-og-koebenhavn",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML+Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "By-, Land- og Transportministeriet",
       "title": "Fokus på sikkerhed: Teknisk kontrol af køretøjer skal skabe tryggere færdsel i Grønland",
       "url": "https://www.bltm.dk/nyheder/2026/fokus-paa-sikkerhed-teknisk-kontrol-af-koeretoejer-skal-skabe-tryggere-faerdsel-i-groenland",
       "reason": "missing_safe_publication_date",
@@ -30807,7 +30816,7 @@
       "url": "https://www.bltm.dk/nyheder/2026/turismesucces-skaber-vaekst-i-landdistrikterne",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "HTML+Sitemap",
+      "discovered_by": "Sitemap",
       "detail": ""
     },
     {
@@ -31703,7 +31712,7 @@
     },
     {
       "source": "Børne-, Ældre- og Boligministeriet",
-      "title": "Nu uddeles 376,1 mio. kroner til faste teams i Ã¦ldreplejen",
+      "title": "Nu uddeles 376,1 mio. kroner til faste teams i ældreplejen",
       "url": "https://aeldremin.dk/nyheder/nyhedsarkiv/2024/jun/nu-uddeles-3761-mio-kroner-til-faste-teams-i-aeldreplejen",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
