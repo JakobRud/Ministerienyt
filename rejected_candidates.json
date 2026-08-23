@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-23T06:01:21.783628+00:00",
+  "generated_at": "2026-08-23T08:04:00.350752+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3876,
+  "total_rejected": 3877,
   "summary_by_reason": {
     "before_archive_start": 3065,
-    "missing_safe_publication_date": 811
+    "missing_safe_publication_date": 812
   },
   "rejected": [
     {
@@ -37573,6 +37573,15 @@
       "source": "Statsministeriet",
       "title": "Statsministeren skal diskutere udlændingepolitik med den svenske statsminister",
       "url": "https://stm.dk/presse/pressemeddelelser/2023/statsministeren-skal-diskutere-udlaendingepolitik-med-den-svenske-statsminister/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Statsministeriet",
+      "title": "Statsministeren skal drøfte luftforsvar med præsident Zelenskyy i Kyiv på flagdag",
+      "url": "https://stm.dk/presse/pressemeddelelser/2026/statsministeren-skal-droefte-luftforsvar-med-praesident-zelenskyy-i-kyiv-paa-flagdag/",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
