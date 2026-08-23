@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-23T12:06:09.401859+00:00",
+  "generated_at": "2026-08-23T13:59:16.290530+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3877,
+  "total_rejected": 3878,
   "summary_by_reason": {
     "before_archive_start": 3065,
-    "missing_safe_publication_date": 812
+    "missing_safe_publication_date": 813
   },
   "rejected": [
     {
@@ -35791,6 +35791,15 @@
       "source": "Socialministeriet",
       "title": "Social- og indenrigsminister: Effektiv hjælp til samfundets svageste",
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2015/okt/social-og-indenrigsminister-effektiv-hjaelp-til-samfundets-svageste-1",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Socialminister og minister for nordisk samarbejde Monika Rubin rejser til Grønland",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2026/aug/socialminister-og-minister-for-nordisk-samarbejde-monika-rubin-rejser-til-groenland",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
