@@ -47,14 +47,14 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/5.1 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/5.2 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 5
+ARCHIVE_SCHEMA_VERSION = 6
 
 DANISH_MONTHS = {
     "januar": 1,
@@ -1992,7 +1992,7 @@ def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, sou
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 5.1"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 5.2"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -2436,7 +2436,7 @@ def build_html(
   applyFilters(true);
 })();
 '''
-    changelog_html = '''<details class="changelog"><summary>v5.1</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
+    changelog_html = '''<details class="changelog"><summary>v5.2</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriet flyttet fra aeldremin.dk til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
@@ -2477,7 +2477,7 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         raw["last_successful_at"] = now if crawl_ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
-        "version": "5.1",
+        "version": "5.2",
         "updated_at": now,
         "archive_start": ARCHIVE_START.date().isoformat(),
         "total_archive_items": len(items),
@@ -2537,7 +2537,7 @@ def diagnostics_payload(
 
     all_reason_counts = Counter(str(entry.get("reason", "unknown")) for entry in rejected)
     return {
-        "version": "5.1",
+        "version": "5.2",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "note": "Intern kvalitetsrapport fra seneste crawl. Filen publiceres ikke via GitHub Pages.",
         "runtime_seconds": round(elapsed_seconds, 3),
@@ -2617,7 +2617,7 @@ def generate_pwa_assets(site_dir: Path) -> None:
     )
     (site_dir / "icon-192.png").write_bytes(pwa_icon_png(192))
     (site_dir / "icon-512.png").write_bytes(pwa_icon_png(512))
-    service_worker = r'''const CACHE = 'ministerienyt-v5.1';
+    service_worker = r'''const CACHE = 'ministerienyt-v5.2';
 const SHELL = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));

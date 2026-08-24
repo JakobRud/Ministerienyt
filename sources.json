@@ -102,7 +102,10 @@
     ],
     "always_fetch_articles": true,
     "refresh_before_schema": 4,
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "rss_urls": [
+      "https://www.kefm.dk/handlers/DynamicRss.ashx?id=76163fac-6c0a-4edb-8e6e-86a4dcf36bd4"
+    ]
   },
   {
     "name": "By-, Land- og Transportministeriet",
@@ -167,13 +170,17 @@
     "name": "Forsvarsministeriet",
     "home_url": "https://www.fmn.dk/",
     "start_urls": [
-      "https://www.fmn.dk/da/nyheder/"
+      "https://www.fmn.dk/da/nyheder/",
+      "https://www.fmn.dk/da/nyheder/2026/"
     ],
     "article_prefixes": [
       "/da/nyheder/"
     ],
     "allow_plain_listing_date": true,
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "rss_urls": [
+      "https://www.fmn.dk/da/servicemappe/rss-feed/"
+    ]
   },
   {
     "name": "Skatte- og Vækstministeriet",
@@ -201,13 +208,17 @@
       "/nyheder/"
     ],
     "allow_unlabeled_header_date": true,
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "rss_urls": [
+      "https://www.ism.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
+    ]
   },
   {
     "name": "Ministeriet for Natur og Dyrevelfærd",
     "home_url": "https://mgtp.dk/",
     "start_urls": [
-      "https://mgtp.dk/nyheder"
+      "https://mgtp.dk/nyheder",
+      "https://mgtp.dk/nyheder/2026/"
     ],
     "article_prefixes": [
       "/nyheder/"
@@ -244,15 +255,17 @@
   },
   {
     "name": "Børne-, Ældre- og Boligministeriet",
-    "home_url": "https://aeldremin.dk/",
+    "home_url": "https://baebm.dk/",
     "start_urls": [
-      "https://aeldremin.dk/nyheder/nyhedsarkiv"
+      "https://baebm.dk/nyheder",
+      "https://baebm.dk/nyheder/nyhedsarkiv"
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
     ],
     "allow_unlabeled_header_date": true,
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "refresh_before_schema": 6
   },
   {
     "name": "Socialministeriet",
@@ -264,7 +277,10 @@
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "rss_urls": [
+      "https://www.sm.dk/handlers/DynamicRss.ashx?id=d66aadb0-8d96-4027-9a8f-7a3176ad49f9"
+    ]
   },
   {
     "name": "Miljøministeriet",
