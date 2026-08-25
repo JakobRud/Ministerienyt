@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-25T08:35:24.288218+00:00",
+  "generated_at": "2026-08-25T11:10:40.128111+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3955,
+  "total_rejected": 3956,
   "summary_by_reason": {
-    "before_archive_start": 3359,
+    "before_archive_start": 3360,
     "missing_safe_publication_date": 596
   },
   "rejected": [
@@ -18526,6 +18526,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-01T09:17:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Ministre og eksperter fra hele EU samles i København for at finde løsninger på boligkrisen",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/sep/ministre-og-eksperter-fra-hele-eu-samles-i-koebenhavn-for-at-finde-loesninger-paa-boligkrisen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-09-28T18:58:00+00:00"
     },
     {
       "source": "Socialministeriet",
