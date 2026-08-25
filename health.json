@@ -1,6 +1,6 @@
 {
   "version": "5.2",
-  "updated_at": "2026-08-24T23:14:55.362711+00:00",
+  "updated_at": "2026-08-25T00:07:59.697378+00:00",
   "archive_start": "2026-01-01",
   "total_archive_items": 501,
   "display_items_after_deduplication": 492,
@@ -17,9 +17,9 @@
       "sitemap_files": 1,
       "article_candidates": 249,
       "article_fetches": 222,
-      "crawl_seconds": 67.277,
+      "crawl_seconds": 68.397,
       "last_published_at": "2026-08-14T00:00:00+00:00",
-      "days_since_last_publication": 10,
+      "days_since_last_publication": 11,
       "median_publication_gap_days": 8.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -29,8 +29,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Økonomi- og Indenrigsministeriet",
@@ -41,9 +41,9 @@
       "sitemap_files": 1,
       "article_candidates": 77,
       "article_fetches": 0,
-      "crawl_seconds": 5.926,
+      "crawl_seconds": 5.637,
       "last_published_at": "2026-08-18T00:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": 5.0,
       "silence_threshold_days": 15,
       "silence_warning": false,
@@ -54,8 +54,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Udenrigsministeriet",
@@ -66,9 +66,9 @@
       "sitemap_files": 0,
       "article_candidates": 48,
       "article_fetches": 0,
-      "crawl_seconds": 7.632,
+      "crawl_seconds": 7.844,
       "last_published_at": "2026-08-24T16:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 5.0,
       "silence_threshold_days": 15,
       "silence_warning": false,
@@ -78,8 +78,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Erhvervsministeriet",
@@ -90,9 +90,9 @@
       "sitemap_files": 1,
       "article_candidates": 27,
       "article_fetches": 8,
-      "crawl_seconds": 14.612,
+      "crawl_seconds": 16.411,
       "last_published_at": "2026-08-24T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 12.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -102,8 +102,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Finansministeriet",
@@ -114,9 +114,9 @@
       "sitemap_files": 1,
       "article_candidates": 320,
       "article_fetches": 0,
-      "crawl_seconds": 15.065,
+      "crawl_seconds": 14.131,
       "last_published_at": "2026-08-24T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 10.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -128,8 +128,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Justitsministeriet",
@@ -140,9 +140,9 @@
       "sitemap_files": 9,
       "article_candidates": 809,
       "article_fetches": 0,
-      "crawl_seconds": 76.759,
+      "crawl_seconds": 40.744,
       "last_published_at": "2026-08-03T00:00:00+00:00",
-      "days_since_last_publication": 21,
+      "days_since_last_publication": 22,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": true,
@@ -153,8 +153,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": false,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
@@ -165,9 +165,9 @@
       "sitemap_files": 2,
       "article_candidates": 497,
       "article_fetches": 23,
-      "crawl_seconds": 51.697,
+      "crawl_seconds": 55.643,
       "last_published_at": "2026-07-31T00:00:00+00:00",
-      "days_since_last_publication": 24,
+      "days_since_last_publication": 25,
       "median_publication_gap_days": 5.5,
       "silence_threshold_days": 16,
       "silence_warning": true,
@@ -178,8 +178,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": false,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Klima-, Energi- og Forsyningsministeriet",
@@ -190,9 +190,9 @@
       "sitemap_files": 1,
       "article_candidates": 28,
       "article_fetches": 3,
-      "crawl_seconds": 6.465,
+      "crawl_seconds": 7.161,
       "last_published_at": "2026-08-20T00:00:00+00:00",
-      "days_since_last_publication": 4,
+      "days_since_last_publication": 5,
       "median_publication_gap_days": 8.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -203,8 +203,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "By-, Land- og Transportministeriet",
@@ -215,9 +215,9 @@
       "sitemap_files": 1,
       "article_candidates": 28,
       "article_fetches": 22,
-      "crawl_seconds": 13.026,
+      "crawl_seconds": 13.932,
       "last_published_at": "2026-07-01T00:00:00+00:00",
-      "days_since_last_publication": 54,
+      "days_since_last_publication": 55,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -228,8 +228,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Udlændinge- og Integrationsministeriet",
@@ -240,9 +240,9 @@
       "sitemap_files": 1,
       "article_candidates": 673,
       "article_fetches": 0,
-      "crawl_seconds": 41.742,
+      "crawl_seconds": 42.926,
       "last_published_at": "2026-08-24T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -253,8 +253,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Undervisningsministeriet",
@@ -265,9 +265,9 @@
       "sitemap_files": 1,
       "article_candidates": 830,
       "article_fetches": 0,
-      "crawl_seconds": 50.735,
+      "crawl_seconds": 51.24,
       "last_published_at": "2026-08-18T00:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -280,8 +280,8 @@
       ],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Beskæftigelses- og Ligestillingsministeriet",
@@ -292,9 +292,9 @@
       "sitemap_files": 0,
       "article_candidates": 10,
       "article_fetches": 0,
-      "crawl_seconds": 3.302,
+      "crawl_seconds": 7.295,
       "last_published_at": "2026-08-20T00:00:00+00:00",
-      "days_since_last_publication": 4,
+      "days_since_last_publication": 5,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -304,8 +304,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Forsvarsministeriet",
@@ -316,9 +316,9 @@
       "sitemap_files": 1,
       "article_candidates": 45,
       "article_fetches": 0,
-      "crawl_seconds": 4.661,
+      "crawl_seconds": 4.749,
       "last_published_at": "2026-08-03T00:00:00+00:00",
-      "days_since_last_publication": 21,
+      "days_since_last_publication": 22,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": true,
@@ -329,8 +329,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": false,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Skatte- og Vækstministeriet",
@@ -341,9 +341,9 @@
       "sitemap_files": 2,
       "article_candidates": 33,
       "article_fetches": 2,
-      "crawl_seconds": 7.903,
+      "crawl_seconds": 8.075,
       "last_published_at": "2026-08-19T00:00:00+00:00",
-      "days_since_last_publication": 5,
+      "days_since_last_publication": 6,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -353,8 +353,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Sundheds- og Kirkeministeriet",
@@ -365,9 +365,9 @@
       "sitemap_files": 1,
       "article_candidates": 46,
       "article_fetches": 3,
-      "crawl_seconds": 9.076,
+      "crawl_seconds": 9.764,
       "last_published_at": "2026-07-16T00:00:00+00:00",
-      "days_since_last_publication": 39,
+      "days_since_last_publication": 40,
       "median_publication_gap_days": 2.5,
       "silence_threshold_days": 10,
       "silence_warning": true,
@@ -378,8 +378,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": false,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Ministeriet for Natur og Dyrevelfærd",
@@ -390,9 +390,9 @@
       "sitemap_files": 1,
       "article_candidates": 17,
       "article_fetches": 4,
-      "crawl_seconds": 5.686,
+      "crawl_seconds": 5.566,
       "last_published_at": "2026-08-13T00:00:00+00:00",
-      "days_since_last_publication": 11,
+      "days_since_last_publication": 12,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": false,
@@ -402,8 +402,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Kulturministeriet",
@@ -414,9 +414,9 @@
       "sitemap_files": 0,
       "article_candidates": 50,
       "article_fetches": 49,
-      "crawl_seconds": 36.436,
+      "crawl_seconds": 47.234,
       "last_published_at": "2026-01-03T00:00:00+00:00",
-      "days_since_last_publication": 233,
+      "days_since_last_publication": 234,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -428,8 +428,8 @@
       ],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -440,9 +440,9 @@
       "sitemap_files": 1,
       "article_candidates": 19,
       "article_fetches": 2,
-      "crawl_seconds": 2.578,
+      "crawl_seconds": 3.002,
       "last_published_at": "2026-08-14T00:00:00+00:00",
-      "days_since_last_publication": 10,
+      "days_since_last_publication": 11,
       "median_publication_gap_days": 7.0,
       "silence_threshold_days": 21,
       "silence_warning": false,
@@ -452,8 +452,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Børne-, Ældre- og Boligministeriet",
@@ -464,7 +464,7 @@
       "sitemap_files": 1,
       "article_candidates": 223,
       "article_fetches": 223,
-      "crawl_seconds": 121.096,
+      "crawl_seconds": 97.937,
       "last_published_at": "",
       "days_since_last_publication": null,
       "median_publication_gap_days": null,
@@ -476,8 +476,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Socialministeriet",
@@ -488,9 +488,9 @@
       "sitemap_files": 1,
       "article_candidates": 104,
       "article_fetches": 81,
-      "crawl_seconds": 58.67,
+      "crawl_seconds": 52.532,
       "last_published_at": "2026-08-24T13:17:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.5,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -501,8 +501,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Miljøministeriet",
@@ -513,9 +513,9 @@
       "sitemap_files": 1,
       "article_candidates": 1,
       "article_fetches": 1,
-      "crawl_seconds": 3.154,
+      "crawl_seconds": 18.706,
       "last_published_at": "2026-08-09T16:42:00+00:00",
-      "days_since_last_publication": 15,
+      "days_since_last_publication": 16,
       "median_publication_gap_days": 2.5,
       "silence_threshold_days": 10,
       "silence_warning": true,
@@ -525,8 +525,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": false,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     },
     {
       "name": "Regeringen.dk",
@@ -537,9 +537,9 @@
       "sitemap_files": 1,
       "article_candidates": 229,
       "article_fetches": 213,
-      "crawl_seconds": 67.305,
+      "crawl_seconds": 66.904,
       "last_published_at": "2026-07-01T00:00:00+00:00",
-      "days_since_last_publication": 54,
+      "days_since_last_publication": 55,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -549,8 +549,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-08-24T23:14:55.362711+00:00",
-      "last_successful_at": "2026-08-24T23:14:55.362711+00:00"
+      "last_checked_at": "2026-08-25T00:07:59.697378+00:00",
+      "last_successful_at": "2026-08-25T00:07:59.697378+00:00"
     }
   ]
 }
