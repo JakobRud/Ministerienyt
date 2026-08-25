@@ -258,14 +258,23 @@
     "home_url": "https://baebm.dk/",
     "start_urls": [
       "https://baebm.dk/nyheder",
-      "https://baebm.dk/nyheder/nyhedsarkiv"
+      "https://baebm.dk/nyheder/nyhedsarkiv",
+      "https://baebm.dk/nyheder/nyhedsarkiv/2026",
+      "https://aeldremin.dk/nyheder/",
+      "https://aeldremin.dk/nyheder/nyhedsarkiv",
+      "https://aeldremin.dk/nyheder/nyhedsarkiv/2026"
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
     ],
     "allow_unlabeled_header_date": true,
     "default_article_type": "Nyhed",
-    "refresh_before_schema": 6
+    "refresh_before_schema": 7,
+    "extra_hosts": [
+      "aeldremin.dk"
+    ],
+    "allow_unlabeled_after_h1_date": true,
+    "allow_plain_listing_date": true
   },
   {
     "name": "Socialministeriet",
