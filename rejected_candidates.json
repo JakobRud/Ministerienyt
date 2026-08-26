@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-26T06:08:55.601354+00:00",
+  "generated_at": "2026-08-26T08:35:15.050036+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3928,
+  "total_rejected": 3929,
   "summary_by_reason": {
     "before_archive_start": 3331,
-    "missing_safe_publication_date": 597
+    "missing_safe_publication_date": 598
   },
   "rejected": [
     {
@@ -33501,6 +33501,15 @@
       "source": "By-, Land- og Transportministeriet",
       "title": "Vendespor ved Carlsberg Station muliggør flere S-tog i timen",
       "url": "https://www.bltm.dk/nyheder/2026/vendespor-ved-carlsberg-station-muliggoer-flere-s-tog-i-timen",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
+      "title": "Nu åbner nyt center, som skal gøre det lettere for danske forskere og virksomheder at samarbejde med afrikanske partnere",
+      "url": "https://ufm.dk/aktuelt/pressemeddelelser/2026/august/nu-aabner-nyt-center-som-skal-goere-det-lettere-for-danske-forskere-og-virksomheder-at-samarbejde-med-afrikanske-partnere/",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
