@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-26T03:49:37.213881+00:00",
+  "generated_at": "2026-08-26T06:08:55.601354+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3927,
+  "total_rejected": 3928,
   "summary_by_reason": {
     "before_archive_start": 3331,
-    "missing_safe_publication_date": 596
+    "missing_safe_publication_date": 597
   },
   "rejected": [
     {
@@ -33987,6 +33987,15 @@
       "source": "Ministeriet for Natur og Dyrevelfærd",
       "title": "Termiske droner sættes ind mod ulven",
       "url": "https://mgtp.dk/nyheder/2026/aug/termiske-droner-saettes-ind-mod-ulven",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Samfundssikkerhed og Beredskab",
+      "title": "Gode råd til voksne og forældre: Tal med dit barn om kriser",
+      "url": "https://mssb.dk/nyheder/nyhedsarkiv/2026/august/gode-raad-til-voksne-og-foraeldre-tal-med-dit-barn-om-kriser/",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
