@@ -47,7 +47,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/5.5 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/5.6 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
@@ -162,6 +162,11 @@ PAGINATION_QUERY_KEYS = {
 # Bruges kun til intern dublet-/cacheidentifikation; det viste link bevares.
 CANONICAL_HOST_ALIASES = {
     "aeldremin.dk": "baebm.dk",
+    "baebm.dk": "baebm.dk",
+    # Transportministeriets gamle trm.dk og det nuvaerende bltm.dk
+    # behandles som samme officielle kilde ved intern identifikation.
+    "trm.dk": "www.bltm.dk",
+    "bltm.dk": "www.bltm.dk",
 }
 
 
@@ -277,6 +282,37 @@ def canonical_url(url: str) -> str:
     if alias:
         netloc = alias
     return urlunparse((parsed.scheme, netloc, path, "", parsed.query, ""))
+
+
+def browser_seen_alias_ids(url: str) -> list[str]:
+    """Returner tidligere URL-identiteter, saa domaeneskift ikke ser nye ud.
+
+    Browseren fra aeldre Ministerienyt-versioner har gemt hash-ID'er af de
+    davarende URL'er. Ved officielle domaeneskift inkluderer vi derfor de
+    gamle og nye host-varianter som aliases uden at aendre det viste link.
+    """
+    normalized = normalize_url(url, keep_query=True)
+    if not normalized:
+        return []
+    parsed = urlparse(normalized)
+    host = normalize_host(parsed.netloc)
+    path = parsed.path.rstrip("/") + "/"
+    query = parsed.query
+    variants: set[str] = set()
+
+    groups = []
+    if host in {"trm.dk", "bltm.dk"}:
+        groups = ["trm.dk", "www.trm.dk", "bltm.dk", "www.bltm.dk"]
+    elif host in {"aeldremin.dk", "baebm.dk"}:
+        groups = ["aeldremin.dk", "www.aeldremin.dk", "baebm.dk", "www.baebm.dk"]
+
+    for netloc in groups:
+        legacy = urlunparse((parsed.scheme, netloc, path, "", query, ""))
+        variants.add(hashlib.sha256(legacy.encode("utf-8")).hexdigest())
+
+    primary = hashlib.sha256(canonical_url(url).encode("utf-8")).hexdigest()
+    variants.discard(primary)
+    return sorted(variants)
 
 
 def source_hosts(source: dict) -> set[str]:
@@ -2062,7 +2098,7 @@ def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, sou
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 5.5"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 5.6"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -2140,6 +2176,7 @@ def build_html(
         if len(description) > 280:
             description = description[:277].rstrip() + "..."
         article_id = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
+        seen_alias_ids = " ".join(browser_seen_alias_ids(item.url))
         article_type = infer_article_type(item, source_lookup.get(item.source))
         all_sources = [item.source, *(other.source for other in entry.also)]
         source_keys = "|".join(source.casefold() for source in all_sources)
@@ -2153,7 +2190,7 @@ def build_html(
         type_html = f'<span class="type-badge">{esc(article_type)}</span>' if article_type else ""
         search_text = " ".join([*all_sources, item.title, description, article_type]).casefold()
         cards.append(
-            f'''<article class="card" data-id="{article_id}" data-published="{esc(item.published.isoformat())}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
+            f'''<article class="card" data-id="{article_id}" data-seen-aliases="{esc(seen_alias_ids)}" data-published="{esc(item.published.isoformat())}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
   <div class="meta"><span class="source-name">{esc(item.source)}</span>{type_html}<time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
   <h2><a href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">{esc(item.title)}</a></h2>
   {f'<p>{esc(description)}</p>' if description else ''}
@@ -2237,8 +2274,8 @@ def build_html(
 @media(max-width:900px){.controls{grid-template-columns:1fr 1fr}.quick-actions{grid-column:1/-1}}
 @media(max-width:650px){body{padding-bottom:68px}.wrap{width:min(calc(100% - 22px),var(--max))}.top .wrap{min-height:44px}.top-actions{gap:8px}.rss{font-size:.84rem}.install-app{font-size:.72rem;padding:4px 7px}.controls{grid-template-columns:1fr}.quick-actions{grid-column:auto;gap:6px}.quick-actions .filter-button,.quick-actions .favorites-menu>summary{min-height:38px;padding:7px 9px;font-size:.8rem}.period-row{gap:5px}.period-row .period-button{flex:1;justify-content:center}.hero .wrap{padding:12px 0 11px}.card{padding:13px 14px;border-radius:8px}.card.is-new{padding-left:10px}.card h2{font-size:1.08rem;margin-top:4px}.card p{font-size:.91rem;line-height:1.35}.meta{font-size:.75rem}.card-footer{gap:7px 13px}.head{align-items:start;flex-direction:column;gap:3px}.favorites-grid{grid-template-columns:1fr}.favorites-panel{position:fixed;left:10px;right:10px;bottom:64px;top:auto;width:auto;max-height:70vh;overflow:auto}.mobile-dock{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:max(6px,env(safe-area-inset-bottom)) 8px 7px;box-shadow:0 -3px 14px rgba(0,0,0,.08)}.mobile-dock button{border:0;background:none;color:#4c5964;padding:5px 3px;font-size:.74rem;font-weight:750;cursor:pointer}.mobile-dock button.active{color:var(--brand2);font-weight:900}.mobile-dock button span{display:block;font-size:1rem;line-height:1.05;margin-bottom:1px}.table-wrap{margin-inline:-4px}th,td{padding:7px 8px}}
 
-/* v5.5: finpudsning og overblik */
-:root{--max:1060px}.top .wrap{min-height:42px}.hero .wrap{padding:10px 0 9px}h1{font-size:clamp(1.7rem,3.4vw,2.35rem)}.run-status{margin-top:5px;gap:5px 11px}.controls{margin-top:10px}.period-row{margin-top:7px}main.wrap{padding-top:17px}.updated-status{white-space:nowrap}.updated-status.stale{color:var(--warn);font-weight:750}.stale-warning{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;background:#fff0cf;color:#784e00;font-size:.74rem;font-weight:800}.share-view{gap:5px}.card{padding:15px 17px}.card.is-new{padding-left:13px}.meta{min-height:22px;gap:4px 9px}.card h2{margin:6px 0 6px}.card p{max-width:none;margin-bottom:9px}.card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px 18px;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f2}.card-actions{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}.also-published{margin-left:auto;text-align:right}.head{align-items:center}.head-tools{display:flex;align-items:center;gap:10px}#count{font-size:.86rem;white-space:nowrap}.back-to-top{position:fixed;right:18px;bottom:18px;z-index:45;width:42px;height:42px;border:1px solid #b9c2c9;border-radius:50%;background:rgba(255,255,255,.96);color:var(--brand2);box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:1.2rem;font-weight:900;cursor:pointer}.back-to-top:hover{background:#fff;border-color:#8e9aa3}footer .wrap{padding:10px 0 12px;display:grid;gap:4px;color:var(--muted);font-size:.81rem}.footer-line{margin:0!important;display:flex;align-items:baseline;gap:0;flex-wrap:nowrap;white-space:nowrap}.footer-about{font-size:.82rem}.footer-meta{gap:0}.footer-sep{margin:0 8px}.changelog{margin-left:0}.changelog>summary{font-size:.79rem}.visit-counter{white-space:nowrap}@media(min-width:1400px){.wrap{width:min(calc(100% - 48px),var(--max))}}@media(max-width:650px){.top .wrap{min-height:40px}.hero .wrap{padding:9px 0 8px}h1{font-size:1.72rem}.run-status{font-size:.78rem}.controls{margin-top:9px}.card{padding:12px 13px}.card.is-new{padding-left:9px}.card-footer{align-items:flex-start;flex-direction:column;gap:6px}.also-published{margin-left:0;text-align:left}.head-tools{width:100%;justify-content:space-between}.back-to-top{right:12px;bottom:78px;width:40px;height:40px}footer .wrap{padding:9px 0 11px;gap:3px}.footer-line{white-space:normal;flex-wrap:wrap;column-gap:0;row-gap:1px}.footer-sep{margin:0 6px}}}
+/* v5.5-v5.6: finpudsning, overblik og robust footer */
+:root{--max:1060px}.top .wrap{min-height:42px}.hero .wrap{padding:10px 0 9px}h1{font-size:clamp(1.7rem,3.4vw,2.35rem)}.run-status{margin-top:5px;gap:5px 11px}.controls{margin-top:10px}.period-row{margin-top:7px}main.wrap{padding-top:17px}.updated-status{white-space:nowrap}.updated-status.stale{color:var(--warn);font-weight:750}.stale-warning{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;background:#fff0cf;color:#784e00;font-size:.74rem;font-weight:800}.share-view{gap:5px}.card{padding:15px 17px}.card.is-new{padding-left:13px}.meta{min-height:22px;gap:4px 9px}.card h2{margin:6px 0 6px}.card p{max-width:none;margin-bottom:9px}.card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px 18px;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f2}.card-actions{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}.also-published{margin-left:auto;text-align:right}.head{align-items:center}.head-tools{display:flex;align-items:center;gap:10px}#count{font-size:.86rem;white-space:nowrap}.back-to-top{position:fixed;right:18px;bottom:18px;z-index:45;width:42px;height:42px;border:1px solid #b9c2c9;border-radius:50%;background:rgba(255,255,255,.96);color:var(--brand2);box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:1.2rem;font-weight:900;cursor:pointer}.back-to-top:hover{background:#fff;border-color:#8e9aa3}footer .wrap{padding:10px 0 12px;display:grid;grid-template-rows:auto auto;row-gap:5px;color:var(--muted);font-size:.81rem}.footer-row{margin:0!important;min-width:0;display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;line-height:1.35}.footer-about{font-size:.82rem}.footer-meta{gap:0}.footer-sep{flex:0 0 auto;margin:0 9px;color:#a2abb3}.footer-about-long,.footer-about-short{min-width:0}.footer-about-short{display:none}.changelog{display:inline-flex;align-items:center;position:relative;margin:0;flex:0 0 auto}.changelog>summary{display:inline-flex;align-items:center;font-size:.79rem;line-height:1.35}.visit-counter{display:inline-flex;align-items:center;white-space:nowrap;flex:0 0 auto}@media(min-width:1400px){.wrap{width:min(calc(100% - 48px),var(--max))}}@media(max-width:650px){.top .wrap{min-height:40px}.hero .wrap{padding:9px 0 8px}h1{font-size:1.72rem}.run-status{font-size:.78rem}.controls{margin-top:9px}.card{padding:12px 13px}.card.is-new{padding-left:9px}.card-footer{align-items:flex-start;flex-direction:column;gap:6px}.also-published{margin-left:0;text-align:left}.head-tools{width:100%;justify-content:space-between}.back-to-top{right:12px;bottom:78px;width:40px;height:40px}footer .wrap{padding:9px 0 11px;row-gap:4px;font-size:.72rem}.footer-row{white-space:nowrap;overflow:visible}.footer-about-long{display:none}.footer-about-short{display:inline}.footer-sep{margin:0 5px}.changelog>summary{font-size:.72rem}.visit-counter{font-size:.72rem}}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 '''
     script = r'''
@@ -2292,10 +2329,28 @@ def build_html(
   }
 
   const currentIds = cards.map(card => card.dataset.id).filter(Boolean);
+  const lastVisitMs = Date.parse(lastVisit || '') || 0;
+  const LATE_DISCOVERY_GRACE_MS = 7 * 24 * 60 * 60 * 1000;
+
+  function wasSeenBefore(card) {
+    if (!previousIds) return false;
+    if (card.dataset.id && previousIds.has(card.dataset.id)) return true;
+    const aliases = (card.dataset.seenAliases || '').split(/\s+/).filter(Boolean);
+    return aliases.some(id => previousIds.has(id));
+  }
+
   let newCount = 0;
   if (previousIds) {
+    const nowMs = Date.now();
     for (const card of cards) {
-      if (card.dataset.id && !previousIds.has(card.dataset.id)) {
+      if (!card.dataset.id || wasSeenBefore(card)) continue;
+      const publishedMs = Date.parse(card.dataset.published || '') || 0;
+      // En artikel er ny, hvis den er publiceret siden sidste besog. Hvis
+      // crawleren opdager en lidt forsinket artikel, accepteres op til 7 dage.
+      // Langt aeldre backfill kommer stadig i arkivet, men markeres ikke som ny.
+      const publishedSinceVisit = Boolean(lastVisitMs && publishedMs >= lastVisitMs);
+      const recentLateDiscovery = Boolean(publishedMs && publishedMs <= nowMs && (nowMs - publishedMs) <= LATE_DISCOVERY_GRACE_MS);
+      if (publishedSinceVisit || recentLateDiscovery) {
         card.classList.add('is-new');
         newCount++;
       }
@@ -2611,14 +2666,14 @@ def build_html(
   applyFilters(true);
 })();
 '''
-    changelog_html = '''<details class="changelog"><summary>v5.5</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
+    changelog_html = '''<details class="changelog"><summary>v5.6</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
 <header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span><button id="health-link" class="health-link {health_class}" type="button">{esc(health_text)}</button><span id="stale-warning" class="stale-warning" hidden>Seneste opdatering er forsinket</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><button id="mine-only" class="filter-button" type="button" aria-pressed="false">Mine ministerier</button><details id="favorites-menu" class="favorites-menu"><summary>★ Favoritter</summary><div class="favorites-panel"><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd favoritter</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
 <main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder)</span></summary><div class="sources-content"><p>Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort. “OK” betyder, at crawleren teknisk kunne hente kilden. Hvor længe der er gået siden seneste nyhed påvirker ikke kildestatus; aktivitetsmønstre gemmes kun i den interne diagnostics.json.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Status</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
-<footer><div class="wrap"><p class="footer-line footer-about"><span><strong>Ministerienyt</strong> samler links til officielle kilder.</span><span class="footer-sep" aria-hidden="true">·</span><span>Artikler åbner hos den oprindelige udgiver.</span></p><p class="footer-line footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</p></div></footer>
+<footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long"><strong>Ministerienyt</strong> samler links til officielle kilder.</span><span class="footer-about-short"><strong>Ministerienyt</strong> · officielle kilder</span><span class="footer-sep" aria-hidden="true">·</span><span>Artikler åbner hos udgiveren.</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
 <nav class="mobile-dock" aria-label="Hurtige handlinger"><button id="mobile-search" type="button"><span>⌕</span>Søg</button><button id="mobile-new" type="button"><span>Nye</span>Kun nye</button><button id="mobile-mine" type="button"><span>★</span>Mine</button><button id="mobile-favorites" type="button"><span>☆</span>Favoritter</button></nav>
 <script>{script}</script>
@@ -2654,7 +2709,7 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         raw["last_successful_at"] = now if crawl_ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
-        "version": "5.5",
+        "version": "5.6",
         "updated_at": now,
         "archive_start": ARCHIVE_START.date().isoformat(),
         "total_archive_items": len(items),
@@ -2714,7 +2769,7 @@ def diagnostics_payload(
 
     all_reason_counts = Counter(str(entry.get("reason", "unknown")) for entry in rejected)
     return {
-        "version": "5.5",
+        "version": "5.6",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "note": "Intern kvalitetsrapport fra seneste crawl. Filen publiceres ikke via GitHub Pages.",
         "runtime_seconds": round(elapsed_seconds, 3),
@@ -2794,7 +2849,7 @@ def generate_pwa_assets(site_dir: Path) -> None:
     )
     (site_dir / "icon-192.png").write_bytes(pwa_icon_png(192))
     (site_dir / "icon-512.png").write_bytes(pwa_icon_png(512))
-    service_worker = r'''const CACHE = 'ministerienyt-v5.5';
+    service_worker = r'''const CACHE = 'ministerienyt-v5.6';
 const SHELL = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
