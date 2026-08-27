@@ -47,18 +47,20 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 from dateutil import parser as date_parser
+from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+APP_VERSION = "6.2"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/6.1 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 9
+ARCHIVE_SCHEMA_VERSION = 10
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -147,6 +149,11 @@ SKIP_SEGMENTS = {
     "sog",
     "page",
     "side",
+    "rss",
+    "feed",
+    "atom",
+    "nyheder-rss",
+    "faglige-nyheder",
     "2026",
 }
 GENERIC_LINK_TITLES = {
@@ -1387,6 +1394,12 @@ def path_has_archive_year(url: str) -> bool:
     return bool(re.search(r"/(?:20)?26(?:/|$)", urlparse(url).path))
 
 
+def explicit_archive_year(url: str) -> int | None:
+    """Returnér et eksplicit firecifret år som sit eget URL-stisegment."""
+    match = re.search(r"/(20\d{2})(?:/|$)", urlparse(url).path)
+    return int(match.group(1)) if match else None
+
+
 def looks_like_article(url: str, source: dict) -> bool:
     url = normalize_url(url, keep_query=True)
     if not url or not same_source_site(url, source):
@@ -1404,7 +1417,7 @@ def looks_like_article(url: str, source: dict) -> bool:
     if not segments:
         return False
     last = segments[-1].casefold()
-    if last in SKIP_SEGMENTS or re.fullmatch(r"20\d{2}", last):
+    if last in SKIP_SEGMENTS or last.endswith(("-rss", "-feed")) or re.fullmatch(r"20\d{2}", last):
         return False
     if last in DANISH_MONTHS or re.fullmatch(r"(?:jan|feb|mar|apr|jun|jul|aug|sep|okt|nov|dec)", last):
         return False
@@ -1416,6 +1429,13 @@ def looks_like_article(url: str, source: dict) -> bool:
 def is_generic_title(title: str) -> bool:
     folded = clean_text(title).casefold().strip(" .:–—-→↗")
     return not folded or folded in GENERIC_LINK_TITLES or len(folded) < 6
+
+
+def is_generic_item_title(title: str, source_name: str) -> bool:
+    """Genkend både generiske linktekster og en fejlagtig titel lig kildenavnet."""
+    folded_title = clean_text(title).casefold().strip(" .:–—-→↗")
+    folded_source = clean_text(source_name).casefold().strip(" .:–—-→↗")
+    return is_generic_title(title) or bool(folded_source and folded_title == folded_source)
 
 
 def merge_candidate(existing: Candidate | None, new: Candidate) -> Candidate:
@@ -1629,7 +1649,7 @@ def collect_feed_items(
             title = clean_text(str(getattr(entry, "title", "") or ""))
             if not link or not looks_like_article(link, source):
                 continue
-            if is_generic_title(title):
+            if is_generic_item_title(title, source["name"]):
                 record_rejection(source["name"], title, link, "generic_title", discovered_by="RSS/Atom")
                 continue
             if not published:
@@ -1711,7 +1731,7 @@ def discover_sitemap_candidates(
         try:
             response = fetch(session, sitemap_url)
             content = decompress_if_needed(response.content)
-            root = ET.fromstring(content)
+            root = SafeET.fromstring(content)
         except Exception:
             continue
 
@@ -1742,9 +1762,13 @@ def discover_sitemap_candidates(
             if not loc or not looks_like_article(loc, source):
                 continue
 
-            # Undgå at hente mange års historik. 2026 i URL'en eller en
-            # sitemap-lastmod fra 2026 er nok til at kontrollere artiklen.
-            if not path_has_archive_year(loc) and not (lastmod and lastmod >= ARCHIVE_START):
+            # Et eksplicit gammelt år i URL-stien vinder over en nyere lastmod.
+            # Mange CMS'er ændrer lastmod på hele sitemap'et ved en skabelonændring,
+            # og ellers bliver tusindvis af gamle artikler hentet i en fuld audit.
+            archive_year = explicit_archive_year(loc)
+            if archive_year is not None and archive_year < ARCHIVE_START.year:
+                continue
+            if archive_year is None and not (lastmod and lastmod >= ARCHIVE_START):
                 continue
             candidate = Candidate(loc, published=None, discovered_by="Sitemap")
             item_key = canonical_url(loc)
@@ -1793,7 +1817,11 @@ def item_from_candidate(
         )
         return None
 
-    must_fetch = bool(source.get("always_fetch_articles")) or not published or is_generic_title(title)
+    must_fetch = (
+        bool(source.get("always_fetch_articles"))
+        or not published
+        or is_generic_item_title(title, source["name"])
+    )
     if must_fetch:
         try:
             response = fetch(session, candidate.url)
@@ -1802,7 +1830,7 @@ def item_from_candidate(
             article_soup = BeautifulSoup(response.text, "html.parser")
             published = date_from_soup(article_soup, source) or published
             page_title = title_from_soup(article_soup, source)
-            if page_title and not is_generic_title(page_title):
+            if page_title and not is_generic_item_title(page_title, source["name"]):
                 title = page_title
             page_description = description_from_soup(
                 article_soup,
@@ -1841,7 +1869,7 @@ def item_from_candidate(
             discovered_by=candidate.discovered_by, detected_date=published,
         )
         return None
-    if is_generic_title(title):
+    if is_generic_item_title(title, source["name"]):
         record_rejection(source["name"], title, final_url, "generic_title", discovered_by=candidate.discovered_by)
         return None
     if not looks_like_article(final_url, source):
@@ -1856,9 +1884,9 @@ def better_item(existing: Item | None, new: Item) -> Item:
     if existing is None:
         return with_item_identity(new, first_seen_at=new.first_seen_at or datetime.now(timezone.utc))
     title = existing.title
-    if is_generic_title(title) and not is_generic_title(new.title):
+    if is_generic_item_title(title, existing.source) and not is_generic_item_title(new.title, new.source):
         title = new.title
-    elif len(new.title) > len(title) and not is_generic_title(new.title):
+    elif len(new.title) > len(title) and not is_generic_item_title(new.title, new.source):
         title = new.title
     description = new.description if len(new.description) > len(existing.description) else existing.description
     published = existing.published
@@ -1942,7 +1970,7 @@ def collect_ritzau_items(
                 continue
             title = clean_text(str(version.get("title", "")))
             url = ritzau_public_url(str(version.get("url", "")))
-            if not url or is_generic_title(title):
+            if not url or is_generic_item_title(title, source["name"]):
                 continue
             candidate_count += 1
             key = canonical_url(url)
@@ -1989,7 +2017,12 @@ def collect_source(
         status.methods.append("HTML")
 
     feed_items = collect_feed_items(session, source, discovered_feeds, status, known_urls)
-    sitemap_due = full_audit or due_since(
+    needs_sitemap_fallback = (
+        not listing_candidates
+        and "RSS/Atom" not in (status.methods or [])
+        and not ritzau_ok
+    )
+    sitemap_due = full_audit or needs_sitemap_fallback or due_since(
         source_state.get("last_sitemap_scan_at"),
         cfg_int("sitemap_scan_hours", DEFAULT_SITEMAP_SCAN_HOURS, 1, 24 * 31),
     )
@@ -2622,7 +2655,7 @@ def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, sou
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 6.1"
+    ET.SubElement(channel, "generator").text = f"Ministerienyt {APP_VERSION}"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -2676,6 +2709,7 @@ def build_html(
     sources: list[dict],
     statuses: list[SourceStatus],
     *,
+    site_url: str = "",
     noindex: bool = False,
     goatcounter_code: str = "",
     ui_config: dict | None = None,
@@ -2696,8 +2730,12 @@ def build_html(
             raw_counts[extra.source] += 1
     updated = datetime.now(timezone.utc)
     healthy_count = sum(1 for status in statuses if source_health_ok(status))
-    health_class = "ok" if healthy_count == len(sources) else "warn"
+    quality_warning_count = sum(1 for status in statuses if status.self_test in {"warn", "fail"})
+    health_class = "ok" if healthy_count == len(sources) and quality_warning_count == 0 else "warn"
     health_text = f"{healthy_count}/{len(sources)} kilder OK"
+    if quality_warning_count:
+        warning_word = "advarsel" if quality_warning_count == 1 else "advarsler"
+        health_text += f" · {quality_warning_count} {warning_word}"
 
     entries = sorted(entries, key=lambda entry: entry.primary.published, reverse=True)
     cards: list[str] = []
@@ -2762,6 +2800,21 @@ def build_html(
 
     feed_href = esc(feed_url or "feed.xml")
     robots_meta = '<meta name="robots" content="noindex,nofollow,noarchive">' if noindex else ''
+    canonical_url_value = normalize_url(site_url, keep_query=False)
+    if canonical_url_value:
+        canonical_url_value = canonical_url_value.rstrip("/") + "/"
+    canonical_href = esc(canonical_url_value)
+    page_description = "Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."
+    social_image = esc(urljoin(canonical_url_value, "icon-512.png")) if canonical_url_value else "icon-512.png"
+    social_meta = (
+        f'<link rel="canonical" href="{canonical_href}">'
+        f'<meta property="og:type" content="website"><meta property="og:locale" content="da_DK">'
+        f'<meta property="og:title" content="Ministerienyt"><meta property="og:description" content="{esc(page_description)}">'
+        f'<meta property="og:url" content="{canonical_href}"><meta property="og:image" content="{social_image}">'
+        f'<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Ministerienyt">'
+        f'<meta name="twitter:description" content="{esc(page_description)}"><meta name="twitter:image" content="{social_image}">'
+        if canonical_url_value else ""
+    )
 
     # GoatCounter-koden er et offentligt subdomænenavn, fx "ministerienyt" i
     # ministerienyt.goatcounter.com. Kun et sikkert DNS-label accepteres.
@@ -2809,7 +2862,7 @@ def build_html(
 /* v5.5-v5.6: finpudsning, overblik og robust footer */
 :root{--max:1060px}.top .wrap{min-height:42px}.hero .wrap{padding:10px 0 9px}h1{font-size:clamp(1.7rem,3.4vw,2.35rem)}.run-status{margin-top:5px;gap:5px 11px}.controls{margin-top:10px}.period-row{margin-top:7px}main.wrap{padding-top:17px}.updated-status{white-space:nowrap}.updated-status.stale{color:var(--warn);font-weight:750}.stale-warning{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;background:#fff0cf;color:#784e00;font-size:.74rem;font-weight:800}.share-view{gap:5px}.card{padding:15px 17px}.card.is-new{padding-left:13px}.meta{min-height:22px;gap:4px 9px}.card h2{margin:6px 0 6px}.card p{max-width:none;margin-bottom:9px}.card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px 18px;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f2}.card-actions{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}.also-published{margin-left:auto;text-align:right}.head{align-items:center}.head-tools{display:flex;align-items:center;gap:10px}#count{font-size:.86rem;white-space:nowrap}.back-to-top{position:fixed;right:18px;bottom:18px;z-index:45;width:42px;height:42px;border:1px solid #b9c2c9;border-radius:50%;background:rgba(255,255,255,.96);color:var(--brand2);box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:1.2rem;font-weight:900;cursor:pointer}.back-to-top:hover{background:#fff;border-color:#8e9aa3}footer .wrap{padding:10px 0 12px;display:grid;grid-template-rows:auto auto;row-gap:5px;color:var(--muted);font-size:.81rem}.footer-row{margin:0!important;min-width:0;display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;line-height:1.35}.footer-about{font-size:.82rem}.footer-meta{gap:0}.footer-sep{flex:0 0 auto;margin:0 9px;color:#a2abb3}.footer-about-long,.footer-about-short{min-width:0}.footer-about-short{display:none}.changelog{display:inline-flex;align-items:center;position:relative;margin:0;flex:0 0 auto}.changelog>summary{display:inline-flex;align-items:center;font-size:.79rem;line-height:1.35}.visit-counter{display:inline-flex;align-items:center;white-space:nowrap;flex:0 0 auto}@media(min-width:1400px){.wrap{width:min(calc(100% - 48px),var(--max))}}@media(max-width:650px){.top .wrap{min-height:40px}.hero .wrap{padding:9px 0 8px}h1{font-size:1.72rem}.run-status{font-size:.78rem}.controls{margin-top:9px}.card{padding:12px 13px}.card.is-new{padding-left:9px}.card-footer{align-items:flex-start;flex-direction:column;gap:6px}.also-published{margin-left:0;text-align:left}.head-tools{width:100%;justify-content:space-between}.back-to-top{right:12px;bottom:78px;width:40px;height:40px}footer .wrap{padding:9px 0 11px;row-gap:4px;font-size:.72rem}.footer-row{white-space:nowrap;overflow:visible}.footer-about-long{display:none}.footer-about-short{display:inline}.footer-sep{margin:0 5px}.changelog>summary{font-size:.72rem}.visit-counter{font-size:.72rem}}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-/* v6.1: kvalitetsrettelser og roligere hierarki */
+/* v6.2: dæknings-, delings- og kvalitetsrettelser */
 .health-link{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:999px;background:#eef6f0}.health-link::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}.health-link.warn{background:#fff3dc}.controls{padding:7px;border:1px solid #e5e9ec;border-radius:10px;background:#fafbfb}.filter-button,.favorites-menu>summary,.period-button,input,select{transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}.filter-button:hover,.favorites-menu>summary:hover,.period-button:hover{border-color:#7f8b95}.card{transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}.card:hover{box-shadow:0 3px 12px rgba(24,34,44,.06);transform:translateY(-1px)}.source-name{letter-spacing:.005em}footer .wrap{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:minmax(18px,auto) minmax(18px,auto)!important;row-gap:4px!important;padding:9px 0 11px!important}.footer-row{display:block!important;width:100%;margin:0!important;line-height:1.35!important;white-space:nowrap!important}.footer-meta-inner{display:inline-flex;align-items:center;white-space:nowrap}.footer-about-short{display:none}.footer-meta .changelog{display:inline-flex!important;vertical-align:middle}.footer-meta .visit-counter{display:inline-flex!important;vertical-align:middle}.changelog-panel{white-space:normal}@media(max-width:650px){.controls{padding:7px}.card:hover{transform:none}.footer-about-long{display:none!important}.footer-about-short{display:inline!important}.footer-row{font-size:.7rem!important}.footer-sep{margin:0 4px!important}.footer-meta-inner{max-width:100%}.visit-counter{font-size:.7rem!important}.changelog>summary{font-size:.7rem!important}}
 
 .footer-row.footer-meta{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;white-space:nowrap!important}.footer-row.footer-about{display:block!important;white-space:nowrap!important}.footer-meta>a,.footer-meta>.footer-sep,.footer-meta>.changelog,.footer-meta>.visit-counter{flex:0 0 auto}.footer-meta-inner{display:contents!important}
@@ -3022,6 +3075,10 @@ def build_html(
     selected ? url.searchParams.set('kilde', sourceSelect.value) : url.searchParams.delete('kilde');
     onlyNew ? url.searchParams.set('nye', '1') : url.searchParams.delete('nye');
     onlyMine ? url.searchParams.set('mine', '1') : url.searchParams.delete('mine');
+    url.searchParams.delete('favorit');
+    if (onlyMine) {
+      for (const favorite of [...favorites].sort()) url.searchParams.append('favorit', favorite);
+    }
     periodDays ? url.searchParams.set('periode', periodDays) : url.searchParams.delete('periode');
     history.replaceState(null, '', url);
     syncPeriods();
@@ -3045,10 +3102,13 @@ def build_html(
   }
 
   const params = new URLSearchParams(location.search);
+  const validFavoriteValues = new Set(favoriteBoxes.map(box => box.value));
+  const sharedFavorites = params.getAll('favorit').map(norm).filter(value => validFavoriteValues.has(value));
+  if (sharedFavorites.length) favorites = new Set(sharedFavorites);
   if (params.get('q')) search.value = params.get('q');
   if (params.get('kilde')) sourceSelect.value = params.get('kilde');
   if (params.get('nye') === '1') newOnly.setAttribute('aria-pressed', 'true');
-  if (params.get('mine') === '1') mineOnly.setAttribute('aria-pressed', 'true');
+  if (params.get('mine') === '1' && favorites.size) mineOnly.setAttribute('aria-pressed', 'true');
   if (['7', '30'].includes(params.get('periode'))) periodDays = params.get('periode');
   syncFavoritesUI();
   syncPeriods();
@@ -3210,9 +3270,9 @@ def build_html(
         .replace('{page_size}', str(page_size))
         .replace('{late_discovery_grace_days}', str(late_discovery_grace_days))
         .replace('{stale_after_hours}', str(stale_after_hours)))
-    changelog_html = '''<details class="changelog"><summary>v6.1</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
+    changelog_html = '''<details class="changelog"><summary>v6.2</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     return f'''<!doctype html>
-<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="{esc(page_description)}">{social_meta}<meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
 <header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span><button id="health-link" class="health-link {health_class}" type="button">{esc(health_text)}</button><span id="stale-warning" class="stale-warning" hidden>Seneste opdatering er forsinket</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><button id="mine-only" class="filter-button" type="button" aria-pressed="false">Mine ministerier</button><details id="favorites-menu" class="favorites-menu"><summary>★ Favoritter</summary><div class="favorites-panel"><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd favoritter</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
@@ -3253,7 +3313,7 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         raw["last_successful_at"] = now if crawl_ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
-        "version": "6.1",
+        "version": APP_VERSION,
         "updated_at": now,
         "archive_start": ARCHIVE_START.date().isoformat(),
         "total_archive_items": len(items),
@@ -3326,7 +3386,7 @@ def diagnostics_payload(
 
     all_reason_counts = Counter(str(entry.get("reason", "unknown")) for entry in rejected)
     return {
-        "version": "6.1",
+        "version": APP_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "note": "Intern kvalitetsrapport fra seneste crawl. Filen publiceres ikke via GitHub Pages.",
         "runtime_seconds": round(elapsed_seconds, 3),
@@ -3406,7 +3466,7 @@ def generate_pwa_assets(site_dir: Path) -> None:
     )
     (site_dir / "icon-192.png").write_bytes(pwa_icon_png(192))
     (site_dir / "icon-512.png").write_bytes(pwa_icon_png(512))
-    service_worker = r'''const CACHE = 'ministerienyt-v6.1';
+    service_worker = r'''const CACHE = 'ministerienyt-v{version}';
 const SHELL = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -3429,7 +3489,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
   }
 });
-'''
+'''.replace("{version}", APP_VERSION)
     (site_dir / "service-worker.js").write_text(service_worker, encoding="utf-8")
 
 
@@ -3506,7 +3566,11 @@ def main() -> int:
         )
     known_urls = {
         canonical_url(item.url) for item in existing
-        if item.source not in refresh_sources and canonical_url(item.url)
+        if (
+            item.source not in refresh_sources
+            and not is_generic_item_title(item.title, item.source)
+            and canonical_url(item.url)
+        )
     }
     print(f"Eksisterende arkiv: {len(existing)} artikler.", file=sys.stderr)
 
@@ -3556,6 +3620,7 @@ def main() -> int:
     html_output.write_text(
         build_html(
             display_entries, args.feed_url or "feed.xml", sources, statuses,
+            site_url=args.site_url,
             noindex=bool(config.get("noindex")),
             goatcounter_code=str(config.get("goatcounter_code", "")),
             ui_config=config,

@@ -1,48 +1,51 @@
-# Ministerienyt – komplet arkiv fra 2026
+# Ministerienyt 6.2 – komplet arkiv fra 2026
 
 Ministerienyt samler officielle nyheder fra 21 danske ministerielle hjemmesider samt Regeringen.dk.
 
-## Denne version gør følgende
+## Nyt i version 6.2
 
-- henter nyheder fra **1. januar 2026 og frem**
-- har ingen grænse på 12 artikler pr. ministerium
-- kombinerer RSS/Atom, HTML-arkiver, paginering og sitemaps
-- gemmer fundne artikler i `archive.json`, så de ikke forsvinder ved senere opdateringer
-- markerer artikler, der er kommet til siden siden brugerens sidste besøg
-- har knappen **Kun nye**
-- inkluderer Regeringen.dk
-- medtager også de officielle 2026-arkiver på tidligere domæner, hvor ressortområder er flyttet (bl.a. trm.dk, skm.dk og digmin.dk)
-- håndterer Beskæftigelses- og Ligestillingsministeriets redirectlinks og både nyheder og pressemeddelelser
-- opdaterer automatisk én gang i timen
+- Sitemap-baserede kilder kontrolleres straks, når HTML, RSS og Ritzau ikke giver en brugbar opdagelsesmetode. De er derfor ikke længere afhængige af en 24-timers sitemap-cache.
+- Fuld audit springer URL'er med et sikkert år før 2026 over. Det reducerer både køretid og falske datoadvarsler markant.
+- Arkivet er suppleret med 10 manglende artikler fundet i den fulde 6.1-audit.
+- En gammel BAEBM-post har fået sin korrekte artikeloverskrift, og crawleren kan fremover hele titler, der fejlagtigt er lig kildenavnet.
+- **Del visning** med **Mine ministerier** medtager nu de valgte favoritter i linket.
+- Forsiden skelner mellem teknisk kildestatus og kvalitetsadvarsler.
+- Canonical-, Open Graph- og Twitter-metadata forbedrer deling og søgemaskineindeksering.
+- `site/status.json` publiceres igen som maskinlæsbar status.
+- En fuld audit kan startes manuelt fra GitHub Actions uden at ændre kode.
+- XML-sitemaps parses med `defusedxml` som ekstra sikkerhed.
 
-## Opdater eksisterende GitHub-repository
+## Drift
 
-1. Pak ZIP-filen ud.
-2. Åbn dit Ministerienyt-repository på GitHub.
-3. Vælg **Add file → Upload files**.
-4. Upload og erstat disse filer:
-   - `ministerier_nyheder.py`
-   - `sources.json`
-   - `archive.json`
-   - `requirements.txt`
-   - `.github/workflows/pages.yml`
-5. Klik **Commit changes** direkte til `main`.
-6. Gå til **Actions → Opdater Ministerienyt** og følg den nye kørsel.
+Workflowet forsøger at opdatere siden to gange i timen, på minut 17 og 47. GitHub kan forsinke planlagte kørsler. Den første dag i hver måned køres automatisk en fuld audit.
 
-Første fulde kørsel skal gennemgå 2026-arkiverne og tager normalt cirka 5–15 minutter, men kan tage længere, hvis en officiel hjemmeside svarer langsomt. GitHub-workflowet har en tidsgrænse på 45 minutter. Senere timekørsler tager typisk 1–4 minutter, fordi kendte artikler genbruges fra arkivet.
+En almindelig kørsel genbruger kendte artikler fra `archive.json`. En fuld audit gennemtvinger kontrol af historiske ruter og sitemaps, men arkivet bliver kun erstattet, hvis kildekontrollerne ser plausible ud.
 
-## Sådan virker “Ny siden sidst”
+## Manuel fuld audit
 
-Første besøg efter opdateringen etablerer et udgangspunkt. Fra det næste besøg markeres artikler, der ikke var på siden ved det foregående besøg. Oplysningen gemmes lokalt i browseren, så markeringen gælder separat for hver browser/enhed.
+1. Gå til **Actions → Opdater Ministerienyt**.
+2. Vælg **Run workflow**.
+3. Markér **Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps**.
+4. Vælg **Run workflow**.
 
-## Vedvarende historik
+Der sendes ikke e-mails eller oprettes issues af workflowet. Teknisk diagnostik gemmes i repositoryets JSON- og HTML-filer.
 
-`archive.json` bliver automatisk opdateret og committed af GitHub Actions. Det betyder, at en artikel bliver i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller RSS-feed.
+## Brugerfunktioner
 
-## Kildestatus
+- søgning, kildevalg og perioder på 7 eller 30 dage
+- **Kun nye** baseret på den enkelte browsers sidste besøg
+- lokale ministeriefavoritter og delbare **Mine ministerier**-links
+- dubletsamling, når samme historie ligger hos et ministerium og Regeringen.dk
+- samlet RSS-feed og installerbar webapp
 
-Nederst på hjemmesiden vises antallet af arkiverede artikler pr. kilde. `site/status.json` indeholder desuden teknisk status og eventuelle kildeadvarsler fra seneste kørsel.
+## Vedvarende historik og status
+
+`archive.json` bliver automatisk opdateret og committed af GitHub Actions. En fundet artikel bliver derfor i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller feed.
+
+Forsiden viser teknisk status for de 22 kilder og antallet af eventuelle kvalitetsadvarsler. `site/status.json` indeholder status fra seneste kørsel. Mere detaljerede filer som `diagnostics.json`, `diagnostics.html`, `alerts.json` og `source_audit.json` gemmes kun i repositoryet.
 
 ## Om fuldstændighed
 
-Løsningen har ingen vilkårlig artikelgrænse og gemmer alle artikler fra 1. januar 2026, som kan opdages via ministeriernes officielle RSS-feeds, arkivsider, paginering og sitemaps. Et officielt site kan dog ændre struktur eller undlade at eksponere ældre artikler. Kildestatus nederst på siden og `site/status.json` gør sådanne huller synlige.
+Løsningen gemmer artikler fra 1. januar 2026, som kan opdages via de officielle RSS-feeds, arkivsider, paginering, Via Ritzau-kilder og sitemaps. Officielle sites kan ændre struktur eller undlade at eksponere ældre indhold; derfor kombinerer version 6.2 flere opdagelsesmetoder med automatiske selvtests og en månedlig fuld audit.
+
+Se [TRIN-FOR-TRIN.md](TRIN-FOR-TRIN.md) for opdatering af et eksisterende repository.

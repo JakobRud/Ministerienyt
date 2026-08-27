@@ -1,48 +1,50 @@
-# Ministerienyt – komplet arkiv fra 2026
+# Opdatér Ministerienyt til version 6.2
 
-Ministerienyt samler officielle nyheder fra 21 danske ministerielle hjemmesider samt Regeringen.dk.
+## 1. Pak leverancen ud
 
-## Denne version gør følgende
+Pak `Ministerienyt-6.2.zip` ud på din computer. Mappestrukturen skal bevares, især `.github/workflows/pages.yml`.
 
-- henter nyheder fra **1. januar 2026 og frem**
-- har ingen grænse på 12 artikler pr. ministerium
-- kombinerer RSS/Atom, HTML-arkiver, paginering og sitemaps
-- gemmer fundne artikler i `archive.json`, så de ikke forsvinder ved senere opdateringer
-- markerer artikler, der er kommet til siden siden brugerens sidste besøg
-- har knappen **Kun nye**
-- inkluderer Regeringen.dk
-- medtager også de officielle 2026-arkiver på tidligere domæner, hvor ressortområder er flyttet (bl.a. trm.dk, skm.dk og digmin.dk)
-- håndterer Beskæftigelses- og Ligestillingsministeriets redirectlinks og både nyheder og pressemeddelelser
-- opdaterer automatisk én gang i timen
+## 2. Upload rodfilerne
 
-## Opdater eksisterende GitHub-repository
+Åbn dit Ministerienyt-repository på GitHub, vælg **Add file → Upload files**, og erstat:
 
-1. Pak ZIP-filen ud.
-2. Åbn dit Ministerienyt-repository på GitHub.
-3. Vælg **Add file → Upload files**.
-4. Upload og erstat disse filer:
-   - `ministerier_nyheder.py`
-   - `sources.json`
-   - `archive.json`
-   - `requirements.txt`
-   - `.github/workflows/pages.yml`
-5. Klik **Commit changes** direkte til `main`.
-6. Gå til **Actions → Opdater Ministerienyt** og følg den nye kørsel.
+- `ministerier_nyheder.py`
+- `regression_tests.py`
+- `requirements.txt`
+- `archive.json`
+- `README.md`
+- `TRIN-FOR-TRIN.md`
 
-Første fulde kørsel skal gennemgå 2026-arkiverne og tager normalt cirka 5–15 minutter, men kan tage længere, hvis en officiel hjemmeside svarer langsomt. GitHub-workflowet har en tidsgrænse på 45 minutter. Senere timekørsler tager typisk 1–4 minutter, fordi kendte artikler genbruges fra arkivet.
+Commit ændringerne direkte til `main`.
 
-## Sådan virker “Ny siden sidst”
+## 3. Upload workflowet
 
-Første besøg efter opdateringen etablerer et udgangspunkt. Fra det næste besøg markeres artikler, der ikke var på siden ved det foregående besøg. Oplysningen gemmes lokalt i browseren, så markeringen gælder separat for hver browser/enhed.
+Åbn mappen `.github/workflows` i repositoryet, vælg **Add file → Upload files**, og erstat `pages.yml`. Commit igen til `main`.
 
-## Vedvarende historik
+## 4. Følg den automatiske kørsel
 
-`archive.json` bliver automatisk opdateret og committed af GitHub Actions. Det betyder, at en artikel bliver i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller RSS-feed.
+Gå til **Actions → Opdater Ministerienyt**. Et push til `main` starter workflowet. Det udfører regressionstests, genererer side, RSS, PWA-filer og `site/status.json`, opdaterer kvalitetsfilerne og udgiver GitHub Pages.
 
-## Kildestatus
+Den medfølgende `archive.json` er allerede schema 10 og indeholder de 10 artikler, som blev fundet under den fulde 6.1-audit.
 
-Nederst på hjemmesiden vises antallet af arkiverede artikler pr. kilde. `site/status.json` indeholder desuden teknisk status og eventuelle kildeadvarsler fra seneste kørsel.
+## 5. Kør eventuelt en fuld audit
 
-## Om fuldstændighed
+En almindelig kørsel er nok til selve opgraderingen. Hvis du vil verificere alle 2026-ruter med det samme:
 
-Løsningen har ingen vilkårlig artikelgrænse og gemmer alle artikler fra 1. januar 2026, som kan opdages via ministeriernes officielle RSS-feeds, arkivsider, paginering og sitemaps. Et officielt site kan dog ændre struktur eller undlade at eksponere ældre artikler. Kildestatus nederst på siden og `site/status.json` gør sådanne huller synlige.
+1. Vælg **Run workflow** på Actions-siden.
+2. Markér **Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps**.
+3. Start kørslen.
+
+En fuld audit kan tage væsentligt længere end en almindelig kørsel. Den kører også automatisk den første dag i hver måned.
+
+## 6. Kontrollér resultatet
+
+Når workflowet er grønt:
+
+- åbn [Ministerienyt](https://jakobrud.github.io/Ministerienyt/)
+- kontrollér, at footeren viser `v6.2`
+- prøv **Mine ministerier → Del visning** i en privat browser; favoritvalgene skal følge med linket
+- åbn `https://jakobrud.github.io/Ministerienyt/status.json`; den skal returnere JSON
+- kontrollér, at Actions ikke viser en ny fejl efter arkiv-committet
+
+Der er ingen e-mail- eller issue-alarmer i workflowet. Interne advarsler ses i repositoryets `diagnostics.html`, `diagnostics.json`, `alerts.json` og `source_audit.json`.

@@ -163,6 +163,72 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(items[0].title, item.title)
         self.assertEqual(status.article_candidates, 1)
 
+    def test_sitemap_fallback_runs_when_no_other_discovery_method_works(self):
+        source = {
+            "name": "Testministeriet",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+        }
+        original_ritzau = m.collect_ritzau_items
+        original_listing = m.crawl_listing_pages
+        original_feed = m.collect_feed_items
+        original_sitemap = m.discover_sitemap_candidates
+        original_due = m.due_since
+        calls = {"sitemap": 0}
+        try:
+            m.collect_ritzau_items = lambda *args, **kwargs: ([], False)
+            m.crawl_listing_pages = lambda *args, **kwargs: ({}, [])
+            m.collect_feed_items = lambda *args, **kwargs: []
+            m.due_since = lambda *args, **kwargs: False
+            def fake_sitemap(session, src, status):
+                calls["sitemap"] += 1
+                status.sitemap_files = 1
+                return {}
+            m.discover_sitemap_candidates = fake_sitemap
+            _, status = m.collect_source(None, source, set(), {"last_sitemap_scan_at": datetime.now(timezone.utc).isoformat()})
+        finally:
+            m.collect_ritzau_items = original_ritzau
+            m.crawl_listing_pages = original_listing
+            m.collect_feed_items = original_feed
+            m.discover_sitemap_candidates = original_sitemap
+            m.due_since = original_due
+        self.assertEqual(calls["sitemap"], 1)
+        self.assertTrue(status.sitemap_scan_performed)
+
+    def test_sitemap_ignores_explicit_old_year_even_with_new_lastmod(self):
+        source = {
+            "name": "Testministeriet",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+        }
+        xml = b'''<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+          <url><loc>https://example.dk/nyheder/2025/gammel-artikel</loc><lastmod>2026-08-27</lastmod></url>
+          <url><loc>https://example.dk/nyheder/2026/ny-artikel</loc><lastmod>2026-08-27</lastmod></url>
+        </urlset>'''
+        original_seeds = m.sitemap_seed_urls
+        original_fetch = m.fetch
+        try:
+            m.sitemap_seed_urls = lambda *args, **kwargs: ["https://example.dk/sitemap.xml"]
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(content=xml)
+            result = m.discover_sitemap_candidates(None, source, m.SourceStatus(source["name"], source["home_url"]))
+        finally:
+            m.sitemap_seed_urls = original_seeds
+            m.fetch = original_fetch
+        self.assertEqual(list(result.values())[0].url, "https://example.dk/nyheder/2026/ny-artikel")
+        self.assertEqual(len(result), 1)
+
+    def test_better_item_heals_title_equal_to_source_name(self):
+        old = self.item("Testministeriet", "Testministeriet", "https://example.dk/nyheder/test", "2026-08-20")
+        new = self.item("Testministeriet", "En rigtig og meningsfuld artikeloverskrift", "https://example.dk/nyheder/test", "2026-08-20")
+        self.assertEqual(m.better_item(old, new).title, new.title)
+
+    def test_rss_and_category_routes_are_not_articles(self):
+        source = {"home_url": "https://example.dk/", "article_prefixes": ["/nyheder/"]}
+        self.assertFalse(m.looks_like_article("https://example.dk/nyheder/nyheder-rss", source))
+        self.assertFalse(m.looks_like_article("https://example.dk/nyheder/faglige-nyheder", source))
+
     def test_archive_identity_survives_serialization_fields(self):
         item = self.item("Testministeriet", "En stabil artikelidentitet med en tydelig titel", "https://x.dk/nyheder/stabil", "2026-08-20")
         raw = {"source": item.source, "title": item.title, "url": item.url, "published": item.published.isoformat(), "description": item.description, "article_id": item.article_id, "first_seen_at": item.first_seen_at.isoformat()}
@@ -175,12 +241,29 @@ class IdentityAndSafetyTests(unittest.TestCase):
         source = {"name":"Testministeriet","home_url":"https://example.dk/","start_urls":["https://example.dk/nyheder"],"article_prefixes":["/nyheder/"]}
         status = m.SourceStatus("Testministeriet", "https://example.dk/")
         status.listing_pages = 1
-        html = m.build_html([m.DisplayEntry(item)], "feed.xml", [source], [status], goatcounter_code="ministerienyt", ui_config={})
+        html = m.build_html(
+            [m.DisplayEntry(item)], "feed.xml", [source], [status],
+            site_url="https://example.dk/ministerienyt/",
+            goatcounter_code="ministerienyt", ui_config={},
+        )
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v6.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v6.2", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Unikke besøg seneste 30 dage", rows[1].get_text(" ", strip=True))
+        self.assertEqual(soup.select_one('link[rel="canonical"]')["href"], "https://example.dk/ministerienyt/")
+        self.assertEqual(soup.select_one('meta[property="og:title"]')["content"], "Ministerienyt")
+        self.assertIn("params.getAll('favorit')", html)
+        self.assertIn("url.searchParams.append('favorit', favorite)", html)
+
+    def test_quality_warning_is_visible_separately_from_technical_status(self):
+        item = self.item("Testministeriet", "En testartikel med en tydelig titel", "https://example.dk/nyheder/test", "2026-08-20")
+        source = {"name":"Testministeriet","home_url":"https://example.dk/","start_urls":["https://example.dk/nyheder"],"article_prefixes":["/nyheder/"]}
+        status = m.SourceStatus("Testministeriet", "https://example.dk/")
+        status.listing_pages = 1
+        status.self_test = "warn"
+        html = m.build_html([m.DisplayEntry(item)], "feed.xml", [source], [status])
+        self.assertIn("1/1 kilder OK · 1 advarsel", html)
 
 
 if __name__ == "__main__":
