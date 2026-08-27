@@ -9,21 +9,27 @@ on:
       - "rejected_candidates.json"
       - "health.json"
       - "diagnostics.json"
+      - "diagnostics.html"
+      - "source_state.json"
+      - "alerts.json"
+      - "source_audit.json"
   schedule:
-    # To forsog pr. time reducerer risikoen for lange huller, hvis GitHub
-    # forsinker eller dropper et planlagt schedule-event.
+    # To almindelige forsøg pr. time mindsker virkningen af forsinkede/droppede schedules.
     - cron: "17 * * * *"
     - cron: "47 * * * *"
+    # Månedlig fuld audit: historiske ruter og sitemaps gennemtvinges uanset cache.
+    - cron: "23 6 1 * *"
 
 permissions:
   actions: read
   contents: write
   pages: write
   id-token: write
+  issues: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -51,32 +57,73 @@ jobs:
       - name: Installer pakker
         run: pip install -r requirements.txt
 
-      - name: Generer hjemmeside, arkiv og RSS
+      - name: Kør regressionstests
+        run: python regression_tests.py -v
+
+      - name: Generer hjemmeside, arkiv og kvalitetsdata
         env:
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: |
           mkdir -p site
+          AUDIT_FLAG=""
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "23 6 1 * *" ]; then
+            AUDIT_FLAG="--full-audit"
+            echo "Kører månedlig fuld kildeaudit."
+          fi
           python ministerier_nyheder.py \
             --archive archive.json \
             --html-output site/index.html \
             --rss-output site/feed.xml \
             --health-output health.json \
             --diagnostics-output diagnostics.json \
+            --diagnostics-html diagnostics.html \
+            --source-state source_state.json \
+            --alerts-output alerts.json \
+            --source-audit-output source_audit.json \
             --rejected-log rejected_candidates.json \
             --config site_config.json \
             --site-url "$PAGES_URL" \
-            --feed-url "${PAGES_URL}feed.xml"
+            --feed-url "${PAGES_URL}feed.xml" \
+            $AUDIT_FLAG
 
-      - name: Gem arkiv, helbred, diagnostik og afvisningslog i repositoryet
+      - name: Opret eller luk automatisk kildealarm
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ACTIVE=$(python -c "import json; print(int(json.load(open('alerts.json', encoding='utf-8')).get('active_alerts', 0)))")
+          TITLE='[Ministerienyt] Automatisk kildealarm'
+          ISSUE=$(gh issue list --state open --json number,title --jq '.[] | select(.title == "[Ministerienyt] Automatisk kildealarm") | .number' | head -n 1)
+          if [ "$ACTIVE" -gt 0 ]; then
+            python - <<'PY' > /tmp/ministerienyt-alert.md
+          import json
+          data = json.load(open('alerts.json', encoding='utf-8'))
+          print('Ministerienyt har registreret gentagne tekniske fejl på følgende kilde(r):\n')
+          for row in data.get('alerts', []):
+              print(f"- **{row.get('source')}**: {row.get('message')}")
+              for error in row.get('errors', [])[:3]:
+                  print(f"  - {error}")
+          print('\nSe `diagnostics.html`, `diagnostics.json` og `source_state.json` i repositoryet for detaljer.')
+          PY
+            if [ -z "$ISSUE" ]; then
+              gh issue create --title "$TITLE" --body-file /tmp/ministerienyt-alert.md
+            else
+              echo "Kildealarm findes allerede som issue #$ISSUE."
+            fi
+          elif [ -n "$ISSUE" ]; then
+            gh issue close "$ISSUE" --comment "De berørte kilder er igen teknisk OK i den seneste kørsel. Lukker den automatiske alarm."
+          fi
+
+      - name: Gem arkiv og intern kvalitetsstatus i repositoryet
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add archive.json rejected_candidates.json health.json diagnostics.json
+          git add archive.json rejected_candidates.json health.json diagnostics.json diagnostics.html source_state.json alerts.json source_audit.json
           if ! git diff --cached --quiet; then
-            git commit -m "Opdater nyhedsarkiv og diagnostik [skip ci]"
+            git commit -m "Opdater nyhedsarkiv og kvalitetsstatus [skip ci]"
             git push
           else
-            echo "Arkiv og diagnostikfiler er uændrede."
+            echo "Arkiv og kvalitetsfiler er uændrede."
           fi
 
       - name: Upload hjemmeside
