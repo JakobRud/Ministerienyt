@@ -2,6 +2,12 @@ name: Opdater Ministerienyt
 
 on:
   workflow_dispatch:
+    inputs:
+      full_audit:
+        description: "Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps"
+        required: false
+        type: boolean
+        default: false
   push:
     branches: ["main"]
     paths-ignore:
@@ -68,12 +74,16 @@ jobs:
           if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "23 6 1 * *" ]; then
             AUDIT_FLAG="--full-audit"
             echo "Kører månedlig fuld kildeaudit."
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.full_audit }}" = "true" ]; then
+            AUDIT_FLAG="--full-audit"
+            echo "Kører manuelt valgt fuld kildeaudit."
           fi
           python ministerier_nyheder.py \
             --archive archive.json \
             --html-output site/index.html \
             --rss-output site/feed.xml \
             --health-output health.json \
+            --status-output site/status.json \
             --diagnostics-output diagnostics.json \
             --diagnostics-html diagnostics.html \
             --source-state source_state.json \
