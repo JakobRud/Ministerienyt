@@ -1,0 +1,448 @@
+{
+  "generated_at": "2026-08-27T09:08:26.644987+00:00",
+  "full_audit": false,
+  "source_count": 22,
+  "technical_ok": 22,
+  "sources": [
+    {
+      "source": "Statsministeriet",
+      "home_url": "https://stm.dk/",
+      "active_start_urls": [
+        "https://stm.dk/presse/pressemeddelelser/"
+      ],
+      "historical_start_urls": [
+        "https://stm.dk/presse/pressemeddelelser/2026/"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Økonomi- og Indenrigsministeriet",
+      "home_url": "https://oem.dk/",
+      "active_start_urls": [
+        "https://oem.dk/nyheder/nyhedsarkiv/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Udenrigsministeriet",
+      "home_url": "https://um.dk/",
+      "active_start_urls": [
+        "https://um.dk/nyheder/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Via Ritzau API"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Erhvervsministeriet",
+      "home_url": "https://www.em.dk/",
+      "active_start_urls": [
+        "https://www.em.dk/aktuelt/nyheder"
+      ],
+      "historical_start_urls": [
+        "https://www.em.dk/aktuelt/nyheder/2026"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Finansministeriet",
+      "home_url": "https://fm.dk/",
+      "active_start_urls": [
+        "https://fm.dk/nyheder/nyhedsarkiv/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [
+        "https://fm.dk/nyheder/nyhedsarkiv/?rss=true"
+      ],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Justitsministeriet",
+      "home_url": "https://www.justitsministeriet.dk/",
+      "active_start_urls": [
+        "https://www.justitsministeriet.dk/pressemeddelelse/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
+      "home_url": "https://ufm.dk/",
+      "active_start_urls": [
+        "https://ufm.dk/aktuelt/nyheder",
+        "https://ufm.dk/aktuelt/pressemeddelelser"
+      ],
+      "historical_start_urls": [
+        "https://ufm.dk/aktuelt/nyheder/2026",
+        "https://ufm.dk/aktuelt/pressemeddelelser/2026",
+        "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Klima-, Energi- og Forsyningsministeriet",
+      "home_url": "https://www.kefm.dk/",
+      "active_start_urls": [
+        "https://www.kefm.dk/aktuelt/nyheder/"
+      ],
+      "historical_start_urls": [
+        "https://www.kefm.dk/aktuelt/nyheder/2026/"
+      ],
+      "rss_urls": [
+        "https://www.kefm.dk/handlers/DynamicRss.ashx?id=76163fac-6c0a-4edb-8e6e-86a4dcf36bd4"
+      ],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "By-, Land- og Transportministeriet",
+      "home_url": "https://www.bltm.dk/",
+      "active_start_urls": [
+        "https://www.bltm.dk/nyheder"
+      ],
+      "historical_start_urls": [
+        "https://www.trm.dk/nyheder/"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [
+        "https://www.trm.dk/nyheder/ -> https://www.bltm.dk/"
+      ],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Udlændinge- og Integrationsministeriet",
+      "home_url": "https://uim.dk/",
+      "active_start_urls": [
+        "https://uim.dk/nyhedsarkiv"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Undervisningsministeriet",
+      "home_url": "https://uvm.dk/",
+      "active_start_urls": [
+        "https://uvm.dk/aktuelt/nyheder"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "warn",
+      "methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": [
+        "Sikkerhedsgrænsen på 160 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ]
+    },
+    {
+      "source": "Beskæftigelses- og Ligestillingsministeriet",
+      "home_url": "https://bm.dk/",
+      "active_start_urls": [
+        "https://bm.dk/nyheder/",
+        "https://bm.dk/soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=*&sort-desc=ManualDate"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
+      "redirects": [
+        "https://bm.dk/soeg/?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=%2A&sort-desc=ManualDate -> https://bm.dk/soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=%2A&sort-desc=ManualDate"
+      ],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Forsvarsministeriet",
+      "home_url": "https://www.fmn.dk/",
+      "active_start_urls": [
+        "https://www.fmn.dk/da/nyheder/"
+      ],
+      "historical_start_urls": [
+        "https://www.fmn.dk/da/nyheder/2026/"
+      ],
+      "rss_urls": [
+        "https://www.fmn.dk/da/servicemappe/rss-feed/"
+      ],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Skatte- og Vækstministeriet",
+      "home_url": "https://svmn.dk/",
+      "active_start_urls": [
+        "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser",
+        "https://svmn.dk/aktuelt/presse-nyheder/nyheder"
+      ],
+      "historical_start_urls": [
+        "https://skm.dk/aktuelt/presse-nyheder/pressemeddelelser",
+        "https://skm.dk/aktuelt/presse-nyheder/nyheder"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [
+        "https://skm.dk/aktuelt/presse-nyheder/pressemeddelelser -> https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser",
+        "https://skm.dk/aktuelt/presse-nyheder/nyheder -> https://svmn.dk/aktuelt/presse-nyheder/nyheder"
+      ],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Sundheds- og Kirkeministeriet",
+      "home_url": "https://www.ism.dk/",
+      "active_start_urls": [
+        "https://www.ism.dk/nyheder"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [
+        "https://www.ism.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
+      ],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "home_url": "https://mgtp.dk/",
+      "active_start_urls": [
+        "https://mgtp.dk/nyheder"
+      ],
+      "historical_start_urls": [
+        "https://mgtp.dk/nyheder/2026/"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Kulturministeriet",
+      "home_url": "https://kum.dk/",
+      "active_start_urls": [
+        "https://kum.dk/aktuelt/nyheder"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "warn",
+      "methods": [
+        "HTML"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": [
+        "Sikkerhedsgrænsen på 6 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ]
+    },
+    {
+      "source": "Ministeriet for Samfundssikkerhed og Beredskab",
+      "home_url": "https://mssb.dk/",
+      "active_start_urls": [
+        "https://mssb.dk/nyheder/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Børne-, Ældre- og Boligministeriet",
+      "home_url": "https://baebm.dk/",
+      "active_start_urls": [
+        "https://baebm.dk/nyheder",
+        "https://baebm.dk/nyheder/nyhedsarkiv"
+      ],
+      "historical_start_urls": [
+        "https://baebm.dk/nyheder/nyhedsarkiv/2026",
+        "https://aeldremin.dk/nyheder/",
+        "https://aeldremin.dk/nyheder/nyhedsarkiv",
+        "https://aeldremin.dk/nyheder/nyhedsarkiv/2026"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Socialministeriet",
+      "home_url": "https://www.sm.dk/",
+      "active_start_urls": [
+        "https://www.sm.dk/nyheder"
+      ],
+      "historical_start_urls": [
+        "https://www.sm.dk/nyheder/nyhedsarkiv/2026"
+      ],
+      "rss_urls": [
+        "https://www.sm.dk/handlers/DynamicRss.ashx?id=d66aadb0-8d96-4027-9a8f-7a3176ad49f9"
+      ],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "RSS/Atom",
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Miljøministeriet",
+      "home_url": "https://mim.dk/",
+      "active_start_urls": [
+        "https://mim.dk/nyheder/pressemeddelelser",
+        "https://mim.dk/nyheder"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Regeringen.dk",
+      "home_url": "https://regeringen.dk/",
+      "active_start_urls": [
+        "https://regeringen.dk/aktuelt/nyheder/"
+      ],
+      "historical_start_urls": [
+        "https://regeringen.dk/aktuelt/nyheder/2026/"
+      ],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    }
+  ]
+}

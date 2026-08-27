@@ -1,10 +1,11 @@
 {
-  "generated_at": "2026-08-27T06:51:05.418344+00:00",
+  "generated_at": "2026-08-27T09:08:25.148444+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3908,
+  "total_rejected": 3910,
   "summary_by_reason": {
     "before_archive_start": 3332,
-    "missing_safe_publication_date": 576
+    "future_publication_date": 1,
+    "missing_safe_publication_date": 577
   },
   "rejected": [
     {
@@ -33328,6 +33329,16 @@
       "detected_date": "2024-05-16T00:00:00+00:00"
     },
     {
+      "source": "Sundheds- og Kirkeministeriet",
+      "title": "Lov om godtgørelse til grønlandske kvinder vedtaget",
+      "url": "https://www.ism.dk/nyheder/2026/august/lov-om-godtgoerelse-til-groenlandske-kvinder-vedtaget",
+      "reason": "future_publication_date",
+      "reason_da": "Publiceringsdato ligger i fremtiden",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2026-08-27T10:23:00+00:00"
+    },
+    {
       "source": "Kulturministeriet",
       "title": "125 mio. kr. på vej til film og serier optaget i Danmark",
       "url": "https://kum.dk/aktuelt/nyheder/125-mio-kr-paa-vej-til-film-og-serier-optaget-i-danmark",
@@ -38479,6 +38490,15 @@
       "source": "Statsministeriet",
       "title": "Ændringer i regeringen, 2. maj 2022",
       "url": "https://stm.dk/presse/pressemeddelelser/2022/aendringer-i-regeringen-2-maj-2022/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Sundheds- og Kirkeministeriet",
+      "title": "Lov om godtgørelse til grønlandske kvinder vedtaget",
+      "url": "https://www.ism.dk/nyheder/2026/august/lov-om-godtgoerelse-til-groenlandske-kvinder-vedtaget",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
