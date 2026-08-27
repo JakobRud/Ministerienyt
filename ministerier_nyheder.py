@@ -8,6 +8,10 @@ Regeringen.dk, gemmer et vedvarende arkiv fra 1. januar 2026 og bygger:
 * site/feed.xml    - samlet RSS 2.0-feed
 * health.json     - kildestatus fra seneste kørsel
 * diagnostics.json- intern kvalitetsrapport fra seneste kørsel
+* diagnostics.html- læsbar intern kvalitetsrapport (ikke publiceret på Pages)
+* source_state.json- vedvarende cache-/fejltilstand pr. kilde
+* alerts.json      - aktive driftsalarmer efter gentagne tekniske fejl
+* source_audit.json- seneste fulde månedlige kildeaudit
 * archive.json     - vedvarende arkiv, som GitHub Actions committer tilbage
 
 Kilderne ligger i sources.json. Hver kilde kan bruge RSS/Atom, HTML-arkiver,
@@ -47,14 +51,52 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
-USER_AGENT = "Ministerienyt/5.6 (+https://github.com/; public Danish government news aggregator)"
+USER_AGENT = "Ministerienyt/6.0 (+https://github.com/; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
 READ_TIMEOUT = 35
 REQUEST_DELAY_SECONDS = 0.08
 MAX_LISTING_PAGES_PER_SOURCE = 160
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 7
+ARCHIVE_SCHEMA_VERSION = 8
+DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
+DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
+DEFAULT_ALERT_AFTER_FAILURES = 3
+DEFAULT_HISTORICAL_SCAN_HOURS = 168
+DEFAULT_SITEMAP_SCAN_HOURS = 24
+DEFAULT_STALE_AFTER_HOURS = 3
+DEFAULT_LATE_DISCOVERY_GRACE_DAYS = 7
+DEFAULT_PAGE_SIZE = 15
+DATE_PATTERN_MIN_ITEMS = 8
+IMPOSSIBLE_CHANGE_MIN_BASELINE = 10
+IMPOSSIBLE_CHANGE_RATIO = 0.2
+
+RUNTIME_CONFIG: dict = {}
+
+
+def cfg_int(name: str, default: int, minimum: int = 0, maximum: int = 100000) -> int:
+    try:
+        value = int(RUNTIME_CONFIG.get(name, default))
+    except Exception:
+        value = default
+    return max(minimum, min(maximum, value))
+
+
+def parse_iso_datetime(value: object) -> datetime | None:
+    if not value:
+        return None
+    try:
+        dt = date_parser.parse(str(value))
+        return (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+    except Exception:
+        return None
+
+
+def due_since(value: object, hours: int) -> bool:
+    stamp = parse_iso_datetime(value)
+    if stamp is None:
+        return True
+    return datetime.now(timezone.utc) - stamp >= timedelta(hours=max(1, hours))
 
 DANISH_MONTHS = {
     "januar": 1,
@@ -190,6 +232,8 @@ class Item:
     url: str
     published: datetime
     description: str = ""
+    article_id: str = ""
+    first_seen_at: datetime | None = None
 
 
 @dataclass
@@ -212,6 +256,18 @@ class SourceStatus:
     sitemap_files: int = 0
     article_candidates: int = 0
     article_fetches: int = 0
+    known_candidates_skipped: int = 0
+    accepted_new: int = 0
+    retry_attempts: int = 0
+    historical_pages_skipped: int = 0
+    historical_scan_performed: bool = False
+    sitemap_skipped_by_cache: bool = False
+    sitemap_scan_performed: bool = False
+    self_test: str = "unknown"
+    self_test_notes: list[str] | None = None
+    date_pattern_warning: str = ""
+    redirects: list[str] | None = None
+    unexpected_redirects: list[str] | None = None
     crawl_seconds: float = 0.0
     last_published_at: str = ""
     days_since_last_publication: int | None = None
@@ -226,6 +282,12 @@ class SourceStatus:
             self.methods = []
         if self.errors is None:
             self.errors = []
+        if self.self_test_notes is None:
+            self.self_test_notes = []
+        if self.redirects is None:
+            self.redirects = []
+        if self.unexpected_redirects is None:
+            self.unexpected_redirects = []
 
 
 def clean_text(value: str) -> str:
@@ -284,6 +346,45 @@ def canonical_url(url: str) -> str:
     return urlunparse((parsed.scheme, netloc, path, "", parsed.query, ""))
 
 
+def identity_title_key(title: str) -> str:
+    """Stabil titelkerne til artikelidentitet uafhaengigt af URL/domaene."""
+    value = unicodedata.normalize("NFKC", clean_text(title)).casefold()
+    value = re.sub(r"^(?:pressemeddelelse|nyhed|aktuelt)\s*[:\-–—]\s*", "", value)
+    value = re.sub(r"[^0-9a-zæøå]+", " ", value)
+    words = re.sub(r"\s+", " ", value).strip().split()
+    # De foerste ord er normalt stabile, selv hvis en rubrik efterfoelgende
+    # faar en lille redaktionel tilfoejelse.
+    return " ".join(words[:24])
+
+
+def make_article_id(source: str, title: str, published: datetime) -> str:
+    day = published.astimezone(timezone.utc).date().isoformat()
+    basis = f"{clean_text(source).casefold()}|{day}|{identity_title_key(title)}"
+    return "a6-" + hashlib.sha256(basis.encode("utf-8")).hexdigest()[:32]
+
+
+def with_item_identity(item: Item, *, first_seen_at: datetime | None = None, article_id: str = "") -> Item:
+    seen = first_seen_at or item.first_seen_at or item.published
+    seen = (seen if seen.tzinfo else seen.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+    ident = article_id or item.article_id or make_article_id(item.source, item.title, item.published)
+    return Item(item.source, item.title, item.url, item.published, item.description, ident, seen)
+
+
+def same_source_article_identity(a: Item, b: Item) -> bool:
+    if a.source != b.source:
+        return False
+    if abs((a.published - b.published).total_seconds()) > 2 * 86400:
+        return False
+    left, right = identity_title_key(a.title), identity_title_key(b.title)
+    if not left or not right:
+        return False
+    if left == right:
+        return True
+    if min(len(left), len(right)) < 26:
+        return False
+    return difflib.SequenceMatcher(None, left, right).ratio() >= 0.965
+
+
 def browser_seen_alias_ids(url: str) -> list[str]:
     """Returner tidligere URL-identiteter, saa domaeneskift ikke ser nye ud.
 
@@ -311,12 +412,13 @@ def browser_seen_alias_ids(url: str) -> list[str]:
         variants.add(hashlib.sha256(legacy.encode("utf-8")).hexdigest())
 
     primary = hashlib.sha256(canonical_url(url).encode("utf-8")).hexdigest()
-    variants.discard(primary)
+    if primary:
+        variants.add(primary)
     return sorted(variants)
 
 
 def source_hosts(source: dict) -> set[str]:
-    urls = [source.get("home_url", ""), *source.get("start_urls", []), *source.get("sitemap_urls", [])]
+    urls = [source.get("home_url", ""), *source.get("start_urls", []), *source.get("historical_start_urls", []), *source.get("sitemap_urls", [])]
     hosts = {normalize_host(urlparse(url).netloc) for url in urls if url}
     for value in source.get("extra_hosts", []):
         host = normalize_host(urlparse(value).netloc) if "://" in value else normalize_host(value)
@@ -327,7 +429,7 @@ def source_hosts(source: dict) -> set[str]:
 
 def source_origins(source: dict) -> set[str]:
     result: set[str] = set()
-    for url in [source.get("home_url", ""), *source.get("start_urls", [])]:
+    for url in [source.get("home_url", ""), *source.get("start_urls", []), *source.get("historical_start_urls", [])]:
         parsed = urlparse(url)
         if parsed.scheme and parsed.netloc:
             result.add(urlunparse((parsed.scheme, parsed.netloc, "", "", "", "")))
@@ -1349,7 +1451,7 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
     if text == "2026" or path_has_archive_year(target):
         return True
 
-    configured = {canonical_url(url) for url in source.get("start_urls", [])}
+    configured = {canonical_url(url) for url in [*source.get("start_urls", []), *source.get("historical_start_urls", [])]}
     return canonical_url(target) in configured
 
 
@@ -1357,8 +1459,25 @@ def crawl_listing_pages(
     session: requests.Session,
     source: dict,
     status: SourceStatus,
+    source_state: dict | None = None,
+    *,
+    full_audit: bool = False,
 ) -> tuple[dict[str, Candidate], list[str]]:
-    queue: deque[str] = deque(normalize_url(url, keep_query=True) for url in source.get("start_urls", []))
+    source_state = source_state or {}
+    active_urls = [normalize_url(url, keep_query=True) for url in source.get("start_urls", [])]
+    historical_urls = [normalize_url(url, keep_query=True) for url in source.get("historical_start_urls", [])]
+    historical_due = full_audit or due_since(
+        source_state.get("last_historical_scan_at"),
+        cfg_int("historical_scan_hours", DEFAULT_HISTORICAL_SCAN_HOURS, 1, 24 * 31),
+    )
+    historical_keys = {canonical_url(url) for url in historical_urls if url}
+    queued_urls = [url for url in active_urls if url]
+    if historical_due:
+        queued_urls.extend(url for url in historical_urls if url)
+        status.historical_scan_performed = bool(historical_urls)
+    else:
+        status.historical_pages_skipped = len([url for url in historical_urls if url])
+    queue: deque[str] = deque(queued_urls)
     visited: set[str] = set()
     candidates: dict[str, Candidate] = {}
     feed_urls: list[str] = []
@@ -1377,6 +1496,14 @@ def crawl_listing_pages(
             continue
 
         final_url = normalize_url(response.url, keep_query=True) or requested_url
+        if canonical_url(final_url) != canonical_url(requested_url):
+            redirect_note = f"{requested_url} -> {final_url}"
+            if redirect_note not in (status.redirects or []):
+                assert status.redirects is not None
+                status.redirects.append(redirect_note[:500])
+            if not same_source_site(final_url, source):
+                assert status.unexpected_redirects is not None
+                status.unexpected_redirects.append(redirect_note[:500])
         content_type = (response.headers.get("content-type") or "").casefold()
         prefix = response.content[:500].lstrip().lower()
         if any(token in content_type for token in ("rss", "atom", "xml")) or prefix.startswith(b"<?xml"):
@@ -1408,6 +1535,8 @@ def crawl_listing_pages(
                 key = canonical_url(target)
                 candidates[key] = merge_candidate(candidates.get(key), candidate)
             elif listing_link_candidate(anchor, target, final_url, source):
+                if not historical_due and (canonical_url(target) in historical_keys or path_has_archive_year(target)):
+                    continue
                 if target not in visited:
                     queue.append(target)
 
@@ -1439,6 +1568,7 @@ def collect_feed_items(
     source: dict,
     feed_urls: Iterable[str],
     status: SourceStatus,
+    known_urls: set[str] | None = None,
 ) -> list[Item]:
     result: dict[str, Item] = {}
     used = False
@@ -1490,9 +1620,16 @@ def collect_feed_items(
                     discovered_by="RSS/Atom", detected_date=published,
                 )
                 continue
+            key = canonical_url(link)
+            if known_urls is not None and key in known_urls:
+                status.known_candidates_skipped += 1
+                continue
             description = strip_markup(str(getattr(entry, "summary", "") or ""))[:900]
-            item = Item(source["name"], title, link, published, description)
-            result[canonical_url(link)] = better_item(result.get(canonical_url(link)), item)
+            item = with_item_identity(
+                Item(source["name"], title, link, published, description),
+                first_seen_at=datetime.now(timezone.utc),
+            )
+            result[key] = better_item(result.get(key), item)
     if used:
         status.methods.append("RSS/Atom")
     return list(result.values())
@@ -1683,11 +1820,14 @@ def item_from_candidate(
     if not looks_like_article(final_url, source):
         record_rejection(source["name"], title, final_url, "not_article_url", discovered_by=candidate.discovered_by)
         return None
-    return Item(source["name"], title, final_url, published, description[:900])
+    return with_item_identity(
+        Item(source["name"], title, final_url, published, description[:900]),
+        first_seen_at=datetime.now(timezone.utc),
+    )
 
 def better_item(existing: Item | None, new: Item) -> Item:
     if existing is None:
-        return new
+        return with_item_identity(new, first_seen_at=new.first_seen_at or datetime.now(timezone.utc))
     title = existing.title
     if is_generic_title(title) and not is_generic_title(new.title):
         title = new.title
@@ -1697,7 +1837,11 @@ def better_item(existing: Item | None, new: Item) -> Item:
     published = existing.published
     if abs((new.published - existing.published).total_seconds()) < 48 * 3600:
         published = min(existing.published, new.published)
-    return Item(new.source or existing.source, title, new.url or existing.url, published, description)
+    seen_values = [dt for dt in (existing.first_seen_at, new.first_seen_at) if dt is not None]
+    first_seen = min(seen_values) if seen_values else published
+    article_id = existing.article_id or new.article_id
+    merged = Item(new.source or existing.source, title, new.url or existing.url, published, description, article_id, first_seen)
+    return with_item_identity(merged, first_seen_at=first_seen, article_id=article_id)
 
 
 
@@ -1776,9 +1920,13 @@ def collect_ritzau_items(
             candidate_count += 1
             key = canonical_url(url)
             if key in known_urls:
+                status.known_candidates_skipped += 1
                 continue
             description = clean_text(str(version.get("metadescription", "")))[:900]
-            result[key] = Item(source["name"], title, url, published, description)
+            result[key] = with_item_identity(
+                Item(source["name"], title, url, published, description),
+                first_seen_at=datetime.now(timezone.utc),
+            )
 
         paging = payload.get("paging", {}) if isinstance(payload, dict) else {}
         total = int(paging.get("count", 0) or 0) if isinstance(paging, dict) else 0
@@ -1794,6 +1942,9 @@ def collect_source(
     session: requests.Session,
     source: dict,
     known_urls: set[str],
+    source_state: dict | None = None,
+    *,
+    full_audit: bool = False,
 ) -> tuple[list[Item], SourceStatus]:
     status = SourceStatus(source["name"], source.get("home_url", source.get("start_urls", [""])[0]))
 
@@ -1802,16 +1953,26 @@ def collect_source(
         status.fresh_items = len(ritzau_items)
         return ritzau_items, status
 
-    listing_candidates, discovered_feeds = crawl_listing_pages(session, source, status)
+    source_state = source_state or {}
+    listing_candidates, discovered_feeds = crawl_listing_pages(
+        session, source, status, source_state, full_audit=full_audit
+    )
     if listing_candidates:
         status.methods.append("HTML")
 
-    feed_items = collect_feed_items(session, source, discovered_feeds, status)
-    sitemap_candidates = (
-        {}
-        if source.get("disable_sitemap")
-        else discover_sitemap_candidates(session, source, status)
+    feed_items = collect_feed_items(session, source, discovered_feeds, status, known_urls)
+    sitemap_due = full_audit or due_since(
+        source_state.get("last_sitemap_scan_at"),
+        cfg_int("sitemap_scan_hours", DEFAULT_SITEMAP_SCAN_HOURS, 1, 24 * 31),
     )
+    if source.get("disable_sitemap"):
+        sitemap_candidates = {}
+    elif sitemap_due:
+        sitemap_candidates = discover_sitemap_candidates(session, source, status)
+        status.sitemap_scan_performed = True
+    else:
+        sitemap_candidates = {}
+        status.sitemap_skipped_by_cache = True
 
     candidates = dict(listing_candidates)
     for key, candidate in sitemap_candidates.items():
@@ -1825,6 +1986,7 @@ def collect_source(
 
     for key, candidate in candidates.items():
         if key in known_urls:
+            status.known_candidates_skipped += 1
             continue
         item = item_from_candidate(session, source, candidate, status)
         if item:
@@ -1832,28 +1994,104 @@ def collect_source(
             fresh[item_key] = better_item(fresh.get(item_key), item)
 
     status.fresh_items = len(fresh)
+    status.accepted_new = len(fresh)
     return sorted(fresh.values(), key=lambda item: item.published, reverse=True), status
+
+
+def evaluate_source_self_test(status: SourceStatus, previous_state: dict | None = None) -> None:
+    previous_state = previous_state or {}
+    notes: list[str] = []
+    if not source_crawl_ok(status):
+        status.self_test = "fail"
+        notes.append("Ingen teknisk vellykket hentemetode i denne kørsel.")
+    else:
+        status.self_test = "pass"
+        if status.unexpected_redirects:
+            status.self_test = "warn"
+            notes.append("En officiel URL viderestillede til et uventet domæne.")
+        previous_candidates = int(previous_state.get("last_full_candidate_count", previous_state.get("last_candidate_count", 0)) or 0)
+        if previous_candidates > 0 and status.listing_pages > 0 and status.article_candidates == 0 and "RSS/Atom" not in (status.methods or []):
+            status.self_test = "warn"
+            notes.append("Nyhedssiden kunne hentes, men ingen artikelkandidater blev genkendt; layoutet kan være ændret.")
+        if (
+            not status.historical_pages_skipped
+            and not status.sitemap_skipped_by_cache
+            and previous_candidates >= IMPOSSIBLE_CHANGE_MIN_BASELINE
+            and status.article_candidates < max(2, int(previous_candidates * IMPOSSIBLE_CHANGE_RATIO))
+        ):
+            status.self_test = "warn"
+            notes.append(
+                f"Kandidatantal faldt fra {previous_candidates} til {status.article_candidates}; "
+                "arkivet bevares uændret som sikkerhedsnet."
+            )
+        if status.errors and status.self_test == "pass":
+            status.self_test = "warn"
+            notes.append("Kilden havde delvise hentefejl, men mindst én metode lykkedes.")
+    status.self_test_notes = notes
+
+
+def annotate_date_pattern_warning(status: SourceStatus, items: list[Item]) -> None:
+    if len(items) < DATE_PATTERN_MIN_ITEMS:
+        return
+    counts = Counter(item.published.date().isoformat() for item in items)
+    date_value, count = counts.most_common(1)[0]
+    if count / len(items) >= 0.9:
+        status.date_pattern_warning = (
+            f"{count}/{len(items)} accepterede poster har samme publiceringsdato {date_value}. "
+            "Kontrollér datoparseren, hvis mønsteret fortsætter."
+        )
+        if status.self_test == "pass":
+            status.self_test = "warn"
+        if status.self_test_notes is not None:
+            status.self_test_notes.append(status.date_pattern_warning)
 
 
 def collect_fresh_items(
     sources: list[dict],
     known_urls: set[str],
+    source_state: dict[str, dict] | None = None,
+    *,
+    full_audit: bool = False,
 ) -> tuple[list[Item], list[SourceStatus]]:
     session = create_session()
     all_items: dict[str, Item] = {}
     statuses: list[SourceStatus] = []
+    source_state = source_state or {}
+    max_attempts = cfg_int("source_retry_attempts", DEFAULT_SOURCE_RETRY_ATTEMPTS, 1, 4)
+    wait_seconds = cfg_int("source_retry_wait_seconds", DEFAULT_SOURCE_RETRY_WAIT_SECONDS, 0, 30)
 
     for index, source in enumerate(sources, start=1):
         print(f"[{index}/{len(sources)}] Henter {source['name']} ...", file=sys.stderr)
         started = time.monotonic()
-        try:
-            items, status = collect_source(session, source, known_urls)
-        except Exception as exc:
-            status = SourceStatus(source["name"], source.get("home_url", ""))
-            append_error(status, f"Uventet kildefejl: {exc}")
-            items = []
+        items: list[Item] = []
+        status = SourceStatus(source["name"], source.get("home_url", ""))
+        previous = source_state.get(source["name"], {})
+        first_errors: list[str] = []
+        for attempt in range(1, max_attempts + 1):
+            try:
+                items, status = collect_source(
+                    session, source, known_urls, previous, full_audit=full_audit
+                )
+            except Exception as exc:
+                status = SourceStatus(source["name"], source.get("home_url", ""))
+                append_error(status, f"Uventet kildefejl: {exc}")
+                items = []
+            status.retry_attempts = attempt - 1
+            if source_crawl_ok(status):
+                if first_errors:
+                    for message in first_errors[:3]:
+                        append_error(status, "Tidligere forsøg: " + message)
+                break
+            first_errors.extend(status.errors or [])
+            if attempt < max_attempts:
+                print(f"  -> teknisk fejl; prøver igen ({attempt + 1}/{max_attempts}) ...", file=sys.stderr)
+                if wait_seconds:
+                    time.sleep(wait_seconds)
+
+        evaluate_source_self_test(status, previous)
+        annotate_date_pattern_warning(status, items)
         for item in items:
-            key = canonical_url(item.url)
+            key = canonical_url(item.url) or item.article_id
             all_items[key] = better_item(all_items.get(key), item)
         duration = time.monotonic() - started
         status.crawl_seconds = round(duration, 3)
@@ -1861,7 +2099,7 @@ def collect_fresh_items(
         method_text = ", ".join(dict.fromkeys(status.methods or [])) or "ingen fund"
         print(
             f"  -> {len(items)} nye/opdaterede, {status.article_candidates} kandidater, "
-            f"{method_text}, {duration:.1f} sek.",
+            f"{method_text}, selvtest={status.self_test}, {duration:.1f} sek.",
             file=sys.stderr,
         )
 
@@ -1879,7 +2117,13 @@ def item_from_archive_dict(raw: dict) -> Item | None:
         description = clean_text(str(raw.get("description", "")))[:900]
         if not source or is_generic_title(title) or not url:
             return None
-        return Item(source, title, url, published, description)
+        first_seen = parse_iso_datetime(raw.get("first_seen_at")) or published
+        article_id = clean_text(str(raw.get("article_id", "")))
+        return with_item_identity(
+            Item(source, title, url, published, description, article_id, first_seen),
+            first_seen_at=first_seen,
+            article_id=article_id,
+        )
     except Exception:
         return None
 
@@ -1906,18 +2150,113 @@ def load_archive(path: Path, allowed_sources: set[str]) -> tuple[list[Item], int
             result[key] = better_item(result.get(key), item)
     return sorted(result.values(), key=lambda item: item.published, reverse=True), schema_version
 
+def prepare_refresh_merge(
+    existing: list[Item],
+    fresh: list[Item],
+    statuses: list[SourceStatus],
+    refresh_sources: set[str],
+) -> tuple[list[Item], list[Item]]:
+    """Udskift kun en schema-genopbygning, hvis den nye crawl ser plausibel ud."""
+    if not refresh_sources:
+        return existing, fresh
+    status_lookup = {status.name: status for status in statuses}
+    fresh_by_source: dict[str, list[Item]] = {}
+    existing_by_source: dict[str, list[Item]] = {}
+    for item in fresh:
+        fresh_by_source.setdefault(item.source, []).append(item)
+    for item in existing:
+        existing_by_source.setdefault(item.source, []).append(item)
+
+    keep_existing = [item for item in existing if item.source not in refresh_sources]
+    accepted_fresh = [item for item in fresh if item.source not in refresh_sources]
+    for name in sorted(refresh_sources):
+        old_rows = existing_by_source.get(name, [])
+        new_rows = fresh_by_source.get(name, [])
+        status = status_lookup.get(name)
+        crawl_ok = bool(status and source_crawl_ok(status))
+        suspicious_drop = (
+            len(old_rows) >= IMPOSSIBLE_CHANGE_MIN_BASELINE
+            and len(new_rows) < max(2, int(len(old_rows) * IMPOSSIBLE_CHANGE_RATIO))
+        )
+        if not crawl_ok or suspicious_drop:
+            keep_existing.extend(old_rows)
+            accepted_fresh.extend(new_rows)
+            if status:
+                status.self_test = "warn" if crawl_ok else "fail"
+                note = (
+                    f"Schema-genopbygning blev ikke anvendt: {len(old_rows)} gamle mod {len(new_rows)} nye poster. "
+                    "Senest gode arkiv er bevaret."
+                )
+                if status.self_test_notes is not None and note not in status.self_test_notes:
+                    status.self_test_notes.append(note)
+        else:
+            accepted_fresh.extend(new_rows)
+    return keep_existing, accepted_fresh
+
+
 def merge_archive(existing: Iterable[Item], fresh: Iterable[Item]) -> list[Item]:
+    """Flet uden at goere artikelidentiteten afhaengig af URL'en.
+
+    URL er stadig foerste og sikreste match. Hvis et officielt domaene eller en
+    artikelsti aendres, kan samme kilde/dato og en meget ens titel genbruge det
+    eksisterende permanente article_id og first_seen_at.
+    """
     merged: dict[str, Item] = {}
-    for item in [*existing, *fresh]:
+    id_to_key: dict[str, str] = {}
+    source_day_keys: dict[tuple[str, str], list[str]] = {}
+
+    def add(item: Item, *, prefer_existing_identity: Item | None = None) -> None:
         if item.published < ARCHIVE_START:
+            return
+        item = with_item_identity(
+            item,
+            article_id=(prefer_existing_identity.article_id if prefer_existing_identity else item.article_id),
+            first_seen_at=(prefer_existing_identity.first_seen_at if prefer_existing_identity else item.first_seen_at),
+        )
+        existing_id_key = id_to_key.get(item.article_id)
+        if existing_id_key and existing_id_key in merged:
+            merged[existing_id_key] = better_item(merged[existing_id_key], item)
+            return
+        key = canonical_url(item.url) or item.article_id
+        if key in merged:
+            merged[key] = better_item(merged[key], item)
+        else:
+            merged[key] = item
+        id_to_key[merged[key].article_id] = key
+        day_key = (merged[key].source, merged[key].published.date().isoformat())
+        if key not in source_day_keys.setdefault(day_key, []):
+            source_day_keys[day_key].append(key)
+
+    for item in existing:
+        add(item)
+
+    for raw in fresh:
+        item = with_item_identity(raw, first_seen_at=raw.first_seen_at or datetime.now(timezone.utc))
+        canonical = canonical_url(item.url)
+        if canonical and canonical in merged:
+            merged[canonical] = better_item(merged[canonical], item)
             continue
-        key = canonical_url(item.url)
-        if key:
-            merged[key] = better_item(merged.get(key), item)
+        existing_key = id_to_key.get(item.article_id)
+        if existing_key and existing_key in merged:
+            merged[existing_key] = better_item(merged[existing_key], item)
+            continue
+
+        # URL-uafhaengigt fallbackmatch. Kontroller samme dag samt dagen foer/efter.
+        candidate_keys: list[str] = []
+        for offset in (-1, 0, 1):
+            day = (item.published + timedelta(days=offset)).date().isoformat()
+            candidate_keys.extend(source_day_keys.get((item.source, day), []))
+        matched_key = next((key for key in candidate_keys if same_source_article_identity(merged[key], item)), None)
+        if matched_key:
+            old = merged[matched_key]
+            merged[matched_key] = better_item(old, with_item_identity(item, article_id=old.article_id, first_seen_at=old.first_seen_at))
+            continue
+        add(item)
+
     return sorted(merged.values(), key=lambda item: item.published, reverse=True)
 
 
-def archive_signature(items: Iterable[Item]) -> tuple[tuple[str, str, str, str, str], ...]:
+def archive_signature(items: Iterable[Item]) -> tuple[tuple[str, str, str, str, str, str, str], ...]:
     return tuple(
         sorted(
             (
@@ -1926,6 +2265,8 @@ def archive_signature(items: Iterable[Item]) -> tuple[tuple[str, str, str, str, 
                 canonical_url(item.url),
                 item.published.isoformat(),
                 item.description,
+                item.article_id,
+                (item.first_seen_at or item.published).isoformat(),
             )
             for item in items
         )
@@ -1944,6 +2285,8 @@ def save_archive(path: Path, items: list[Item]) -> None:
                 "url": item.url,
                 "published": item.published.isoformat(),
                 "description": item.description,
+                "article_id": item.article_id or make_article_id(item.source, item.title, item.published),
+                "first_seen_at": (item.first_seen_at or item.published).astimezone(timezone.utc).isoformat(),
             }
             for item in items
         ],
@@ -1969,9 +2312,7 @@ def duplicate_title_key(title: str) -> str:
 
 
 def duplicate_match(a: Item, b: Item) -> bool:
-    """Sikker dubletkontrol, primært mellem Regeringen.dk og ministerierne."""
-    if a.source != "Regeringen.dk" and b.source != "Regeringen.dk":
-        return False
+    """Konservativ dubletkontrol på tværs af officielle kilder."""
     if a.source == b.source:
         return False
     if abs((a.published - b.published).total_seconds()) > 2 * 86400:
@@ -1979,35 +2320,48 @@ def duplicate_match(a: Item, b: Item) -> bool:
     left, right = duplicate_title_key(a.title), duplicate_title_key(b.title)
     if not left or not right:
         return False
-    if left == right:
+    if left == right and min(len(left), len(right)) >= 18:
         return True
-    if min(len(left), len(right)) < 28:
+    if min(len(left), len(right)) < 32:
         return False
-    return difflib.SequenceMatcher(None, left, right).ratio() >= 0.94
+    ratio = difflib.SequenceMatcher(None, left, right).ratio()
+    # Regeringen.dk genpublicerer ofte ministeriestof med minimale rubrikændringer.
+    threshold = 0.94 if "Regeringen.dk" in {a.source, b.source} else 0.975
+    if ratio < threshold:
+        return False
+    # Ved dubletter mellem to ministerier kræves ekstra tekstlig støtte, hvis
+    # beskrivelser findes, for at undgå at samle to enslydende men forskellige sager.
+    if "Regeringen.dk" not in {a.source, b.source} and a.description and b.description:
+        left_desc = duplicate_title_key(a.description[:240])
+        right_desc = duplicate_title_key(b.description[:240])
+        if left_desc and right_desc and difflib.SequenceMatcher(None, left_desc, right_desc).ratio() < 0.72:
+            return False
+    return True
 
 
 def deduplicate_for_display(items: Iterable[Item]) -> list[DisplayEntry]:
-    ministry_items = [item for item in items if item.source != "Regeringen.dk"]
-    government_items = [item for item in items if item.source == "Regeringen.dk"]
-    entries: list[DisplayEntry] = [DisplayEntry(item) for item in ministry_items]
-
-    for government_item in government_items:
+    entries: list[DisplayEntry] = []
+    for item in sorted(items, key=lambda row: row.published, reverse=True):
         best_index = None
         best_score = -1.0
-        gov_key = duplicate_title_key(government_item.title)
+        item_key = duplicate_title_key(item.title)
         for index, entry in enumerate(entries):
-            candidate = entry.primary
-            if not duplicate_match(government_item, candidate):
+            if not duplicate_match(item, entry.primary):
                 continue
-            score = difflib.SequenceMatcher(None, gov_key, duplicate_title_key(candidate.title)).ratio()
-            score -= min(abs((government_item.published - candidate.published).total_seconds()) / 86400, 2) * 0.01
+            score = difflib.SequenceMatcher(None, item_key, duplicate_title_key(entry.primary.title)).ratio()
+            score -= min(abs((item.published - entry.primary.published).total_seconds()) / 86400, 2) * 0.01
             if score > best_score:
                 best_score, best_index = score, index
         if best_index is None:
-            entries.append(DisplayEntry(government_item))
+            entries.append(DisplayEntry(item))
+            continue
+        current = entries[best_index]
+        # Hvis Regeringen.dk blev fundet først, foretrækkes ministeriets egen artikel som hovedlink.
+        if current.primary.source == "Regeringen.dk" and item.source != "Regeringen.dk":
+            entries[best_index] = DisplayEntry(item, (current.primary, *current.also))
         else:
-            current = entries[best_index]
-            entries[best_index] = DisplayEntry(current.primary, current.also + (government_item,))
+            extras = current.also if any(extra.article_id == item.article_id for extra in current.also) else current.also + (item,)
+            entries[best_index] = DisplayEntry(current.primary, extras)
 
     return sorted(entries, key=lambda entry: entry.primary.published, reverse=True)
 
@@ -2088,6 +2442,132 @@ def source_health_ok(status: SourceStatus) -> bool:
     return source_crawl_ok(status)
 
 
+def load_source_state(path: Path) -> dict:
+    if not path.exists():
+        return {"schema_version": 1, "sources": {}}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(raw, dict) and isinstance(raw.get("sources", {}), dict):
+            return raw
+    except Exception as exc:
+        print(f"Advarsel: kunne ikke læse {path}: {exc}", file=sys.stderr)
+    return {"schema_version": 1, "sources": {}}
+
+
+def update_source_state(previous_payload: dict, statuses: list[SourceStatus]) -> dict:
+    now = datetime.now(timezone.utc).isoformat()
+    old_sources = previous_payload.get("sources", {}) if isinstance(previous_payload, dict) else {}
+    rows: dict[str, dict] = {}
+    for status in statuses:
+        old = old_sources.get(status.name, {}) if isinstance(old_sources, dict) else {}
+        ok = source_crawl_ok(status)
+        consecutive = 0 if ok else int(old.get("consecutive_failures", 0) or 0) + 1
+        row = dict(old) if isinstance(old, dict) else {}
+        row.update({
+            "consecutive_failures": consecutive,
+            "last_attempt_at": now,
+            "last_self_test": status.self_test,
+            "last_candidate_count": status.article_candidates,
+            "last_fresh_items": status.fresh_items,
+            "last_methods": list(dict.fromkeys(status.methods or [])),
+            "last_errors": list(status.errors or []),
+        })
+        if not status.historical_pages_skipped and not status.sitemap_skipped_by_cache:
+            row["last_full_candidate_count"] = status.article_candidates
+        if ok:
+            row["last_success_at"] = now
+        if status.historical_scan_performed and ok:
+            row["last_historical_scan_at"] = now
+        if status.sitemap_scan_performed and ok:
+            row["last_sitemap_scan_at"] = now
+        rows[status.name] = row
+    return {
+        "schema_version": 1,
+        "updated_at": now,
+        "note": "Vedvarende driftsstatus til retry, cache og fejlalarmer. Publiceres ikke på GitHub Pages.",
+        "sources": rows,
+    }
+
+
+def alerts_payload(state_payload: dict, statuses: list[SourceStatus]) -> dict:
+    threshold = cfg_int("alert_after_failures", DEFAULT_ALERT_AFTER_FAILURES, 2, 12)
+    state_sources = state_payload.get("sources", {}) if isinstance(state_payload, dict) else {}
+    alerts: list[dict] = []
+    status_lookup = {status.name: status for status in statuses}
+    for name, row in state_sources.items():
+        failures = int((row or {}).get("consecutive_failures", 0) or 0)
+        if failures < threshold:
+            continue
+        status = status_lookup.get(name)
+        alerts.append({
+            "source": name,
+            "severity": "error",
+            "consecutive_failures": failures,
+            "message": f"Kilden har fejlet teknisk i {failures} kørsel(er) i træk.",
+            "errors": list((status.errors if status else []) or (row or {}).get("last_errors", []))[:5],
+        })
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "threshold": threshold,
+        "active_alerts": len(alerts),
+        "alerts": alerts,
+    }
+
+
+def source_audit_payload(sources: list[dict], statuses: list[SourceStatus], *, full_audit: bool) -> dict:
+    status_lookup = {status.name: status for status in statuses}
+    rows = []
+    for source in sources:
+        status = status_lookup.get(source["name"])
+        rows.append({
+            "source": source["name"],
+            "home_url": source.get("home_url", ""),
+            "active_start_urls": source.get("start_urls", []),
+            "historical_start_urls": source.get("historical_start_urls", []),
+            "rss_urls": source.get("rss_urls", []),
+            "technical_ok": bool(status and source_crawl_ok(status)),
+            "self_test": status.self_test if status else "missing",
+            "methods": list(dict.fromkeys((status.methods or []) if status else [])),
+            "redirects": list((status.redirects or []) if status else []),
+            "unexpected_redirects": list((status.unexpected_redirects or []) if status else []),
+            "errors": list((status.errors or []) if status else []),
+        })
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "full_audit": full_audit,
+        "source_count": len(rows),
+        "technical_ok": sum(1 for row in rows if row["technical_ok"]),
+        "sources": rows,
+    }
+
+
+def build_diagnostics_html(diagnostics: dict, alerts: dict, audit: dict) -> str:
+    def e(value: object) -> str:
+        return html.escape(str(value or ""))
+    source_rows = []
+    for row in diagnostics.get("sources", []):
+        notes = " · ".join(row.get("self_test_notes", []) or [])
+        source_rows.append(
+            "<tr>"
+            f"<td>{e(row.get('source'))}</td>"
+            f"<td>{e(row.get('self_test'))}</td>"
+            f"<td>{e(row.get('article_candidates'))}</td>"
+            f"<td>{e(row.get('known_candidates_skipped'))}</td>"
+            f"<td>{e(row.get('fresh_items'))}</td>"
+            f"<td>{e(row.get('rejected_during_current_crawl'))}</td>"
+            f"<td>{e(row.get('crawl_seconds'))}</td>"
+            f"<td>{e(notes)}</td>"
+            "</tr>"
+        )
+    alert_html = "<p>Ingen aktive driftsalarmer.</p>"
+    if alerts.get("alerts"):
+        alert_html = "<ul>" + "".join(
+            f"<li><strong>{e(row.get('source'))}</strong>: {e(row.get('message'))}</li>"
+            for row in alerts["alerts"]
+        ) + "</ul>"
+    return f'''<!doctype html><html lang="da"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ministerienyt diagnostik</title><style>body{{font:14px/1.45 system-ui,sans-serif;margin:28px;color:#18222c}}h1,h2{{margin:.4em 0}}.meta{{color:#5d6974}}table{{border-collapse:collapse;width:100%;margin-top:12px}}th,td{{border:1px solid #dce2e7;padding:7px 8px;text-align:left;vertical-align:top}}th{{background:#f1f3f5}}code{{background:#f1f3f5;padding:1px 4px}}</style></head><body><h1>Ministerienyt – intern kvalitetsrapport</h1><p class="meta">Genereret {e(diagnostics.get('generated_at'))}. Denne fil ligger kun i repositoryet og publiceres ikke som en del af GitHub Pages.</p><p>Arkiv: <strong>{e(diagnostics.get('archive_items'))}</strong> · viste historier: <strong>{e(diagnostics.get('display_items_after_deduplication'))}</strong> · kilder OK: <strong>{e(diagnostics.get('healthy_sources'))}/{e(diagnostics.get('source_count'))}</strong> · kørsel: <strong>{e(diagnostics.get('runtime_seconds'))} sek.</strong></p><h2>Driftsalarmer</h2>{alert_html}<h2>Kilder</h2><table><thead><tr><th>Kilde</th><th>Selvtest</th><th>Kandidater</th><th>Kendte sprunget over</th><th>Nye/opdaterede</th><th>Afvist</th><th>Sek.</th><th>Noter</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table><h2>Kildeaudit</h2><p>Seneste audit: <code>{e(audit.get('generated_at'))}</code> · fuld audit: <strong>{'ja' if audit.get('full_audit') else 'nej'}</strong>.</p></body></html>'''
+
+
 def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, source_lookup: dict[str, dict]) -> bytes:
     rss = ET.Element("rss", {"version": "2.0"})
     channel = ET.SubElement(rss, "channel")
@@ -2098,7 +2578,7 @@ def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, sou
     )
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = "Ministerienyt 5.6"
+    ET.SubElement(channel, "generator").text = "Ministerienyt 6.0"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -2154,7 +2634,14 @@ def build_html(
     *,
     noindex: bool = False,
     goatcounter_code: str = "",
+    ui_config: dict | None = None,
 ) -> str:
+    ui_config = ui_config or {}
+    page_size = max(5, min(100, int(ui_config.get("page_size", DEFAULT_PAGE_SIZE) or DEFAULT_PAGE_SIZE)))
+    stale_after_hours = max(1, min(24, int(ui_config.get("stale_after_hours", DEFAULT_STALE_AFTER_HOURS) or DEFAULT_STALE_AFTER_HOURS)))
+    late_discovery_grace_days = max(0, min(30, int(ui_config.get("late_discovery_grace_days", DEFAULT_LATE_DISCOVERY_GRACE_DAYS) or DEFAULT_LATE_DISCOVERY_GRACE_DAYS)))
+    footer_about = clean_text(str(ui_config.get("footer_about", "Ministerienyt samler links til officielle kilder · Artikler åbner hos udgiveren.")))
+    footer_about_mobile = clean_text(str(ui_config.get("footer_about_mobile", "Ministerienyt · officielle kilder · artikler åbner hos udgiveren")))
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
     source_lookup = {source["name"]: source for source in sources}
     status_lookup = {status.name: status for status in statuses}
@@ -2175,7 +2662,8 @@ def build_html(
         description = tidy_description_text(item.description, item.title)
         if len(description) > 280:
             description = description[:277].rstrip() + "..."
-        article_id = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
+        article_id = item.article_id or make_article_id(item.source, item.title, item.published)
+        first_seen = (item.first_seen_at or item.published).astimezone(timezone.utc).isoformat()
         seen_alias_ids = " ".join(browser_seen_alias_ids(item.url))
         article_type = infer_article_type(item, source_lookup.get(item.source))
         all_sources = [item.source, *(other.source for other in entry.also)]
@@ -2190,7 +2678,7 @@ def build_html(
         type_html = f'<span class="type-badge">{esc(article_type)}</span>' if article_type else ""
         search_text = " ".join([*all_sources, item.title, description, article_type]).casefold()
         cards.append(
-            f'''<article class="card" data-id="{article_id}" data-seen-aliases="{esc(seen_alias_ids)}" data-published="{esc(item.published.isoformat())}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
+            f'''<article class="card" data-id="{article_id}" data-seen-aliases="{esc(seen_alias_ids)}" data-published="{esc(item.published.isoformat())}" data-first-seen="{esc(first_seen)}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
   <div class="meta"><span class="source-name">{esc(item.source)}</span>{type_html}<time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
   <h2><a href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">{esc(item.title)}</a></h2>
   {f'<p>{esc(description)}</p>' if description else ''}
@@ -2277,6 +2765,11 @@ def build_html(
 /* v5.5-v5.6: finpudsning, overblik og robust footer */
 :root{--max:1060px}.top .wrap{min-height:42px}.hero .wrap{padding:10px 0 9px}h1{font-size:clamp(1.7rem,3.4vw,2.35rem)}.run-status{margin-top:5px;gap:5px 11px}.controls{margin-top:10px}.period-row{margin-top:7px}main.wrap{padding-top:17px}.updated-status{white-space:nowrap}.updated-status.stale{color:var(--warn);font-weight:750}.stale-warning{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;background:#fff0cf;color:#784e00;font-size:.74rem;font-weight:800}.share-view{gap:5px}.card{padding:15px 17px}.card.is-new{padding-left:13px}.meta{min-height:22px;gap:4px 9px}.card h2{margin:6px 0 6px}.card p{max-width:none;margin-bottom:9px}.card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px 18px;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f2}.card-actions{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}.also-published{margin-left:auto;text-align:right}.head{align-items:center}.head-tools{display:flex;align-items:center;gap:10px}#count{font-size:.86rem;white-space:nowrap}.back-to-top{position:fixed;right:18px;bottom:18px;z-index:45;width:42px;height:42px;border:1px solid #b9c2c9;border-radius:50%;background:rgba(255,255,255,.96);color:var(--brand2);box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:1.2rem;font-weight:900;cursor:pointer}.back-to-top:hover{background:#fff;border-color:#8e9aa3}footer .wrap{padding:10px 0 12px;display:grid;grid-template-rows:auto auto;row-gap:5px;color:var(--muted);font-size:.81rem}.footer-row{margin:0!important;min-width:0;display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;line-height:1.35}.footer-about{font-size:.82rem}.footer-meta{gap:0}.footer-sep{flex:0 0 auto;margin:0 9px;color:#a2abb3}.footer-about-long,.footer-about-short{min-width:0}.footer-about-short{display:none}.changelog{display:inline-flex;align-items:center;position:relative;margin:0;flex:0 0 auto}.changelog>summary{display:inline-flex;align-items:center;font-size:.79rem;line-height:1.35}.visit-counter{display:inline-flex;align-items:center;white-space:nowrap;flex:0 0 auto}@media(min-width:1400px){.wrap{width:min(calc(100% - 48px),var(--max))}}@media(max-width:650px){.top .wrap{min-height:40px}.hero .wrap{padding:9px 0 8px}h1{font-size:1.72rem}.run-status{font-size:.78rem}.controls{margin-top:9px}.card{padding:12px 13px}.card.is-new{padding-left:9px}.card-footer{align-items:flex-start;flex-direction:column;gap:6px}.also-published{margin-left:0;text-align:left}.head-tools{width:100%;justify-content:space-between}.back-to-top{right:12px;bottom:78px;width:40px;height:40px}footer .wrap{padding:9px 0 11px;row-gap:4px;font-size:.72rem}.footer-row{white-space:nowrap;overflow:visible}.footer-about-long{display:none}.footer-about-short{display:inline}.footer-sep{margin:0 5px}.changelog>summary{font-size:.72rem}.visit-counter{font-size:.72rem}}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+/* v6.0: roligere hierarki og konsekvent to-rækkers footer */
+.health-link{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:999px;background:#eef6f0}.health-link::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}.health-link.warn{background:#fff3dc}.controls{padding:7px;border:1px solid #e5e9ec;border-radius:10px;background:#fafbfb}.filter-button,.favorites-menu>summary,.period-button,input,select{transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}.filter-button:hover,.favorites-menu>summary:hover,.period-button:hover{border-color:#7f8b95}.card{transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}.card:hover{box-shadow:0 3px 12px rgba(24,34,44,.06);transform:translateY(-1px)}.source-name{letter-spacing:.005em}footer .wrap{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:minmax(18px,auto) minmax(18px,auto)!important;row-gap:4px!important;padding:9px 0 11px!important}.footer-row{display:block!important;width:100%;margin:0!important;line-height:1.35!important;white-space:nowrap!important}.footer-meta-inner{display:inline-flex;align-items:center;white-space:nowrap}.footer-about-short{display:none}.footer-meta .changelog{display:inline-flex!important;vertical-align:middle}.footer-meta .visit-counter{display:inline-flex!important;vertical-align:middle}.changelog-panel{white-space:normal}@media(max-width:650px){.controls{padding:7px}.card:hover{transform:none}.footer-about-long{display:none!important}.footer-about-short{display:inline!important}.footer-row{font-size:.7rem!important}.footer-sep{margin:0 4px!important}.footer-meta-inner{max-width:100%}.visit-counter{font-size:.7rem!important}.changelog>summary{font-size:.7rem!important}}
+
+.footer-row.footer-meta{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;white-space:nowrap!important}.footer-row.footer-about{display:block!important;white-space:nowrap!important}.footer-meta>a,.footer-meta>.footer-sep,.footer-meta>.changelog,.footer-meta>.visit-counter{flex:0 0 auto}.footer-meta-inner{display:contents!important}
+
 '''
     script = r'''
 (() => {
@@ -2308,7 +2801,7 @@ def build_html(
   const SEEN_KEY = 'ministerienyt.seenArticleIds.v2';
   const VISIT_KEY = 'ministerienyt.lastVisit.v2';
   const FAVORITES_KEY = 'ministerienyt.favoriteSources.v1';
-  const PAGE_SIZE = 15;
+  const PAGE_SIZE = {page_size};
   const norm = value => (value || '').toLocaleLowerCase('da-DK').trim();
   let previousIds = null;
   let lastVisit = null;
@@ -2330,7 +2823,7 @@ def build_html(
 
   const currentIds = cards.map(card => card.dataset.id).filter(Boolean);
   const lastVisitMs = Date.parse(lastVisit || '') || 0;
-  const LATE_DISCOVERY_GRACE_MS = 7 * 24 * 60 * 60 * 1000;
+  const LATE_DISCOVERY_GRACE_MS = {late_discovery_grace_days} * 24 * 60 * 60 * 1000;
 
   function wasSeenBefore(card) {
     if (!previousIds) return false;
@@ -2345,12 +2838,15 @@ def build_html(
     for (const card of cards) {
       if (!card.dataset.id || wasSeenBefore(card)) continue;
       const publishedMs = Date.parse(card.dataset.published || '') || 0;
-      // En artikel er ny, hvis den er publiceret siden sidste besog. Hvis
-      // crawleren opdager en lidt forsinket artikel, accepteres op til 7 dage.
-      // Langt aeldre backfill kommer stadig i arkivet, men markeres ikke som ny.
+      const firstSeenMs = Date.parse(card.dataset.firstSeen || '') || publishedMs;
+      // Artiklen skal faktisk vaere blevet fundet siden sidste besog. Derudover
+      // skal publiceringsdatoen enten ligge efter sidste besog eller inden for
+      // tolerancen for lidt forsinket discovery. Historisk backfill bliver i
+      // arkivet, men kan dermed ikke pludselig se ulæst ud.
+      const discoveredSinceVisit = Boolean(lastVisitMs && firstSeenMs >= lastVisitMs);
       const publishedSinceVisit = Boolean(lastVisitMs && publishedMs >= lastVisitMs);
       const recentLateDiscovery = Boolean(publishedMs && publishedMs <= nowMs && (nowMs - publishedMs) <= LATE_DISCOVERY_GRACE_MS);
-      if (publishedSinceVisit || recentLateDiscovery) {
+      if (discoveredSinceVisit && (publishedSinceVisit || recentLateDiscovery)) {
         card.classList.add('is-new');
         newCount++;
       }
@@ -2390,7 +2886,7 @@ def build_html(
       relative = 'Senest opdateret for ' + days + (days === 1 ? ' dag siden' : ' dage siden');
     }
     updatedStatus.textContent = relative;
-    const stale = ageMs >= 3 * 60 * 60 * 1000;
+    const stale = ageMs >= {stale_after_hours} * 60 * 60 * 1000;
     updatedStatus.classList.toggle('stale', stale);
     if (staleWarning) staleWarning.hidden = !stale;
   }
@@ -2666,14 +3162,18 @@ def build_html(
   applyFilters(true);
 })();
 '''
-    changelog_html = '''<details class="changelog"><summary>v5.6</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
+    script = (script
+        .replace('{page_size}', str(page_size))
+        .replace('{late_discovery_grace_days}', str(late_discovery_grace_days))
+        .replace('{stale_after_hours}', str(stale_after_hours)))
+    changelog_html = '''<details class="changelog"><summary>v6.0</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     return f'''<!doctype html>
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."><meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
 <header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span><button id="health-link" class="health-link {health_class}" type="button">{esc(health_text)}</button><span id="stale-warning" class="stale-warning" hidden>Seneste opdatering er forsinket</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><button id="mine-only" class="filter-button" type="button" aria-pressed="false">Mine ministerier</button><details id="favorites-menu" class="favorites-menu"><summary>★ Favoritter</summary><div class="favorites-panel"><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd favoritter</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
 <main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder)</span></summary><div class="sources-content"><p>Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort. “OK” betyder, at crawleren teknisk kunne hente kilden. Hvor længe der er gået siden seneste nyhed påvirker ikke kildestatus; aktivitetsmønstre gemmes kun i den interne diagnostics.json.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Status</th><th>Fundet via</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
-<footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long"><strong>Ministerienyt</strong> samler links til officielle kilder.</span><span class="footer-about-short"><strong>Ministerienyt</strong> · officielle kilder</span><span class="footer-sep" aria-hidden="true">·</span><span>Artikler åbner hos udgiveren.</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
+<footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
 <nav class="mobile-dock" aria-label="Hurtige handlinger"><button id="mobile-search" type="button"><span>⌕</span>Søg</button><button id="mobile-new" type="button"><span>Nye</span>Kun nye</button><button id="mobile-mine" type="button"><span>★</span>Mine</button><button id="mobile-favorites" type="button"><span>☆</span>Favoritter</button></nav>
 <script>{script}</script>
@@ -2709,7 +3209,7 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         raw["last_successful_at"] = now if crawl_ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
-        "version": "5.6",
+        "version": "6.0",
         "updated_at": now,
         "archive_start": ARCHIVE_START.date().isoformat(),
         "total_archive_items": len(items),
@@ -2743,7 +3243,10 @@ def diagnostics_payload(
         latest = source_items[0] if source_items else None
         rows.append({
             "name": status.name,
+            "source": status.name,
             "crawl_ok": source_crawl_ok(status),
+            "self_test": status.self_test,
+            "self_test_notes": status.self_test_notes or [],
             "health_ok": source_health_ok(status),
             "unusual_silence": status.silence_warning,
             "days_since_last_publication": status.days_since_last_publication,
@@ -2754,7 +3257,17 @@ def diagnostics_payload(
             "sitemap_files": status.sitemap_files,
             "article_candidates": status.article_candidates,
             "article_fetches": status.article_fetches,
+            "known_candidates_skipped": status.known_candidates_skipped,
+            "retry_attempts": status.retry_attempts,
+            "historical_pages_skipped": status.historical_pages_skipped,
+            "historical_scan_performed": status.historical_scan_performed,
+            "sitemap_scan_performed": status.sitemap_scan_performed,
+            "sitemap_skipped_by_cache": status.sitemap_skipped_by_cache,
+            "fresh_items": status.fresh_items,
             "accepted_from_current_crawl": status.fresh_items,
+            "date_pattern_warning": status.date_pattern_warning,
+            "redirects": status.redirects or [],
+            "unexpected_redirects": status.unexpected_redirects or [],
             "rejected_during_current_crawl": sum(reasons.values()),
             "rejection_reasons": dict(sorted(reasons.items())),
             "archive_items": len(source_items),
@@ -2769,7 +3282,7 @@ def diagnostics_payload(
 
     all_reason_counts = Counter(str(entry.get("reason", "unknown")) for entry in rejected)
     return {
-        "version": "5.6",
+        "version": "6.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "note": "Intern kvalitetsrapport fra seneste crawl. Filen publiceres ikke via GitHub Pages.",
         "runtime_seconds": round(elapsed_seconds, 3),
@@ -2849,7 +3362,7 @@ def generate_pwa_assets(site_dir: Path) -> None:
     )
     (site_dir / "icon-192.png").write_bytes(pwa_icon_png(192))
     (site_dir / "icon-512.png").write_bytes(pwa_icon_png(512))
-    service_worker = r'''const CACHE = 'ministerienyt-v5.6';
+    service_worker = r'''const CACHE = 'ministerienyt-v6.0';
 const SHELL = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -2878,7 +3391,20 @@ self.addEventListener('fetch', event => {
 
 
 def load_site_config(path: Path) -> dict:
-    defaults = {"noindex": False, "goatcounter_code": ""}
+    defaults = {
+        "noindex": False,
+        "goatcounter_code": "",
+        "page_size": DEFAULT_PAGE_SIZE,
+        "stale_after_hours": DEFAULT_STALE_AFTER_HOURS,
+        "late_discovery_grace_days": DEFAULT_LATE_DISCOVERY_GRACE_DAYS,
+        "historical_scan_hours": DEFAULT_HISTORICAL_SCAN_HOURS,
+        "sitemap_scan_hours": DEFAULT_SITEMAP_SCAN_HOURS,
+        "source_retry_attempts": DEFAULT_SOURCE_RETRY_ATTEMPTS,
+        "source_retry_wait_seconds": DEFAULT_SOURCE_RETRY_WAIT_SECONDS,
+        "alert_after_failures": DEFAULT_ALERT_AFTER_FAILURES,
+        "footer_about": "Ministerienyt samler links til officielle kilder · Artikler åbner hos udgiveren.",
+        "footer_about_mobile": "Ministerienyt · officielle kilder · artikler åbner hos udgiveren",
+    }
     if not path.exists():
         return defaults
     try:
@@ -2898,6 +3424,11 @@ def main() -> int:
     parser.add_argument("--html-output", default="site/index.html")
     parser.add_argument("--health-output", default="health.json")
     parser.add_argument("--diagnostics-output", default="diagnostics.json")
+    parser.add_argument("--diagnostics-html", default="diagnostics.html")
+    parser.add_argument("--source-state", default="source_state.json")
+    parser.add_argument("--alerts-output", default="alerts.json")
+    parser.add_argument("--source-audit-output", default="source_audit.json")
+    parser.add_argument("--full-audit", action="store_true")
     parser.add_argument("--status-output", default="")  # bagudkompatibel kopi, hvis ønsket
     parser.add_argument("--rejected-log", default="rejected_candidates.json")
     parser.add_argument("--config", default="site_config.json")
@@ -2912,6 +3443,11 @@ def main() -> int:
     source_lookup = {source["name"]: source for source in sources}
     allowed_sources = set(source_lookup)
     config = load_site_config(Path(args.config))
+    RUNTIME_CONFIG.clear()
+    RUNTIME_CONFIG.update(config)
+    source_state_path = Path(args.source_state)
+    previous_source_state = load_source_state(source_state_path)
+    previous_source_rows = previous_source_state.get("sources", {}) if isinstance(previous_source_state, dict) else {}
     archive_path = Path(args.archive)
     existing, archive_version = load_archive(archive_path, allowed_sources)
     refresh_sources = {
@@ -2919,24 +3455,32 @@ def main() -> int:
         if int(source.get("refresh_before_schema", 0) or 0) > archive_version
     }
     if refresh_sources:
-        before = len(existing)
-        existing = [item for item in existing if item.source not in refresh_sources]
-        removed = before - len(existing)
-        print("Genopbygger korrigerede kilder: " + ", ".join(sorted(refresh_sources)) + f" ({removed} gamle poster fjernet).", file=sys.stderr)
-    known_urls = {canonical_url(item.url) for item in existing}
+        print(
+            "Kontrolleret schema-genopbygning for: " + ", ".join(sorted(refresh_sources)) +
+            ". Det gamle arkiv bevares, indtil den nye crawl består selvtesten.",
+            file=sys.stderr,
+        )
+    known_urls = {
+        canonical_url(item.url) for item in existing
+        if item.source not in refresh_sources and canonical_url(item.url)
+    }
     print(f"Eksisterende arkiv: {len(existing)} artikler.", file=sys.stderr)
 
-    fresh, statuses = collect_fresh_items(sources, known_urls)
+    fresh, statuses = collect_fresh_items(
+        sources, known_urls, previous_source_rows, full_audit=bool(args.full_audit)
+    )
     save_rejection_log(Path(args.rejected_log))
     print(f"Afvisningslog: {len(REJECTED_CANDIDATES)} kandidater.", file=sys.stderr)
-    merged = merge_archive(existing, fresh)
+    safe_existing, safe_fresh = prepare_refresh_merge(existing, fresh, statuses, refresh_sources)
+    merged = merge_archive(safe_existing, safe_fresh)
     if not merged:
         print("Ingen artikler kunne findes, og arkivet er tomt. Output blev ikke overskrevet.", file=sys.stderr)
         return 2
 
     annotate_silence_warnings(statuses, merged)
 
-    if not archive_path.exists() or archive_signature(existing) != archive_signature(merged):
+    if (not archive_path.exists() or archive_version < ARCHIVE_SCHEMA_VERSION
+            or archive_signature(existing) != archive_signature(merged)):
         save_archive(archive_path, merged)
         print(f"Arkivet blev opdateret: {len(merged)} artikler.", file=sys.stderr)
     else:
@@ -2950,7 +3494,10 @@ def main() -> int:
     html_output = Path(args.html_output)
     health_output = Path(args.health_output)
     diagnostics_output = Path(args.diagnostics_output)
-    for output in (rss_output, html_output, health_output, diagnostics_output):
+    diagnostics_html_output = Path(args.diagnostics_html)
+    alerts_output = Path(args.alerts_output)
+    source_audit_output = Path(args.source_audit_output)
+    for output in (rss_output, html_output, health_output, diagnostics_output, diagnostics_html_output, alerts_output, source_audit_output, source_state_path):
         output.parent.mkdir(parents=True, exist_ok=True)
 
     previous_health = load_previous_health(health_output)
@@ -2963,7 +3510,12 @@ def main() -> int:
 
     rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup))
     html_output.write_text(
-        build_html(display_entries, args.feed_url or "feed.xml", sources, statuses, noindex=bool(config.get("noindex")), goatcounter_code=str(config.get("goatcounter_code", ""))),
+        build_html(
+            display_entries, args.feed_url or "feed.xml", sources, statuses,
+            noindex=bool(config.get("noindex")),
+            goatcounter_code=str(config.get("goatcounter_code", "")),
+            ui_config=config,
+        ),
         encoding="utf-8",
     )
     robots = "User-agent: *\nDisallow: /\n" if config.get("noindex") else "User-agent: *\nAllow: /\n"
@@ -2973,6 +3525,21 @@ def main() -> int:
     elapsed = time.monotonic() - started
     diagnostics = diagnostics_payload(statuses, merged, display_entries, duplicates_merged, elapsed)
     diagnostics_output.write_text(json.dumps(diagnostics, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    new_source_state = update_source_state(previous_source_state, statuses)
+    source_state_path.write_text(json.dumps(new_source_state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    alerts = alerts_payload(new_source_state, statuses)
+    alerts_output.write_text(json.dumps(alerts, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    current_audit = source_audit_payload(sources, statuses, full_audit=bool(args.full_audit))
+    if args.full_audit or not source_audit_output.exists():
+        audit = current_audit
+        source_audit_output.write_text(json.dumps(audit, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    else:
+        try:
+            audit = json.loads(source_audit_output.read_text(encoding="utf-8"))
+        except Exception:
+            audit = current_audit
+    diagnostics_html_output.write_text(build_diagnostics_html(diagnostics, alerts, audit), encoding="utf-8")
 
     covered = sum(1 for source in sources if any(item.source == source["name"] for item in merged))
     silent = sum(1 for status in statuses if status.silence_warning)

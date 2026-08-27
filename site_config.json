@@ -2,5 +2,16 @@
   "noindex": false,
   "_comment": "Sæt noindex til true for at bede søgemaskiner om ikke at indeksere siden. Det er ikke adgangskontrol.",
   "goatcounter_code": "ministerienyt",
-  "_comment_goatcounter": "Indsæt kun site-koden fra CODE.goatcounter.com (fx ministerienyt). Lad feltet være tomt for at deaktivere besøgstælleren."
+  "_comment_goatcounter": "Offentlig GoatCounter site-kode. Bruges til den diskrete 30-dages tæller i footeren.",
+  "page_size": 15,
+  "stale_after_hours": 3,
+  "late_discovery_grace_days": 7,
+  "historical_scan_hours": 168,
+  "sitemap_scan_hours": 24,
+  "source_retry_attempts": 2,
+  "source_retry_wait_seconds": 5,
+  "alert_after_failures": 3,
+  "footer_about": "Ministerienyt samler links til officielle kilder · Artikler åbner hos udgiveren.",
+  "footer_about_mobile": "Ministerienyt · officielle kilder · artikler åbner hos udgiveren",
+  "_comment_quality": "Disse værdier kan justeres uden at ændre crawlerkoden. Historiske kilder scannes som standard ugentligt, sitemaps dagligt, og GitHub Issue-alarm udløses først efter tre tekniske fejl i træk."
 }

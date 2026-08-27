@@ -3,11 +3,13 @@
     "name": "Statsministeriet",
     "home_url": "https://stm.dk/",
     "start_urls": [
-      "https://stm.dk/presse/pressemeddelelser/",
-      "https://stm.dk/presse/pressemeddelelser/2026/"
+      "https://stm.dk/presse/pressemeddelelser/"
     ],
     "article_prefixes": [
       "/presse/pressemeddelelser/"
+    ],
+    "historical_start_urls": [
+      "https://stm.dk/presse/pressemeddelelser/2026/"
     ]
   },
   {
@@ -41,13 +43,15 @@
     "name": "Erhvervsministeriet",
     "home_url": "https://www.em.dk/",
     "start_urls": [
-      "https://www.em.dk/aktuelt/nyheder",
-      "https://www.em.dk/aktuelt/nyheder/2026"
+      "https://www.em.dk/aktuelt/nyheder"
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "historical_start_urls": [
+      "https://www.em.dk/aktuelt/nyheder/2026"
+    ]
   },
   {
     "name": "Finansministeriet",
@@ -79,23 +83,24 @@
     "home_url": "https://ufm.dk/",
     "start_urls": [
       "https://ufm.dk/aktuelt/nyheder",
-      "https://ufm.dk/aktuelt/pressemeddelelser",
-      "https://ufm.dk/aktuelt/nyheder/2026",
-      "https://ufm.dk/aktuelt/pressemeddelelser/2026",
-      "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026"
+      "https://ufm.dk/aktuelt/pressemeddelelser"
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/",
       "/aktuelt/pressemeddelelser/",
       "/digitalisering/nyheder/nyhedsarkiv/"
+    ],
+    "historical_start_urls": [
+      "https://ufm.dk/aktuelt/nyheder/2026",
+      "https://ufm.dk/aktuelt/pressemeddelelser/2026",
+      "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026"
     ]
   },
   {
     "name": "Klima-, Energi- og Forsyningsministeriet",
     "home_url": "https://www.kefm.dk/",
     "start_urls": [
-      "https://www.kefm.dk/aktuelt/nyheder/",
-      "https://www.kefm.dk/aktuelt/nyheder/2026/"
+      "https://www.kefm.dk/aktuelt/nyheder/"
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
@@ -105,19 +110,24 @@
     "default_article_type": "Nyhed",
     "rss_urls": [
       "https://www.kefm.dk/handlers/DynamicRss.ashx?id=76163fac-6c0a-4edb-8e6e-86a4dcf36bd4"
+    ],
+    "historical_start_urls": [
+      "https://www.kefm.dk/aktuelt/nyheder/2026/"
     ]
   },
   {
     "name": "By-, Land- og Transportministeriet",
     "home_url": "https://www.bltm.dk/",
     "start_urls": [
-      "https://www.bltm.dk/nyheder",
-      "https://www.trm.dk/nyheder/"
+      "https://www.bltm.dk/nyheder"
     ],
     "article_prefixes": [
       "/nyheder/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "historical_start_urls": [
+      "https://www.trm.dk/nyheder/"
+    ]
   },
   {
     "name": "Udlændinge- og Integrationsministeriet",
@@ -170,8 +180,7 @@
     "name": "Forsvarsministeriet",
     "home_url": "https://www.fmn.dk/",
     "start_urls": [
-      "https://www.fmn.dk/da/nyheder/",
-      "https://www.fmn.dk/da/nyheder/2026/"
+      "https://www.fmn.dk/da/nyheder/"
     ],
     "article_prefixes": [
       "/da/nyheder/"
@@ -180,6 +189,9 @@
     "default_article_type": "Nyhed",
     "rss_urls": [
       "https://www.fmn.dk/da/servicemappe/rss-feed/"
+    ],
+    "historical_start_urls": [
+      "https://www.fmn.dk/da/nyheder/2026/"
     ]
   },
   {
@@ -187,16 +199,18 @@
     "home_url": "https://svmn.dk/",
     "start_urls": [
       "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser",
-      "https://svmn.dk/aktuelt/presse-nyheder/nyheder",
-      "https://skm.dk/aktuelt/presse-nyheder/pressemeddelelser",
-      "https://skm.dk/aktuelt/presse-nyheder/nyheder"
+      "https://svmn.dk/aktuelt/presse-nyheder/nyheder"
     ],
     "article_prefixes": [
       "/aktuelt/presse-nyheder/pressemeddelelser/",
       "/aktuelt/presse-nyheder/nyheder/"
     ],
     "allow_unlabeled_header_date": true,
-    "refresh_before_schema": 5
+    "refresh_before_schema": 5,
+    "historical_start_urls": [
+      "https://skm.dk/aktuelt/presse-nyheder/pressemeddelelser",
+      "https://skm.dk/aktuelt/presse-nyheder/nyheder"
+    ]
   },
   {
     "name": "Sundheds- og Kirkeministeriet",
@@ -217,13 +231,15 @@
     "name": "Ministeriet for Natur og Dyrevelfærd",
     "home_url": "https://mgtp.dk/",
     "start_urls": [
-      "https://mgtp.dk/nyheder",
-      "https://mgtp.dk/nyheder/2026/"
+      "https://mgtp.dk/nyheder"
     ],
     "article_prefixes": [
       "/nyheder/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "historical_start_urls": [
+      "https://mgtp.dk/nyheder/2026/"
+    ]
   },
   {
     "name": "Kulturministeriet",
@@ -258,11 +274,7 @@
     "home_url": "https://baebm.dk/",
     "start_urls": [
       "https://baebm.dk/nyheder",
-      "https://baebm.dk/nyheder/nyhedsarkiv",
-      "https://baebm.dk/nyheder/nyhedsarkiv/2026",
-      "https://aeldremin.dk/nyheder/",
-      "https://aeldremin.dk/nyheder/nyhedsarkiv",
-      "https://aeldremin.dk/nyheder/nyhedsarkiv/2026"
+      "https://baebm.dk/nyheder/nyhedsarkiv"
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
@@ -274,14 +286,19 @@
       "aeldremin.dk"
     ],
     "allow_unlabeled_after_h1_date": true,
-    "allow_plain_listing_date": true
+    "allow_plain_listing_date": true,
+    "historical_start_urls": [
+      "https://baebm.dk/nyheder/nyhedsarkiv/2026",
+      "https://aeldremin.dk/nyheder/",
+      "https://aeldremin.dk/nyheder/nyhedsarkiv",
+      "https://aeldremin.dk/nyheder/nyhedsarkiv/2026"
+    ]
   },
   {
     "name": "Socialministeriet",
     "home_url": "https://www.sm.dk/",
     "start_urls": [
-      "https://www.sm.dk/nyheder",
-      "https://www.sm.dk/nyheder/nyhedsarkiv/2026"
+      "https://www.sm.dk/nyheder"
     ],
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
@@ -289,6 +306,9 @@
     "default_article_type": "Nyhed",
     "rss_urls": [
       "https://www.sm.dk/handlers/DynamicRss.ashx?id=d66aadb0-8d96-4027-9a8f-7a3176ad49f9"
+    ],
+    "historical_start_urls": [
+      "https://www.sm.dk/nyheder/nyhedsarkiv/2026"
     ]
   },
   {
@@ -308,12 +328,14 @@
     "name": "Regeringen.dk",
     "home_url": "https://regeringen.dk/",
     "start_urls": [
-      "https://regeringen.dk/aktuelt/nyheder/",
-      "https://regeringen.dk/aktuelt/nyheder/2026/"
+      "https://regeringen.dk/aktuelt/nyheder/"
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "historical_start_urls": [
+      "https://regeringen.dk/aktuelt/nyheder/2026/"
+    ]
   }
 ]
