@@ -33,6 +33,36 @@ class DateRegressionTests(unittest.TestCase):
         soup = BeautifulSoup('<meta property="article:published_time" content="2026-07-02T09:00:00+02:00"><h1>Tommy Ahlers er ny bestyrelsesformand</h1><p>Tiltræder den 15. august 2026.</p>', "html.parser")
         self.assertEqual(m.date_from_soup(soup, {}).date().isoformat(), "2026-07-02")
 
+    def test_statsministeriet_date_after_h1(self):
+        soup = BeautifulSoup('<h1>Statsministeren skal drøfte luftforsvar med præsident Zelenskyy i Kyiv på flagdag</h1><ul><li>23.08.2026</li><li>Mette Frederiksen</li></ul><p>Brødtekst med 24.08.2026.</p>', "html.parser")
+        source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 10}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-23")
+
+    def test_kulturministeriet_article_header_date(self):
+        soup = BeautifulSoup('<h1>Kulturminister vil beskytte det danske sprog</h1><p>Kort manchet.</p><span>Pressemeddelelse</span><span>Nyhed</span><div>20.08.2026</div><p>Brødtekst med 01.09.2026.</p>', "html.parser")
+        source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 12}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-20")
+
+    def test_mgtp_date_after_h1_corrects_body_event_date(self):
+        soup = BeautifulSoup('<h1>Naturstyrelsen har skudt problemulv nær Houstrup</h1><div>14-08-2026</div><span>Nyhed</span><p>Naturstyrelsen har torsdag den 13. august skudt en problemulv.</p>', "html.parser")
+        source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 8}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-14")
+
+    def test_mssb_date_after_lead(self):
+        soup = BeautifulSoup('<h1>Gode råd til voksne og forældre: Tal med dit barn om kriser</h1><h2>Nu lanceres syv gode råd til voksne.</h2><ul><li>26.08.2026</li></ul><p>Brødtekst.</p>', "html.parser")
+        source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 12}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-26")
+
+    def test_mim_date_after_lead(self):
+        soup = BeautifulSoup('<h1>TotalEnergies politianmeldt for oliespild og kemikalieudledninger i Nordsøen</h1><p>Miljøstyrelsen har politianmeldt firmaet.</p><div>21. august 2026</div><p>Den 20. august har Miljøstyrelsen politianmeldt virksomheden.</p>', "html.parser")
+        source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 14}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-21")
+
+    def test_baebm_prefers_article_h1_over_generic_og_title(self):
+        soup = BeautifulSoup('<meta property="og:title" content="Børne-, Ældre- og Boligministeriet"><h1>Ny undersøgelse viser stor tilfredshed blandt forældre til børn i dagtilbud</h1>', "html.parser")
+        source = {"name": "Børne-, Ældre- og Boligministeriet"}
+        self.assertEqual(m.title_from_soup(soup, source), "Ny undersøgelse viser stor tilfredshed blandt forældre til børn i dagtilbud")
+
 
 class IdentityAndSafetyTests(unittest.TestCase):
     def item(self, source, title, url, day):
@@ -75,6 +105,64 @@ class IdentityAndSafetyTests(unittest.TestCase):
             m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(old_cfg)
         self.assertEqual(alerts["active_alerts"], 1)
 
+
+    def test_self_test_warns_when_safe_dates_are_mostly_missing(self):
+        status = m.SourceStatus("Testministeriet", "https://x.dk/")
+        status.listing_pages = 1
+        status.accepted_new = 1
+        old = dict(m.REJECTED_CANDIDATES)
+        try:
+            m.REJECTED_CANDIDATES.clear()
+            for i in range(4):
+                m.REJECTED_CANDIDATES[f"missing-{i}"] = {"source": "Testministeriet", "reason": "missing_safe_publication_date"}
+            m.evaluate_source_self_test(status, {})
+        finally:
+            m.REJECTED_CANDIDATES.clear(); m.REJECTED_CANDIDATES.update(old)
+        self.assertEqual(status.self_test, "warn")
+        self.assertTrue(any("sikker publiceringsdato" in note for note in status.self_test_notes))
+
+    def test_ritzau_can_supplement_dynamic_html_source(self):
+        source = {
+            "name": "Testministeriet",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+            "ritzau_pressroom_id": 123,
+            "ritzau_supplemental": True,
+            "disable_sitemap": True,
+        }
+        item = self.item(
+            "Testministeriet",
+            "En officiel pressemeddelelse fundet via Ritzau",
+            "https://via.ritzau.dk/pressemeddelelse/test",
+            "2026-08-21",
+        )
+        original_ritzau = m.collect_ritzau_items
+        original_listing = m.crawl_listing_pages
+        original_feed = m.collect_feed_items
+        calls = {"listing": 0}
+        try:
+            def fake_ritzau(session, src, known, status):
+                status.article_candidates = 1
+                status.methods.append("Via Ritzau API")
+                return [item], True
+            def fake_listing(session, src, status, source_state, full_audit=False):
+                calls["listing"] += 1
+                status.listing_pages = 1
+                return {}, []
+            m.collect_ritzau_items = fake_ritzau
+            m.crawl_listing_pages = fake_listing
+            m.collect_feed_items = lambda *args, **kwargs: []
+            items, status = m.collect_source(None, source, set(), {}, full_audit=False)
+        finally:
+            m.collect_ritzau_items = original_ritzau
+            m.crawl_listing_pages = original_listing
+            m.collect_feed_items = original_feed
+        self.assertEqual(calls["listing"], 1)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0].title, item.title)
+        self.assertEqual(status.article_candidates, 1)
+
     def test_archive_identity_survives_serialization_fields(self):
         item = self.item("Testministeriet", "En stabil artikelidentitet med en tydelig titel", "https://x.dk/nyheder/stabil", "2026-08-20")
         raw = {"source": item.source, "title": item.title, "url": item.url, "published": item.published.isoformat(), "description": item.description, "article_id": item.article_id, "first_seen_at": item.first_seen_at.isoformat()}
@@ -91,7 +179,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v6.0", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v6.1", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Unikke besøg seneste 30 dage", rows[1].get_text(" ", strip=True))
 
 

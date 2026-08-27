@@ -10,7 +10,10 @@
     ],
     "historical_start_urls": [
       "https://stm.dk/presse/pressemeddelelser/2026/"
-    ]
+    ],
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 10,
+    "refresh_before_schema": 9
   },
   {
     "name": "Økonomi- og Indenrigsministeriet",
@@ -239,7 +242,10 @@
     "default_article_type": "Nyhed",
     "historical_start_urls": [
       "https://mgtp.dk/nyheder/2026/"
-    ]
+    ],
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 8,
+    "refresh_before_schema": 9
   },
   {
     "name": "Kulturministeriet",
@@ -252,11 +258,13 @@
     ],
     "max_listing_pages": 6,
     "always_fetch_articles": true,
-    "refresh_before_schema": 5,
+    "refresh_before_schema": 9,
     "disable_sitemap": true,
     "allow_plain_listing_date": true,
     "allow_unlabeled_header_date": true,
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 12
   },
   {
     "name": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -267,7 +275,10 @@
     "article_prefixes": [
       "/nyheder/nyhedsarkiv/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 12,
+    "refresh_before_schema": 9
   },
   {
     "name": "Børne-, Ældre- og Boligministeriet",
@@ -281,7 +292,7 @@
     ],
     "allow_unlabeled_header_date": true,
     "default_article_type": "Nyhed",
-    "refresh_before_schema": 7,
+    "refresh_before_schema": 9,
     "extra_hosts": [
       "aeldremin.dk"
     ],
@@ -292,7 +303,8 @@
       "https://aeldremin.dk/nyheder/",
       "https://aeldremin.dk/nyheder/nyhedsarkiv",
       "https://aeldremin.dk/nyheder/nyhedsarkiv/2026"
-    ]
+    ],
+    "after_h1_date_max_text_nodes": 8
   },
   {
     "name": "Socialministeriet",
@@ -322,7 +334,14 @@
       "/nyheder/pressemeddelelser/",
       "/nyheder/"
     ],
-    "allow_unlabeled_header_date": true
+    "allow_unlabeled_header_date": true,
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 14,
+    "ritzau_pressroom_id": 13560422,
+    "ritzau_page_size": 20,
+    "ritzau_max_pages": 60,
+    "ritzau_supplemental": true,
+    "refresh_before_schema": 9
   },
   {
     "name": "Regeringen.dk",
