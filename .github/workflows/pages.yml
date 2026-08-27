@@ -25,7 +25,6 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  issues: write
 
 concurrency:
   group: pages
@@ -85,34 +84,6 @@ jobs:
             --site-url "$PAGES_URL" \
             --feed-url "${PAGES_URL}feed.xml" \
             $AUDIT_FLAG
-
-      - name: Opret eller luk automatisk kildealarm
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          ACTIVE=$(python -c "import json; print(int(json.load(open('alerts.json', encoding='utf-8')).get('active_alerts', 0)))")
-          TITLE='[Ministerienyt] Automatisk kildealarm'
-          ISSUE=$(gh issue list --state open --json number,title --jq '.[] | select(.title == "[Ministerienyt] Automatisk kildealarm") | .number' | head -n 1)
-          if [ "$ACTIVE" -gt 0 ]; then
-            python - <<'PY' > /tmp/ministerienyt-alert.md
-          import json
-          data = json.load(open('alerts.json', encoding='utf-8'))
-          print('Ministerienyt har registreret gentagne tekniske fejl på følgende kilde(r):\n')
-          for row in data.get('alerts', []):
-              print(f"- **{row.get('source')}**: {row.get('message')}")
-              for error in row.get('errors', [])[:3]:
-                  print(f"  - {error}")
-          print('\nSe `diagnostics.html`, `diagnostics.json` og `source_state.json` i repositoryet for detaljer.')
-          PY
-            if [ -z "$ISSUE" ]; then
-              gh issue create --title "$TITLE" --body-file /tmp/ministerienyt-alert.md
-            else
-              echo "Kildealarm findes allerede som issue #$ISSUE."
-            fi
-          elif [ -n "$ISSUE" ]; then
-            gh issue close "$ISSUE" --comment "De berørte kilder er igen teknisk OK i den seneste kørsel. Lukker den automatiske alarm."
-          fi
 
       - name: Gem arkiv og intern kvalitetsstatus i repositoryet
         run: |
