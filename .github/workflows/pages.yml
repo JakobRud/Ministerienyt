@@ -10,7 +10,10 @@ on:
       - "health.json"
       - "diagnostics.json"
   schedule:
+    # To forsog pr. time reducerer risikoen for lange huller, hvis GitHub
+    # forsinker eller dropper et planlagt schedule-event.
     - cron: "17 * * * *"
+    - cron: "47 * * * *"
 
 permissions:
   actions: read
