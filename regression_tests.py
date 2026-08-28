@@ -4,6 +4,7 @@ import sys
 import types
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
 
 try:
     import feedparser  # noqa: F401
@@ -146,7 +147,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
                 status.article_candidates = 1
                 status.methods.append("Via Ritzau API")
                 return [item], True
-            def fake_listing(session, src, status, source_state, full_audit=False):
+            def fake_listing(session, src, status, source_state, fast=False, full_audit=False):
                 calls["listing"] += 1
                 status.listing_pages = 1
                 return {}, []
@@ -195,6 +196,63 @@ class IdentityAndSafetyTests(unittest.TestCase):
             m.due_since = original_due
         self.assertEqual(calls["sitemap"], 1)
         self.assertTrue(status.sitemap_scan_performed)
+
+    def test_fast_crawl_limits_pagination_without_warning(self):
+        source = {
+            "name": "Testministeriet",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "historical_start_urls": ["https://example.dk/nyheder/2026"],
+            "article_prefixes": ["/nyheder/"],
+        }
+        calls = []
+        original_fetch = m.fetch
+        old_cfg = dict(m.RUNTIME_CONFIG)
+        try:
+            m.RUNTIME_CONFIG["fast_listing_pages"] = 4
+            def fake_fetch(session, url):
+                calls.append(url)
+                page = len(calls)
+                body = (
+                    f'<a href="/nyheder/artikel-{page}">En tydelig artikeloverskrift nummer {page}</a>'
+                    f'<a href="/nyheder?page={page + 1}">Næste</a>'
+                )
+                return types.SimpleNamespace(
+                    url=url,
+                    headers={"content-type": "text/html"},
+                    content=body.encode(),
+                    text=body,
+                )
+            m.fetch = fake_fetch
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(None, source, status, {}, fast=True)
+        finally:
+            m.fetch = original_fetch
+            m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(old_cfg)
+        self.assertEqual(status.listing_pages, 4)
+        self.assertEqual(len(candidates), 4)
+        self.assertTrue(status.fast_mode)
+        self.assertTrue(status.pagination_limited)
+        self.assertEqual(status.errors, [])
+        self.assertNotIn(source["historical_start_urls"][0], calls)
+
+    def test_fast_state_keeps_deep_candidate_baseline(self):
+        status = m.SourceStatus("Testministeriet", "https://example.dk/")
+        status.fast_mode = True
+        status.listing_pages = 4
+        status.article_candidates = 3
+        status.methods.append("HTML")
+        previous = {"schema_version": 1, "sources": {"Testministeriet": {"last_full_candidate_count": 120}}}
+        updated = m.update_source_state(previous, [status])
+        self.assertEqual(updated["sources"]["Testministeriet"]["last_full_candidate_count"], 120)
+
+    def test_workflow_uses_danish_time_and_light_hourly_checks(self):
+        workflow = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "7 6-18 * * *"', workflow)
+        self.assertIn('cron: "7 0,21 * * *"', workflow)
+        self.assertIn('cron: "7 3 * * *"', workflow)
+        self.assertGreaterEqual(workflow.count('timezone: "Europe/Copenhagen"'), 4)
+        self.assertIn('CRAWL_FLAG="--fast"', workflow)
 
     def test_sitemap_ignores_explicit_old_year_even_with_new_lastmod(self):
         source = {
@@ -249,12 +307,17 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v6.2", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v6.3", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Unikke besøg seneste 30 dage", rows[1].get_text(" ", strip=True))
+        self.assertIn("dage:&nbsp;<span id=\"visit-counter\"", html)
         self.assertEqual(soup.select_one('link[rel="canonical"]')["href"], "https://example.dk/ministerienyt/")
         self.assertEqual(soup.select_one('meta[property="og:title"]')["content"], "Ministerienyt")
         self.assertIn("params.getAll('favorit')", html)
         self.assertIn("url.searchParams.append('favorit', favorite)", html)
+        self.assertEqual(len(soup.select("#favorites-menu")), 1)
+        self.assertIsNotNone(soup.select_one("#favorites-menu #mine-only"))
+        self.assertIsNone(soup.select_one(".quick-actions > #mine-only"))
+        self.assertNotIn("★ Favoritter", html)
 
     def test_quality_warning_is_visible_separately_from_technical_status(self):
         item = self.item("Testministeriet", "En testartikel med en tydelig titel", "https://example.dk/nyheder/test", "2026-08-20")
@@ -262,8 +325,13 @@ class IdentityAndSafetyTests(unittest.TestCase):
         status = m.SourceStatus("Testministeriet", "https://example.dk/")
         status.listing_pages = 1
         status.self_test = "warn"
+        status.self_test_notes = ["En hentemetode fejlede, men en anden lykkedes."]
         html = m.build_html([m.DisplayEntry(item)], "feed.xml", [source], [status])
-        self.assertIn("1/1 kilder OK · 1 advarsel", html)
+        soup = BeautifulSoup(html, "html.parser")
+        self.assertIsNone(soup.select_one("#health-link"))
+        self.assertIn("1 bemærkning", soup.select_one("#sources summary").get_text(" ", strip=True))
+        self.assertIn("Bemærkning", soup.select_one("#sources tbody tr").get_text(" ", strip=True))
+        self.assertIn("En hentemetode fejlede, men en anden lykkedes.", html)
 
 
 if __name__ == "__main__":

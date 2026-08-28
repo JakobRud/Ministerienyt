@@ -1,8 +1,8 @@
-# Opdatér Ministerienyt til version 6.2
+# Opdatér Ministerienyt til version 6.3
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-6.2.zip` ud på din computer. Mappestrukturen skal bevares, især `.github/workflows/pages.yml`.
+Pak `Ministerienyt-6.3.zip` ud på din computer. Mappestrukturen skal bevares, især `.github/workflows/pages.yml`.
 
 ## 2. Upload rodfilerne
 
@@ -10,8 +10,7 @@ Pak `Ministerienyt-6.2.zip` ud på din computer. Mappestrukturen skal bevares, i
 
 - `ministerier_nyheder.py`
 - `regression_tests.py`
-- `requirements.txt`
-- `archive.json`
+- `site_config.json`
 - `README.md`
 - `TRIN-FOR-TRIN.md`
 
@@ -25,7 +24,7 @@ Commit ændringerne direkte til `main`.
 
 Gå til **Actions → Opdater Ministerienyt**. Et push til `main` starter workflowet. Det udfører regressionstests, genererer side, RSS, PWA-filer og `site/status.json`, opdaterer kvalitetsfilerne og udgiver GitHub Pages.
 
-Den medfølgende `archive.json` er allerede schema 10 og indeholder de 10 artikler, som blev fundet under den fulde 6.1-audit.
+Behold repositoryets eksisterende `archive.json` og kvalitetsfiler. De er nyere end leverancen og opdateres automatisk af workflowet.
 
 ## 5. Kør eventuelt en fuld audit
 
@@ -42,9 +41,12 @@ En fuld audit kan tage væsentligt længere end en almindelig kørsel. Den køre
 Når workflowet er grønt:
 
 - åbn [Ministerienyt](https://jakobrud.github.io/Ministerienyt/)
-- kontrollér, at footeren viser `v6.2`
-- prøv **Mine ministerier → Del visning** i en privat browser; favoritvalgene skal følge med linket
+- kontrollér, at footeren viser `v6.3`
+- åbn **Mine ministerier**, vælg mindst én kilde, aktivér **Vis kun mine**, og brug derefter **Del visning**; valgene skal følge med linket i en privat browser
+- kontrollér, at kildestatus ikke står i toppen, og at eventuelle konkrete bemærkninger kan læses under **Kilder og dækning**
 - åbn `https://jakobrud.github.io/Ministerienyt/status.json`; den skal returnere JSON
 - kontrollér, at Actions ikke viser en ny fejl efter arkiv-committet
 
 Der er ingen e-mail- eller issue-alarmer i workflowet. Interne advarsler ses i repositoryets `diagnostics.html`, `diagnostics.json`, `alerts.json` og `source_audit.json`.
+
+Workflowet kører i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler er lette friskhedstjek, og kl. 03 køres en dybere kontrol. Det giver normalt nye artikler på siden inden for en time i dagtimerne, men GitHub kan stadig forsinke enkelte planlagte kørsler.
