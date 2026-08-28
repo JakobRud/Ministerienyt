@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-08-28T06:58:28.676848+00:00",
+  "generated_at": "2026-08-28T10:47:51.597484+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 3117,
+  "total_rejected": 3118,
   "summary_by_reason": {
-    "before_archive_start": 3117
+    "before_archive_start": 3117,
+    "missing_safe_publication_date": 1
   },
   "rejected": [
     {
@@ -2202,9 +2203,9 @@
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2023/september/regeringen-vil-forbedre-loen-og-arbejdsvilkaar-for-velfaerdsmedarbejdere/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2023-09-25T12:30:00+00:00"
+      "detected_date": "2023-09-25T00:00:00+00:00"
     },
     {
       "source": "Finansministeriet",
@@ -31175,6 +31176,15 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2024-05-16T00:00:00+00:00"
+    },
+    {
+      "source": "Regeringen.dk",
+      "title": "Dansk økonomi er i forrygende form trods global uro",
+      "url": "https://regeringen.dk/aktuelt/nyheder/2026/dansk-oekonomi-er-i-forrygende-form-trods-global-uro/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
     }
   ]
 }
