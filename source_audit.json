@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-27T09:08:26.644987+00:00",
-  "full_audit": false,
+  "generated_at": "2026-08-28T06:42:57.996472+00:00",
+  "full_audit": true,
   "source_count": 22,
   "technical_ok": 22,
   "sources": [
@@ -15,7 +15,7 @@
       ],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "Sitemap"
       ],
@@ -377,7 +377,7 @@
       ],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "Sitemap"
       ],
@@ -419,7 +419,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
-        "HTML"
+        "Via Ritzau API"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -436,7 +436,7 @@
       ],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "Sitemap"
       ],
