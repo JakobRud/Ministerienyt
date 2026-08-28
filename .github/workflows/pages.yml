@@ -20,11 +20,17 @@ on:
       - "alerts.json"
       - "source_audit.json"
   schedule:
-    # To almindelige forsøg pr. time mindsker virkningen af forsinkede/droppede schedules.
-    - cron: "17 * * * *"
-    - cron: "47 * * * *"
+    # Lette friskhedstjek i dansk tid: hver time kl. 06-18 samt kl. 21 og 00.
+    - cron: "7 6-18 * * *"
+      timezone: "Europe/Copenhagen"
+    - cron: "7 0,21 * * *"
+      timezone: "Europe/Copenhagen"
+    # Kl. 03 køres den daglige dybere kontrol af aktive nyhedsarkiver og sitemaps.
+    - cron: "7 3 * * *"
+      timezone: "Europe/Copenhagen"
     # Månedlig fuld audit: historiske ruter og sitemaps gennemtvinges uanset cache.
-    - cron: "23 6 1 * *"
+    - cron: "23 4 1 * *"
+      timezone: "Europe/Copenhagen"
 
 permissions:
   actions: read
@@ -70,13 +76,18 @@ jobs:
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: |
           mkdir -p site
-          AUDIT_FLAG=""
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "23 6 1 * *" ]; then
-            AUDIT_FLAG="--full-audit"
+          CRAWL_FLAG=""
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "23 4 1 * *" ]; then
+            CRAWL_FLAG="--full-audit"
             echo "Kører månedlig fuld kildeaudit."
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.full_audit }}" = "true" ]; then
-            AUDIT_FLAG="--full-audit"
+            CRAWL_FLAG="--full-audit"
             echo "Kører manuelt valgt fuld kildeaudit."
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" != "7 3 * * *" ]; then
+            CRAWL_FLAG="--fast"
+            echo "Kører let friskhedstjek."
+          else
+            echo "Kører dyb kildekontrol."
           fi
           python ministerier_nyheder.py \
             --archive archive.json \
@@ -93,7 +104,7 @@ jobs:
             --config site_config.json \
             --site-url "$PAGES_URL" \
             --feed-url "${PAGES_URL}feed.xml" \
-            $AUDIT_FLAG
+            $CRAWL_FLAG
 
       - name: Gem arkiv og intern kvalitetsstatus i repositoryet
         run: |
