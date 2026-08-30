@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-30T07:15:39.163389+00:00",
+  "generated_at": "2026-08-30T08:15:17.823457+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 245,
+  "total_rejected": 243,
   "summary_by_reason": {
-    "before_archive_start": 244,
+    "before_archive_start": 242,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1684,26 +1684,6 @@
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-19T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "100.000 borgere har indbetalt over 550 mio. kr. via digital løsning – knap en fjerdedel er blevet gældfri ved betalingen",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/100000-borgere-har-indbetalt-over-550-mio-kr-via-digital-loesning-knap-en-fjerdedel-er-blevet-gaeldfri-ved-betalingen",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2025-12-27T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Ny afgift på urenset spildevand skal sikre et renere vandmiljø",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/ny-afgift-paa-urenset-spildevand-skal-sikre-et-renere-vandmiljoe",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2025-12-19T00:00:00+00:00"
     },
