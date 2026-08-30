@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-30T16:15:09.223951+00:00",
+  "generated_at": "2026-08-30T19:12:36.621051+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 269,
+  "total_rejected": 273,
   "summary_by_reason": {
-    "before_archive_start": 268,
+    "before_archive_start": 272,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1719,6 +1719,16 @@
     },
     {
       "source": "Socialministeriet",
+      "title": "Det danske formandskab sad for bordenden, da EU vedtog rådskonklusioner om selvstændig livsførelse for personer med handicap",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/okt/det-danske-formandskab-sad-for-bordenden-da-eu-vedtog-raadskonklusioner-om-selvstaendig-livsfoerelse-for-personer-med-handicap",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-10-27T14:13:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
       "title": "EU-formandskabet leverede input til Europa-Kommissionens kommende boligplan i Bruxelles",
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/eu-formandskabet-leverede-input-til-europa-kommissionens-kommende-boligplan-i-bruxelles",
       "reason": "before_archive_start",
@@ -1889,6 +1899,16 @@
     },
     {
       "source": "Socialministeriet",
+      "title": "Organisationer m.v. til det rådgivende udvalg i Familieretshuset",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/okt/organisationer-mv-til-det-raadgivende-udvalg-i-familieretshuset",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-10-01T11:57:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
       "title": "Per Fruerled er ny formand for Det Centrale Handicapråd",
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/per-fruerled-er-ny-formand-for-det-centrale-handicapraad",
       "reason": "before_archive_start",
@@ -1916,6 +1936,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-11T10:59:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Social- og Boligministeriet sætter fokus på levevilkår for børn og unge i udsatte positioner under EU-formandskabet",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/okt/social-og-boligministeriet-saetter-fokus-paa-levevilkaar-for-boern-og-unge-i-udsatte-positioner-under-eu-formandskabet",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-10-10T09:47:00+00:00"
     },
     {
       "source": "Socialministeriet",
@@ -1956,6 +1986,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-18T15:59:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Økonomisk løft og en ny finansieringsmodel til civilsamfundet",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/okt/oekonomisk-loeft-og-en-ny-finansieringsmodel-til-civilsamfundet",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-10-25T11:20:00+00:00"
     },
     {
       "source": "Statsministeriet",
