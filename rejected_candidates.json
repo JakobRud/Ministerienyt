@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-31T10:15:38.335562+00:00",
+  "generated_at": "2026-08-31T11:15:31.366818+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 233,
+  "total_rejected": 234,
   "summary_by_reason": {
     "before_archive_start": 231,
-    "future_publication_date": 1,
+    "future_publication_date": 2,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -2327,6 +2327,16 @@
       "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2026-08-31T11:49:00+00:00"
+    },
+    {
+      "source": "By-, Land- og Transportministeriet",
+      "title": "Den Nationale Landdistriktspuljes anden ansøgningsrunde for 2026 er nu åben",
+      "url": "https://www.bltm.dk/nyheder/2026/den-nationale-landdistriktspuljes-anden-ansoegningsrunde-for-2026-er-nu-aaben",
+      "reason": "future_publication_date",
+      "reason_da": "Publiceringsdato ligger i fremtiden",
+      "discovered_by": "Sitemap",
+      "detail": "",
+      "detected_date": "2026-08-31T12:39:38+00:00"
     },
     {
       "source": "Regeringen.dk",
