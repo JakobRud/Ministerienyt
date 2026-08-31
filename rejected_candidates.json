@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-31T11:15:31.366818+00:00",
+  "generated_at": "2026-08-31T12:15:36.615861+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 234,
+  "total_rejected": 232,
   "summary_by_reason": {
-    "before_archive_start": 231,
-    "future_publication_date": 2,
+    "before_archive_start": 230,
+    "future_publication_date": 1,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1560,16 +1560,6 @@
     },
     {
       "source": "Kulturministeriet",
-      "title": "Bogpanelets årsrapport: Den fysiske bog vinder frem",
-      "url": "https://kum.dk/aktuelt/nyheder/bogpanelets-aarsrapport-den-fysiske-bog-vinder-frem",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-22T00:00:00+00:00"
-    },
-    {
-      "source": "Kulturministeriet",
       "title": "Ny bestyrelsesformand for Statens Kunstfond",
       "url": "https://kum.dk/aktuelt/nyheder/ny-bestyrelsesformand-for-statens-kunstfond",
       "reason": "before_archive_start",
@@ -2317,16 +2307,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-08-29T00:00:00+00:00"
-    },
-    {
-      "source": "By-, Land- og Transportministeriet",
-      "title": "Cykelstiprojekter for 269,9 millioner kroner fra cykelpuljen",
-      "url": "https://www.bltm.dk/nyheder/2026/cykelstiprojekter-for-269-9-millioner-kroner-fra-cykelpuljen",
-      "reason": "future_publication_date",
-      "reason_da": "Publiceringsdato ligger i fremtiden",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2026-08-31T11:49:00+00:00"
     },
     {
       "source": "By-, Land- og Transportministeriet",
