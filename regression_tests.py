@@ -3,6 +3,7 @@
 import sys
 import types
 import unittest
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -43,6 +44,29 @@ class DateRegressionTests(unittest.TestCase):
         soup = BeautifulSoup('<h1>Kulturminister vil beskytte det danske sprog</h1><p>Kort manchet.</p><span>Pressemeddelelse</span><span>Nyhed</span><div>20.08.2026</div><p>Brødtekst med 01.09.2026.</p>', "html.parser")
         source = {"allow_unlabeled_after_h1_date": True, "after_h1_date_max_text_nodes": 12}
         self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-08-20")
+
+    def test_kulturministeriet_prefers_article_lead_over_site_metadata(self):
+        title = "For få bruger kulturpasset: Nu tager kulturministeren konsekvensen"
+        correct_lead = (
+            "Færre unge end forventet har søgt om at få et digitalt kulturpas. "
+            "Derfor afsætter kulturministeren 20 mio. kr. til, at flere unge kan "
+            "blive en del af skræddersyede kulturpasforløb."
+        )
+        soup = BeautifulSoup(
+            '''<script type="application/ld+json">{"@type":"NewsArticle","description":"Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer."}</script>
+            <meta name="description" content="Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer.">
+            <main><h1>For få bruger kulturpasset: Nu tager kulturministeren konsekvensen</h1><p>Færre unge end forventet har søgt om at få et digitalt kulturpas. Derfor afsætter kulturministeren 20 mio. kr. til, at flere unge kan blive en del af skræddersyede kulturpasforløb.</p></main>''',
+            "html.parser",
+        )
+        self.assertEqual(
+            m.description_from_soup(soup, title, [".manchet", ".lead", ".intro"]),
+            correct_lead,
+        )
+
+    def test_kulturministeriet_gets_one_time_schema_refresh(self):
+        sources = json.loads(Path("sources.json").read_text(encoding="utf-8"))
+        kulturministeriet = next(source for source in sources if source["name"] == "Kulturministeriet")
+        self.assertEqual(kulturministeriet["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
 
     def test_mgtp_date_after_h1_corrects_body_event_date(self):
         soup = BeautifulSoup('<h1>Naturstyrelsen har skudt problemulv nær Houstrup</h1><div>14-08-2026</div><span>Nyhed</span><p>Naturstyrelsen har torsdag den 13. august skudt en problemulv.</p>', "html.parser")
@@ -282,6 +306,18 @@ class IdentityAndSafetyTests(unittest.TestCase):
         new = self.item("Testministeriet", "En rigtig og meningsfuld artikeloverskrift", "https://example.dk/nyheder/test", "2026-08-20")
         self.assertEqual(m.better_item(old, new).title, new.title)
 
+    def test_better_item_heals_kulturministeriet_boilerplate_description(self):
+        dt = datetime.fromisoformat("2026-09-01T08:00:00+00:00")
+        old = m.Item(
+            "Kulturministeriet", "Kulturpas", "https://kum.dk/aktuelt/nyheder/kulturpas", dt,
+            "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af et departement og en styrelse.",
+        )
+        new = m.Item(
+            "Kulturministeriet", "Kulturpas", "https://kum.dk/aktuelt/nyheder/kulturpas", dt,
+            "Færre unge end forventet har søgt om at få et digitalt kulturpas.",
+        )
+        self.assertEqual(m.better_item(old, new).description, new.description)
+
     def test_rss_and_category_routes_are_not_articles(self):
         source = {"home_url": "https://example.dk/", "article_prefixes": ["/nyheder/"]}
         self.assertFalse(m.looks_like_article("https://example.dk/nyheder/nyheder-rss", source))
@@ -307,7 +343,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v6.3", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v6.3.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertIn("Unikke besøg seneste 30 dage", rows[1].get_text(" ", strip=True))
         self.assertIn("dage:&nbsp;<span id=\"visit-counter\"", html)
         outage = soup.select_one("#sources > summary #outage-status")

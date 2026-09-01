@@ -1,8 +1,14 @@
-# Ministerienyt 6.3 – komplet arkiv fra 2026
+# Ministerienyt 6.3.1 – komplet arkiv fra 2026
 
 Ministerienyt samler officielle nyheder fra 21 danske ministerielle hjemmesider samt Regeringen.dk.
 
-## Nyt i version 6.3
+## Nyt i version 6.3.1
+
+- Kulturministeriets synlige artikelmanchet prioriteres nu over ministeriets generelle metadata.
+- Den allerede gemte forkerte KUM-beskrivelse heles automatisk ved en kontrolleret engangsopdatering af Kulturministeriets artikler.
+- Rettelsen påvirker ikke den normale crawlbelastning efter engangsopdateringen.
+
+## Tidligere forbedringer i version 6.3
 
 - Workflowet opdaterer i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler er begrænset til få aktive listesider pr. kilde.
 - Kildetjek og kvalitetsadvarsler er fjernet fra toppen. Konkrete bemærkninger kan ses under **Kilder og dækning**.
@@ -35,7 +41,7 @@ En let kørsel besøger højst fire aktive listesider pr. kilde og genbruger ken
 3. Markér **Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps**.
 4. Vælg **Run workflow**.
 
-Der sendes ikke e-mails eller oprettes issues af workflowet. Teknisk diagnostik gemmes i repositoryets JSON- og HTML-filer.
+Workflowet opretter ikke selv e-mails eller issues. GitHubs egne Actions-mails slås fra under **Settings → Notifications → System → Actions → Don't notify**. Teknisk diagnostik gemmes i repositoryets JSON- og HTML-filer.
 
 ## Brugerfunktioner
 
@@ -49,10 +55,10 @@ Der sendes ikke e-mails eller oprettes issues af workflowet. Teknisk diagnostik 
 
 `archive.json` bliver automatisk opdateret og committed af GitHub Actions. En fundet artikel bliver derfor i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller feed.
 
-Forsiden viser kun tidspunktet for seneste opdatering. Kildestatus og konkrete kvalitetsbemærkninger findes under **Kilder og dækning** nederst på siden. `site/status.json` indeholder status fra seneste kørsel. Mere detaljerede filer som `diagnostics.json`, `diagnostics.html`, `alerts.json` og `source_audit.json` gemmes kun i repositoryet.
+Forsiden viser tidspunktet for seneste opdatering. En diskret driftsbemærkning ved **Kilder og dækning** vises først, når to planlagte opdateringer i træk er udeblevet, plus 20 minutters tid til at afslutte kørslen. Det svarer normalt til godt to timer i dagtimerne og op til godt seks timer om natten. Kildestatus og konkrete kvalitetsbemærkninger findes samme sted. `site/status.json` indeholder status fra seneste kørsel. Mere detaljerede filer som `diagnostics.json`, `diagnostics.html`, `alerts.json` og `source_audit.json` gemmes kun i repositoryet.
 
 ## Om fuldstændighed
 
-Løsningen gemmer artikler fra 1. januar 2026, som kan opdages via de officielle RSS-feeds, arkivsider, paginering, Via Ritzau-kilder og sitemaps. Officielle sites kan ændre struktur eller undlade at eksponere ældre indhold; derfor kombinerer version 6.2 flere opdagelsesmetoder med automatiske selvtests og en månedlig fuld audit.
+Løsningen gemmer artikler fra 1. januar 2026, som kan opdages via de officielle RSS-feeds, arkivsider, paginering, Via Ritzau-kilder og sitemaps. Officielle sites kan ændre struktur eller undlade at eksponere ældre indhold; derfor kombinerer løsningen flere opdagelsesmetoder med automatiske selvtests og en månedlig fuld audit.
 
 Se [TRIN-FOR-TRIN.md](TRIN-FOR-TRIN.md) for opdatering af et eksisterende repository.

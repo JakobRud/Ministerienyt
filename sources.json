@@ -258,7 +258,16 @@
     ],
     "max_listing_pages": 6,
     "always_fetch_articles": true,
-    "refresh_before_schema": 9,
+    "description_selectors": [
+      ".manchet",
+      ".lead",
+      ".intro",
+      ".teaser",
+      "[class*=\"manchet\"]",
+      "[class*=\"lead\"]",
+      "[class*=\"intro\"]"
+    ],
+    "refresh_before_schema": 11,
     "disable_sitemap": true,
     "allow_plain_listing_date": true,
     "allow_unlabeled_header_date": true,
