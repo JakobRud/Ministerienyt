@@ -1,7 +1,7 @@
 {
-  "schema_version": 10,
+  "schema_version": 11,
   "archive_start": "2026-01-01",
-  "updated_at": "2026-09-01T13:23:02.043660+00:00",
+  "updated_at": "2026-09-01T13:35:01.938126+00:00",
   "items": [
     {
       "source": "Miljøministeriet",
@@ -11,15 +11,6 @@
       "description": "Flere danskere indløser fisketegn, og det glæder miljøminister Maria Reumert Gjerding. For lystfiskerne er både flittige brugere af naturen og aktive medspillere i arbejdet for bedre forhold for fisk og vandnatur.",
       "article_id": "a6-d88c5bb5047f08351d904f1e64e492fe",
       "first_seen_at": "2026-09-01T04:22:07.720426+00:00"
-    },
-    {
-      "source": "Kulturministeriet",
-      "title": "For få bruger kulturpasset: Nu tager kulturministeren konsekvensen",
-      "url": "https://kum.dk/aktuelt/nyheder/for-faa-bruger-kulturpasset-nu-tager-kulturministeren-konsekvensen",
-      "published": "2026-09-01T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
-      "article_id": "a6-805286aa6d9856de79e6ee76b50f17d2",
-      "first_seen_at": "2026-09-01T04:21:54.269157+00:00"
     },
     {
       "source": "Undervisningsministeriet",
@@ -65,6 +56,15 @@
       "description": "Grønlands Naalakkersuisut, Færøernes landsstyre og regeringen mødes den 7. og 8. september i Grønland til det halvårlige rigsmøde og møde i Udenrigs-, Sikkerheds- og Forsvarspolitisk Kontaktudvalg.",
       "article_id": "a6-4809e6a365d718d6bc10df06e0559811",
       "first_seen_at": "2026-09-01T13:21:21.165876+00:00"
+    },
+    {
+      "source": "Kulturministeriet",
+      "title": "For få bruger kulturpasset: Nu tager kulturministeren konsekvensen",
+      "url": "https://kum.dk/aktuelt/nyheder/for-faa-bruger-kulturpasset-nu-tager-kulturministeren-konsekvensen",
+      "published": "2026-09-01T00:00:00+00:00",
+      "description": "Færre unge end forventet har søgt om at få et digitalt kulturpas. Derfor afsætter kulturministeren 20 mio. kr. til, at flere unge kan blive en del af skræddersyede kulturpasforløb.",
+      "article_id": "a6-805286aa6d9856de79e6ee76b50f17d2",
+      "first_seen_at": "2026-09-01T13:34:12.437339+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -139,15 +139,6 @@
       "first_seen_at": "2026-08-31T07:14:06.774564+00:00"
     },
     {
-      "source": "Kulturministeriet",
-      "title": "Fanø og højskolerne skal få Danmark på UNESCO’s liste over levende kulturarv",
-      "url": "https://kum.dk/aktuelt/nyheder/fanoe-og-hoejskolerne-skal-faa-danmark-paa-unescos-liste-over-levende-kulturarv",
-      "published": "2026-08-31T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
-      "article_id": "a6-b87a6f80395db38f0e3ed50a087eaa19",
-      "first_seen_at": "2026-08-31T04:15:11.427392+00:00"
-    },
-    {
       "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
       "title": "Få indholdsmoderatorer på de sociale medier forstår dansk",
       "url": "https://ufm.dk/aktuelt/pressemeddelelser/2026/august/faa-indholdsmoderatorer-paa-de-sociale-medier-forstaar-dansk/",
@@ -197,9 +188,18 @@
       "title": "Medierådet for Børn og Unges formand genudpeget",
       "url": "https://kum.dk/aktuelt/nyheder/medieraadet-for-boern-og-unges-formand-genudpeget",
       "published": "2026-08-31T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturministeren har genudpeget formanden for Medierådet for Børn og Unge – og udnævnt nye og gamle kræfter som medlemmer.",
       "article_id": "a6-81083937e4a122a8cf80e3f189d29257",
-      "first_seen_at": "2026-08-31T12:15:14.714423+00:00"
+      "first_seen_at": "2026-09-01T13:34:12.888890+00:00"
+    },
+    {
+      "source": "Kulturministeriet",
+      "title": "Fanø og højskolerne skal få Danmark på UNESCO’s liste over levende kulturarv",
+      "url": "https://kum.dk/aktuelt/nyheder/fanoe-og-hoejskolerne-skal-faa-danmark-paa-unescos-liste-over-levende-kulturarv",
+      "published": "2026-08-31T00:00:00+00:00",
+      "description": "Kulturministeren har udvalgt Fanøs musik-, danse- og dragttradition og højskolerne til at arbejde videre med at komme på UNESCO’s liste over immateriel kulturarv.",
+      "article_id": "a6-b87a6f80395db38f0e3ed50a087eaa19",
+      "first_seen_at": "2026-09-01T13:34:13.339095+00:00"
     },
     {
       "source": "Skatte- og Vækstministeriet",
@@ -575,9 +575,9 @@
       "title": "Kulturminister vil beskytte det danske sprog",
       "url": "https://kum.dk/aktuelt/nyheder/kulturminister-vil-beskytte-det-danske-sprog",
       "published": "2026-08-20T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturminister Zenia Stampe vil sørge for, at det danske sprog også står stærkt i fremtiden bl.a. ved, at Dansk Sprognævn får en opsøgende og vejledende forpligtelse til at beskytte det danske sprog.",
       "article_id": "a6-1717b8042b92de57cac858938e73cfee",
-      "first_seen_at": "2026-08-27T11:25:49.150188+00:00"
+      "first_seen_at": "2026-09-01T13:34:13.787867+00:00"
     },
     {
       "source": "Miljøministeriet",
@@ -611,9 +611,9 @@
       "title": "Særlig rådgiver for kulturministeren",
       "url": "https://kum.dk/aktuelt/nyheder/saerlig-raadgiver-for-kulturministeren-3",
       "published": "2026-08-19T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Line Hauger bliver særlig rådgiver for kulturministeren.",
       "article_id": "a6-96c93c6c95351b2227161225eb31b20c",
-      "first_seen_at": "2026-08-27T11:25:49.402463+00:00"
+      "first_seen_at": "2026-09-01T13:34:14.255264+00:00"
     },
     {
       "source": "Undervisningsministeriet",
@@ -917,9 +917,9 @@
       "title": "Molerklinter er nu UNESCO Verdensarv",
       "url": "https://kum.dk/aktuelt/nyheder/molerklinter-er-nu-unesco-verdensarv",
       "published": "2026-07-25T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Molerklinterne Hanklit på Mors og Knudeklint på Fur er nu optaget på UNESCOs Verdensarvsliste. Det skete på Verdensarvskomitéens møde i Busan i Sydkorea.",
       "article_id": "a6-55556c38906895f4c19d630237b9f37e",
-      "first_seen_at": "2026-08-27T11:25:49.662289+00:00"
+      "first_seen_at": "2026-09-01T13:34:14.705734+00:00"
     },
     {
       "source": "By-, Land- og Transportministeriet",
@@ -980,9 +980,9 @@
       "title": "Kulturministeren vil stoppe EU’s støtte til sportsforbund, der tillader russisk deltagelse i international sport",
       "url": "https://kum.dk/aktuelt/nyheder/kulturministeren-vil-stoppe-eus-stoette-til-sportsforbund-der-tillader-russisk-deltagelse-i-international-sport",
       "published": "2026-07-14T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturministeren har sammen med ministre fra otte andre EU-medlemslande opfordret EU-Kommissionen til at blokere for økonomisk støtte til sportsorganisationer, der tillader russiske atleter at vende tilbage til international idræt.",
       "article_id": "a6-4d8e8f2bd5e46543aa97a8c240eb41f9",
-      "first_seen_at": "2026-08-27T11:25:49.922788+00:00"
+      "first_seen_at": "2026-09-01T13:34:15.152757+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -1142,9 +1142,9 @@
       "title": "Danmark sender fælles opfordring til EU om musikeres rettigheder",
       "url": "https://kum.dk/aktuelt/nyheder/danmark-sender-faelles-opfordring-til-eu-om-musikeres-rettigheder",
       "published": "2026-07-07T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Danmark går sammen med ligesindede lande og lægger pres på EU-Kommissionen for at få ændret reglerne.",
       "article_id": "a6-fbb28d7f38f4c50911d87d870a83879d",
-      "first_seen_at": "2026-08-27T11:25:50.174025+00:00"
+      "first_seen_at": "2026-09-01T13:34:15.599892+00:00"
     },
     {
       "source": "Skatte- og Vækstministeriet",
@@ -1169,9 +1169,9 @@
       "title": "Danmark går ind i sag mod Google, Spotify, Meta, Streamz og Sony ved EU-Domstolen",
       "url": "https://kum.dk/aktuelt/nyheder/danmark-gaar-ind-i-sag-mod-google-spotify-meta-streamz-og-sony-ved-eu-domstolen",
       "published": "2026-07-06T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Sagens udfald kan få betydning for danske mediehuses rettigheder.",
       "article_id": "a6-d0574687618003bab8d2130c9fbba00b",
-      "first_seen_at": "2026-08-27T11:25:51.448029+00:00"
+      "first_seen_at": "2026-09-01T13:34:16.059544+00:00"
     },
     {
       "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
@@ -1277,9 +1277,9 @@
       "title": "Over en kvart mia. kr. til kultur",
       "url": "https://kum.dk/aktuelt/nyheder/over-en-kvart-mia-kr-til-kultur",
       "published": "2026-07-02T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturministeren oversender aktstykke til Folketingets Finansudvalg, som fordeler ca. 260 mio. kr. til en lang række kulturelle formål. Yderligere midler fra det kulturelle aktstykke fordeles senere på året.",
       "article_id": "a6-7ec46f7a10141356b4d86e8d628323a1",
-      "first_seen_at": "2026-08-27T11:25:51.712827+00:00"
+      "first_seen_at": "2026-09-01T13:34:16.507606+00:00"
     },
     {
       "source": "Økonomi- og Indenrigsministeriet",
@@ -1385,9 +1385,9 @@
       "title": "Populær ny dansk produktionsrabat",
       "url": "https://kum.dk/aktuelt/nyheder/populaer-ny-dansk-produktionsrabat",
       "published": "2026-07-01T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Syv produktioner har modtaget tilskud gennem den nye danske produktionsrabatordning efter ordningens første ansøgningsrunde.",
       "article_id": "a6-f1378a997ad39181be65125f9b2d8885",
-      "first_seen_at": "2026-08-27T11:25:52.018303+00:00"
+      "first_seen_at": "2026-09-01T13:34:16.955997+00:00"
     },
     {
       "source": "Socialministeriet",
@@ -1601,9 +1601,9 @@
       "title": "Danmark vil oprette nyt uafhængigt Dopingnævn og Appelinstans",
       "url": "https://kum.dk/aktuelt/nyheder/danmark-vil-oprette-nyt-uafhaengigt-dopingnaevn-og-appelinstans",
       "published": "2026-06-28T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Efter det internationale antidopingagentur, WADA, har vedtaget nye retningslinjer, skal Danmark ændre på sin organisering for at leve op til det nye regelsæt.",
       "article_id": "a6-a4ab7f973175af5155a8ffcf58aae329",
-      "first_seen_at": "2026-08-27T11:25:52.286815+00:00"
+      "first_seen_at": "2026-09-01T13:34:17.417055+00:00"
     },
     {
       "source": "Socialministeriet",
@@ -1781,18 +1781,18 @@
       "title": "Exceptionel mestertræner vinder Kulturministerens Idrætspris",
       "url": "https://kum.dk/aktuelt/nyheder/exceptionel-mestertraener-vinder-kulturministerens-idraetspris",
       "published": "2026-06-25T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Landstræner Nikolaj Jacobsen, som har ført det danske herrelandshold i håndbold til historiske resultater, vinder årets idrætspris.",
       "article_id": "a6-8b888e16347227ea199f97be38353622",
-      "first_seen_at": "2026-08-27T11:25:52.558225+00:00"
+      "first_seen_at": "2026-09-01T13:34:17.863401+00:00"
     },
     {
       "source": "Kulturministeriet",
       "title": "Nye bestyrelser for tre teatre i hovedstaden",
       "url": "https://kum.dk/aktuelt/nyheder/nye-bestyrelser-for-tre-teatre-i-hovedstaden",
       "published": "2026-06-25T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturministeren har udpeget og beskikket nye medlemmer til Betty Nansen Teatret, Nørrebro Teater og Østerbro Teater.",
       "article_id": "a6-34e20997c453cfff0991b2a25d5827ff",
-      "first_seen_at": "2026-08-27T11:25:52.823163+00:00"
+      "first_seen_at": "2026-09-01T13:34:18.344545+00:00"
     },
     {
       "source": "Undervisningsministeriet",
@@ -2033,9 +2033,9 @@
       "title": "De nominerede til Kulturministerens Idrætspris er klar",
       "url": "https://kum.dk/aktuelt/nyheder/de-nominerede-til-kulturministerens-idraetspris-er-klar",
       "published": "2026-06-22T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "En landstræner, et banelandshold i cykling og et lokalt gymnastikhold er årets nominerede til Kulturministerens Idrætspris 2026.",
       "article_id": "a6-9798d7928d6baab04b6130edd831df9c",
-      "first_seen_at": "2026-08-27T11:25:54.447638+00:00"
+      "first_seen_at": "2026-09-01T13:34:18.794270+00:00"
     },
     {
       "source": "Udlændinge- og Integrationsministeriet",
@@ -2753,9 +2753,9 @@
       "title": "Ministeroverdragelse i Kulturministeriet",
       "url": "https://kum.dk/aktuelt/nyheder/ministeroverdragelse-i-kulturministeriet-3",
       "published": "2026-06-03T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Zenia Stampe er udnævnt som ny kulturminister. Hun får i dag overdraget posten af Jakob Engel-Schmidt. Det sker kl. 14:30 i Kulturministeriet.",
       "article_id": "a6-ce84772f6b18f75fbbb9ad13580df638",
-      "first_seen_at": "2026-08-27T11:25:54.699546+00:00"
+      "first_seen_at": "2026-09-01T13:34:19.240981+00:00"
     },
     {
       "source": "Ministeriet for Natur og Dyrevelfærd",
@@ -3599,9 +3599,9 @@
       "title": "Nu afsættes de første penge til statuer af oversete kvinder i byrummet",
       "url": "https://kum.dk/aktuelt/nyheder/nu-afsaettes-de-foerste-penge-til-statuer-af-oversete-kvinder-i-byrummet",
       "published": "2026-02-23T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kulturminister Jakob Engel-Schmidt vil afsætte et millionbeløb under Statens Kunstfond til medfinansiering af nye statuer.",
       "article_id": "a6-7b80080cbb8c8318343a8462caa9d9ef",
-      "first_seen_at": "2026-08-27T11:25:54.952805+00:00"
+      "first_seen_at": "2026-09-01T13:34:19.690504+00:00"
     },
     {
       "source": "Forsvarsministeriet",
@@ -3716,18 +3716,18 @@
       "title": "Særlig rådgiver for kulturministeren",
       "url": "https://kum.dk/aktuelt/nyheder/saerlig-raadgiver-for-kulturministeren-2",
       "published": "2026-02-20T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Kim Jessica Axholt bliver særlig rådgiver for kulturministeren",
       "article_id": "a6-cfbffaf32f8ca9bc80e0a6e2fc5d82ec",
-      "first_seen_at": "2026-08-27T11:25:55.200661+00:00"
+      "first_seen_at": "2026-09-01T13:34:20.140821+00:00"
     },
     {
       "source": "Kulturministeriet",
       "title": "Direktør for Nationalmuseet",
       "url": "https://kum.dk/aktuelt/nyheder/direktoer-for-nationalmuseet",
       "published": "2026-02-20T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Rane Willerslev er genansat som direktør for Nationalmuseet, efter stillingen har været slået op.",
       "article_id": "a6-5a6b86fb66964ae0f3437bf58756fa60",
-      "first_seen_at": "2026-08-27T11:25:55.469045+00:00"
+      "first_seen_at": "2026-09-01T13:34:20.589699+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -4013,9 +4013,9 @@
       "title": "Kulturministeren nedsætter ”Rådet for kulturel modstandskraft”",
       "url": "https://kum.dk/aktuelt/nyheder/kulturministeren-nedsaetter-raadet-for-kulturel-modstandskraft",
       "published": "2026-02-12T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Hvad er kunsten, kulturens og idrættens rolle i den tid, vi lever i? Og hvordan styrker vi den kulturelle modstandskraft i en verden, hvor Danmark står over for flere alvorlige og sikkerhedspolitiske udfordringer? Det har et nyt råd med Rane Willerslev i spidsen fået til opgave at undersøge og debattere.",
       "article_id": "a6-c0f973f96ee356245c022b69cb65a2bd",
-      "first_seen_at": "2026-08-27T11:25:55.738779+00:00"
+      "first_seen_at": "2026-09-01T13:34:21.039200+00:00"
     },
     {
       "source": "Finansministeriet",
@@ -4166,9 +4166,9 @@
       "title": "Flertal i Folketinget vil fremtidssikre det danske sprog",
       "url": "https://kum.dk/aktuelt/nyheder/flertal-i-folketinget-vil-fremtidssikre-det-danske-sprog",
       "published": "2026-02-06T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Regeringen, SF og Konservative er klar med sprogpakke 1, der skal værne om det danske sprog, så det også står stærkt i fremtiden.",
       "article_id": "a6-6cf19e59cebbb8f28c7d3ee1c08abd30",
-      "first_seen_at": "2026-08-27T11:25:56.001191+00:00"
+      "first_seen_at": "2026-09-01T13:34:21.488563+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -4382,9 +4382,9 @@
       "title": "Kortlægning af statuer: Flere statuer af halvnøgne kvinder end af historiske kvinder",
       "url": "https://kum.dk/aktuelt/nyheder/kortlaegning-af-statuer-flere-statuer-af-halvnoegne-kvinder-end-af-historiske-kvinder",
       "published": "2026-02-02T00:00:00+00:00",
-      "description": "I Danmark er der 484 statuer af mænd med historisk betydning, mens det for kvindernes vedkommende kun er 43. Og der er langt flere statuer af afklædte kvinder end af kvinder med historisk betydning. Det viser den første kortlægning af kunst i det offentli",
+      "description": "I Danmark er der 484 statuer af mænd med historisk betydning, mens det for kvindernes vedkommende kun er 43. Og der er langt flere statuer af afklædte kvinder end af kvinder med historisk betydning. Det viser den første kortlægning af kunst i det offentlige rum i Danmark.",
       "article_id": "a6-0a3e29de3fd6cc8c6f7326190de81a50",
-      "first_seen_at": "2026-08-27T11:25:56.263017+00:00"
+      "first_seen_at": "2026-09-01T13:34:21.938876+00:00"
     },
     {
       "source": "By-, Land- og Transportministeriet",
@@ -4976,9 +4976,9 @@
       "title": "Nyborg Slot-projektet når en ny milepæl",
       "url": "https://kum.dk/aktuelt/nyheder/nyborg-slot-projektet-naar-en-ny-milepael",
       "published": "2026-01-22T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Det historiske byggeprojekt ved Nyborg Slot går nu ind i en ny fase. Slots- og Kulturstyrelsen har i dag sendt byggeprojektet i udbud.",
       "article_id": "a6-3824ae5f0e450f7b6ea1a0a21af7e889",
-      "first_seen_at": "2026-08-27T11:25:56.514758+00:00"
+      "first_seen_at": "2026-09-01T13:34:22.391141+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -5129,9 +5129,9 @@
       "title": "Kulturministeren styrker litteratur og læsning i ny litteraturhandlingsplan",
       "url": "https://kum.dk/aktuelt/nyheder/kulturministeren-styrker-litteratur-og-laesning-i-ny-litteraturhandlingsplan",
       "published": "2026-01-19T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Børn og unge skal have læselysten tilbage. Ny litteraturhandlingsplan giver flere børn mulighed for at få besøg af forfattere og illustratorer i løbet af deres skoletid, og der kommer et helt nyt hus dedikeret til tegneserier.",
       "article_id": "a6-9c1972a802f244fe98f26654b16a34c9",
-      "first_seen_at": "2026-08-27T11:25:56.766994+00:00"
+      "first_seen_at": "2026-09-01T13:34:22.843184+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -5156,9 +5156,9 @@
       "title": "Trompetertårnet på Kronborg Slot skal sættes i stand",
       "url": "https://kum.dk/aktuelt/nyheder/trompetertaarnet-paa-kronborg-slot-skal-saettes-i-stand",
       "published": "2026-01-17T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Trompetertårnet på Kronborg Slot skal totalrenoveres i løbet af de kommende år, da en række af tårnets dele er nedslidte.",
       "article_id": "a6-756da18c5d821accdde69a2f3c440159",
-      "first_seen_at": "2026-08-27T11:25:57.018009+00:00"
+      "first_seen_at": "2026-09-01T13:34:23.291838+00:00"
     },
     {
       "source": "Finansministeriet",
@@ -5201,18 +5201,18 @@
       "title": "Støtte til sundhedsfremmende kultur og musikfestivalen Blå Sol",
       "url": "https://kum.dk/aktuelt/nyheder/stoette-til-sundhedsfremmende-kultur-og-musikfestivalen-blaa-sol",
       "published": "2026-01-16T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "8,4 mio. kr. bliver fordelt til en række kulturprojekter, blandt andet til gavn for musiklivet og sundhedsfremmende kultur.",
       "article_id": "a6-730c292a9e8ff57a2d6e99d6df4bf194",
-      "first_seen_at": "2026-08-27T11:25:57.309945+00:00"
+      "first_seen_at": "2026-09-01T13:34:23.739300+00:00"
     },
     {
       "source": "Kulturministeriet",
       "title": "Regeringen forpligtiger sig yderligere over for det tyske mindretal",
       "url": "https://kum.dk/aktuelt/nyheder/regeringen-forpligtiger-sig-yderligere-over-for-det-tyske-mindretal",
       "published": "2026-01-16T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Regeringen har besluttet at tiltræde 11 nye forpligtelser i Sprogpagten.",
       "article_id": "a6-2b9d517578bc323513b3711622db3de4",
-      "first_seen_at": "2026-08-27T11:25:57.561194+00:00"
+      "first_seen_at": "2026-09-01T13:34:24.185911+00:00"
     },
     {
       "source": "Socialministeriet",
@@ -5291,9 +5291,9 @@
       "title": "Ny filmfond på Sjælland og øerne",
       "url": "https://kum.dk/aktuelt/nyheder/ny-filmfond-paa-sjaelland-og-oeerne",
       "published": "2026-01-14T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Det Danske Filminstitut har godkendt en ansøgning fra København, Guldborgsund og Vordingborg kommuner om statstilskud til en ny regional filmfond.",
       "article_id": "a6-20a64e34a342e68c9aec3ae1484dda6b",
-      "first_seen_at": "2026-08-27T11:25:57.810761+00:00"
+      "first_seen_at": "2026-09-01T13:34:24.635092+00:00"
     },
     {
       "source": "Udenrigsministeriet",
@@ -5363,9 +5363,9 @@
       "title": "Kulturministeren vil udpege Hanne Salomonsen som ny bestyrelsesformand for TV 2",
       "url": "https://kum.dk/aktuelt/nyheder/kulturministeren-vil-udpege-hanne-salomonsen-som-ny-bestyrelsesformand-for-tv-2",
       "published": "2026-01-13T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Den kommende bestyrelsesformand har blandt andet stået i spidsen for en stor strategisk omstilling i Gyldendal.",
       "article_id": "a6-ce8208a461547043e55ad92fb0f4b2fd",
-      "first_seen_at": "2026-08-27T11:25:59.046306+00:00"
+      "first_seen_at": "2026-09-01T13:34:26.173377+00:00"
     },
     {
       "source": "Forsvarsministeriet",
@@ -5525,18 +5525,18 @@
       "title": "Ildsjæl og parasports-ambassadør vinder pris ved årets ”Sport 2025”",
       "url": "https://kum.dk/aktuelt/nyheder/ildsjael-og-parasports-ambassadoer-vinder-pris-ved-aarets-sport-2025",
       "published": "2026-01-03T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "Underviser Lisa Schlage er årets vinder af Kulturministerens Parasportspris 2025 for sin ukuelige indsats for, at alle skal kunne have det sjovt med sport og idræt.",
       "article_id": "a6-96140ccc87ef86844ecebdc94918514f",
-      "first_seen_at": "2026-08-27T11:25:59.300832+00:00"
+      "first_seen_at": "2026-09-01T13:34:26.620134+00:00"
     },
     {
       "source": "Kulturministeriet",
       "title": "Her er de nominerede til Kulturministerens Parasportspris 2025",
       "url": "https://kum.dk/aktuelt/nyheder/her-er-de-nominerede-til-kulturministerens-parasportspris-2025",
       "published": "2026-01-03T00:00:00+00:00",
-      "description": "Kulturministeriets væsentligste opgaver består i ministerrådgivning og lovgivningsmæssige initiativer. Kulturministeriet består af Kulturministeriets departement, en styrelse og ca. 20 statsinstitutioner. Kulturministeriet varetager endvidere styringsmæssige opgaver i forhold til bl.a. de statslige, statsanerkendte og tilskudsmodtagende kulturinstitutioner.",
+      "description": "De tre nominerede til Kulturministerens Parasportspris 2025 er nu fundet. Prisen uddeles til januar ved DR’s sportsgalla ’Sport 2025’ i Jyske Bank Boxen i Herning.",
       "article_id": "a6-a71e3f336054c57afada510d69516678",
-      "first_seen_at": "2026-08-27T11:26:01.318657+00:00"
+      "first_seen_at": "2026-09-01T13:34:32.242722+00:00"
     },
     {
       "source": "Erhvervsministeriet",
