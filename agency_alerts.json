@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-02T11:28:49.918896+00:00",
+  "generated_at": "2026-09-02T12:33:16.516006+00:00",
   "threshold": 3,
   "active_alerts": 5,
   "alerts": [
     {
       "source": "Erhvervsstyrelsen",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://erhvervsstyrelsen.dk/nyheder: 403 Client Error: Forbidden for url: https://erhvervsstyrelsen.dk/nyheder",
         "Liste kunne ikke hentes: https://erhvervsstyrelsen.dk/: 403 Client Error: Forbidden for url: https://erhvervsstyrelsen.dk/"
@@ -16,8 +16,8 @@
     {
       "source": "Konkurrence- og Forbrugerstyrelsen",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://kfst.dk/pressemeddelelser/: 404 Client Error: Not Found for url: https://kfst.dk/pressemeddelelser"
       ]
@@ -25,8 +25,8 @@
     {
       "source": "Danmarks Domstole/Domstolsstyrelsen",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.domstol.dk/aktuelt/: 403 Client Error: Forbidden for url: https://www.domstol.dk/aktuelt/",
         "Liste kunne ikke hentes: https://www.domstol.dk/: 403 Client Error: Forbidden for url: https://www.domstol.dk/"
@@ -35,8 +35,8 @@
     {
       "source": "Sundhedsstyrelsen",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.sst.dk/nyheder: 429 Client Error: Too Many Requests for url: https://www.sst.dk/nyheder"
       ]
@@ -44,8 +44,8 @@
     {
       "source": "Ankestyrelsen",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://ast.dk/nyheder/nyheder: 404 Client Error: Not Found for url: https://www.ast.dk/nyheder/nyheder"
       ]
