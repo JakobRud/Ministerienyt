@@ -1,4 +1,4 @@
-name: Opdater Ministerienyt
+name: Opdater Ministerienyt og Styrelsesnyt
 
 on:
   workflow_dispatch:
@@ -19,6 +19,14 @@ on:
       - "source_state.json"
       - "alerts.json"
       - "source_audit.json"
+      - "agency_archive.json"
+      - "agency_rejected_candidates.json"
+      - "agency_health.json"
+      - "agency_diagnostics.json"
+      - "agency_diagnostics.html"
+      - "agency_source_state.json"
+      - "agency_alerts.json"
+      - "agency_source_audit.json"
   schedule:
     # Lette friskhedstjek i dansk tid: hver time kl. 06-18 samt kl. 21 og 00.
     - cron: "7 6-18 * * *"
@@ -48,7 +56,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
 
     steps:
       - name: Hent repository
@@ -83,11 +91,11 @@ jobs:
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.full_audit }}" = "true" ]; then
             CRAWL_FLAG="--full-audit"
             echo "Kører manuelt valgt fuld kildeaudit."
-          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" != "7 3 * * *" ]; then
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then
+            echo "Kører dyb kildekontrol."
+          else
             CRAWL_FLAG="--fast"
             echo "Kører let friskhedstjek."
-          else
-            echo "Kører dyb kildekontrol."
           fi
           python ministerier_nyheder.py \
             --archive archive.json \
@@ -106,11 +114,32 @@ jobs:
             --feed-url "${PAGES_URL}feed.xml" \
             $CRAWL_FLAG
 
+          mkdir -p site/styrelsesnyt
+          python ministerier_nyheder.py \
+            --sources agency_sources.json \
+            --archive agency_archive.json \
+            --html-output site/styrelsesnyt/index.html \
+            --rss-output site/styrelsesnyt/feed.xml \
+            --health-output agency_health.json \
+            --status-output site/styrelsesnyt/status.json \
+            --diagnostics-output agency_diagnostics.json \
+            --diagnostics-html agency_diagnostics.html \
+            --source-state agency_source_state.json \
+            --alerts-output agency_alerts.json \
+            --source-audit-output agency_source_audit.json \
+            --rejected-log agency_rejected_candidates.json \
+            --config agency_site_config.json \
+            --site-url "${PAGES_URL}styrelsesnyt/" \
+            --feed-url "${PAGES_URL}styrelsesnyt/feed.xml" \
+            $CRAWL_FLAG
+
       - name: Gem arkiv og intern kvalitetsstatus i repositoryet
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add archive.json rejected_candidates.json health.json diagnostics.json diagnostics.html source_state.json alerts.json source_audit.json
+          git add archive.json rejected_candidates.json health.json diagnostics.json diagnostics.html source_state.json alerts.json source_audit.json \
+            agency_archive.json agency_rejected_candidates.json agency_health.json agency_diagnostics.json \
+            agency_diagnostics.html agency_source_state.json agency_alerts.json agency_source_audit.json
           if ! git diff --cached --quiet; then
             git commit -m "Opdater nyhedsarkiv og kvalitetsstatus [skip ci]"
             git push
