@@ -1,0 +1,866 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-02T06:55:33.230115+00:00",
+  "note": "Vedvarende driftsstatus til retry, cache og fejlalarmer. Publiceres ikke på GitHub Pages.",
+  "sources": {
+    "Erhvervsstyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://erhvervsstyrelsen.dk/nyheder: 403 Client Error: Forbidden for url: https://erhvervsstyrelsen.dk/nyheder"
+      ]
+    },
+    "Konkurrence- og Forbrugerstyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.kfst.dk/pressemeddelelser/kfst/: 404 Client Error: Not Found for url: https://kfst.dk/pressemeddelelser/kfst"
+      ]
+    },
+    "Patent- og Varemærkestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Søfartsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Nævnenes Hus": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 15,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Fødevarestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Økonomistyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Medarbejder- og Kompetencestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Statens It": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 2,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Statens Administration": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 18,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "DREAM": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Anklagemyndigheden": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Datatilsynet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Danmarks Domstole/Domstolsstyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.domstol.dk/aktuelt/: 403 Client Error: Forbidden for url: https://www.domstol.dk/aktuelt/"
+      ]
+    },
+    "Danmarks Fængsler": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Rigspolitiet/politi.dk": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://politi.dk/rigspolitiet/nyhedsliste: 404 Client Error: Page not found for url: https://politi.dk/rigspolitiet/nyhedsliste"
+      ]
+    },
+    "PET": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://pet.dk/pet/nyhedsliste/: 404 Client Error: Page not found for url: https://pet.dk/pet/nyhedsliste/"
+      ]
+    },
+    "Den Uafhængige Politiklagemyndighed": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 19,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Civilstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Tilsynet med Efterretningstjenesterne": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 42,
+      "last_fresh_items": 5,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Uddannelses- og Forskningsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 10,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Digitaliseringsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 13,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Danmarks Statistik": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "CPR": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 1,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Energistyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 2,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Geodatastyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Klimadatastyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Forsyningstilsynet": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://forsyningstilsynet.dk/aktuelt/nyheder: 404 Client Error: Not Found for url: https://forsyningstilsynet.dk/aktuelt/nyheder"
+      ]
+    },
+    "GEUS": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "DMI": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.dmi.dk/nyheder/: 404 Client Error: Not Found for url: https://www.dmi.dk/nyheder/"
+      ]
+    },
+    "Banedanmark": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.banedanmark.dk/Presse/Nyheder: 404 Client Error: Not Found for url: https://www.banedanmark.dk/Presse/Nyheder"
+      ]
+    },
+    "Bygningsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 20,
+      "last_fresh_items": 13,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Færdselsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Plan- og Landdistriktsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Trafikstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Vejdirektoratet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Havarikommissionen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Hjemrejsestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 2,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for International Rekruttering og Integration": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Udlændingestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for Undervisning og Kvalitet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for It og Læring": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 6,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Arbejdstilsynet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for Arbejdsmarked og Rekruttering": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Det Nationale Forskningscenter for Arbejdsmiljø": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://nfa.dk/nyt/nyheder/: 404 Client Error: Not Found for url: https://nfa.dk/nyt/nyheder/"
+      ]
+    },
+    "Forsvaret/Forsvarskommandoen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Hjemmeværnet": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.hjemmevaernet.dk/da/nyheder/: 404 Client Error: Not Found for url: https://www.hjemmevaernet.dk/da/nyheder/"
+      ]
+    },
+    "Forsvarets Efterretningstjeneste": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Forsvarsministeriets Materiel- og Indkøbsstyrelse": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Forsvarsministeriets Auditørkorps": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Skattestyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder: 404 Client Error: Not Found for url: https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder"
+      ]
+    },
+    "Vurderingsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Motorstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 3,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Gældsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Toldstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 4,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Spillemyndigheden": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Skatteankestyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://skatteankestyrelsen.dk/nyheder: 404 Client Error: Not Found for url: https://skatteankestyrelsen.dk/nyheder"
+      ]
+    },
+    "Finanstilsynet": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser: 404 Client Error: Not Found for url: https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser"
+      ]
+    },
+    "Administrations- og Servicestyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 4,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Udviklings- og Forenklingsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "It-tilsynet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Lægemiddelstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 44,
+      "last_fresh_items": 40,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Sundhedsstyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.sst.dk/da/nyheder: 429 Client Error: Too Many Requests for url: https://www.sst.dk/da/nyheder"
+      ]
+    },
+    "Styrelsen for Patientsikkerhed": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Sundhedsdatastyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://sundhedsdatastyrelsen.dk/da/nyheder: 404 Client Error: Not Found for url: https://sundhedsdatastyrelsen.dk/da/nyheder"
+      ]
+    },
+    "Statens Serum Institut": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 1376,
+      "last_fresh_items": 35,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for Patientklager": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 71,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Styrelsen for Grøn Arealomlægning og Vandmiljø": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Naturstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 38,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "Sitemap"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_sitemap_scan_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Slots- og Kulturstyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://slks.dk/omraader/presse/nyheder: 404 Client Error: Not Found for url: https://slks.dk/omraader/presse/nyheder"
+      ]
+    },
+    "Rigsarkivet": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://rigsarkivet.dk/nyt-og-nyheder/: 404 Client Error: Not Found for url: https://www.rigsarkivet.dk/nyt-og-nyheder/"
+      ]
+    },
+    "Styrelsen for Samfundssikkerhed": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 24,
+      "last_fresh_items": 15,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Beredskabsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Dansk Dekommissionering": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 14,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Ankestyrelsen": {
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://ast.dk/nyheder: 404 Client Error: Not Found for url: https://www.ast.dk/nyheder"
+      ]
+    },
+    "Social- og Boligstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Familieretshuset": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 5,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    },
+    "Miljøstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-09-02T06:55:33.230115+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 0,
+      "last_fresh_items": 0,
+      "last_methods": [],
+      "last_errors": [],
+      "last_success_at": "2026-09-02T06:55:33.230115+00:00"
+    }
+  }
+}
