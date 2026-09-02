@@ -1,30 +1,24 @@
-# Opdatér til version 7.0
+# Opdatér til version 7.0.1
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.0.zip` ud. Mappestrukturen skal bevares, især `.github/workflows/pages.yml`.
+Pak `Ministerienyt-7.0.1.zip` ud.
 
 ## 2. Upload rodfilerne
 
-Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload disse filer:
+Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload kun disse fem ændrede filer:
 
 - `ministerier_nyheder.py`
 - `regression_tests.py`
-- `requirements.txt`
-- `sources.json`
 - `agency_sources.json`
-- `site_config.json`
-- `agency_site_config.json`
 - `README.md`
 - `TRIN-FOR-TRIN.md`
 
 Vælg at erstatte filer med samme navn. Upload ikke `archive.json`, `health.json`, `diagnostics.json` eller andre genererede statusfiler fra pakken; den aktuelle historik i GitHub skal bevares.
 
-## 3. Erstat workflowet
+## 3. Lad workflow og Pages være urørt
 
-Gå til `.github/workflows`, og erstat den eksisterende `pages.yml` med filen fra pakkens `.github/workflows`-mappe.
-
-Der skal kun ligge ét aktivt Pages-workflow. Der er ikke behov for en ekstra `pages.yml` i repositoryets rod eller for at indsætte kode manuelt under **Settings → Pages**.
+Der er ingen ændring i `.github/workflows/pages.yml`, og du skal ikke ændre noget under **Settings → Pages**.
 
 ## 4. Commit ændringerne
 
@@ -36,7 +30,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.0-kørsel er et let friskhedstjek og opbygger Styrelsesnyt med de aktuelle nyheder fra de 78 officielle kilder. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne. Workflowets tidsgrænse er 90 minutter.
+Den første 7.0.1-kørsel kontrollerer de nye kildeadresser. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
 
 ## 6. Kontrollér siderne
 

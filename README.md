@@ -1,6 +1,14 @@
-# Ministerienyt og Styrelsesnyt 7.0
+# Ministerienyt og Styrelsesnyt 7.0.1
 
-Version 7.0 udvider Ministerienyt med **Styrelsesnyt** som en selvstændig hovedside. Ministerienyt beholder sit eget arkiv og sine brugerindstillinger, mens Styrelsesnyt får samme funktioner med 78 officielle styrelses- og myndighedskilder.
+Version 7.0.1 er en kilderettelse til Styrelsesnyt. De 78 myndigheder, funktionerne og sidernes opbygning er uændrede.
+
+## Rettet i version 7.0.1
+
+- 16 forældede listeadresser eller artikelstier er opdateret til myndighedernes aktuelle officielle struktur.
+- Banedanmarks flytning fra `banedanmark.dk` til `bane.dk` er håndteret uden at åbne for andre domæner.
+- Rigspolitiet er fortsat afgrænset til centrale Rigspolitiet-nyheder, selv om indgangen nu er Rigspolitiets forside.
+- DMI, KFST, Forsyningstilsynet, NFA, Hjemmeværnet, Skattestyrelsen, Skatteankestyrelsen, Finanstilsynet, Sundhedsstyrelsen, Sundhedsdatastyrelsen, Slots- og Kulturstyrelsen, Rigsarkivet og Ankestyrelsen bruger deres nye officielle indgange.
+- Erhvervsstyrelsen og Danmarks Domstole har fået en ekstra officiel forside som skånsom reserveindgang. Der er ikke slået generel sitemap-crawling til.
 
 ## Nyt i version 7.0
 

@@ -137,9 +137,39 @@ class IdentityAndSafetyTests(unittest.TestCase):
     def test_police_source_is_limited_to_central_rigspolitiet_news(self):
         sources = m.load_sources_config(Path("agency_sources.json"))
         police = next(source for source in sources if source["name"] == "Rigspolitiet/politi.dk")
-        self.assertEqual(police["start_urls"], ["https://politi.dk/rigspolitiet/nyhedsliste"])
+        self.assertEqual(police["start_urls"], ["https://politi.dk/rigspolitiet"])
         self.assertTrue(m.looks_like_article("https://politi.dk/rigspolitiet/nyhedsliste/central-nyhed", police))
         self.assertFalse(m.looks_like_article("https://politi.dk/koebenhavns-politi/doegnrapporter/lokal-rapport", police))
+
+    def test_agency_redesign_routes_are_current(self):
+        sources = {source["name"]: source for source in m.load_sources_config(Path("agency_sources.json"))}
+        expected = {
+            "Konkurrence- og Forbrugerstyrelsen": "https://kfst.dk/pressemeddelelser/",
+            "Rigspolitiet/politi.dk": "https://politi.dk/rigspolitiet",
+            "PET": "https://pet.dk/pet",
+            "Forsyningstilsynet": "https://forsyningstilsynet.dk/nyheder",
+            "DMI": "https://www.dmi.dk/nyhedsoverblik",
+            "Banedanmark": "https://www.bane.dk/da/Presse/Pressemeddelelser",
+            "Det Nationale Forskningscenter for Arbejdsmiljø": "https://nfa.dk/nyt/",
+            "Hjemmeværnet": "https://www.hjemmevaernet.dk/da/aktuelt/nyheder/",
+            "Skattestyrelsen": "https://sktst.dk/nyheder-og-pressemeddelelser",
+            "Skatteankestyrelsen": "https://skatteankestyrelsen.dk/aktuelt",
+            "Finanstilsynet": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser",
+            "Sundhedsstyrelsen": "https://www.sst.dk/nyheder",
+            "Sundhedsdatastyrelsen": "https://sundhedsdatastyrelsen.dk/nyheder",
+            "Slots- og Kulturstyrelsen": "https://slks.dk/nyheder/",
+            "Rigsarkivet": "https://www.rigsarkivet.dk/nyheder/",
+            "Ankestyrelsen": "https://ast.dk/nyheder/nyheder",
+        }
+        for name, url in expected.items():
+            self.assertIn(url, sources[name]["start_urls"], name)
+
+        banedanmark = sources["Banedanmark"]
+        self.assertTrue(m.looks_like_article(
+            "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-faar-ny-direktoer-for-Vedligehold",
+            banedanmark,
+        ))
+        self.assertFalse(m.looks_like_article("https://www.bane.dk/da/om-banedanmark", banedanmark))
 
     def test_shared_archive_source_filter_keeps_agencies_separate(self):
         siri = {"required_article_text": ["Publiceret af: SIRI", "Publiceret af SIRI"]}
@@ -397,7 +427,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.0", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.0.1", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -467,7 +497,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.0", rss)
+        self.assertIn("Styrelsesnyt 7.0.1", rss)
 
     def test_quality_warning_is_visible_separately_from_technical_status(self):
         item = self.item("Testministeriet", "En testartikel med en tydelig titel", "https://example.dk/nyheder/test", "2026-08-20")

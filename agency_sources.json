@@ -10,15 +10,15 @@
       "name": "Erhvervsstyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://erhvervsstyrelsen.dk/",
-      "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
+      "start_urls": ["https://erhvervsstyrelsen.dk/nyheder", "https://erhvervsstyrelsen.dk/"],
       "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$"
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://www.kfst.dk/",
-      "start_urls": ["https://www.kfst.dk/pressemeddelelser/kfst/"],
-      "article_prefixes": ["/pressemeddelelser/kfst/", "/pressemeddelelser/"]
+      "start_urls": ["https://kfst.dk/pressemeddelelser/"],
+      "article_prefixes": ["/pressemeddelelser/"]
     },
     {
       "name": "Patent- og Varemærkestyrelsen",
@@ -106,7 +106,7 @@
       "name": "Danmarks Domstole/Domstolsstyrelsen",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://www.domstol.dk/",
-      "start_urls": ["https://www.domstol.dk/aktuelt/"],
+      "start_urls": ["https://www.domstol.dk/aktuelt/", "https://www.domstol.dk/"],
       "article_prefixes": ["/aktuelt/"]
     },
     {
@@ -120,14 +120,14 @@
       "name": "Rigspolitiet/politi.dk",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://politi.dk/rigspolitiet",
-      "start_urls": ["https://politi.dk/rigspolitiet/nyhedsliste"],
+      "start_urls": ["https://politi.dk/rigspolitiet"],
       "article_prefixes": ["/rigspolitiet/nyhedsliste/"]
     },
     {
       "name": "PET",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://pet.dk/",
-      "start_urls": ["https://pet.dk/pet/nyhedsliste/"],
+      "start_urls": ["https://pet.dk/pet"],
       "article_prefixes": ["/pet/nyhedsliste/"]
     },
     {
@@ -207,8 +207,8 @@
       "name": "Forsyningstilsynet",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://forsyningstilsynet.dk/",
-      "start_urls": ["https://forsyningstilsynet.dk/aktuelt/nyheder"],
-      "article_prefixes": ["/aktuelt/nyheder/"]
+      "start_urls": ["https://forsyningstilsynet.dk/nyheder"],
+      "article_prefixes": ["/nyheder/"]
     },
     {
       "name": "GEUS",
@@ -221,16 +221,17 @@
       "name": "DMI",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://www.dmi.dk/",
-      "start_urls": ["https://www.dmi.dk/nyheder/"],
+      "start_urls": ["https://www.dmi.dk/nyhedsoverblik", "https://www.dmi.dk/"],
       "article_prefixes": ["/nyheder/"]
     },
 
     {
       "name": "Banedanmark",
       "responsible_ministry": "By-, Land- og Transportministeriet",
-      "home_url": "https://www.banedanmark.dk/",
-      "start_urls": ["https://www.banedanmark.dk/Presse/Nyheder"],
-      "article_prefixes": ["/Presse/Nyheder/"]
+      "home_url": "https://www.bane.dk/",
+      "start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser", "https://www.bane.dk/"],
+      "extra_hosts": ["banedanmark.dk", "www.banedanmark.dk"],
+      "article_prefixes": ["/da/Presse/Pressemeddelelser/"]
     },
     {
       "name": "Bygningsstyrelsen",
@@ -334,7 +335,7 @@
       "name": "Det Nationale Forskningscenter for Arbejdsmiljø",
       "responsible_ministry": "Beskæftigelses- og Ligestillingsministeriet",
       "home_url": "https://nfa.dk/",
-      "start_urls": ["https://nfa.dk/nyt/nyheder/"],
+      "start_urls": ["https://nfa.dk/nyt/"],
       "article_prefixes": ["/nyt/nyheder/"]
     },
 
@@ -349,8 +350,8 @@
       "name": "Hjemmeværnet",
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.hjemmevaernet.dk/",
-      "start_urls": ["https://www.hjemmevaernet.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "start_urls": ["https://www.hjemmevaernet.dk/da/aktuelt/nyheder/"],
+      "article_prefixes": ["/da/aktuelt/nyheder/"]
     },
     {
       "name": "Forsvarets Efterretningstjeneste",
@@ -378,8 +379,8 @@
       "name": "Skattestyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://sktst.dk/",
-      "start_urls": ["https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder"],
-      "article_prefixes": ["/aktuelt/pressemeddelelser-og-nyheder/"]
+      "start_urls": ["https://sktst.dk/nyheder-og-pressemeddelelser"],
+      "article_prefixes": ["/nyheder-og-pressemeddelelser/"]
     },
     {
       "name": "Vurderingsstyrelsen",
@@ -420,15 +421,15 @@
       "name": "Skatteankestyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://skatteankestyrelsen.dk/",
-      "start_urls": ["https://skatteankestyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "start_urls": ["https://skatteankestyrelsen.dk/aktuelt"],
+      "article_prefixes": ["/aktuelt/"]
     },
     {
       "name": "Finanstilsynet",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://www.finanstilsynet.dk/",
-      "start_urls": ["https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser"],
-      "article_prefixes": ["/nyheder-og-presse/pressemeddelelser/"]
+      "start_urls": ["https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser"],
+      "article_prefixes": ["/nyheder-og-presse/"]
     },
     {
       "name": "Administrations- og Servicestyrelsen",
@@ -471,8 +472,8 @@
       "name": "Sundhedsstyrelsen",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://www.sst.dk/",
-      "start_urls": ["https://www.sst.dk/da/nyheder"],
-      "article_prefixes": ["/da/nyheder/"]
+      "start_urls": ["https://www.sst.dk/nyheder"],
+      "article_prefixes": ["/nyheder/"]
     },
     {
       "name": "Styrelsen for Patientsikkerhed",
@@ -485,8 +486,8 @@
       "name": "Sundhedsdatastyrelsen",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://sundhedsdatastyrelsen.dk/",
-      "start_urls": ["https://sundhedsdatastyrelsen.dk/da/nyheder"],
-      "article_prefixes": ["/da/nyheder/"]
+      "start_urls": ["https://sundhedsdatastyrelsen.dk/nyheder"],
+      "article_prefixes": ["/nyheder/"]
     },
     {
       "name": "Statens Serum Institut",
@@ -523,15 +524,16 @@
       "name": "Slots- og Kulturstyrelsen",
       "responsible_ministry": "Kulturministeriet",
       "home_url": "https://slks.dk/",
-      "start_urls": ["https://slks.dk/omraader/presse/nyheder"],
-      "article_prefixes": ["/omraader/presse/nyheder/"]
+      "start_urls": ["https://slks.dk/nyheder/"],
+      "article_prefixes": ["/nyheder/"]
     },
     {
       "name": "Rigsarkivet",
       "responsible_ministry": "Kulturministeriet",
-      "home_url": "https://rigsarkivet.dk/",
-      "start_urls": ["https://rigsarkivet.dk/nyt-og-nyheder/"],
-      "article_prefixes": ["/nyt-og-nyheder/"]
+      "home_url": "https://www.rigsarkivet.dk/",
+      "start_urls": ["https://www.rigsarkivet.dk/nyheder/"],
+      "extra_hosts": ["rigsarkivet.dk"],
+      "article_prefixes": ["/nyheder/"]
     },
 
     {
@@ -560,8 +562,8 @@
       "name": "Ankestyrelsen",
       "responsible_ministry": "Socialministeriet",
       "home_url": "https://ast.dk/",
-      "start_urls": ["https://ast.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "start_urls": ["https://ast.dk/nyheder/nyheder"],
+      "article_prefixes": ["/nyheder/nyheder/"]
     },
     {
       "name": "Social- og Boligstyrelsen",
