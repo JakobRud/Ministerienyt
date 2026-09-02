@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Ministerienyt: samlet nyhedsarkiv fra danske ministerier.
+"""Ministerienyt og Styrelsesnyt: samlede officielle nyhedsarkiver.
 
-Programmet henter officielle nyheder fra 21 ministerielle hjemmesider samt
-Regeringen.dk, gemmer et vedvarende arkiv fra 1. januar 2026 og bygger:
+Programmet henter officielle nyheder fra de konfigurerede departementer,
+styrelser og myndigheder, gemmer separate arkiver fra 1. januar 2026 og bygger:
 
 * site/index.html  - søgbar, mobilvenlig hjemmeside
 * site/feed.xml    - samlet RSS 2.0-feed
@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "6.3.1"
+APP_VERSION = "7.0"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -230,6 +230,7 @@ REJECTION_REASON_DA = {
     "before_archive_start": "Publiceringsdato er før 1. januar 2026",
     "generic_title": "Manglende eller generisk overskrift",
     "not_article_url": "URL matcher ikke kildens nyhedsartikler",
+    "source_filter_mismatch": "Artiklen tilhører ikke den valgte myndighed",
 }
 
 
@@ -1426,6 +1427,15 @@ def looks_like_article(url: str, source: dict) -> bool:
     if prefixes and not any(lowered_path.startswith(prefix.casefold().rstrip("/") + "/") for prefix in prefixes):
         return False
 
+    article_url_regex = clean_text(str(source.get("article_url_regex", "")))
+    if article_url_regex:
+        try:
+            path_and_query = parsed.path + (("?" + parsed.query) if parsed.query else "")
+            if not re.search(article_url_regex, path_and_query, flags=re.IGNORECASE):
+                return False
+        except re.error:
+            return False
+
     segments = [segment for segment in parsed.path.split("/") if segment]
     if not segments:
         return False
@@ -1648,6 +1658,9 @@ def collect_feed_items(
 ) -> list[Item]:
     result: dict[str, Item] = {}
     used = False
+    requires_article_filter = bool(
+        source.get("required_article_text") or source.get("excluded_article_text")
+    )
     for feed_url in feed_candidate_urls(source, feed_urls):
         try:
             response = fetch(session, feed_url)
@@ -1663,6 +1676,10 @@ def collect_feed_items(
             continue
         used = True
         for entry in feed.entries:
+            # Delte nyhedsarkiver skal filtreres på selve artikelsiden. De samme
+            # URL'er findes via HTML-listen og bliver behandlet dér.
+            if requires_article_filter:
+                continue
             published = None
             future_published = None
             for field in ("published", "updated", "created"):
@@ -1826,6 +1843,24 @@ def context_description(candidate: Candidate) -> str:
     return clean_text(text)[:900]
 
 
+def source_text_filter_matches(source: dict, text: str) -> bool:
+    """Afgræns delte officielle arkiver til den myndighed, der udgav artiklen."""
+    folded = clean_text(text).casefold()
+    required = source.get("required_article_text", [])
+    excluded = source.get("excluded_article_text", [])
+    if isinstance(required, str):
+        required = [required]
+    if isinstance(excluded, str):
+        excluded = [excluded]
+    required_terms = [clean_text(str(value)).casefold() for value in required if clean_text(str(value))]
+    excluded_terms = [clean_text(str(value)).casefold() for value in excluded if clean_text(str(value))]
+    if required_terms and not any(term in folded for term in required_terms):
+        return False
+    if excluded_terms and any(term in folded for term in excluded_terms):
+        return False
+    return True
+
+
 def item_from_candidate(
     session: requests.Session,
     source: dict,
@@ -1848,6 +1883,8 @@ def item_from_candidate(
 
     must_fetch = (
         bool(source.get("always_fetch_articles"))
+        or bool(source.get("required_article_text"))
+        or bool(source.get("excluded_article_text"))
         or not published
         or is_generic_item_title(title, source["name"])
     )
@@ -1871,6 +1908,17 @@ def item_from_candidate(
         except Exception as exc:
             fetch_error = str(exc)
             append_error(status, f"Artikel kunne ikke hentes: {candidate.url}: {exc}")
+
+    if source.get("required_article_text") or source.get("excluded_article_text"):
+        article_text = article_soup.get_text(" ", strip=True) if article_soup is not None else ""
+        if not source_text_filter_matches(source, article_text):
+            record_rejection(
+                source["name"], title, final_url, "source_filter_mismatch",
+                discovered_by=candidate.discovered_by,
+                detail=("Artikelhentning fejlede: " + fetch_error) if fetch_error else "",
+                detected_date=published,
+            )
+            return None
 
     if not published:
         future_published = None
@@ -2693,17 +2741,28 @@ def build_diagnostics_html(diagnostics: dict, alerts: dict, audit: dict) -> str:
     return f'''<!doctype html><html lang="da"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ministerienyt diagnostik</title><style>body{{font:14px/1.45 system-ui,sans-serif;margin:28px;color:#18222c}}h1,h2{{margin:.4em 0}}.meta{{color:#5d6974}}table{{border-collapse:collapse;width:100%;margin-top:12px}}th,td{{border:1px solid #dce2e7;padding:7px 8px;text-align:left;vertical-align:top}}th{{background:#f1f3f5}}code{{background:#f1f3f5;padding:1px 4px}}</style></head><body><h1>Ministerienyt – intern kvalitetsrapport</h1><p class="meta">Genereret {e(diagnostics.get('generated_at'))}. Denne fil ligger kun i repositoryet og publiceres ikke som en del af GitHub Pages.</p><p>Arkiv: <strong>{e(diagnostics.get('archive_items'))}</strong> · viste historier: <strong>{e(diagnostics.get('display_items_after_deduplication'))}</strong> · kilder OK: <strong>{e(diagnostics.get('healthy_sources'))}/{e(diagnostics.get('source_count'))}</strong> · kørsel: <strong>{e(diagnostics.get('runtime_seconds'))} sek.</strong></p><h2>Driftsalarmer</h2>{alert_html}<h2>Kilder</h2><table><thead><tr><th>Kilde</th><th>Selvtest</th><th>Kandidater</th><th>Kendte sprunget over</th><th>Nye/opdaterede</th><th>Afvist</th><th>Sek.</th><th>Noter</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table><h2>Kildeaudit</h2><p>Seneste audit: <code>{e(audit.get('generated_at'))}</code> · fuld audit: <strong>{'ja' if audit.get('full_audit') else 'nej'}</strong>.</p></body></html>'''
 
 
-def build_rss(entries: Iterable[DisplayEntry], site_url: str, feed_url: str, source_lookup: dict[str, dict]) -> bytes:
+def build_rss(
+    entries: Iterable[DisplayEntry],
+    site_url: str,
+    feed_url: str,
+    source_lookup: dict[str, dict],
+    ui_config: dict | None = None,
+) -> bytes:
+    ui_config = ui_config or {}
+    site_name = clean_text(str(ui_config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
+    rss_title = clean_text(str(ui_config.get("rss_title", f"{site_name} – officielle nyheder")))
+    rss_description = clean_text(str(ui_config.get(
+        "rss_description",
+        "Samlet arkiv med officielle nyheder og pressemeddelelser fra 1. januar 2026.",
+    )))
     rss = ET.Element("rss", {"version": "2.0"})
     channel = ET.SubElement(rss, "channel")
-    ET.SubElement(channel, "title").text = "Ministerienyt – nyheder fra danske ministerier og Regeringen.dk"
+    ET.SubElement(channel, "title").text = rss_title
     ET.SubElement(channel, "link").text = site_url
-    ET.SubElement(channel, "description").text = (
-        "Samlet arkiv med officielle nyheder og pressemeddelelser fra 1. januar 2026."
-    )
+    ET.SubElement(channel, "description").text = rss_description
     ET.SubElement(channel, "language").text = "da"
     ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(datetime.now(timezone.utc))
-    ET.SubElement(channel, "generator").text = f"Ministerienyt {APP_VERSION}"
+    ET.SubElement(channel, "generator").text = f"{site_name} {APP_VERSION}"
     if feed_url:
         atom = "http://www.w3.org/2005/Atom"
         ET.register_namespace("atom", atom)
@@ -2763,12 +2822,45 @@ def build_html(
     ui_config: dict | None = None,
 ) -> str:
     ui_config = ui_config or {}
+    site_name = clean_text(str(ui_config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
+    site_kind = clean_text(str(ui_config.get("site_kind", "ministries"))).casefold()
+    agency_mode = site_kind == "agencies"
+    page_heading = clean_text(str(ui_config.get(
+        "page_heading",
+        "Nyheder fra danske styrelser og myndigheder" if agency_mode else "Nyheder fra danske ministerier",
+    )))
+    page_description = clean_text(str(ui_config.get(
+        "page_description",
+        "Samlet arkiv over officielle nyheder fra danske styrelser og myndigheder siden 1. januar 2026."
+        if agency_mode else
+        "Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026.",
+    )))
+    favorites_label = clean_text(str(ui_config.get(
+        "favorites_label", "Mine myndigheder" if agency_mode else "Mine ministerier"
+    )))
+    favorites_help = clean_text(str(ui_config.get(
+        "favorites_help",
+        "Vælg myndigheder nedenfor. Brug derefter knappen til kun at vise deres nyheder."
+        if agency_mode else
+        "Vælg ministerier nedenfor. Brug derefter knappen til kun at vise deres nyheder.",
+    )))
+    storage_namespace = re.sub(
+        r"[^a-z0-9-]+", "-", str(ui_config.get("storage_namespace", site_name)).casefold()
+    ).strip("-") or "ministerienyt"
+    ministry_href = clean_text(str(ui_config.get("ministerienyt_href", "./"))) or "./"
+    agency_href = clean_text(str(ui_config.get("styrelsesnyt_href", "styrelsesnyt/"))) or "styrelsesnyt/"
+    dedup_explanation = clean_text(str(ui_config.get(
+        "dedup_explanation",
+        "Samme historie fra flere styrelser eller myndigheder samles i ét kort."
+        if agency_mode else
+        "Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort.",
+    )))
     page_size = max(5, min(100, int(ui_config.get("page_size", DEFAULT_PAGE_SIZE) or DEFAULT_PAGE_SIZE)))
     late_discovery_grace_days = max(0, min(30, int(ui_config.get("late_discovery_grace_days", DEFAULT_LATE_DISCOVERY_GRACE_DAYS) or DEFAULT_LATE_DISCOVERY_GRACE_DAYS)))
     stalled_after_missed_runs = max(1, min(4, int(ui_config.get("stalled_after_missed_runs", 2) or 2)))
     stalled_run_grace_minutes = max(5, min(60, int(ui_config.get("stalled_run_grace_minutes", 20) or 20)))
-    footer_about = clean_text(str(ui_config.get("footer_about", "Ministerienyt samler links til officielle kilder · Artikler åbner hos udgiveren.")))
-    footer_about_mobile = clean_text(str(ui_config.get("footer_about_mobile", "Ministerienyt · officielle kilder · artikler åbner hos udgiveren")))
+    footer_about = clean_text(str(ui_config.get("footer_about", f"{site_name} samler links til officielle kilder · Artikler åbner hos udgiveren.")))
+    footer_about_mobile = clean_text(str(ui_config.get("footer_about_mobile", f"{site_name} · officielle kilder · artikler åbner hos udgiveren")))
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
     source_lookup = {source["name"]: source for source in sources}
     status_lookup = {status.name: status for status in statuses}
@@ -2801,7 +2893,8 @@ def build_html(
             )
             also_html = f'<span class="also-published">Også publiceret på {links}</span>'
         type_html = f'<span class="type-badge">{esc(article_type)}</span>' if article_type else ""
-        search_text = " ".join([*all_sources, item.title, description, article_type]).casefold()
+        responsible_ministry = clean_text(str(source_lookup.get(item.source, {}).get("responsible_ministry", "")))
+        search_text = " ".join([*all_sources, responsible_ministry, item.title, description, article_type]).casefold()
         cards.append(
             f'''<article class="card" data-id="{article_id}" data-seen-aliases="{esc(seen_alias_ids)}" data-published="{esc(item.published.isoformat())}" data-first-seen="{esc(first_seen)}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
   <div class="meta"><span class="source-name">{esc(item.source)}</span>{type_html}<time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
@@ -2820,6 +2913,7 @@ def build_html(
     )
 
     source_rows: list[str] = []
+    source_table_parent_header = "<th>Ministerområde</th>" if agency_mode else ""
     for name in ministries:
         source = source_lookup[name]
         status = status_lookup.get(name)
@@ -2842,8 +2936,12 @@ def build_html(
             notes.append("Ingen artikler fundet fra kilden.")
         notes = list(dict.fromkeys(clean_text(note) for note in notes if clean_text(note)))
         note_html = f'<span class="source-note">{esc(" ".join(notes))}</span>' if notes else '<span class="source-note-empty" aria-hidden="true">–</span>'
+        parent_cell = (
+            f'<td>{esc(clean_text(str(source.get("responsible_ministry", ""))))}</td>'
+            if agency_mode else ""
+        )
         source_rows.append(
-            f'''<tr><td><a href="{esc(source.get('home_url', source['start_urls'][0]))}" target="_blank" rel="noopener noreferrer">{esc(name)}</a></td><td>{raw_counts.get(name, 0)}</td><td>{state}</td><td>{esc(methods)}</td><td>{note_html}</td></tr>'''
+            f'''<tr><td><a href="{esc(source.get('home_url', source['start_urls'][0]))}" target="_blank" rel="noopener noreferrer">{esc(name)}</a></td>{parent_cell}<td>{raw_counts.get(name, 0)}</td><td>{state}</td><td>{esc(methods)}</td><td>{note_html}</td></tr>'''
         )
 
     source_warning_label = ""
@@ -2857,14 +2955,13 @@ def build_html(
     if canonical_url_value:
         canonical_url_value = canonical_url_value.rstrip("/") + "/"
     canonical_href = esc(canonical_url_value)
-    page_description = "Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026."
     social_image = esc(urljoin(canonical_url_value, "icon-512.png")) if canonical_url_value else "icon-512.png"
     social_meta = (
         f'<link rel="canonical" href="{canonical_href}">'
         f'<meta property="og:type" content="website"><meta property="og:locale" content="da_DK">'
-        f'<meta property="og:title" content="Ministerienyt"><meta property="og:description" content="{esc(page_description)}">'
+        f'<meta property="og:title" content="{esc(site_name)}"><meta property="og:description" content="{esc(page_description)}">'
         f'<meta property="og:url" content="{canonical_href}"><meta property="og:image" content="{social_image}">'
-        f'<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Ministerienyt">'
+        f'<meta name="twitter:card" content="summary"><meta name="twitter:title" content="{esc(site_name)}">'
         f'<meta name="twitter:description" content="{esc(page_description)}"><meta name="twitter:image" content="{social_image}">'
         if canonical_url_value else ""
     )
@@ -2919,6 +3016,7 @@ def build_html(
 .health-link{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:999px;background:#eef6f0}.health-link::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}.health-link.warn{background:#fff3dc}.controls{padding:7px;border:1px solid #e5e9ec;border-radius:10px;background:#fafbfb}.filter-button,.favorites-menu>summary,.period-button,input,select{transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}.filter-button:hover,.favorites-menu>summary:hover,.period-button:hover{border-color:#7f8b95}.card{transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}.card:hover{box-shadow:0 3px 12px rgba(24,34,44,.06);transform:translateY(-1px)}.source-name{letter-spacing:.005em}footer .wrap{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:minmax(18px,auto) minmax(18px,auto)!important;row-gap:4px!important;padding:9px 0 11px!important}.footer-row{display:block!important;width:100%;margin:0!important;line-height:1.35!important;white-space:nowrap!important}.footer-meta-inner{display:inline-flex;align-items:center;white-space:nowrap}.footer-about-short{display:none}.footer-meta .changelog{display:inline-flex!important;vertical-align:middle}.footer-meta .visit-counter{display:inline-flex!important;vertical-align:middle}.changelog-panel{white-space:normal}@media(max-width:650px){.controls{padding:7px}.card:hover{transform:none}.footer-about-long{display:none!important}.footer-about-short{display:inline!important}.footer-row{font-size:.7rem!important}.footer-sep{margin:0 4px!important}.footer-meta-inner{max-width:100%}.visit-counter{font-size:.7rem!important}.changelog>summary{font-size:.7rem!important}}
 
 .footer-row.footer-meta{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;white-space:nowrap!important}.footer-row.footer-about{display:block!important;white-space:nowrap!important}.footer-meta>a,.footer-meta>.footer-sep,.footer-meta>.changelog,.footer-meta>.visit-counter{flex:0 0 auto}.footer-meta-inner{display:contents!important}
+.brand-nav{display:flex;align-items:stretch;align-self:stretch;gap:2px}.brand-link{display:flex;align-items:center;padding:0 10px;color:rgba(255,255,255,.78);text-decoration:none;font-weight:750;letter-spacing:.01em;border-bottom:3px solid transparent}.brand-link:first-child{padding-left:0}.brand-link:hover{color:#fff}.brand-link.active{color:#fff;border-bottom-color:#fff;font-weight:850}@media(max-width:650px){.brand-link{padding:0 7px;font-size:.88rem}.brand-link:first-child{padding-left:0}}
 .outage-status{display:inline-flex;align-items:center;gap:5px;margin-left:7px;color:var(--warn);font-size:.78rem;font-weight:750}.outage-status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}@media(max-width:650px){.outage-status{display:flex;margin:5px 0 0;font-size:.7rem}}
 
 '''
@@ -2947,9 +3045,11 @@ def build_html(
   const backToTop = document.getElementById('back-to-top');
   const updatedStatus = document.getElementById('updated-status');
   const outageStatus = document.getElementById('outage-status');
-  const SEEN_KEY = 'ministerienyt.seenArticleIds.v2';
-  const VISIT_KEY = 'ministerienyt.lastVisit.v2';
-  const FAVORITES_KEY = 'ministerienyt.favoriteSources.v1';
+  const SITE_NAME = {site_name_json};
+  const FAVORITES_LABEL = {favorites_label_json};
+  const SEEN_KEY = {seen_key_json};
+  const VISIT_KEY = {visit_key_json};
+  const FAVORITES_KEY = {favorites_key_json};
   const PAGE_SIZE = {page_size};
   const norm = value => (value || '').toLocaleLowerCase('da-DK').trim();
   let previousIds = null;
@@ -3097,7 +3197,7 @@ def build_html(
   function syncFavoritesUI() {
     for (const box of favoriteBoxes) box.checked = favorites.has(box.value);
     favoritesCount.textContent = favorites.size === 1 ? '1 valgt' : favorites.size + ' valgt';
-    if (favoritesSummary) favoritesSummary.textContent = favorites.size ? '★ Mine ministerier (' + favorites.size + ')' : '★ Mine ministerier';
+    if (favoritesSummary) favoritesSummary.textContent = favorites.size ? '★ ' + FAVORITES_LABEL + ' (' + favorites.size + ')' : '★ ' + FAVORITES_LABEL;
     mineOnly.textContent = mineOnly.getAttribute('aria-pressed') === 'true' ? 'Viser kun mine' : 'Vis kun mine';
   }
 
@@ -3269,7 +3369,7 @@ def build_html(
     const url = location.href;
     try {
       if (navigator.share && window.matchMedia('(max-width: 650px)').matches) {
-        await navigator.share({title: 'Ministerienyt', url});
+        await navigator.share({title: SITE_NAME, url});
         return;
       }
       const ok = await copyText(url);
@@ -3349,22 +3449,40 @@ def build_html(
         .replace('{page_size}', str(page_size))
         .replace('{late_discovery_grace_days}', str(late_discovery_grace_days))
         .replace('{stalled_after_missed_runs}', str(stalled_after_missed_runs))
-        .replace('{stalled_run_grace_minutes}', str(stalled_run_grace_minutes)))
+        .replace('{stalled_run_grace_minutes}', str(stalled_run_grace_minutes))
+        .replace('{site_name_json}', json.dumps(site_name, ensure_ascii=False))
+        .replace('{favorites_label_json}', json.dumps(favorites_label, ensure_ascii=False))
+        .replace('{seen_key_json}', json.dumps(f'{storage_namespace}.seenArticleIds.v2'))
+        .replace('{visit_key_json}', json.dumps(f'{storage_namespace}.lastVisit.v2'))
+        .replace('{favorites_key_json}', json.dumps(f'{storage_namespace}.favoriteSources.v1')))
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v6.3.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.0</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.0</strong><ul><li>Styrelsesnyt er tilføjet som en selvstændig hovedside med egne kilder, eget arkiv, RSS-feed og lokale brugerindstillinger.</li>'
+        '<li>Ministerienyt og Styrelsesnyt kan vælges direkte ved siden af hinanden i topbjælken.</li>'
+        '<li>Dubletter samles inden for hver side, mens samme historie fortsat kan fremgå én gang på begge hovedsider.</li></ul>'
         '<strong>v6.3.1</strong><ul><li>Kulturministeriets synlige artikelmanchet prioriteres nu over ministeriets generelle metadata.</li>'
         '<li>Allerede gemte KUM-beskrivelser med den kendte organisationstekst heles ved en kontrolleret engangsopdatering.</li></ul>'
         '<strong>v6.3</strong>',
         1,
     )
+    ministry_active = " active" if not agency_mode else ""
+    agency_active = " active" if agency_mode else ""
+    ministry_current = ' aria-current="page"' if not agency_mode else ""
+    agency_current = ' aria-current="page"' if agency_mode else ""
+    brand_navigation = (
+        '<nav class="brand-nav" aria-label="Hovedsider">'
+        f'<a class="brand-link{ministry_active}" href="{esc(ministry_href)}"{ministry_current}>Ministerienyt</a>'
+        f'<a class="brand-link{agency_active}" href="{esc(agency_href)}"{agency_current}>Styrelsesnyt</a>'
+        '</nav>'
+    )
     return f'''<!doctype html>
-<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="{esc(page_description)}">{social_meta}<meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>Ministerienyt</title><link rel="alternate" type="application/rss+xml" title="Ministerienyt RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="{esc(page_description)}">{social_meta}<meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>{esc(site_name)}</title><link rel="alternate" type="application/rss+xml" title="{esc(site_name)} RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
-<div class="top"><div class="wrap"><div class="brand">Ministerienyt</div><div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
-<header class="hero"><div class="wrap"><h1>Nyheder fra danske ministerier</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ Mine ministerier</summary><div class="favorites-panel"><p class="favorites-help">Vælg ministerier nedenfor. Brug derefter knappen til kun at vise deres nyheder.</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
-<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort. “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th><th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
+<div class="top"><div class="wrap">{brand_navigation}<div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
+<header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
+<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
 <footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
 <nav class="mobile-dock" aria-label="Hurtige handlinger"><button id="mobile-search" type="button"><span>⌕</span>Søg</button><button id="mobile-new" type="button"><span>Nye</span>Kun nye</button><button id="mobile-favorites" type="button"><span>★</span>Mine</button></nav>
@@ -3534,12 +3652,21 @@ def pwa_icon_png(size: int) -> bytes:
     return signature + _png_chunk(b"IHDR", ihdr) + _png_chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + _png_chunk(b"IEND", b"")
 
 
-def generate_pwa_assets(site_dir: Path) -> None:
+def generate_pwa_assets(site_dir: Path, ui_config: dict | None = None) -> None:
+    ui_config = ui_config or {}
+    site_name = clean_text(str(ui_config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
+    page_description = clean_text(str(ui_config.get(
+        "page_description",
+        "Samlet overblik over officielle nyheder fra danske ministerier og Regeringen.dk.",
+    )))
+    storage_namespace = re.sub(
+        r"[^a-z0-9-]+", "-", str(ui_config.get("storage_namespace", site_name)).casefold()
+    ).strip("-") or "ministerienyt"
     site_dir.mkdir(parents=True, exist_ok=True)
     manifest = {
-        "name": "Ministerienyt – danske ministerier",
-        "short_name": "Ministerienyt",
-        "description": "Samlet overblik over officielle nyheder fra danske ministerier og Regeringen.dk.",
+        "name": site_name,
+        "short_name": site_name,
+        "description": page_description,
         "id": "./",
         "start_url": "./",
         "scope": "./",
@@ -3556,7 +3683,7 @@ def generate_pwa_assets(site_dir: Path) -> None:
     )
     (site_dir / "icon-192.png").write_bytes(pwa_icon_png(192))
     (site_dir / "icon-512.png").write_bytes(pwa_icon_png(512))
-    service_worker = r'''const CACHE = 'ministerienyt-v{version}';
+    service_worker = r'''const CACHE = '{namespace}-v{version}';
 const SHELL = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -3579,13 +3706,24 @@ self.addEventListener('fetch', event => {
     event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
   }
 });
-'''.replace("{version}", APP_VERSION)
+'''.replace("{namespace}", storage_namespace).replace("{version}", APP_VERSION)
     (site_dir / "service-worker.js").write_text(service_worker, encoding="utf-8")
 
 
 
 def load_site_config(path: Path) -> dict:
     defaults = {
+        "site_name": "Ministerienyt",
+        "site_kind": "ministries",
+        "page_heading": "Nyheder fra danske ministerier",
+        "page_description": "Samlet arkiv over officielle nyheder fra danske ministerier og Regeringen.dk siden 1. januar 2026.",
+        "rss_title": "Ministerienyt – nyheder fra danske ministerier og Regeringen.dk",
+        "rss_description": "Samlet arkiv med officielle nyheder og pressemeddelelser fra 1. januar 2026.",
+        "favorites_label": "Mine ministerier",
+        "favorites_help": "Vælg ministerier nedenfor. Brug derefter knappen til kun at vise deres nyheder.",
+        "storage_namespace": "ministerienyt",
+        "ministerienyt_href": "./",
+        "styrelsesnyt_href": "styrelsesnyt/",
         "noindex": False,
         "goatcounter_code": "",
         "page_size": DEFAULT_PAGE_SIZE,
@@ -3613,6 +3751,35 @@ def load_site_config(path: Path) -> dict:
     return defaults
 
 
+def load_sources_config(path: Path) -> list[dict]:
+    """Læs både den oprindelige kildeliste og en liste med fælles standarder."""
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(raw, list):
+        sources = raw
+    elif isinstance(raw, dict) and isinstance(raw.get("sources"), list):
+        defaults = raw.get("defaults", {}) if isinstance(raw.get("defaults"), dict) else {}
+        sources = [{**defaults, **source} for source in raw["sources"] if isinstance(source, dict)]
+    else:
+        raise ValueError(f"{path} skal indeholde en kildeliste eller et objekt med feltet 'sources'.")
+    if not sources:
+        raise ValueError(f"{path} indeholder ingen kilder.")
+    names = [clean_text(str(source.get("name", ""))) for source in sources]
+    if any(not name for name in names):
+        raise ValueError(f"{path} indeholder en kilde uden navn.")
+    if len(names) != len(set(names)):
+        raise ValueError(f"{path} indeholder dublerede kildenavne.")
+    for source in sources:
+        article_url_regex = clean_text(str(source.get("article_url_regex", "")))
+        if article_url_regex:
+            try:
+                re.compile(article_url_regex)
+            except re.error as exc:
+                raise ValueError(
+                    f"{path} har ugyldigt article_url_regex for {source.get('name')}: {exc}"
+                ) from exc
+    return sources
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sources", default="sources.json")
@@ -3638,7 +3805,7 @@ def main() -> int:
     started = time.monotonic()
     REJECTED_CANDIDATES.clear()
     sources_path = Path(args.sources)
-    sources = json.loads(sources_path.read_text(encoding="utf-8"))
+    sources = load_sources_config(sources_path)
     source_lookup = {source["name"]: source for source in sources}
     allowed_sources = set(source_lookup)
     config = load_site_config(Path(args.config))
@@ -3692,7 +3859,7 @@ def main() -> int:
 
     display_entries = deduplicate_for_display(merged)
     duplicates_merged = len(merged) - len(display_entries)
-    print(f"Dubletkontrol: {duplicates_merged} Regeringen.dk/ministerie-dubletter samlet.", file=sys.stderr)
+    print(f"Dubletkontrol: {duplicates_merged} kildedubletter samlet.", file=sys.stderr)
 
     rss_output = Path(args.rss_output)
     html_output = Path(args.html_output)
@@ -3712,7 +3879,7 @@ def main() -> int:
         status_output.parent.mkdir(parents=True, exist_ok=True)
         status_output.write_text(json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup))
+    rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup, config))
     html_output.write_text(
         build_html(
             display_entries, args.feed_url or "feed.xml", sources, statuses,
@@ -3725,7 +3892,7 @@ def main() -> int:
     )
     robots = "User-agent: *\nDisallow: /\n" if config.get("noindex") else "User-agent: *\nAllow: /\n"
     (html_output.parent / "robots.txt").write_text(robots, encoding="utf-8")
-    generate_pwa_assets(html_output.parent)
+    generate_pwa_assets(html_output.parent, config)
 
     elapsed = time.monotonic() - started
     diagnostics = diagnostics_payload(statuses, merged, display_entries, duplicates_merged, elapsed)
@@ -3744,7 +3911,11 @@ def main() -> int:
             audit = json.loads(source_audit_output.read_text(encoding="utf-8"))
         except Exception:
             audit = current_audit
-    diagnostics_html_output.write_text(build_diagnostics_html(diagnostics, alerts, audit), encoding="utf-8")
+    site_name = clean_text(str(config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
+    diagnostics_html = build_diagnostics_html(diagnostics, alerts, audit)
+    if site_name != "Ministerienyt":
+        diagnostics_html = diagnostics_html.replace("Ministerienyt", site_name)
+    diagnostics_html_output.write_text(diagnostics_html, encoding="utf-8")
 
     covered = sum(1 for source in sources if any(item.source == source["name"] for item in merged))
     silent = sum(1 for status in statuses if status.silence_warning)

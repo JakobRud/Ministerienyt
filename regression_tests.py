@@ -6,6 +6,7 @@ import unittest
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 try:
     import feedparser  # noqa: F401
@@ -105,6 +106,55 @@ class IdentityAndSafetyTests(unittest.TestCase):
         a = self.item("Regeringen.dk", title, "https://regeringen.dk/a", "2026-08-20")
         b = self.item("Klima-, Energi- og Forsyningsministeriet", title, "https://kefm.dk/b", "2026-08-20")
         self.assertTrue(m.duplicate_match(a, b))
+
+    def test_agency_config_has_exactly_78_unique_official_sources(self):
+        raw = json.loads(Path("agency_sources.json").read_text(encoding="utf-8"))
+        sources = m.load_sources_config(Path("agency_sources.json"))
+        names = [source["name"] for source in sources]
+        self.assertEqual(len(sources), 78)
+        self.assertEqual(len(names), len(set(names)))
+        self.assertTrue(all(source.get("responsible_ministry") for source in sources))
+        self.assertEqual(raw["defaults"]["max_listing_pages"], 12)
+        self.assertEqual(
+            sorted(source["responsible_ministry"] for source in sources).count("Justitsministeriet"),
+            9,
+        )
+        for source in sources:
+            self.assertTrue(source.get("start_urls"), source["name"])
+            for url in [source.get("home_url", ""), *source["start_urls"]]:
+                parsed = urlparse(url)
+                self.assertEqual(parsed.scheme, "https", f"{source['name']}: {url}")
+                self.assertTrue(parsed.netloc, f"{source['name']}: {url}")
+        for required in (
+            "Statens Administration", "DREAM", "Civilstyrelsen",
+            "Tilsynet med Efterretningstjenesterne", "CPR", "Havarikommissionen",
+            "Forsvarsministeriets Auditørkorps", "Administrations- og Servicestyrelsen",
+            "Udviklings- og Forenklingsstyrelsen", "It-tilsynet",
+            "Styrelsen for Patientklager",
+        ):
+            self.assertIn(required, names)
+
+    def test_police_source_is_limited_to_central_rigspolitiet_news(self):
+        sources = m.load_sources_config(Path("agency_sources.json"))
+        police = next(source for source in sources if source["name"] == "Rigspolitiet/politi.dk")
+        self.assertEqual(police["start_urls"], ["https://politi.dk/rigspolitiet/nyhedsliste"])
+        self.assertTrue(m.looks_like_article("https://politi.dk/rigspolitiet/nyhedsliste/central-nyhed", police))
+        self.assertFalse(m.looks_like_article("https://politi.dk/koebenhavns-politi/doegnrapporter/lokal-rapport", police))
+
+    def test_shared_archive_source_filter_keeps_agencies_separate(self):
+        siri = {"required_article_text": ["Publiceret af: SIRI", "Publiceret af SIRI"]}
+        us = {"required_article_text": ["Publiceret af: Udlændingestyrelsen"]}
+        article = "Nyhed Publiceret af: SIRI Denne tekst handler om en ny ordning."
+        self.assertTrue(m.source_text_filter_matches(siri, article))
+        self.assertFalse(m.source_text_filter_matches(us, article))
+
+    def test_article_url_regex_rejects_non_news_route(self):
+        source = {
+            "home_url": "https://example.dk/",
+            "article_url_regex": r"^/artikler/20\d{2}/",
+        }
+        self.assertTrue(m.looks_like_article("https://example.dk/artikler/2026/en-nyhed", source))
+        self.assertFalse(m.looks_like_article("https://example.dk/om-os/kontakt", source))
 
     def test_refresh_guard_keeps_last_good(self):
         old = [self.item("Testministeriet", f"Gammel artikel nummer {i} med en tydelig titel", f"https://x.dk/n/{i}", f"2026-01-{i+1:02d}") for i in range(10)]
@@ -277,6 +327,10 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIn('cron: "7 3 * * *"', workflow)
         self.assertGreaterEqual(workflow.count('timezone: "Europe/Copenhagen"'), 4)
         self.assertIn('CRAWL_FLAG="--fast"', workflow)
+        self.assertIn('--sources agency_sources.json', workflow)
+        self.assertIn('--archive agency_archive.json', workflow)
+        self.assertIn('else\n            CRAWL_FLAG="--fast"', workflow)
+        self.assertIn('--html-output site/styrelsesnyt/index.html', workflow)
 
     def test_sitemap_ignores_explicit_old_year_even_with_new_lastmod(self):
         source = {
@@ -343,8 +397,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v6.3.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.0", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
+        self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
+        self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
+        self.assertEqual(soup.select_one(".brand-nav a[href='styrelsesnyt/']").get_text(strip=True), "Styrelsesnyt")
         self.assertIn("Unikke besøg seneste 30 dage", rows[1].get_text(" ", strip=True))
         self.assertIn("dage:&nbsp;<span id=\"visit-counter\"", html)
         outage = soup.select_one("#sources > summary #outage-status")
@@ -364,6 +421,53 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIsNotNone(soup.select_one("#favorites-menu #mine-only"))
         self.assertIsNone(soup.select_one(".quick-actions > #mine-only"))
         self.assertNotIn("★ Favoritter", html)
+
+    def test_styrelsesnyt_is_independent_main_page(self):
+        item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")
+        source = {
+            "name": "Digitaliseringsstyrelsen",
+            "home_url": "https://digst.dk/",
+            "start_urls": ["https://digst.dk/nyheder/"],
+            "article_prefixes": ["/nyheder/"],
+            "responsible_ministry": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
+        }
+        status = m.SourceStatus(source["name"], source["home_url"])
+        status.listing_pages = 1
+        config = {
+            "site_name": "Styrelsesnyt",
+            "site_kind": "agencies",
+            "page_heading": "Nyheder fra danske styrelser og myndigheder",
+            "favorites_label": "Mine myndigheder",
+            "storage_namespace": "styrelsesnyt",
+            "ministerienyt_href": "../",
+            "styrelsesnyt_href": "./",
+        }
+        html = m.build_html(
+            [m.DisplayEntry(item)], "feed.xml", [source], [status],
+            site_url="https://example.dk/ministerienyt/styrelsesnyt/", ui_config=config,
+        )
+        soup = BeautifulSoup(html, "html.parser")
+        self.assertEqual(soup.title.get_text(strip=True), "Styrelsesnyt")
+        self.assertEqual(soup.select_one("h1").get_text(strip=True), "Nyheder fra danske styrelser og myndigheder")
+        self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Styrelsesnyt")
+        self.assertEqual(soup.select_one(".brand-nav a[href='../']").get_text(strip=True), "Ministerienyt")
+        self.assertIn("Mine myndigheder", soup.select_one("#favorites-summary").get_text(" ", strip=True))
+        self.assertIn('"styrelsesnyt.seenArticleIds.v2"', html)
+        self.assertNotIn('"ministerienyt.seenArticleIds.v2"', html)
+        self.assertIn("Forsknings-, Uddannelses- og Digitaliseringsministeriet", html)
+        self.assertIn("Samme historie fra flere styrelser eller myndigheder samles i ét kort.", html)
+
+    def test_styrelsesnyt_rss_has_own_identity(self):
+        item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")
+        rss = m.build_rss(
+            [m.DisplayEntry(item)],
+            "https://example.dk/styrelsesnyt/",
+            "https://example.dk/styrelsesnyt/feed.xml",
+            {item.source: {}},
+            {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
+        ).decode("utf-8")
+        self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
+        self.assertIn("Styrelsesnyt 7.0", rss)
 
     def test_quality_warning_is_visible_separately_from_technical_status(self):
         item = self.item("Testministeriet", "En testartikel med en tydelig titel", "https://example.dk/nyheder/test", "2026-08-20")

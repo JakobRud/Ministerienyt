@@ -1,64 +1,49 @@
-# Ministerienyt 6.3.1 – komplet arkiv fra 2026
+# Ministerienyt og Styrelsesnyt 7.0
 
-Ministerienyt samler officielle nyheder fra 21 danske ministerielle hjemmesider samt Regeringen.dk.
+Version 7.0 udvider Ministerienyt med **Styrelsesnyt** som en selvstændig hovedside. Ministerienyt beholder sit eget arkiv og sine brugerindstillinger, mens Styrelsesnyt får samme funktioner med 78 officielle styrelses- og myndighedskilder.
 
-## Nyt i version 6.3.1
+## Nyt i version 7.0
 
-- Kulturministeriets synlige artikelmanchet prioriteres nu over ministeriets generelle metadata.
-- Den allerede gemte forkerte KUM-beskrivelse heles automatisk ved en kontrolleret engangsopdatering af Kulturministeriets artikler.
-- Rettelsen påvirker ikke den normale crawlbelastning efter engangsopdateringen.
+- **Ministerienyt** og **Styrelsesnyt** kan vælges ved siden af hinanden i topbjælken.
+- Styrelsesnyt udgives på `/styrelsesnyt/` med eget arkiv, RSS-feed, status, diagnostik og PWA-filer.
+- Styrelsesnyt har søgning, kildefilter, **Mine myndigheder**, **Kun nye**, perioder på 7 og 30 dage, delbar visning, kopiering af links og trinvis indlæsning.
+- Brugerens læste artikler og valgte myndigheder gemmes separat fra Ministerienyt.
+- Samme historie fra flere myndigheder samles i ét kort på Styrelsesnyt. En historie kan stadig fremgå én gang på både Ministerienyt og Styrelsesnyt, fordi siderne er selvstændige.
+- De 78 kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
+- Rigspolitiets kilde er begrænset til centrale nyheder; lokale døgnrapporter medtages ikke.
+- Delte officielle arkiver filtreres på udgiver, så SIRI og Udlændingestyrelsen ikke overtager hinandens artikler.
+- Timekørslerne besøger højst to aktive listesider pr. myndighed. Den daglige dybe kontrol går højst 12 sider tilbage. Det holder belastningen af de officielle hjemmesider nede.
 
-## Tidligere forbedringer i version 6.3
+Version 7.0 indeholder også rettelsen fra 6.3.1, hvor Kulturministeriets synlige artikelmanchet prioriteres over en generel organisationstekst.
 
-- Workflowet opdaterer i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler er begrænset til få aktive listesider pr. kilde.
-- Kildetjek og kvalitetsadvarsler er fjernet fra toppen. Konkrete bemærkninger kan ses under **Kilder og dækning**.
-- **Mine ministerier** samler valg og filtrering i én menu: vælg kilderne, og brug derefter **Vis kun mine**.
-- Mellemrum ved footerteksten for unikke besøg er rettet.
+## De to hovedsider
 
-## Tidligere forbedringer i version 6.2
+| Side | URL | Kilder | Lokale valg | Datafiler |
+| --- | --- | ---: | --- | --- |
+| Ministerienyt | repositoryets Pages-forside | 22 | Mine ministerier | `archive.json`, `health.json` m.fl. |
+| Styrelsesnyt | `/styrelsesnyt/` | 78 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
 
-- Sitemap-baserede kilder kontrolleres straks, når HTML, RSS og Ritzau ikke giver en brugbar opdagelsesmetode. De er derfor ikke længere afhængige af en 24-timers sitemap-cache.
-- Fuld audit springer URL'er med et sikkert år før 2026 over. Det reducerer både køretid og falske datoadvarsler markant.
-- Arkivet er suppleret med 10 manglende artikler fundet i den fulde 6.1-audit.
-- En gammel BAEBM-post har fået sin korrekte artikeloverskrift, og crawleren kan fremover hele titler, der fejlagtigt er lig kildenavnet.
-- **Del visning** med **Mine ministerier** medtager nu de valgte favoritter i linket.
-- Forsiden skelner mellem teknisk kildestatus og kvalitetsadvarsler.
-- Canonical-, Open Graph- og Twitter-metadata forbedrer deling og søgemaskineindeksering.
-- `site/status.json` publiceres igen som maskinlæsbar status.
-- En fuld audit kan startes manuelt fra GitHub Actions uden at ændre kode.
-- XML-sitemaps parses med `defusedxml` som ekstra sikkerhed.
+De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfigurationer og arkiver.
 
 ## Drift
 
-Workflowet forsøger at opdatere siden hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid. De almindelige kørsler laver lette friskhedstjek, mens kl. 03-kørslen kontrollerer aktive arkiver og sitemaps dybere. GitHub kan forsinke planlagte kørsler, så en opdatering inden for en time er et servicemål og ikke en hård garanti. Den første dag i hver måned køres automatisk en fuld audit.
+Workflowet kører i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler og kørslen efter en upload er lette friskhedstjek; kl. 03 foretages en dybere kontrol. Den første dag i hver måned køres en fuld audit.
 
-En let kørsel besøger højst fire aktive listesider pr. kilde og genbruger kendte artikler fra `archive.json`. En fuld audit gennemtvinger kontrol af historiske ruter og sitemaps, men arkivet bliver kun erstattet, hvis kildekontrollerne ser plausible ud.
+Siden viser kun en diskret driftsbemærkning under **Kilder og dækning**, hvis to planlagte opdateringer i træk ser ud til at være udeblevet, plus 20 minutters afslutningstid. Det svarer normalt til godt to timer om dagen og op til godt seks timer om natten.
+
+Workflowet sender ikke selv e-mails eller opretter issues. GitHubs egne Actions-mails styres under **Settings → Notifications → System → Actions** på GitHub.
+
+## Vedvarende filer
+
+GitHub Actions opretter og vedligeholder de genererede `agency_*`-filer efter første vellykkede kørsel. De skal ligge i repositoryet, når de først er oprettet, men de skal ikke uploades manuelt ved denne opgradering.
+
+`archive.json` og `agency_archive.json` bevarer fundne artikler, selv hvis de senere forsvinder fra en officiel forside eller et feed. Diagnostikfilerne ligger kun i repositoryet; de vises ikke som topadvarsler på siderne.
 
 ## Manuel fuld audit
 
-1. Gå til **Actions → Opdater Ministerienyt**.
+1. Gå til **Actions → Opdater Ministerienyt og Styrelsesnyt**.
 2. Vælg **Run workflow**.
 3. Markér **Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps**.
-4. Vælg **Run workflow**.
+4. Start kørslen.
 
-Workflowet opretter ikke selv e-mails eller issues. GitHubs egne Actions-mails slås fra under **Settings → Notifications → System → Actions → Don't notify**. Teknisk diagnostik gemmes i repositoryets JSON- og HTML-filer.
-
-## Brugerfunktioner
-
-- søgning, kildevalg og perioder på 7 eller 30 dage
-- **Kun nye** baseret på den enkelte browsers sidste besøg
-- lokale valg i **Mine ministerier**, filteret **Vis kun mine** og delbare links
-- dubletsamling, når samme historie ligger hos et ministerium og Regeringen.dk
-- samlet RSS-feed og installerbar webapp
-
-## Vedvarende historik og status
-
-`archive.json` bliver automatisk opdateret og committed af GitHub Actions. En fundet artikel bliver derfor i arkivet, selv hvis den senere forsvinder fra et ministeriums forside eller feed.
-
-Forsiden viser tidspunktet for seneste opdatering. En diskret driftsbemærkning ved **Kilder og dækning** vises først, når to planlagte opdateringer i træk er udeblevet, plus 20 minutters tid til at afslutte kørslen. Det svarer normalt til godt to timer i dagtimerne og op til godt seks timer om natten. Kildestatus og konkrete kvalitetsbemærkninger findes samme sted. `site/status.json` indeholder status fra seneste kørsel. Mere detaljerede filer som `diagnostics.json`, `diagnostics.html`, `alerts.json` og `source_audit.json` gemmes kun i repositoryet.
-
-## Om fuldstændighed
-
-Løsningen gemmer artikler fra 1. januar 2026, som kan opdages via de officielle RSS-feeds, arkivsider, paginering, Via Ritzau-kilder og sitemaps. Officielle sites kan ændre struktur eller undlade at eksponere ældre indhold; derfor kombinerer løsningen flere opdagelsesmetoder med automatiske selvtests og en månedlig fuld audit.
-
-Se [TRIN-FOR-TRIN.md](TRIN-FOR-TRIN.md) for opdatering af et eksisterende repository.
+Se [TRIN-FOR-TRIN.md](TRIN-FOR-TRIN.md) for den præcise opdatering.

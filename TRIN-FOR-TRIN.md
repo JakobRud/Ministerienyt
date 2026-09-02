@@ -1,47 +1,65 @@
-# Opdatér Ministerienyt til version 6.3.1
+# Opdatér til version 7.0
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-6.3.1-KUM-rettelse.zip` ud på din computer.
+Pak `Ministerienyt-7.0.zip` ud. Mappestrukturen skal bevares, især `.github/workflows/pages.yml`.
 
 ## 2. Upload rodfilerne
 
-Åbn roden af dit Ministerienyt-repository på GitHub, vælg **Add file → Upload files**, og erstat disse fem filer:
+Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload disse filer:
 
 - `ministerier_nyheder.py`
 - `regression_tests.py`
+- `requirements.txt`
 - `sources.json`
+- `agency_sources.json`
+- `site_config.json`
+- `agency_site_config.json`
 - `README.md`
 - `TRIN-FOR-TRIN.md`
 
-Commit ændringerne direkte til `main`.
+Vælg at erstatte filer med samme navn. Upload ikke `archive.json`, `health.json`, `diagnostics.json` eller andre genererede statusfiler fra pakken; den aktuelle historik i GitHub skal bevares.
 
-## 3. Lad workflowet køre
+## 3. Erstat workflowet
 
-Du skal ikke ændre noget i **Pages** eller uploade en workflowfil. Commit til `main` starter automatisk **Opdater Ministerienyt**.
+Gå til `.github/workflows`, og erstat den eksisterende `pages.yml` med filen fra pakkens `.github/workflows`-mappe.
 
-## 4. Følg den automatiske kørsel
+Der skal kun ligge ét aktivt Pages-workflow. Der er ikke behov for en ekstra `pages.yml` i repositoryets rod eller for at indsætte kode manuelt under **Settings → Pages**.
 
-Gå til **Actions → Opdater Ministerienyt**. Et push til `main` starter workflowet. Det udfører regressionstests, genererer side, RSS, PWA-filer og `site/status.json`, opdaterer kvalitetsfilerne og udgiver GitHub Pages.
+## 4. Commit ændringerne
 
-Behold repositoryets eksisterende `archive.json` og kvalitetsfiler. Ved denne kørsel genkontrolleres Kulturministeriets artikler én gang, hvorefter den forkerte beskrivelse erstattes automatisk. Arkivet og kvalitetsfilerne opdateres af workflowet.
+Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt automatisk.
 
-## 5. Ingen fuld audit nødvendig
+## 5. Følg første kørsel
 
-Den automatiske almindelige kørsel er nok. Du skal ikke markere **Gennemtving fuld kontrol af alle 2026-arkiver og sitemaps**.
+1. Gå til fanen **Actions**.
+2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
+3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-## 6. Kontrollér resultatet
+Den første 7.0-kørsel er et let friskhedstjek og opbygger Styrelsesnyt med de aktuelle nyheder fra de 78 officielle kilder. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne. Workflowets tidsgrænse er 90 minutter.
 
-Når workflowet er grønt:
+## 6. Kontrollér siderne
 
-- åbn [Ministerienyt](https://jakobrud.github.io/Ministerienyt/)
-- kontrollér, at footeren viser `v6.3.1`
-- kontrollér, at KUM-artiklen **For få bruger kulturpasset: Nu tager kulturministeren konsekvensen** viser manchetten, der begynder med **Færre unge end forventet har søgt om at få et digitalt kulturpas**
-- åbn **Mine ministerier**, vælg mindst én kilde, aktivér **Vis kun mine**, og brug derefter **Del visning**; valgene skal følge med linket i en privat browser
-- kontrollér, at kildestatus ikke står i toppen, og at eventuelle konkrete bemærkninger kan læses under **Kilder og dækning**
-- åbn `https://jakobrud.github.io/Ministerienyt/status.json`; den skal returnere JSON
-- kontrollér, at Actions ikke viser en ny fejl efter arkiv-committet
+- Åbn Ministerienyts normale Pages-adresse.
+- Kontrollér, at **Ministerienyt** og **Styrelsesnyt** står ved siden af hinanden øverst.
+- Vælg **Styrelsesnyt**.
+- Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, 7/30 dage og **Kilder og dækning**.
+- Kontrollér, at kildelisten viser **78 kilder** og ministerområderne.
 
-Workflowet opretter ikke selv e-mails eller issues. For at slå GitHubs egne Actions-mails fra: åbn dine GitHub-notifikationsindstillinger, og vælg **System → Actions → Don't notify**. Interne advarsler ses i repositoryets `diagnostics.html`, `diagnostics.json`, `alerts.json` og `source_audit.json`.
+## 7. Lad de genererede filer blive liggende
 
-Workflowet kører i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler er lette friskhedstjek, og kl. 03 køres en dybere kontrol. Det giver normalt nye artikler på siden inden for en time i dagtimerne, men GitHub kan stadig forsinke enkelte planlagte kørsler. Den diskrete driftsbemærkning vises først efter to udeblevne planlagte opdateringer plus 20 minutters afslutningstid.
+Efter første vellykkede kørsel opretter workflowet blandt andet:
+
+- `agency_archive.json`
+- `agency_health.json`
+- `agency_diagnostics.json` og `agency_diagnostics.html`
+- `agency_source_state.json`
+- `agency_alerts.json`
+- `agency_source_audit.json`
+- `agency_rejected_candidates.json`
+
+De filer er normale drifts- og historikfiler og skal blive i repositoryet. Du behøver ikke redigere eller uploade dem manuelt ved senere kodeopdateringer.
+
+## Hvis første kørsel fejler
+
+Åbn det røde trin i Actions og læs den konkrete fejl. Start ikke flere parallelle kørsler; vent på den nyeste kørsel. Når den nyeste kørsel er grøn, er en ældre fejlet kørsel i sig selv ikke et problem.
