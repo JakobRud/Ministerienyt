@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-02T06:55:31.690562+00:00",
+  "generated_at": "2026-09-02T07:37:15.118250+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1833,
+  "total_rejected": 1839,
   "summary_by_reason": {
     "before_archive_start": 1678,
-    "missing_safe_publication_date": 155
+    "missing_safe_publication_date": 161
   },
   "rejected": [
     {
@@ -16914,6 +16914,33 @@
       "detail": ""
     },
     {
+      "source": "Finanstilsynet",
+      "title": "Fotogalleri - Finanstilsynet",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/fotogalleri-finanstilsynet",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Kalender",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/kalender",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Nyheder og pressemeddelelser",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
       "source": "Lægemiddelstyrelsen",
       "title": "Afmeld abonnement",
       "url": "https://laegemiddelstyrelsen.dk/da/nyheder/afmeld/",
@@ -17316,6 +17343,33 @@
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Fotos og logo",
+      "url": "https://slks.dk/nyheder/fotos-og-logo",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Pressekontakt",
+      "url": "https://slks.dk/nyheder/pressekontakt",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Tilmeld nyheder",
+      "url": "https://slks.dk/nyheder/tilmeld-nyheder",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
       "detail": ""
     },
     {
