@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-03T08:25:00.268051+00:00",
+  "generated_at": "2026-09-03T09:23:47.812924+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 228,
+  "total_rejected": 227,
   "summary_by_reason": {
-    "before_archive_start": 227,
+    "before_archive_start": 226,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1956,16 +1956,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Nyt materiale skal skabe bedre støtte til børn og unge med sproglige vanskeligheder",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/oktober/251001-nyt-materiale-skal-skabe-bedre-stoette-til-boern-og-unge-med-sproglige-vanskeligheder/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-10-01T10:30:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
