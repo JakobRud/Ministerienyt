@@ -1,8 +1,8 @@
-# Opdatér til version 7.0.1
+# Opdatér til version 7.0.2
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.0.1.zip` ud.
+Pak `Ministerienyt-7.0.2.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -30,7 +30,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.0.1-kørsel kontrollerer de nye kildeadresser og genopbygger Rigsarkivets poster med korrekte rubrikker fra artikelsiderne. Det øvrige arkiv bevares. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
+Den første 7.0.2-kørsel genopbygger Banedanmarks fejlsammensatte poster. Hvis Rigsarkivets rettelse fra 7.0.1 ikke allerede er kørt, genopbygges også den kilde. Det øvrige arkiv bevares. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
 
 ## 6. Kontrollér siderne
 

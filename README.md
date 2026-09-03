@@ -1,6 +1,11 @@
-# Ministerienyt og Styrelsesnyt 7.0.1
+# Ministerienyt og Styrelsesnyt 7.0.2
 
-Version 7.0.1 er en kilderettelse til Styrelsesnyt. De 78 myndigheder, funktionerne og sidernes opbygning er uændrede.
+Version 7.0.2 retter Banedanmarks fejlsammensatte artikel og forenkler visningen af kilder uden arkiverede artikler.
+
+## Rettet i version 7.0.2
+
+- Banedanmarks gemte fejlkombination af rubrik, link og manchet ryddes med en målrettet engangsgenopbygning. Fremover kontrolleres alle tre felter på selve artikelsiden.
+- En teknisk fungerende kilde med nul arkiverede artikler viser blot `0` i kolonnen **Artikler**. Nul artikler udløser ikke længere teksten “Ingen artikler fundet fra kilden”. Reelle tekniske fejl og datakvalitetsproblemer vises fortsat som bemærkninger.
 
 ## Rettet i version 7.0.1
 
@@ -9,7 +14,7 @@ Version 7.0.1 er en kilderettelse til Styrelsesnyt. De 78 myndigheder, funktione
 - Danmarks Domstoles aktuelle arkiv hentes fra det officielle Umbraco-origin, når det offentlige CDN afviser GitHub Actions. Artikellinks vises fortsat på `www.domstol.dk`.
 - Erhvervsstyrelsen og Sundhedsstyrelsen bruger deres egne sider som hovedkilde og deres officielle Via Ritzau-presserum som reserve, hvis GitHub Actions mødes af henholdsvis 403 eller 429.
 - Rigsarkivets komplette linkkort afgrænses nu enkeltvis, og det fejlbehæftede autoopdagede feed er koblet fra. Artikelrubrik og dato kontrolleres på hver artikelside, og den første kørsel genopbygger kun Rigsarkivets del af arkivet.
-- Banedanmark, Rigspolitiet og de øvrige ruter, der blev opdateret i den oprindelige 7.0.1-pakke, er fortsat bevaret og regressionstestet.
+- Rigspolitiet og de øvrige ruter, der blev opdateret i den oprindelige 7.0.1-pakke, er fortsat bevaret og regressionstestet.
 
 ## Nyt i version 7.0
 

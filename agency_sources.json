@@ -238,7 +238,9 @@
       "home_url": "https://www.bane.dk/",
       "start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser", "https://www.bane.dk/"],
       "extra_hosts": ["banedanmark.dk", "www.banedanmark.dk"],
-      "article_prefixes": ["/da/Presse/Pressemeddelelser/"]
+      "article_prefixes": ["/da/Presse/Pressemeddelelser/"],
+      "always_fetch_articles": true,
+      "refresh_before_schema": 13
     },
     {
       "name": "Bygningsstyrelsen",

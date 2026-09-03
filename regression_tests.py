@@ -184,7 +184,10 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
         self.assertEqual(sources["Sundhedsstyrelsen"]["ritzau_pressroom_id"], 13561973)
         self.assertTrue(sources["Rigsarkivet"]["disable_feeds"])
-        self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], 12)
+        self.assertLessEqual(sources["Rigsarkivet"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertTrue(sources["Banedanmark"]["always_fetch_articles"])
+        self.assertEqual(sources["Banedanmark"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
 
     def test_domstole_origin_is_canonicalized_and_published_on_public_host(self):
         source = {
@@ -540,7 +543,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.0.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.0.2", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -610,7 +613,27 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.0.1", rss)
+        self.assertIn("Styrelsesnyt 7.0.2", rss)
+
+    def test_zero_articles_does_not_create_source_note(self):
+        source = {
+            "name": "Myndighed uden artikler",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+        }
+        status = m.SourceStatus(source["name"], source["home_url"])
+        status.listing_pages = 1
+        status.self_test = "pass"
+        html = m.build_html([], "feed.xml", [source], [status])
+        soup = BeautifulSoup(html, "html.parser")
+        row = soup.select_one("#sources tbody tr")
+        cells = row.select("td")
+        self.assertEqual(cells[1].get_text(" ", strip=True), "0")
+        self.assertEqual(cells[2].get_text(" ", strip=True), "OK")
+        self.assertEqual(cells[-1].get_text(" ", strip=True), "–")
+        self.assertNotIn("Ingen artikler fundet fra kilden", html)
+        self.assertNotIn("bemærkning", soup.select_one("#sources summary").get_text(" ", strip=True).casefold())
 
     def test_quality_warning_is_visible_separately_from_technical_status(self):
         item = self.item("Testministeriet", "En testartikel med en tydelig titel", "https://example.dk/nyheder/test", "2026-08-20")
