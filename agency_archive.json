@@ -1,7 +1,7 @@
 {
-  "schema_version": 12,
+  "schema_version": 13,
   "archive_start": "2026-01-01",
-  "updated_at": "2026-09-03T07:02:57.694042+00:00",
+  "updated_at": "2026-09-03T07:15:10.676083+00:00",
   "items": [
     {
       "source": "Styrelsen for Samfundssikkerhed",
@@ -94,15 +94,6 @@
       "first_seen_at": "2026-09-02T06:50:17.525682+00:00"
     },
     {
-      "source": "Banedanmark",
-      "title": "Banedanmark får ny direktør for Vedligehold",
-      "url": "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-faar-ny-direktoer-for-Vedligehold",
-      "published": "2026-09-01T00:00:00+00:00",
-      "description": "27.08.2026 Pressemeddelelse Byggepladserne nedlægges og cykelstien ved Brabrandstien åbner igen Arbejdet med at nedlægge de midlertidige byggepladser omkring Aarhus H er nu gået i gang. I takt med at byggepladserne ikke længere er i brug, bliver arealerne ryddet og ført tilbage til deres oprindelige form. Arbejdet vil foregå løbende frem mod jul.",
-      "article_id": "a6-70b31bbb83998f5fdd7ee3479ae93623",
-      "first_seen_at": "2026-09-02T07:33:50.655897+00:00"
-    },
-    {
       "source": "Det Nationale Forskningscenter for Arbejdsmiljø",
       "title": "Fra giftigt bly til kunstig intelligens: Det Nationale Forskningscenter for Arbejdsmiljø fylder 80 år",
       "url": "https://nfa.dk/nyt/nyheder/2026/september/fra-giftigt-bly-til-kunstig-intelligens-det-nationale-forskningscenter-for-arbejdsmiljoe-fylder-80-aar",
@@ -119,6 +110,15 @@
       "description": "Tværfagligt forskningsprojekt har undersøgt, hvordan almindelige mennesker oplevede og håndterede krig, ødelæggelse og tab i 1600-tallet. Historiker og forsker ved Rigsarkivet Michael Nobel Hviid er blandt forfatterne til den nye bog ’Kaos. Krige og overlevelse i 1600-tallet’.",
       "article_id": "a6-56c4b2ea72da9b1560fc4efa3deb3caf",
       "first_seen_at": "2026-09-03T07:02:17.813960+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark får ny direktør for Vedligehold",
+      "url": "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-faar-ny-direktoer-for-Vedligehold",
+      "published": "2026-09-01T00:00:00+00:00",
+      "description": "Nicolai Smidt Sigsgaard bliver ny direktør for Vedligehold i Banedanmark.",
+      "article_id": "a6-70b31bbb83998f5fdd7ee3479ae93623",
+      "first_seen_at": "2026-09-03T07:11:57.873970+00:00"
     },
     {
       "source": "Sundhedsstyrelsen",
@@ -253,7 +253,7 @@
       "published": "2026-08-27T00:00:00+00:00",
       "description": "Arbejdet med at nedlægge de midlertidige byggepladser omkring Aarhus H er nu gået i gang. I takt med at byggepladserne ikke længere er i brug, bliver arealerne ryddet og ført tilbage til deres oprindelige form. Arbejdet vil foregå løbende frem mod jul.",
       "article_id": "a6-7773c7c3ac07f0be421c0b5b49e63522",
-      "first_seen_at": "2026-09-03T06:59:55.810629+00:00"
+      "first_seen_at": "2026-09-03T07:11:58.342421+00:00"
     },
     {
       "source": "Banedanmark",
@@ -262,12 +262,12 @@
       "published": "2026-08-27T00:00:00+00:00",
       "description": "I forbindelse med ombygningen af jernbanen i Aarhus, er der etableret et nyt spor 8 på banegården. Med det nye spor kan trafikken afvikles mere fleksibelt, hvilket gør stationen bedre rustet til den daglige drift.",
       "article_id": "a6-f4baec2206940fa695a63a7a9403918d",
-      "first_seen_at": "2026-09-03T06:59:55.810814+00:00"
+      "first_seen_at": "2026-09-03T07:11:58.804501+00:00"
     },
     {
       "source": "Nævnenes Hus",
       "title": "Informationer",
-      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/?pageNumber=1",
+      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/",
       "published": "2026-08-26T00:00:00+00:00",
       "description": "Miljø- og Fødevareklagenævnet afholder besigtigelse og offentligt møde i forbindelse med behandlingen af sagen om fredning af Veddinge Bakker og Skamlebæksletten i Odsherred Kommune.",
       "article_id": "a6-c1268771c71397c025c79de47f91888c",
@@ -692,9 +692,9 @@
       "title": "Trafiktårnet lyser op i regnbuens farver",
       "url": "https://www.bane.dk/da/Presse/Pressemeddelelser/Trafiktaarnet-lyser-op-i-regnbuens-farver",
       "published": "2026-08-10T00:00:00+00:00",
-      "description": "Banedanmark lyser Trafiktårnet i København op i regnbuens farver for at markere, at der er plads til alle på banen.",
+      "description": "Banedanmark lyser Trafiktårnet i København op for at markere, at der er plads til alle på banen.",
       "article_id": "a6-832d00fdaba02957bee6e07d58244407",
-      "first_seen_at": "2026-09-03T06:59:55.810954+00:00"
+      "first_seen_at": "2026-09-03T07:11:59.286044+00:00"
     },
     {
       "source": "Hjemrejsestyrelsen",
@@ -1000,7 +1000,7 @@
       "published": "2026-07-07T00:00:00+00:00",
       "description": "Frem til november arbejder Banedanmark på en omfattende fornyelse af Kvissel Station, der får nye spor, højere perroner samt nyt overgangsanlæg. Arbejdet betyder, at der indsættes togbusser mellem Frederikshavn og Sindal i godt tre uger i sommerferien.",
       "article_id": "a6-f3aa562ba5d2fd489b138c57df8de5bc",
-      "first_seen_at": "2026-09-03T06:59:55.811096+00:00"
+      "first_seen_at": "2026-09-03T07:11:59.775737+00:00"
     },
     {
       "source": "DMI",
@@ -1028,6 +1028,15 @@
       "description": "Om udbuddet Formålet med rammeaftalerne er, at staten får dækket sit behov for indkøb af advokatydelser inden for IT & GDPR.Om processen Økonomistyrelsen forbereder et udbud af advokatydelser ind...",
       "article_id": "a6-eed6ecd19aa8698e2e4edc4eb44dbdfe",
       "first_seen_at": "2026-09-02T06:49:29.652891+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark har ekstra travlt i sporet i sommerferien",
+      "url": "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-har-ekstra-travlt-i-sporet-i-sommerferien",
+      "published": "2026-07-06T00:00:00+00:00",
+      "description": "Banedanmark arbejder flere steder i landet i sommerferien. I uge 29 kører der derfor togbusser mellem Ringsted og Fredericia, hvor Banedanmark fornyer sjællandske strækninger og arbejder på en helt ny bane på Fyn.",
+      "article_id": "a6-6cb3a3fad5220746684c9cc96784df13",
+      "first_seen_at": "2026-09-03T07:12:00.273687+00:00"
     },
     {
       "source": "DMI",
