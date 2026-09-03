@@ -18,6 +18,9 @@ import ministerier_nyheder as m
 
 
 class DateRegressionTests(unittest.TestCase):
+    def test_danish_abbreviated_listing_month(self):
+        self.assertEqual(m.parse_date("13 aug. 2026").date().isoformat(), "2026-08-13")
+
     def test_kulturministeriet_plain_listing_date(self):
         soup = BeautifulSoup('''<article><a href="/aktuelt/nyheder/test"><h2>Kulturminister vil beskytte det danske sprog</h2></a><p>Manchet.</p><span>20.08.2026</span></article>''', "html.parser")
         source = {"name":"Kulturministeriet","home_url":"https://kum.dk/","start_urls":["https://kum.dk/aktuelt/nyheder"],"article_prefixes":["/aktuelt/nyheder/"],"allow_plain_listing_date":True}
@@ -64,10 +67,11 @@ class DateRegressionTests(unittest.TestCase):
             correct_lead,
         )
 
-    def test_kulturministeriet_gets_one_time_schema_refresh(self):
+    def test_kulturministeriet_keeps_completed_one_time_schema_refresh(self):
         sources = json.loads(Path("sources.json").read_text(encoding="utf-8"))
         kulturministeriet = next(source for source in sources if source["name"] == "Kulturministeriet")
-        self.assertEqual(kulturministeriet["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertEqual(kulturministeriet["refresh_before_schema"], 11)
+        self.assertLessEqual(kulturministeriet["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
 
     def test_mgtp_date_after_h1_corrects_body_event_date(self):
         soup = BeautifulSoup('<h1>Naturstyrelsen har skudt problemulv nær Houstrup</h1><div>14-08-2026</div><span>Nyhed</span><p>Naturstyrelsen har torsdag den 13. august skudt en problemulv.</p>', "html.parser")
@@ -144,7 +148,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
     def test_agency_redesign_routes_are_current(self):
         sources = {source["name"]: source for source in m.load_sources_config(Path("agency_sources.json"))}
         expected = {
-            "Konkurrence- og Forbrugerstyrelsen": "https://kfst.dk/pressemeddelelser/",
+            "Konkurrence- og Forbrugerstyrelsen": "https://www.kfst.dk/Menu/Presse",
+            "Danmarks Domstole/Domstolsstyrelsen": "https://domstoldk.euwest01.umbraco.io/aktuelt/",
             "Rigspolitiet/politi.dk": "https://politi.dk/rigspolitiet",
             "PET": "https://pet.dk/pet",
             "Forsyningstilsynet": "https://forsyningstilsynet.dk/nyheder",
@@ -159,7 +164,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "Sundhedsdatastyrelsen": "https://sundhedsdatastyrelsen.dk/nyheder",
             "Slots- og Kulturstyrelsen": "https://slks.dk/nyheder/",
             "Rigsarkivet": "https://www.rigsarkivet.dk/nyheder/",
-            "Ankestyrelsen": "https://ast.dk/nyheder/nyheder",
+            "Ankestyrelsen": "https://www.ast.dk/nyhedsarkiv",
         }
         for name, url in expected.items():
             self.assertIn(url, sources[name]["start_urls"], name)
@@ -170,6 +175,114 @@ class IdentityAndSafetyTests(unittest.TestCase):
             banedanmark,
         ))
         self.assertFalse(m.looks_like_article("https://www.bane.dk/da/om-banedanmark", banedanmark))
+
+        self.assertEqual(
+            sources["Danmarks Domstole/Domstolsstyrelsen"]["public_origin"],
+            "https://www.domstol.dk",
+        )
+        self.assertTrue(sources["Ankestyrelsen"]["gobasic_dynamic_list"])
+        self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
+        self.assertEqual(sources["Sundhedsstyrelsen"]["ritzau_pressroom_id"], 13561973)
+        self.assertTrue(sources["Rigsarkivet"]["disable_feeds"])
+        self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+
+    def test_domstole_origin_is_canonicalized_and_published_on_public_host(self):
+        source = {
+            "name": "Danmarks Domstole/Domstolsstyrelsen",
+            "home_url": "https://www.domstol.dk/",
+            "start_urls": ["https://domstoldk.euwest01.umbraco.io/aktuelt/"],
+            "extra_hosts": ["domstoldk.euwest01.umbraco.io"],
+            "public_origin": "https://www.domstol.dk",
+            "article_prefixes": ["/aktuelt/"],
+        }
+        origin_url = "https://domstoldk.euwest01.umbraco.io/aktuelt/2026/8/en-nyhed/"
+        public_url = "https://www.domstol.dk/aktuelt/2026/8/en-nyhed/"
+        self.assertTrue(m.looks_like_article(origin_url, source))
+        self.assertEqual(m.canonical_url(origin_url), m.canonical_url(public_url))
+        self.assertEqual(m.public_url_for_source(origin_url, source), public_url)
+
+    def test_feed_discovery_can_be_disabled_for_broken_feed(self):
+        source = {
+            "start_urls": ["https://example.dk/nyheder/"],
+            "rss_urls": ["https://example.dk/feed.xml"],
+            "disable_feeds": True,
+        }
+        self.assertEqual(m.feed_candidate_urls(source, ["https://example.dk/auto.xml"]), [])
+
+    def test_wrapped_article_card_isolated_from_sibling_titles(self):
+        soup = BeautifulSoup('''<div class="list">
+          <a class="card" href="/nyheder/foerste"><span>1. september 2026</span><h2>Første rubrik</h2><p>Første manchet.</p></a>
+          <a class="card" href="/nyheder/anden"><span>25. august 2026</span><h2>Anden rubrik</h2><p>Anden manchet.</p></a>
+        </div>''', "html.parser")
+        source = {
+            "name": "Testmyndighed",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder/"],
+            "article_prefixes": ["/nyheder/"],
+            "allow_plain_listing_date": True,
+        }
+        anchor = soup.select('a[href="/nyheder/anden"]')[0]
+        title, _, published, _ = m.listing_fields(
+            anchor,
+            "https://example.dk/nyheder/anden",
+            "https://example.dk/nyheder/",
+            source,
+        )
+        self.assertEqual(title, "Anden rubrik")
+        self.assertEqual(published.date().isoformat(), "2026-08-25")
+
+    def test_gobasic_dynamic_archive_returns_article_candidates(self):
+        source = {
+            "name": "Ankestyrelsen",
+            "home_url": "https://www.ast.dk/",
+            "start_urls": ["https://www.ast.dk/nyhedsarkiv"],
+            "article_prefixes": ["/nyhedsarkiv/2026/"],
+            "gobasic_dynamic_list": True,
+            "max_listing_pages": 2,
+        }
+        config = json.dumps({"options": {"specification": {"options": {"maxItemsShown": 10}}}})
+        shell = f'<div class="archive-search-result" data-config=\'{config}\'></div>'
+        page_html = '''<div class="item">
+          <h2><a href="/nyhedsarkiv/2026/sep/en-ny-officiel-afgoerelse">En ny officiel afgørelse</a></h2>
+          <span data-date="2026-09-02T11:09:38Z">02-09-2026</span>
+          <p>Kort beskrivelse af afgørelsen.</p>
+        </div>'''
+
+        class FakeSession:
+            def __init__(self):
+                self.calls = []
+
+            def post(self, url, **kwargs):
+                self.calls.append((url, kwargs))
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    json=lambda: {
+                        "pageHtml": page_html,
+                        "totalResultCount": {"All": 1},
+                    },
+                )
+
+        fake_session = FakeSession()
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(
+                url="https://www.ast.dk/nyhedsarkiv",
+                headers={"content-type": "text/html; charset=utf-8"},
+                content=shell.encode(),
+                text=shell,
+            )
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(fake_session, source, status)
+        finally:
+            m.fetch = original_fetch
+
+        self.assertEqual(len(candidates), 1)
+        candidate = next(iter(candidates.values()))
+        self.assertEqual(candidate.title, "En ny officiel afgørelse")
+        self.assertEqual(candidate.published.date().isoformat(), "2026-09-02")
+        self.assertIn("GoBasic API", status.methods)
+        self.assertEqual(fake_session.calls[0][0], "https://www.ast.dk/gbapi/search/getPage")
+        self.assertEqual(fake_session.calls[0][1]["headers"]["Referer"], "https://www.ast.dk/nyhedsarkiv")
 
     def test_shared_archive_source_filter_keeps_agencies_separate(self):
         siri = {"required_article_text": ["Publiceret af: SIRI", "Publiceret af SIRI"]}

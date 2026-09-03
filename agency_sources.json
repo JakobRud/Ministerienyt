@@ -10,14 +10,19 @@
       "name": "Erhvervsstyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://erhvervsstyrelsen.dk/",
-      "start_urls": ["https://erhvervsstyrelsen.dk/nyheder", "https://erhvervsstyrelsen.dk/"],
-      "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$"
+      "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
+      "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
+      "ritzau_pressroom_id": 11727618,
+      "ritzau_supplemental": true
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://www.kfst.dk/",
-      "start_urls": ["https://kfst.dk/pressemeddelelser/"],
+      "start_urls": [
+        "https://www.kfst.dk/Menu/Presse",
+        "https://www.kfst.dk/menu/presse/nyhedsarkiv"
+      ],
       "article_prefixes": ["/pressemeddelelser/"]
     },
     {
@@ -106,7 +111,9 @@
       "name": "Danmarks Domstole/Domstolsstyrelsen",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://www.domstol.dk/",
-      "start_urls": ["https://www.domstol.dk/aktuelt/", "https://www.domstol.dk/"],
+      "start_urls": ["https://domstoldk.euwest01.umbraco.io/aktuelt/"],
+      "extra_hosts": ["domstoldk.euwest01.umbraco.io"],
+      "public_origin": "https://www.domstol.dk",
       "article_prefixes": ["/aktuelt/"]
     },
     {
@@ -473,7 +480,9 @@
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://www.sst.dk/",
       "start_urls": ["https://www.sst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "ritzau_pressroom_id": 13561973,
+      "ritzau_supplemental": true
     },
     {
       "name": "Styrelsen for Patientsikkerhed",
@@ -533,7 +542,10 @@
       "home_url": "https://www.rigsarkivet.dk/",
       "start_urls": ["https://www.rigsarkivet.dk/nyheder/"],
       "extra_hosts": ["rigsarkivet.dk"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_feeds": true,
+      "always_fetch_articles": true,
+      "refresh_before_schema": 12
     },
 
     {
@@ -561,9 +573,11 @@
     {
       "name": "Ankestyrelsen",
       "responsible_ministry": "Socialministeriet",
-      "home_url": "https://ast.dk/",
-      "start_urls": ["https://ast.dk/nyheder/nyheder"],
-      "article_prefixes": ["/nyheder/nyheder/"]
+      "home_url": "https://www.ast.dk/",
+      "start_urls": ["https://www.ast.dk/nyhedsarkiv"],
+      "article_prefixes": ["/nyhedsarkiv/2026/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 4
     },
     {
       "name": "Social- og Boligstyrelsen",

@@ -4,11 +4,12 @@ Version 7.0.1 er en kilderettelse til Styrelsesnyt. De 78 myndigheder, funktione
 
 ## Rettet i version 7.0.1
 
-- 16 forældede listeadresser eller artikelstier er opdateret til myndighedernes aktuelle officielle struktur.
-- Banedanmarks flytning fra `banedanmark.dk` til `bane.dk` er håndteret uden at åbne for andre domæner.
-- Rigspolitiet er fortsat afgrænset til centrale Rigspolitiet-nyheder, selv om indgangen nu er Rigspolitiets forside.
-- DMI, KFST, Forsyningstilsynet, NFA, Hjemmeværnet, Skattestyrelsen, Skatteankestyrelsen, Finanstilsynet, Sundhedsstyrelsen, Sundhedsdatastyrelsen, Slots- og Kulturstyrelsen, Rigsarkivet og Ankestyrelsen bruger deres nye officielle indgange.
-- Erhvervsstyrelsen og Danmarks Domstole har fået en ekstra officiel forside som skånsom reserveindgang. Der er ikke slået generel sitemap-crawling til.
+- Konkurrence- og Forbrugerstyrelsens nedlagte `/pressemeddelelser/`-indgang er erstattet af de aktuelle officielle presse- og arkivsider.
+- Ankestyrelsens nye `/nyhedsarkiv` indlæses via hjemmesidens officielle GoBasic-læse-API, fordi artikellisten ikke findes i den første HTML-respons.
+- Danmarks Domstoles aktuelle arkiv hentes fra det officielle Umbraco-origin, når det offentlige CDN afviser GitHub Actions. Artikellinks vises fortsat på `www.domstol.dk`.
+- Erhvervsstyrelsen og Sundhedsstyrelsen bruger deres egne sider som hovedkilde og deres officielle Via Ritzau-presserum som reserve, hvis GitHub Actions mødes af henholdsvis 403 eller 429.
+- Rigsarkivets komplette linkkort afgrænses nu enkeltvis, og det fejlbehæftede autoopdagede feed er koblet fra. Artikelrubrik og dato kontrolleres på hver artikelside, og den første kørsel genopbygger kun Rigsarkivets del af arkivet.
+- Banedanmark, Rigspolitiet og de øvrige ruter, der blev opdateret i den oprindelige 7.0.1-pakke, er fortsat bevaret og regressionstestet.
 
 ## Nyt i version 7.0
 

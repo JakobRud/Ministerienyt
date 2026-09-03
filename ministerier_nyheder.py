@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 11
+ARCHIVE_SCHEMA_VERSION = 12
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -103,18 +103,32 @@ def due_since(value: object, hours: int) -> bool:
 
 DANISH_MONTHS = {
     "januar": 1,
+    "jan": 1,
     "februar": 2,
+    "feb": 2,
     "marts": 3,
+    "mar": 3,
     "april": 4,
+    "apr": 4,
     "maj": 5,
     "juni": 6,
+    "jun": 6,
     "juli": 7,
+    "jul": 7,
     "august": 8,
+    "aug": 8,
     "september": 9,
+    "sep": 9,
     "oktober": 10,
+    "okt": 10,
     "november": 11,
+    "nov": 11,
     "december": 12,
+    "dec": 12,
 }
+DANISH_MONTH_PATTERN = "|".join(
+    sorted((re.escape(name) for name in DANISH_MONTHS), key=len, reverse=True)
+)
 MONTH_NAMES = [
     "",
     "januar",
@@ -217,6 +231,10 @@ CANONICAL_HOST_ALIASES = {
     # behandles som samme officielle kilde ved intern identifikation.
     "trm.dk": "www.bltm.dk",
     "bltm.dk": "www.bltm.dk",
+    # Danmarks Domstoles offentlige CDN afviser automatiske hentninger, mens
+    # det officielle Umbraco-origin udstiller det samme aktuelle arkiv.
+    "domstol.dk": "www.domstol.dk",
+    "domstoldk.euwest01.umbraco.io": "www.domstol.dk",
 }
 
 
@@ -357,6 +375,22 @@ def canonical_url(url: str) -> str:
     return urlunparse((parsed.scheme, netloc, path, "", parsed.query, ""))
 
 
+def public_url_for_source(url: str, source: dict) -> str:
+    """Omskriv en officiel origin-URL til kildens offentlige artikeladresse."""
+    normalized = normalize_url(url, keep_query=True)
+    public_origin = normalize_url(str(source.get("public_origin", "")), keep_query=False)
+    if not normalized or not public_origin:
+        return normalized
+    parsed = urlparse(normalized)
+    public = urlparse(public_origin)
+    if not public.scheme or not public.netloc:
+        return normalized
+    return normalize_url(
+        urlunparse((public.scheme, public.netloc, parsed.path, "", parsed.query, "")),
+        keep_query=True,
+    )
+
+
 def identity_title_key(title: str) -> str:
     """Stabil titelkerne til artikelidentitet uafhaengigt af URL/domaene."""
     value = unicodedata.normalize("NFKC", clean_text(title)).casefold()
@@ -490,7 +524,7 @@ def parse_date_unchecked(value: str) -> datetime | None:
             pass
 
     match = re.search(
-        r"\b(\d{1,2})\.?\s+(" + "|".join(DANISH_MONTHS) + r"),?\s+(20\d{2})\b",
+        r"\b(\d{1,2})\.?\s+(" + DANISH_MONTH_PATTERN + r")\.?,?\s+(20\d{2})\b",
         value.casefold(),
     )
     if match:
@@ -552,7 +586,7 @@ def parse_date(value: str) -> datetime | None:
 
     # Dansk månedsnavn: 3. juni 2026.
     match = re.search(
-        r"\b(\d{1,2})\.?\s+(" + "|".join(DANISH_MONTHS) + r"),?\s+(20\d{2})\b",
+        r"\b(\d{1,2})\.?\s+(" + DANISH_MONTH_PATTERN + r")\.?,?\s+(20\d{2})\b",
         value.casefold(),
     )
     if match:
@@ -603,9 +637,9 @@ def parse_labeled_publication_date(value: str) -> datetime | None:
     if not value:
         return None
     text = clean_text(value)
-    month_names = "|".join(DANISH_MONTHS)
+    month_names = DANISH_MONTH_PATTERN
     date_pattern = (
-        rf"(\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        rf"(\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}"
         r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
         r"|20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?)"
     )
@@ -718,9 +752,9 @@ def exact_date_text(value: str) -> datetime | None:
     if not value:
         return None
     value = clean_text(value)
-    month_names = "|".join(DANISH_MONTHS)
+    month_names = DANISH_MONTH_PATTERN
     patterns = [
-        rf"^\d{{1,2}}\.?\s+(?:{month_names}),?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
+        rf"^\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
         r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
         r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
     ]
@@ -852,6 +886,12 @@ def date_from_listing_node(node, source: dict | None = None) -> datetime | None:
         parsed = parse_date(value)
         if parsed:
             return parsed
+    # GoBasic-arkiver leverer publiceringstidspunktet i et data-date-felt på
+    # resultatkortet, svarende til et semantisk <time datetime>-felt.
+    for tag in node.select("[data-date]"):
+        parsed = parse_date(str(tag.get("data-date", "")))
+        if parsed:
+            return parsed
     if source and source.get("allow_plain_listing_date"):
         return plain_listing_date_from_node(node)
     return None
@@ -904,9 +944,9 @@ def trusted_future_publication_date_from_soup(
         raw_values.extend(published_values or created_values)
 
     label_re = re.compile(r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b", re.IGNORECASE)
-    month_names = "|".join(DANISH_MONTHS)
+    month_names = DANISH_MONTH_PATTERN
     date_pattern = (
-        rf"(\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        rf"(\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}"
         r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
         r"|20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?)"
     )
@@ -935,9 +975,9 @@ def trusted_future_publication_date_from_soup(
                 if not value:
                     continue
                 checked += 1
-                month_names = "|".join(DANISH_MONTHS)
+                month_names = DANISH_MONTH_PATTERN
                 patterns = [
-                    rf"^\d{{1,2}}\.?\s+(?:{month_names}),?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
+                    rf"^\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
                     r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
                     r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
                 ]
@@ -954,9 +994,9 @@ def trusted_future_publication_date_from_soup(
                 max_nodes = max(1, min(int(source.get("after_h1_date_max_text_nodes", 4)), 20))
             except Exception:
                 max_nodes = 4
-            month_names = "|".join(DANISH_MONTHS)
+            month_names = DANISH_MONTH_PATTERN
             patterns = [
-                rf"^\d{{1,2}}\.?\s+(?:{month_names}),?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
+                rf"^\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
                 r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
                 r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
             ]
@@ -986,8 +1026,8 @@ def trusted_future_publication_date_from_context(context: str, source: dict) -> 
     label_match = re.search(
         r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b.{0,60}?"
         r"(\d{1,2}[./-]\d{1,2}[./-]20\d{2}|\d{1,2}\.?\s+(?:"
-        + "|".join(DANISH_MONTHS)
-        + r")\s+20\d{2}|20\d{2}-\d{2}-\d{2})",
+        + DANISH_MONTH_PATTERN
+        + r")\.?,?\s+20\d{2}|20\d{2}-\d{2}-\d{2})",
         text,
         flags=re.IGNORECASE,
     )
@@ -1001,7 +1041,7 @@ def trusted_future_publication_date_from_context(context: str, source: dict) -> 
         # på kilder hvor denne fallback eksplicit er godkendt.
         patterns = [
             r"\b\d{1,2}[./-]\d{1,2}[./-]20\d{2}\b",
-            r"\b\d{1,2}\.?\s+(?:" + "|".join(DANISH_MONTHS) + r")\s+20\d{2}\b",
+            r"\b\d{1,2}\.?\s+(?:" + DANISH_MONTH_PATTERN + r")\.?,?\s+20\d{2}\b",
             r"\b20\d{2}-\d{2}-\d{2}\b",
         ]
         for pattern in patterns:
@@ -1049,9 +1089,9 @@ def strip_leading_publication_date(value: str) -> str:
     if not text:
         return ""
 
-    month_names = "|".join(DANISH_MONTHS)
+    month_names = DANISH_MONTH_PATTERN
     date_pattern = (
-        rf"(?:\d{{1,2}}\.?\s+(?:{month_names})\s+20\d{{2}}"
+        rf"(?:\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}"
         r"|\d{1,2}[.\-/]\d{1,2}[.\-/]20\d{2}"
         r"|20\d{2}-\d{2}-\d{2})"
     )
@@ -1251,6 +1291,19 @@ def listing_context_node(anchor, target: str, base_url: str, source: dict):
     """
     target_key = canonical_url(target)
     fallback = None
+    # Nogle arkiver (bl.a. Domstolene og Rigsarkivet) bruger selve <a>-tagget
+    # som komplet nyhedskort med dato, rubrik og manchet. Afgræns det først,
+    # så et fælles parent-element ikke får første korts rubrik på alle links.
+    anchor_text = clean_text(anchor.get_text(" ", strip=True))
+    anchor_target = canonical_url(
+        normalize_url(urljoin(base_url, str(anchor.get("href", ""))), keep_query=True)
+    )
+    if (
+        anchor_target == target_key
+        and 10 <= len(anchor_text) <= 5000
+        and parse_date(anchor_text)
+    ):
+        return anchor
     for node in anchor.parents:
         if getattr(node, "name", None) not in {"article", "li", "div", "section"}:
             continue
@@ -1525,6 +1578,99 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
     return canonical_url(target) in configured
 
 
+def gobasic_dynamic_listing_pages(
+    session: requests.Session,
+    source: dict,
+    shell_soup: BeautifulSoup,
+    base_url: str,
+    status: SourceStatus,
+    page_limit: int,
+) -> list[BeautifulSoup]:
+    """Hent resultatsider fra GoBasic-arkiver, som ellers kun vises via JS."""
+    if not source.get("gobasic_dynamic_list") or page_limit <= 0:
+        return []
+
+    selector = clean_text(str(source.get("gobasic_list_selector", ""))) or ".archive-search-result[data-config]"
+    config_node = shell_soup.select_one(selector)
+    if config_node is None:
+        append_error(status, f"GoBasic-listen blev ikke fundet med selector {selector}.")
+        return []
+    try:
+        config = json.loads(str(config_node.get("data-config", "")))
+    except Exception as exc:
+        append_error(status, f"GoBasic-konfigurationen kunne ikke læses: {exc}")
+        return []
+
+    endpoint = clean_text(str(source.get("gobasic_endpoint", ""))) or "/gbapi/search/getPage"
+    endpoint_url = normalize_url(urljoin(base_url, endpoint), keep_query=True)
+    parsed_base = urlparse(base_url)
+    origin = urlunparse((parsed_base.scheme, parsed_base.netloc, "", "", "", ""))
+    if not endpoint_url or not origin:
+        append_error(status, "GoBasic-endpointet er ugyldigt.")
+        return []
+
+    result: list[BeautifulSoup] = []
+    for page in range(1, page_limit + 1):
+        payload = {
+            "config": config,
+            "page": page,
+            "userInput": {
+                "query": "",
+                "months": [],
+                "categorizations": [],
+                "additionalFilters": {},
+                "template": "All",
+            },
+            "lastGroupName": "",
+            "rootFolders": None,
+        }
+        try:
+            response = session.post(
+                endpoint_url,
+                json=payload,
+                headers={"Referer": base_url, "Origin": origin},
+                timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+            )
+            response.raise_for_status()
+            data = response.json()
+            page_html = str(data.get("pageHtml", "")) if isinstance(data, dict) else ""
+        except Exception as exc:
+            append_error(status, f"GoBasic-resultatside {page} kunne ikke hentes: {exc}")
+            break
+        if REQUEST_DELAY_SECONDS:
+            time.sleep(REQUEST_DELAY_SECONDS)
+        if not page_html:
+            break
+
+        page_soup = BeautifulSoup(page_html, "html.parser")
+        if not page_soup.find("a", href=True):
+            break
+        result.append(page_soup)
+        status.listing_pages += 1
+        if "GoBasic API" not in (status.methods or []):
+            status.methods.append("GoBasic API")
+
+        page_dates = [
+            parsed
+            for node in page_soup.select("[data-date]")
+            if (parsed := parse_date(str(node.get("data-date", "")))) is not None
+        ]
+        if page_dates and max(page_dates) < ARCHIVE_START:
+            break
+
+        total_raw = data.get("totalResultCount", 0) if isinstance(data, dict) else 0
+        if isinstance(total_raw, dict):
+            total_raw = total_raw.get("All", 0)
+        try:
+            total = int(total_raw or 0)
+        except (TypeError, ValueError):
+            total = 0
+        page_size = len(page_soup.select(".item"))
+        if total and page_size and page * page_size >= total:
+            break
+    return result
+
+
 def crawl_listing_pages(
     session: requests.Session,
     source: dict,
@@ -1598,31 +1744,41 @@ def crawl_listing_pages(
         soup = BeautifulSoup(response.text, "html.parser")
         feed_urls.extend(discovered_feed_urls(soup, final_url))
 
-        for anchor in soup.find_all("a", href=True):
-            raw_target = urljoin(final_url, str(anchor["href"]))
-            target = normalize_url(raw_target, keep_query=True)
-            if not target:
-                continue
+        dynamic_budget = max(0, max_pages - status.listing_pages)
+        listing_soups: list[tuple[BeautifulSoup, bool, str]] = [(soup, True, "HTML")]
+        listing_soups.extend(
+            (dynamic_soup, False, "GoBasic API")
+            for dynamic_soup in gobasic_dynamic_listing_pages(
+                session, source, soup, final_url, status, dynamic_budget
+            )
+        )
 
-            if looks_like_article(target, source):
-                title, context, published, title_priority = listing_fields(
-                    anchor, target, final_url, source
-                )
-                candidate = Candidate(
-                    url=target,
-                    title=title,
-                    context=context,
-                    published=published,
-                    discovered_by="HTML",
-                    title_priority=title_priority,
-                )
-                key = canonical_url(target)
-                candidates[key] = merge_candidate(candidates.get(key), candidate)
-            elif listing_link_candidate(anchor, target, final_url, source):
-                if not historical_due and (canonical_url(target) in historical_keys or path_has_archive_year(target)):
+        for listing_soup, follow_pagination, method in listing_soups:
+            for anchor in listing_soup.find_all("a", href=True):
+                raw_target = urljoin(final_url, str(anchor["href"]))
+                target = normalize_url(raw_target, keep_query=True)
+                if not target:
                     continue
-                if target not in visited:
-                    queue.append(target)
+
+                if looks_like_article(target, source):
+                    title, context, published, title_priority = listing_fields(
+                        anchor, target, final_url, source
+                    )
+                    candidate = Candidate(
+                        url=target,
+                        title=title,
+                        context=context,
+                        published=published,
+                        discovered_by=method,
+                        title_priority=title_priority,
+                    )
+                    key = canonical_url(target)
+                    candidates[key] = merge_candidate(candidates.get(key), candidate)
+                elif follow_pagination and listing_link_candidate(anchor, target, final_url, source):
+                    if not historical_due and (canonical_url(target) in historical_keys or path_has_archive_year(target)):
+                        continue
+                    if target not in visited:
+                        queue.append(target)
 
     if queue and not full_audit:
         status.pagination_limited = True
@@ -1635,6 +1791,8 @@ def crawl_listing_pages(
 
 
 def feed_candidate_urls(source: dict, discovered: Iterable[str]) -> list[str]:
+    if source.get("disable_feeds"):
+        return []
     result = [normalize_url(url, keep_query=True) for url in source.get("rss_urls", [])]
     result.extend(discovered)
     for start_url in source.get("start_urls", []):
@@ -1713,6 +1871,7 @@ def collect_feed_items(
                     discovered_by="RSS/Atom", detected_date=published,
                 )
                 continue
+            link = public_url_for_source(link, source)
             key = canonical_url(link)
             if known_urls is not None and key in known_urls:
                 status.known_candidates_skipped += 1
@@ -1952,6 +2111,7 @@ def item_from_candidate(
     if not looks_like_article(final_url, source):
         record_rejection(source["name"], title, final_url, "not_article_url", discovered_by=candidate.discovered_by)
         return None
+    final_url = public_url_for_source(final_url, source)
     return with_item_identity(
         Item(source["name"], title, final_url, published, description[:900]),
         first_seen_at=datetime.now(timezone.utc),
