@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-03T07:28:34.858613+00:00",
+  "generated_at": "2026-09-03T08:30:59.923791+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1899,
+  "total_rejected": 1903,
   "summary_by_reason": {
     "before_archive_start": 1720,
-    "missing_safe_publication_date": 179
+    "missing_safe_publication_date": 183
   },
   "rejected": [
     {
@@ -17364,6 +17364,42 @@
       "source": "Finanstilsynet",
       "title": "Nyheder og pressemeddelelser",
       "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Lægemiddelstyrelsen",
+      "title": "Afmeld abonnement",
+      "url": "https://laegemiddelstyrelsen.dk/da/nyheder/afmeld/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Lægemiddelstyrelsen",
+      "title": "Nyhedskategorier",
+      "url": "https://laegemiddelstyrelsen.dk/da/nyheder/nyhedskategorier/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Lægemiddelstyrelsen",
+      "title": "Rediger abonnement",
+      "url": "https://laegemiddelstyrelsen.dk/da/nyheder/rediger-abonnement/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Lægemiddelstyrelsen",
+      "title": "Temaer",
+      "url": "https://laegemiddelstyrelsen.dk/da/nyheder/temaer/",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
