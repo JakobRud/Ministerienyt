@@ -1,0 +1,41 @@
+﻿<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ministerienyt</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Ministerienyt</h1>
+    <nav>
+      <a href="index.html">Forside</a>
+      <a href="styrelsesnyt.html">Styrelsesnyt</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <h2>Velkommen</h2>
+      <p>Dette er din lokale kopi af Ministerienyt. Brug menuen til at gÃ¥ til Styrelsesnyt.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Version: <span id="site-version">7.0.3</span></p>
+  </footer>
+
+  <script>
+    (async function(){
+      try {
+        const res = await fetch('data/sources.json', {cache: "no-store"});
+        if (res.ok) {
+          const j = await res.json();
+          if (j.version) document.getElementById('site-version').textContent = j.version;
+        }
+      } catch(e){}
+    })();
+  </script>
+</body>
+</html>

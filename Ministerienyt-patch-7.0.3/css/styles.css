@@ -1,0 +1,38 @@
+﻿:root{
+  --bg:#ffffff;
+  --text:#111;
+  --muted:#666;
+  --accent:#0b6;
+  --max-width:900px;
+  --gap:16px;
+}
+*{box-sizing:border-box}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.45;
+  padding:20px;
+}
+.site-header{
+  max-width:var(--max-width);
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.site-header h1{margin:0;font-size:1.25rem}
+.site-header nav a{margin-left:12px;color:var(--accent);text-decoration:none}
+main{max-width:var(--max-width);margin:0 auto}
+.loading{color:var(--muted);padding:10px 0}
+.error{color:#b00;padding:10px 0}
+#sources article{border-bottom:1px solid #eee;padding:12px 0}
+.source-meta{font-size:0.9rem;color:var(--muted)}
+a.external{color:var(--accent)}
+#dead-sources{margin-top:24px;border-top:1px dashed #ddd;padding-top:12px}
+footer{max-width:var(--max-width);margin:24px auto 0;color:var(--muted);font-size:0.9rem}
+@media (max-width:600px){
+  body{padding:12px}
+  .site-header{flex-direction:column;align-items:flex-start}
+}
