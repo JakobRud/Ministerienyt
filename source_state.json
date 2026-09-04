@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-04T05:21:29.013379+00:00",
+  "updated_at": "2026-09-04T06:27:20.335466+00:00",
   "note": "Vedvarende driftsstatus til retry, cache og fejlalarmer. Publiceres ikke på GitHub Pages.",
   "sources": {
     "Statsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 38,
       "last_fresh_items": 0,
@@ -14,13 +14,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 36,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Økonomi- og Indenrigsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -29,12 +29,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 79,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Udenrigsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 49,
       "last_fresh_items": 0,
@@ -43,11 +43,11 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 49,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Erhvervsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -56,13 +56,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 20,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Finansministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -72,12 +72,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 322,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Justitsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 33,
       "last_fresh_items": 0,
@@ -86,12 +86,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 0,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Forsknings-, Uddannelses- og Digitaliseringsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -100,13 +100,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 478,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Klima-, Energi- og Forsyningsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 0,
       "last_fresh_items": 0,
@@ -115,13 +115,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 25,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "By-, Land- og Transportministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 27,
       "last_fresh_items": 0,
@@ -130,13 +130,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 27,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Udlændinge- og Integrationsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -145,12 +145,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 673,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Undervisningsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -160,12 +160,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 830,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Beskæftigelses- og Ligestillingsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 10,
       "last_fresh_items": 0,
@@ -174,12 +174,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 10,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Forsvarsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 0,
       "last_fresh_items": 0,
@@ -188,13 +188,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 45,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Skatte- og Vækstministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 40,
       "last_fresh_items": 0,
@@ -203,27 +203,27 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 39,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Sundheds- og Kirkeministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 0,
-      "last_fresh_items": 0,
+      "last_fresh_items": 1,
       "last_methods": [
         "RSS/Atom"
       ],
       "last_errors": [],
       "last_full_candidate_count": 45,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T06:29:00.048002+00:00"
     },
     "Ministeriet for Natur og Dyrevelfærd": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -232,13 +232,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 16,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Kulturministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -247,11 +247,11 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 50,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Ministeriet for Samfundssikkerhed og Beredskab": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -260,27 +260,27 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 20,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Børne-, Ældre- og Boligministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 22,
-      "last_fresh_items": 1,
+      "last_fresh_items": 0,
       "last_methods": [
         "Sitemap"
       ],
       "last_errors": [],
       "last_full_candidate_count": 20,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     },
     "Socialministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 0,
       "last_fresh_items": 0,
@@ -289,13 +289,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 24,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Miljøministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 25,
       "last_fresh_items": 0,
@@ -304,12 +304,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 50,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_sitemap_scan_at": "2026-09-03T01:28:49.034250+00:00"
     },
     "Regeringen.dk": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_attempt_at": "2026-09-04T06:27:20.335466+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 17,
       "last_fresh_items": 0,
@@ -318,9 +318,9 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 17,
-      "last_success_at": "2026-09-04T05:21:29.013379+00:00",
+      "last_success_at": "2026-09-04T06:27:20.335466+00:00",
       "last_historical_scan_at": "2026-09-01T02:39:20.657319+00:00",
-      "last_sitemap_scan_at": "2026-09-04T05:21:29.013379+00:00"
+      "last_sitemap_scan_at": "2026-09-04T06:27:20.335466+00:00"
     }
   }
 }
