@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-04T07:27:49.447212+00:00",
+  "generated_at": "2026-09-04T08:30:04.729253+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1903,
+  "total_rejected": 1902,
   "summary_by_reason": {
-    "before_archive_start": 1720,
+    "before_archive_start": 1719,
     "missing_safe_publication_date": 183
   },
   "rejected": [
@@ -23,7 +23,7 @@
       "url": "https://bygst.dk/nyheder/2025/oktober/bartholin-komplekset-vinder-stadsarkitektens-saerpris-2025/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-10-10T00:00:00+00:00"
     },
@@ -186,16 +186,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Bygningsstyrelsen",
-      "title": "Bygningsstyrelsen opruster på arbejdsmiljø",
-      "url": "https://bygst.dk/nyheder/2020/september/bygningsstyrelsen-opruster-paa-arbejdsmiljoe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2020-09-15T00:00:00+00:00"
     },
     {
       "source": "Bygningsstyrelsen",
