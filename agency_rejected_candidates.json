@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T19:29:35.392006+00:00",
+  "generated_at": "2026-09-07T22:27:10.762735+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 1901,
   "summary_by_reason": {
@@ -17199,30 +17199,30 @@
     },
     {
       "source": "Administrations- og Servicestyrelsen",
+      "title": "Aktiv information",
+      "url": "https://adst.dk/retningslinjer-for-aktiv-information",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://adst.dk/retningslinjer-for-aktiv-information"
+    },
+    {
+      "source": "Administrations- og Servicestyrelsen",
       "title": "Pas på falske mails",
       "url": "https://adst.dk/pas-paa-falske-mails",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://adst.dk/pas-paa-falske-mails"
     },
     {
       "source": "Administrations- og Servicestyrelsen",
-      "title": "Retningslinjer for aktiv information",
-      "url": "https://adst.dk/retningslinjer-for-aktiv-information",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Administrations- og Servicestyrelsen",
-      "title": "The Ministry of Taxation and Economic Growth",
+      "title": "The Danish Ministry of Taxation and Economic Growth",
       "url": "https://adst.dk/the-ministry-of-taxation",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://adst.dk/the-ministry-of-taxation"
     },
     {
       "source": "Administrations- og Servicestyrelsen",
@@ -17231,7 +17231,7 @@
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://adst.dk/udbud-cvr-og-ean"
     },
     {
       "source": "CPR",
@@ -17388,12 +17388,12 @@
     },
     {
       "source": "Motorstyrelsen",
-      "title": "Abonnér på nyheder",
-      "url": "https://motorst.dk/nyheder/abonner-paa-nyheder",
+      "title": "Læs publikationer om motor",
+      "url": "https://motorst.dk/nyheder/publikationer",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://motorst.dk/nyheder/publikationer"
     },
     {
       "source": "Motorstyrelsen",
@@ -17406,12 +17406,12 @@
     },
     {
       "source": "Motorstyrelsen",
-      "title": "Publikationer",
-      "url": "https://motorst.dk/nyheder/publikationer",
+      "title": "Tilmeld dig nyhedsmail",
+      "url": "https://motorst.dk/nyheder/abonner-paa-nyheder",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://motorst.dk/nyheder/abonner-paa-nyheder"
     },
     {
       "source": "Naturstyrelsen",
@@ -18819,21 +18819,21 @@
     },
     {
       "source": "Toldstyrelsen",
-      "title": "Publikationer",
-      "url": "https://toldst.dk/nyheder/publikationer",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Toldstyrelsen",
-      "title": "Tilmeld dig vores nyhedsbrev",
+      "title": "Nyt om told",
       "url": "https://toldst.dk/nyheder/tilmeld-dig-vores-nyhedsbrev",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "HTML",
-      "detail": ""
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://toldst.dk/nyheder/tilmeld-dig-vores-nyhedsbrev"
+    },
+    {
+      "source": "Toldstyrelsen",
+      "title": "Nyt om told",
+      "url": "https://toldst.dk/nyheder/publikationer",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": "Artikelhentning fejlede: 500 Server Error: Internal Server Error for url: https://toldst.dk/nyheder/publikationer"
     }
   ]
 }
