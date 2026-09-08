@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-08T12:29:43.584137+00:00",
+  "generated_at": "2026-09-08T13:24:55.048346+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 172,
+  "total_rejected": 171,
   "summary_by_reason": {
-    "before_archive_start": 171,
+    "before_archive_start": 170,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1216,16 +1216,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Lærere skal have opbakning til at undervise i svære emner",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/oktober/251003-laerere-skal-have-opbakning-til-at-undervise-i-svaere-emner/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-10-03T08:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
