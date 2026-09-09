@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-09T10:30:55.331159+00:00",
+  "generated_at": "2026-09-09T11:38:38.496899+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1999,
+  "total_rejected": 1998,
   "summary_by_reason": {
     "before_archive_start": 1944,
-    "missing_safe_publication_date": 47,
-    "source_filter_mismatch": 8
+    "missing_safe_publication_date": 45,
+    "source_filter_mismatch": 9
   },
   "rejected": [
     {
@@ -19845,30 +19845,12 @@
       "detail": ""
     },
     {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Fristen for optagelse af biometri er midlertidigt forlænge",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Forlaenget-frist-for-biometri",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
       "source": "Styrelsen for Patientsikkerhed",
       "title": "Snart afholder vi temadag om patientsikkerhed for alle med kronisk sygdom",
       "url": "https://stps.dk/nyheder/2026/sep/tilmelding-til-temadag-17-september-patientsikkerhed-for-alle-med-kronisk-sygdom-2",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Fristen for optagelse af biometri er midlertidigt forlænge",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Forlaenget-frist-for-biometri",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
       "detail": ""
     },
     {
@@ -19950,6 +19932,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Fristen for optagelse af biometri er midlertidigt forlænge",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Forlaenget-frist-for-biometri",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-09-09T00:00:00+00:00"
     }
   ]
 }
