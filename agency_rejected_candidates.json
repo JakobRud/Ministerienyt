@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-09T15:40:18.732021+00:00",
+  "generated_at": "2026-09-09T16:41:27.612653+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1997,
+  "total_rejected": 1996,
   "summary_by_reason": {
     "before_archive_start": 1943,
     "missing_safe_publication_date": 45,
-    "source_filter_mismatch": 9
+    "source_filter_mismatch": 8
   },
   "rejected": [
     {
@@ -19922,16 +19922,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Midlertidigt nedbrud i SIRIs telefonsystem",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/SIRIs-telefonsystem-er-nede",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-09T00:00:00+00:00"
     }
   ]
 }
