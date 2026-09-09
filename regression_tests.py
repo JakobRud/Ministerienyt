@@ -836,6 +836,44 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertFalse(m.listing_link_candidate(numeric, "https://www.dst.dk/da/Statistik/udgivelser?page=701", current, source))
         self.assertTrue(m.listing_link_candidate(next_link, "https://www.dst.dk/da/Statistik/udgivelser?page=2", current, source))
 
+    def test_full_audit_stops_cleanly_on_first_all_old_listing_page(self):
+        source = {
+            "name": "Sekventielt arkiv",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+            "allow_plain_listing_date": True,
+            "pagination_next_only": True,
+            "stop_pagination_before_archive_start": True,
+            "max_listing_pages": 10,
+        }
+        pages = {
+            "https://example.dk/nyheder": '''<article><a href="/nyheder/aktuel">Aktuel nyhed</a><time>02.09.2026</time></article>
+              <a href="/nyheder?page=2">Næste</a>''',
+            "https://example.dk/nyheder?page=2": '''<article><a href="/nyheder/gammel">Gammel nyhed</a><time>02.09.2025</time></article>
+              <a href="/nyheder?page=3">Næste</a>''',
+        }
+        calls = []
+        original_fetch = m.fetch
+        try:
+            def fake_fetch(session, url):
+                calls.append(url)
+                body = pages[url]
+                return types.SimpleNamespace(
+                    url=url,
+                    headers={"content-type": "text/html"},
+                    content=body.encode(),
+                    text=body,
+                )
+            m.fetch = fake_fetch
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(None, source, status, {}, full_audit=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(calls, ["https://example.dk/nyheder", "https://example.dk/nyheder?page=2"])
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual(status.errors, [])
+
     def test_sitemap_ignores_explicit_old_year_even_with_new_lastmod(self):
         source = {
             "name": "Testministeriet",
@@ -951,7 +989,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.0.3", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.1", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -975,6 +1013,14 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIsNotNone(soup.select_one("#favorites-menu #mine-only"))
         self.assertIsNone(soup.select_one(".quick-actions > #mine-only"))
         self.assertNotIn("★ Favoritter", html)
+        period_buttons = soup.select(".period-row .period-button")
+        self.assertEqual(
+            [(button.get_text(strip=True), button.get("data-days")) for button in period_buttons],
+            [("I dag", "today"), ("3 dage", "3"), ("7 dage", "7"), ("30 dage", "30"), ("Alle", "")],
+        )
+        self.assertIn("['today', '3', '7', '30']", html)
+        self.assertIn("timeZone: 'Europe/Copenhagen'", html)
+        self.assertIn("copenhagenDateKey(published) === todayKey", html)
 
     def test_styrelsesnyt_is_independent_main_page(self):
         item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")
@@ -1021,7 +1067,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.0.3", rss)
+        self.assertIn("Styrelsesnyt 7.1", rss)
 
     def test_zero_articles_does_not_create_source_note(self):
         source = {

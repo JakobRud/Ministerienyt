@@ -1,6 +1,14 @@
-# Ministerienyt og Styrelsesnyt 7.0.3
+# Ministerienyt og Styrelsesnyt 7.1
 
-Version 7.0.3 følger op med en fuld kildegennemgang af både Ministerienyt og Styrelsesnyt. Dynamiske myndighedsarkiver hentes nu via deres officielle læse-API'er, og falske artikelkandidater frasorteres før datokontrollen.
+Version 7.1 udvider periodefilteret og afslutter kildegennemgangen fra 7.0.3. Dynamiske myndighedsarkiver hentes via deres officielle læse-API'er, og falske artikelkandidater frasorteres før datokontrollen.
+
+## Nyt i version 7.1
+
+- Periodefilteret på både Ministerienyt og Styrelsesnyt har nu valgene **I dag**, **3 dage**, **7 dage**, **30 dage** og **Alle**.
+- **I dag** følger kalenderdatoen i dansk tid. De øvrige periodevalg bruger samme løbende dagsfilter som hidtil.
+- De nye periodevalg kan deles via **Del visning** og gendannes fra URL'en.
+- DST og DMI følger nu pagineringen sekventielt, så direkte spring til sidste arkivside ikke bruger sidebudgettet. DMI's afsluttende punktum i datolinjen accepteres sikkert.
+- Spillemyndigheden bruger det aktuelle officielle Next.js-indeks og kildens kanoniske værtsnavn.
 
 ## Rettet i version 7.0.3
 
