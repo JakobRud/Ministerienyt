@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.0.2"
+APP_VERSION = "7.0.3"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 13
+ARCHIVE_SCHEMA_VERSION = 14
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -657,10 +657,12 @@ def metadata_publication_dates(soup: BeautifulSoup) -> list[datetime]:
     for key, value in [
         ("property", "article:published_time"),
         ("property", "og:published_time"),
+        ("property", "cludo:DstPubReleaseDateTime"),
         ("name", "article:published_time"),
         ("itemprop", "datePublished"),
         ("name", "date"),
         ("name", "publish-date"),
+        ("name", "manual-date"),
         ("name", "dcterms.date"),
     ]:
         for tag in soup.find_all("meta", attrs={key: value}):
@@ -753,10 +755,11 @@ def exact_date_text(value: str) -> datetime | None:
         return None
     value = clean_text(value)
     month_names = DANISH_MONTH_PATTERN
+    weekday_prefix = r"(?:(?:mandag|tirsdag|onsdag|torsdag|fredag|lørdag|søndag)\s+den\s+)?"
     patterns = [
-        rf"^\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?$",
-        r"^\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?$",
-        r"^20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
+        weekday_prefix + rf"\d{{1,2}}\.?\s+(?:{month_names})\.?,?\s+20\d{{2}}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{{1,2}}[.:]\d{{2}})?\.?$",
+        weekday_prefix + r"\d{1,2}[./-]\d{1,2}[./-]20\d{2}(?:\s*[-–—]\s*(?:kl\.?\s*)?\d{1,2}[.:]\d{2})?\.?$",
+        weekday_prefix + r"20\d{2}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$",
     ]
     if not any(re.fullmatch(pattern, value, flags=re.IGNORECASE) for pattern in patterns):
         return None
@@ -1135,9 +1138,16 @@ def tidy_description_text(value: str, title: str = "") -> str:
 def is_boilerplate_description(value: str) -> bool:
     """Genkend kendt sidetekst, som ikke beskriver den konkrete artikel."""
     folded = clean_text(value).casefold()
-    return folded.startswith(
-        "kulturministeriets væsentligste opgaver består i ministerrådgivning"
-    )
+    return any(
+        folded.startswith(prefix)
+        for prefix in (
+            "kulturministeriets væsentligste opgaver består i ministerrådgivning",
+            "indholdet på denne side er leveret af ",
+            "indholdet er leveret af ",
+            "indholdet på denne side vedrører regeringen ",
+            "indholdet vedrører regeringen ",
+        )
+    ) or bool(re.match(r"^kontakt .+ for yderligere oplysninger(?: her)?\.?$", folded))
 
 
 def useful_description(value: str, title: str = "") -> str:
@@ -1305,7 +1315,7 @@ def listing_context_node(anchor, target: str, base_url: str, source: dict):
     ):
         return anchor
     for node in anchor.parents:
-        if getattr(node, "name", None) not in {"article", "li", "div", "section"}:
+        if getattr(node, "name", None) not in {"article", "li", "div", "section", "tr"}:
             continue
         text = clean_text(node.get_text(" ", strip=True))
         if not (10 <= len(text) <= 5000):
@@ -1467,6 +1477,17 @@ def explicit_archive_year(url: str) -> int | None:
     return int(match.group(1)) if match else None
 
 
+def publication_date_from_url_path(url: str) -> datetime | None:
+    """Brug kun en dato, når URL-stien entydigt slutter med /YYYY/MM/DD."""
+    match = re.search(r"/(20\d{2})/(\d{1,2})/(\d{1,2})/?$", urlparse(url).path)
+    if not match:
+        return None
+    try:
+        return datetime(*(int(part) for part in match.groups()), tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
 def looks_like_article(url: str, source: dict) -> bool:
     url = normalize_url(url, keep_query=True)
     if not url or not same_source_site(url, source):
@@ -1489,6 +1510,15 @@ def looks_like_article(url: str, source: dict) -> bool:
         except re.error:
             return False
 
+    article_exclude_regex = clean_text(str(source.get("article_exclude_regex", "")))
+    if article_exclude_regex:
+        try:
+            path_and_query = parsed.path + (("?" + parsed.query) if parsed.query else "")
+            if re.search(article_exclude_regex, path_and_query, flags=re.IGNORECASE):
+                return False
+        except re.error:
+            return False
+
     segments = [segment for segment in parsed.path.split("/") if segment]
     if not segments:
         return False
@@ -1497,7 +1527,8 @@ def looks_like_article(url: str, source: dict) -> bool:
         return False
     if last in DANISH_MONTHS or re.fullmatch(r"(?:jan|feb|mar|apr|jun|jul|aug|sep|okt|nov|dec)", last):
         return False
-    if len(last) < 5 and not parsed.query:
+    date_path_suffix = bool(re.search(r"/20\d{2}/\d{1,2}/\d{1,2}/?$", parsed.path))
+    if len(last) < 5 and not parsed.query and not date_path_suffix:
         return False
     return True
 
@@ -1561,11 +1592,17 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
     query_keys = {key.casefold() for key, _ in parse_qsl(parsed.query, keep_blank_values=True)}
     path = parsed.path.casefold()
 
-    if text in {"næste", "naeste", "next", "›", "»", ">", "flere", "flere nyheder", "ældre", "aeldre", "older"}:
+    next_like = (
+        text in {"næste", "naeste", "next", "›", "»", ">", "flere", "flere nyheder", "ældre", "aeldre", "older"}
+        or "flere nyheder" in text
+        or "næste" in text
+        or "naeste" in text
+    )
+    if source.get("pagination_next_only"):
+        return next_like
+    if next_like:
         return True
     if re.fullmatch(r"\d{1,3}", text):
-        return True
-    if "flere nyheder" in text or "næste" in text or "naeste" in text:
         return True
     if query_keys & PAGINATION_QUERY_KEYS:
         return True
@@ -1671,6 +1708,83 @@ def gobasic_dynamic_listing_pages(
     return result
 
 
+def listpage_dynamic_listing_pages(
+    session: requests.Session,
+    source: dict,
+    shell_soup: BeautifulSoup,
+    base_url: str,
+    status: SourceStatus,
+    page_limit: int,
+) -> list[BeautifulSoup]:
+    """Hent Forsvarsministeriets JS-lister via sidernes officielle endpoint."""
+    if not source.get("listpage_dynamic_list") or page_limit <= 0:
+        return []
+
+    scripts = "\n".join(tag.string or tag.get_text(" ", strip=True) for tag in shell_soup.find_all("script"))
+
+    def script_value(*names: str, default: str = "") -> str:
+        for name in names:
+            match = re.search(
+                rf"\b(?:var|let|const)?\s*{re.escape(name)}\s*=\s*['\"]?([^;'\"\s]+)",
+                scripts,
+                flags=re.IGNORECASE,
+            )
+            if match:
+                return clean_text(match.group(1))
+        return default
+
+    root_id = script_value("rootId")
+    page_type = script_value("pageType", "pagetype", default="49")
+    authority = script_value("pageAuthority", "authority")
+    culture = script_value("cultureInfo", "culture", default="da")
+    sorting = script_value("sortingVal", "sorting", default="PublishedDescending")
+    if not root_id:
+        append_error(status, "Den dynamiske ListPage-liste manglede rootId.")
+        return []
+
+    try:
+        count = max(20, min(int(source.get("listpage_item_count", 500)), 1000))
+    except Exception:
+        count = 500
+    endpoint = normalize_url(
+        urljoin(base_url, clean_text(str(source.get("listpage_endpoint", ""))) or "/ListPage/UpdateList"),
+        keep_query=True,
+    )
+    params = {
+        "sorting": clean_text(str(source.get("listpage_sorting", ""))) or sorting,
+        "rootId": root_id,
+        "pagetype": page_type,
+        "authority": authority,
+        "subjects": "",
+        "intervals": "",
+        "eventtype": "",
+        "count": count,
+        "pageAuthority": authority,
+        "cultureInfo": culture,
+    }
+    try:
+        response = session.get(
+            endpoint,
+            params=params,
+            headers={"Referer": base_url},
+            timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+        )
+        response.raise_for_status()
+    except Exception as exc:
+        append_error(status, f"Dynamisk ListPage-liste kunne ikke hentes: {exc}")
+        return []
+    if REQUEST_DELAY_SECONDS:
+        time.sleep(REQUEST_DELAY_SECONDS)
+    page_soup = BeautifulSoup(response.text, "html.parser")
+    if not page_soup.find("a", href=True):
+        append_error(status, "Den dynamiske ListPage-liste returnerede ingen links.")
+        return []
+    status.listing_pages += 1
+    if "Officiel ListPage API" not in (status.methods or []):
+        status.methods.append("Officiel ListPage API")
+    return [page_soup]
+
+
 def crawl_listing_pages(
     session: requests.Session,
     source: dict,
@@ -1713,6 +1827,7 @@ def crawl_listing_pages(
     else:
         deep_pages = cfg_int("deep_listing_pages", DEFAULT_DEEP_LISTING_PAGES, 4, 80)
         max_pages = min(configured_max_pages, max(len(queued_urls), deep_pages))
+    archive_cutoff_reached = False
     while queue and len(visited) < max_pages:
         requested_url = queue.popleft()
         page_key = normalize_url(requested_url, keep_query=True)
@@ -1752,8 +1867,29 @@ def crawl_listing_pages(
                 session, source, soup, final_url, status, dynamic_budget
             )
         )
+        dynamic_budget = max(0, max_pages - status.listing_pages)
+        listing_soups.extend(
+            (dynamic_soup, False, "Officiel ListPage API")
+            for dynamic_soup in listpage_dynamic_listing_pages(
+                session, source, soup, final_url, status, dynamic_budget
+            )
+        )
 
         for listing_soup, follow_pagination, method in listing_soups:
+            page_dates: list[datetime] = []
+            configured_selectors = source.get("article_link_selectors", [])
+            if isinstance(configured_selectors, str):
+                configured_selectors = [configured_selectors]
+            allowed_article_anchors: set[int] | None = None
+            if configured_selectors:
+                allowed_article_anchors = set()
+                for selector in configured_selectors:
+                    try:
+                        allowed_article_anchors.update(
+                            id(anchor) for anchor in listing_soup.select(str(selector))
+                        )
+                    except Exception as exc:
+                        append_error(status, f"Ugyldig artikel-selector {selector}: {exc}")
             for anchor in listing_soup.find_all("a", href=True):
                 raw_target = urljoin(final_url, str(anchor["href"]))
                 target = normalize_url(raw_target, keep_query=True)
@@ -1761,6 +1897,8 @@ def crawl_listing_pages(
                     continue
 
                 if looks_like_article(target, source):
+                    if allowed_article_anchors is not None and id(anchor) not in allowed_article_anchors:
+                        continue
                     title, context, published, title_priority = listing_fields(
                         anchor, target, final_url, source
                     )
@@ -1774,15 +1912,27 @@ def crawl_listing_pages(
                     )
                     key = canonical_url(target)
                     candidates[key] = merge_candidate(candidates.get(key), candidate)
+                    if published:
+                        page_dates.append(published)
                 elif follow_pagination and listing_link_candidate(anchor, target, final_url, source):
                     if not historical_due and (canonical_url(target) in historical_keys or path_has_archive_year(target)):
                         continue
                     if target not in visited:
                         queue.append(target)
 
+            if (
+                follow_pagination
+                and source.get("stop_pagination_before_archive_start")
+                and page_dates
+                and max(page_dates) < ARCHIVE_START
+            ):
+                archive_cutoff_reached = True
+                queue.clear()
+                break
+
     if queue and not full_audit:
         status.pagination_limited = True
-    elif queue:
+    elif queue and not archive_cutoff_reached:
         append_error(
             status,
             f"Sikkerhedsgrænsen på {max_pages} listesider blev nået; kontrollér kilden ved meget store arkiver.",
@@ -1975,7 +2125,14 @@ def discover_sitemap_candidates(
                 continue
             if archive_year is None and not (lastmod and lastmod >= ARCHIVE_START):
                 continue
-            candidate = Candidate(loc, published=None, discovered_by="Sitemap")
+            # Nogle officielle sites, bl.a. PET, har selve publiceringsdatoen som
+            # URL'ens tre sidste segmenter. Den er sikrere end sitemap-lastmod,
+            # som ofte blot er tidspunktet for en senere skabelonændring.
+            candidate = Candidate(
+                loc,
+                published=publication_date_from_url_path(loc),
+                discovered_by="Sitemap",
+            )
             item_key = canonical_url(loc)
             result[item_key] = merge_candidate(result.get(item_key), candidate)
 
@@ -2109,8 +2266,14 @@ def item_from_candidate(
         record_rejection(source["name"], title, final_url, "generic_title", discovered_by=candidate.discovered_by)
         return None
     if not looks_like_article(final_url, source):
-        record_rejection(source["name"], title, final_url, "not_article_url", discovered_by=candidate.discovered_by)
-        return None
+        # Bevar den officielle, genkendte artikeladresse, når et site internt
+        # viderestiller til en visningscontroller. DST's /nyt/<id> ender fx på
+        # NytHtml?cid=<id>, selv om den korte adresse er den offentlige permalink.
+        if looks_like_article(candidate.url, source):
+            final_url = candidate.url
+        else:
+            record_rejection(source["name"], title, final_url, "not_article_url", discovered_by=candidate.discovered_by)
+            return None
     final_url = public_url_for_source(final_url, source)
     return with_item_identity(
         Item(source["name"], title, final_url, published, description[:900]),
@@ -2235,6 +2398,514 @@ def collect_ritzau_items(
         status.article_candidates = candidate_count
     return sorted(result.values(), key=lambda item: item.published, reverse=True), api_ok
 
+
+def collect_politi_news_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent Rigspolitiets daterede resultater fra politi.dk's officielle API."""
+    district = clean_text(str(source.get("politi_news_district", "")))
+    start_urls = source.get("start_urls", [])
+    if not district:
+        return [], False
+    if not start_urls:
+        append_error(status, "Politi-kilden mangler en start-URL.")
+        return [], False
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    try:
+        shell = fetch(session, start_url)
+        soup = BeautifulSoup(shell.text, "html.parser")
+        component = soup.select_one('[ng-controller="newsListController"][ng-init]')
+        init_value = str(component.get("ng-init", "")) if component else ""
+        match = re.fullmatch(r"\s*init\((.*)\)\s*", init_value, flags=re.DOTALL)
+        if not match:
+            raise ValueError("nyhedslistens init-model blev ikke fundet")
+        model = json.loads(match.group(1))
+        list_id = clean_text(str(model.get("ListId", "")))
+        language = clean_text(str(model.get("Language", "da"))) or "da"
+        if not list_id:
+            raise ValueError("nyhedslistens ListId blev ikke fundet")
+        endpoint = normalize_url(urljoin(start_url, "/api/news/getNewsResults"), keep_query=True)
+        now = datetime.now(timezone.utc)
+        response = session.get(
+            endpoint,
+            params={
+                "page": 1,
+                "pageSize": max(20, min(int(source.get("politi_news_limit", 500)), 1000)),
+                "fromDate": ARCHIVE_START.isoformat(),
+                "toDate": now.isoformat(),
+                "newsType": clean_text(str(source.get("politi_news_type", "Alle"))) or "Alle",
+                "itemId": list_id,
+                "language": language,
+                "districtQuery": district,
+                "isNewsList": "true",
+            },
+            headers={"Referer": start_url},
+            timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+        )
+        response.raise_for_status()
+        payload = response.json()
+        rows = payload.get("NewsList", []) if isinstance(payload, dict) else []
+        if not isinstance(rows, list):
+            raise ValueError("NewsList var ikke en liste")
+    except Exception as exc:
+        append_error(status, f"Politiets officielle nyheds-API kunne ikke hentes: {exc}")
+        return [], False
+    if REQUEST_DELAY_SECONDS:
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        title = clean_text(str(row.get("Headline", "")))
+        url = normalize_url(str(row.get("Link", "")), keep_query=True)
+        raw_date = row.get("ListDate") or row.get("PublishDate") or ""
+        published = parse_date(str(raw_date))
+        if not title or not url or not looks_like_article(url, source):
+            continue
+        candidate_count += 1
+        if not published:
+            record_rejection(
+                source["name"], title, url, "missing_safe_publication_date",
+                discovered_by="Politiets nyheds-API",
+            )
+            continue
+        if published < ARCHIVE_START:
+            continue
+        key = canonical_url(url)
+        if key in known_urls:
+            status.known_candidates_skipped += 1
+            continue
+        description = clean_text(str(row.get("Manchet", "")))[:900]
+        result[key] = with_item_identity(
+            Item(source["name"], title, url, published, description),
+            first_seen_at=datetime.now(timezone.utc),
+        )
+
+    status.listing_pages += 1
+    status.article_candidates = candidate_count
+    status.methods.append("Politiets nyheds-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), True
+
+
+def nested_value(value: object, *path: str) -> object:
+    current = value
+    for key in path:
+        if not isinstance(current, dict):
+            return None
+        current = current.get(key)
+    return current
+
+
+def article_records(value: object) -> list[dict]:
+    """Find artikelobjekter i et officielt API-svar uden at låse os til én wrapper."""
+    result: list[dict] = []
+    seen: set[int] = set()
+
+    def visit(current: object) -> None:
+        marker = id(current)
+        if marker in seen:
+            return
+        seen.add(marker)
+        if isinstance(current, list):
+            if current and all(isinstance(entry, dict) for entry in current):
+                for entry in current:
+                    keys = {str(key).casefold() for key in entry}
+                    if "title" in keys and ("url" in keys or "path" in keys or "attributes" in keys):
+                        result.append(entry)
+            for entry in current:
+                visit(entry)
+        elif isinstance(current, dict):
+            for child in current.values():
+                if isinstance(child, (dict, list)):
+                    visit(child)
+
+    visit(value)
+    unique: list[dict] = []
+    fingerprints: set[str] = set()
+    for record in result:
+        try:
+            fingerprint = json.dumps(record, ensure_ascii=False, sort_keys=True)
+        except Exception:
+            fingerprint = repr(record)
+        if fingerprint not in fingerprints:
+            fingerprints.add(fingerprint)
+            unique.append(record)
+    return unique
+
+
+def collect_next_index_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent nyheder fra Skatteforvaltningens offentlige Next.js-søge-API."""
+    if not source.get("next_index_search"):
+        return [], False
+    start_urls = source.get("start_urls", [])
+    index_name = clean_text(str(source.get("next_index_name", "")))
+    if not start_urls or not index_name:
+        append_error(status, "Next.js-kilden mangler start-URL eller indeksnavn.")
+        return [], False
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    try:
+        shell = fetch(session, start_url)
+        api_base_url = normalize_url(getattr(shell, "url", ""), keep_query=True) or start_url
+        soup = BeautifulSoup(shell.text, "html.parser")
+        next_data_node = soup.find("script", id="__NEXT_DATA__")
+        next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
+        page_id = nested_value(next_data, "props", "pageProps", "content", "page", "id")
+        if not page_id:
+            raise ValueError("sidens page.id blev ikke fundet")
+        endpoint = normalize_url(urljoin(api_base_url, "/api/indexSearch"), keep_query=True)
+        payload = {
+            "index": index_name,
+            "parentGId": str(page_id),
+            "query": "*",
+            "tags": None,
+            "types": None,
+            "operatorForTagsAndTypes": "and",
+            "sort": "date",
+            "limit": max(20, min(int(source.get("next_index_limit", 1000)), 2000)),
+            "lang": clean_text(str(source.get("next_index_language", "da"))) or "da",
+        }
+        response = session.post(
+            endpoint,
+            json=payload,
+            headers={"Referer": api_base_url, "Origin": urlunparse((*urlparse(api_base_url)[:2], "", "", "", ""))},
+            timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+        )
+        response.raise_for_status()
+        api_payload = response.json()
+    except Exception as exc:
+        append_error(status, f"Officielt nyheds-API kunne ikke hentes: {exc}")
+        return [], False
+    if REQUEST_DELAY_SECONDS:
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    records = article_records(api_payload)
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    for record in records:
+        title = clean_text(str(record.get("title", "")))
+        raw_url = record.get("url") or record.get("path") or ""
+        if isinstance(raw_url, dict):
+            raw_url = raw_url.get("alias") or raw_url.get("url") or ""
+        url = normalize_url(urljoin(api_base_url, str(raw_url)), keep_query=True)
+        raw_date = record.get("date") or record.get("published") or record.get("publishDate") or record.get("created")
+        published = parse_date(str(raw_date or ""))
+        if not title or not url or not looks_like_article(url, source):
+            continue
+        candidate_count += 1
+        if not published:
+            record_rejection(
+                source["name"], title, url, "missing_safe_publication_date",
+                discovered_by="Officielt nyheds-API",
+            )
+            continue
+        if published < ARCHIVE_START:
+            continue
+        key = canonical_url(url)
+        if key in known_urls:
+            status.known_candidates_skipped += 1
+            continue
+        description = strip_markup(str(
+            record.get("description") or record.get("summary") or record.get("teaser") or ""
+        ))[:900]
+        result[key] = with_item_identity(
+            Item(source["name"], title, url, published, description),
+            first_seen_at=datetime.now(timezone.utc),
+        )
+
+    status.listing_pages += 1
+    status.article_candidates += candidate_count
+    status.methods.append("Officielt nyheds-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), True
+
+
+def typed_documents(value: object) -> list[dict]:
+    """Find TypedDocuments-listen i Skatteforvaltningens søge-API-svar."""
+    if isinstance(value, dict):
+        documents = value.get("TypedDocuments")
+        if isinstance(documents, list):
+            return [entry for entry in documents if isinstance(entry, dict)]
+        for child in value.values():
+            found = typed_documents(child)
+            if found:
+                return found
+    elif isinstance(value, list):
+        for child in value:
+            found = typed_documents(child)
+            if found:
+                return found
+    return []
+
+
+def search_field(fields: dict, name: str) -> object:
+    value = fields.get(name, {})
+    if not isinstance(value, dict):
+        return value
+    if value.get("Value") is not None:
+        return value.get("Value")
+    values = value.get("Values")
+    if isinstance(values, list) and values:
+        return values[0]
+    return ""
+
+
+def collect_next_search_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent et nyere Next.js-nyhedskatalog via dets officielle søge-API."""
+    if not source.get("next_search_api"):
+        return [], False
+    start_urls = source.get("start_urls", [])
+    engine_id = clean_text(str(source.get("next_search_engine_id", "")))
+    theme = clean_text(str(source.get("next_search_theme", "")))
+    if not start_urls or not engine_id or not theme:
+        append_error(status, "Next.js-søgekilden mangler start-URL, engine-id eller tema.")
+        return [], False
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    try:
+        shell = fetch(session, start_url)
+        soup = BeautifulSoup(shell.text, "html.parser")
+        next_data_node = soup.find("script", id="__NEXT_DATA__")
+        next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
+        page_id = nested_value(next_data, "props", "pageProps", "content", "page", "id")
+        if not page_id:
+            raise ValueError("sidens page.id blev ikke fundet")
+        language = clean_text(str(source.get("next_search_language", "da"))) or "da"
+        group = f"{theme}_{page_id}_{language}"
+        endpoint = normalize_url(urljoin(start_url, f"/api/search/{engine_id}"), keep_query=True)
+        response = session.get(
+            endpoint,
+            params={
+                "group": group,
+                "query": "*",
+                "sort": "date",
+                "operator": "and",
+                "limit": max(20, min(int(source.get("next_search_limit", 1000)), 10000)),
+            },
+            headers={"Referer": start_url},
+            timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, int(source.get("next_search_timeout", 60)))),
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except Exception as exc:
+        append_error(status, f"Officielt katalog-API kunne ikke hentes: {exc}")
+        return [], False
+    if REQUEST_DELAY_SECONDS:
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    records = typed_documents(payload)
+    result: dict[str, Item] = {}
+    for record in records:
+        fields = record.get("Fields", {})
+        if not isinstance(fields, dict):
+            continue
+        title = clean_text(str(search_field(fields, "Title") or ""))
+        url = normalize_url(urljoin(start_url, str(search_field(fields, "Url") or "")), keep_query=True)
+        published = parse_date(str(search_field(fields, "ArticleDate") or ""))
+        if not title or not url or not looks_like_article(url, source):
+            continue
+        if not published:
+            record_rejection(
+                source["name"], title, url, "missing_safe_publication_date",
+                discovered_by="Officielt katalog-API",
+            )
+            continue
+        if published < ARCHIVE_START:
+            continue
+        key = canonical_url(url)
+        if key in known_urls:
+            status.known_candidates_skipped += 1
+            continue
+        description = strip_markup(str(search_field(fields, "Description") or ""))[:900]
+        result[key] = with_item_identity(
+            Item(source["name"], title, url, published, description),
+            first_seen_at=datetime.now(timezone.utc),
+        )
+
+    status.listing_pages += 1
+    status.article_candidates += len(records)
+    status.methods.append("Officielt katalog-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), True
+
+
+def collect_drupal_jsonapi_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent publicerede nyheder fra et officielt Drupal JSON:API-endpoint."""
+    endpoint_raw = clean_text(str(source.get("drupal_jsonapi_endpoint", "")))
+    if not endpoint_raw:
+        return [], False
+    start_url = normalize_url(str(source.get("start_urls", [source.get("home_url", "")])[0]), keep_query=True)
+    endpoint = normalize_url(urljoin(start_url, endpoint_raw), keep_query=True)
+    rows: list[dict] = []
+    pages_fetched = 0
+    try:
+        next_url = endpoint
+        params: dict | None = {
+            "page[limit]": max(20, min(int(source.get("drupal_jsonapi_limit", 50)), 50)),
+            "sort": "-created",
+            "filter[status]": 1,
+        }
+        for _ in range(max(1, min(int(source.get("drupal_jsonapi_max_pages", 10)), 20))):
+            response = session.get(
+                next_url,
+                params=params,
+                headers={"Referer": start_url, "Accept": "application/vnd.api+json"},
+                timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+            )
+            response.raise_for_status()
+            payload = response.json()
+            page_rows = payload.get("data", []) if isinstance(payload, dict) else []
+            if not isinstance(page_rows, list) or not page_rows:
+                break
+            rows.extend(row for row in page_rows if isinstance(row, dict))
+            pages_fetched += 1
+            page_dates = [
+                parse_date(str((row.get("attributes") or {}).get("created", "")))
+                for row in page_rows if isinstance(row.get("attributes"), dict)
+            ]
+            if any(date and date < ARCHIVE_START for date in page_dates):
+                break
+            next_link = nested_value(payload, "links", "next", "href")
+            if not next_link:
+                break
+            next_url = normalize_url(str(next_link), keep_query=True)
+            params = None
+    except Exception as exc:
+        append_error(status, f"Drupal-nyheds-API kunne ikke hentes: {exc}")
+        return [], False
+    if REQUEST_DELAY_SECONDS:
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    for row in rows:
+        attrs = row.get("attributes", {}) if isinstance(row, dict) else {}
+        if not isinstance(attrs, dict):
+            continue
+        title = clean_text(str(attrs.get("title", "")))
+        path = attrs.get("path", {})
+        raw_url = path.get("alias", "") if isinstance(path, dict) else ""
+        if not raw_url:
+            node_id = attrs.get("drupal_internal__nid")
+            raw_url = f"/node/{node_id}" if node_id else ""
+        url = normalize_url(urljoin(start_url, str(raw_url)), keep_query=True)
+        published = parse_date(str(
+            attrs.get("field_publication_date") or attrs.get("field_date") or attrs.get("created") or ""
+        ))
+        if not title or not url or not looks_like_article(url, source):
+            continue
+        candidate_count += 1
+        if not published:
+            record_rejection(
+                source["name"], title, url, "missing_safe_publication_date",
+                discovered_by="Drupal JSON:API",
+            )
+            continue
+        if published < ARCHIVE_START:
+            continue
+        key = canonical_url(url)
+        if key in known_urls:
+            status.known_candidates_skipped += 1
+            continue
+        raw_description = (
+            attrs.get("field_description") or attrs.get("field_summary") or attrs.get("field_teaser") or ""
+        )
+        if isinstance(raw_description, dict):
+            raw_description = raw_description.get("processed") or raw_description.get("value") or ""
+        description = strip_markup(str(raw_description))[:900]
+        result[key] = with_item_identity(
+            Item(source["name"], title, url, published, description),
+            first_seen_at=datetime.now(timezone.utc),
+        )
+
+    status.listing_pages += pages_fetched
+    status.article_candidates += candidate_count
+    status.methods.append("Drupal JSON:API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), True
+
+
+def collect_nyidanmark_candidates(
+    session: requests.Session,
+    source: dict,
+    status: SourceStatus,
+) -> tuple[dict[str, Candidate], bool]:
+    """Hent det fælles SIRI/US-arkiv fra Ny i Danmarks officielle nyheds-API.
+
+    API'et leverer rubrik, URL og publiceringsdato. Selve artikelsiden hentes
+    efterfølgende, så den eksisterende kildefiltrering fortsat afgør, om
+    artiklen tilhører SIRI, Udlændingestyrelsen eller begge myndigheder.
+    """
+    endpoint_raw = clean_text(str(source.get("nyidanmark_news_api", "")))
+    if not endpoint_raw:
+        return {}, False
+    start_urls = source.get("start_urls", [])
+    if not start_urls:
+        append_error(status, "Ny i Danmark-kilden mangler en start-URL.")
+        return {}, False
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    endpoint = normalize_url(urljoin(start_url, endpoint_raw), keep_query=True)
+    try:
+        response = fetch(session, endpoint)
+        payload = response.json()
+        rows = payload.get("newsArticles", []) if isinstance(payload, dict) else payload
+        if isinstance(rows, str):
+            rows = json.loads(rows)
+        if not isinstance(rows, list):
+            raise ValueError("newsArticles var ikke en liste")
+    except Exception as exc:
+        append_error(status, f"Ny i Danmarks officielle nyheds-API kunne ikke hentes: {exc}")
+        return {}, False
+
+    result: dict[str, Candidate] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        title = clean_text(str(row.get("ArticleTitle", "")))
+        url = normalize_url(urljoin(start_url, str(row.get("Url", ""))), keep_query=True)
+        raw_date = row.get("PublishingDateTime") or row.get("PublishingDate") or ""
+        published = parse_date(str(raw_date))
+        if not title or not url or not looks_like_article(url, source):
+            continue
+        if not published:
+            record_rejection(
+                source["name"], title, url, "missing_safe_publication_date",
+                discovered_by="Ny i Danmark API",
+            )
+            continue
+        if published < ARCHIVE_START:
+            continue
+        key = canonical_url(url)
+        result[key] = merge_candidate(
+            result.get(key),
+            Candidate(
+                url=url,
+                title=title,
+                published=published,
+                discovered_by="Ny i Danmark API",
+                title_priority=3,
+            ),
+        )
+
+    status.listing_pages += 1
+    status.methods.append("Ny i Danmark API")
+    return result, True
+
 def collect_source(
     session: requests.Session,
     source: dict,
@@ -2247,6 +2918,30 @@ def collect_source(
     status = SourceStatus(source["name"], source.get("home_url", source.get("start_urls", [""])[0]))
     status.fast_mode = fast
 
+    politi_items, politi_ok = collect_politi_news_items(session, source, known_urls, status)
+    if politi_ok and not source.get("politi_news_supplemental"):
+        status.fresh_items = len(politi_items)
+        status.accepted_new = len(politi_items)
+        return politi_items, status
+
+    search_items, search_ok = collect_next_search_items(session, source, known_urls, status)
+    if search_ok and not source.get("next_search_supplemental"):
+        status.fresh_items = len(search_items)
+        status.accepted_new = len(search_items)
+        return search_items, status
+
+    next_items, next_ok = collect_next_index_items(session, source, known_urls, status)
+    if next_ok and not source.get("next_index_supplemental"):
+        status.fresh_items = len(next_items)
+        status.accepted_new = len(next_items)
+        return next_items, status
+
+    drupal_items, drupal_ok = collect_drupal_jsonapi_items(session, source, known_urls, status)
+    if drupal_ok and not source.get("drupal_jsonapi_supplemental"):
+        status.fresh_items = len(drupal_items)
+        status.accepted_new = len(drupal_items)
+        return drupal_items, status
+
     ritzau_items, ritzau_ok = collect_ritzau_items(session, source, known_urls, status)
     ritzau_candidate_count = status.article_candidates if ritzau_ok else 0
     if ritzau_ok and not source.get("ritzau_supplemental"):
@@ -2254,6 +2949,7 @@ def collect_source(
         return ritzau_items, status
 
     source_state = source_state or {}
+    nyidanmark_candidates, nyidanmark_ok = collect_nyidanmark_candidates(session, source, status)
     listing_candidates, discovered_feeds = crawl_listing_pages(
         session, source, status, source_state, fast=fast, full_audit=full_audit
     )
@@ -2263,8 +2959,10 @@ def collect_source(
     feed_items = collect_feed_items(session, source, discovered_feeds, status, known_urls)
     needs_sitemap_fallback = (
         not listing_candidates
+        and not nyidanmark_candidates
         and "RSS/Atom" not in (status.methods or [])
         and not ritzau_ok
+        and not nyidanmark_ok
     )
     sitemap_due = full_audit or needs_sitemap_fallback or (
         (not fast) and due_since(
@@ -2281,12 +2979,23 @@ def collect_source(
         sitemap_candidates = {}
         status.sitemap_skipped_by_cache = True
 
-    candidates = dict(listing_candidates)
+    candidates = dict(nyidanmark_candidates)
+    for key, candidate in listing_candidates.items():
+        candidates[key] = merge_candidate(candidates.get(key), candidate)
     for key, candidate in sitemap_candidates.items():
         candidates[key] = merge_candidate(candidates.get(key), candidate)
     status.article_candidates = len(candidates) + ritzau_candidate_count
 
     fresh: dict[str, Item] = {}
+    for item in search_items:
+        key = canonical_url(item.url)
+        fresh[key] = better_item(fresh.get(key), item)
+    for item in next_items:
+        key = canonical_url(item.url)
+        fresh[key] = better_item(fresh.get(key), item)
+    for item in drupal_items:
+        key = canonical_url(item.url)
+        fresh[key] = better_item(fresh.get(key), item)
     for item in ritzau_items:
         key = canonical_url(item.url)
         fresh[key] = better_item(fresh.get(key), item)
@@ -3616,7 +4325,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.0.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.0.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.0.3</strong><ul><li>Styrelsesnyt understøtter nu de officielle GoBasic-, ListPage-, Next.js- og Drupal-kilder, så dynamiske nyhedsarkiver ikke længere fremstår tomme.</li><li>Kendte navigationssider frasorteres før artikelkontrollen, og datolæsning samt kilderuter er opdateret efter gennemgangen.</li><li>Regeringen.dk genopbygges med korrekt publiceringsdato og uden generelle metadata som artikelbeskrivelse. Fuld audit stopper sikkert, når den har passeret 1. januar 2026.</li></ul>'
         '<strong>v7.0.2</strong><ul><li>Banedanmarks gemte fejlkombination af rubrik, link og manchet genopbygges og kontrolleres fremover på artikelsiden.</li><li>En kilde med nul arkiverede artikler viser blot 0 i artikelkolonnen; nul i sig selv udløser ikke længere en bemærkning.</li></ul>'
         '<strong>v7.0.1</strong><ul><li>Forældede myndighedslinks og artikelstier er rettet efter officielle redesigns og domæneskift.</li><li>Banedanmarks aktuelle bane.dk-adresse og de nye nyhedsoversigter hos blandt andre DMI, Sundhedsstyrelsen og Rigsarkivet understøttes.</li></ul>'
         '<strong>v7.0</strong><ul><li>Styrelsesnyt er tilføjet som en selvstændig hovedside med egne kilder, eget arkiv, RSS-feed og lokale brugerindstillinger.</li>'
@@ -3929,13 +4639,15 @@ def load_sources_config(path: Path) -> list[dict]:
     if len(names) != len(set(names)):
         raise ValueError(f"{path} indeholder dublerede kildenavne.")
     for source in sources:
-        article_url_regex = clean_text(str(source.get("article_url_regex", "")))
-        if article_url_regex:
+        for field in ("article_url_regex", "article_exclude_regex"):
+            article_url_regex = clean_text(str(source.get(field, "")))
+            if not article_url_regex:
+                continue
             try:
                 re.compile(article_url_regex)
             except re.error as exc:
                 raise ValueError(
-                    f"{path} har ugyldigt article_url_regex for {source.get('name')}: {exc}"
+                    f"{path} har ugyldigt {field} for {source.get('name')}: {exc}"
                 ) from exc
     return sources
 

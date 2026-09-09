@@ -152,7 +152,8 @@
     "article_prefixes": [
       "/aktuelt/nyheder/"
     ],
-    "default_article_type": "Nyhed"
+    "default_article_type": "Nyhed",
+    "stop_pagination_before_archive_start": true
   },
   {
     "name": "Beskæftigelses- og Ligestillingsministeriet",
@@ -273,7 +274,8 @@
     "allow_unlabeled_header_date": true,
     "default_article_type": "Nyhed",
     "allow_unlabeled_after_h1_date": true,
-    "after_h1_date_max_text_nodes": 12
+    "after_h1_date_max_text_nodes": 12,
+    "stop_pagination_before_archive_start": true
   },
   {
     "name": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -364,6 +366,19 @@
     "default_article_type": "Nyhed",
     "historical_start_urls": [
       "https://regeringen.dk/aktuelt/nyheder/2026/"
-    ]
+    ],
+    "always_fetch_articles": true,
+    "allow_unlabeled_after_h1_date": true,
+    "after_h1_date_max_text_nodes": 12,
+    "description_selectors": [
+      ".manchet",
+      ".lead",
+      ".intro",
+      ".teaser",
+      "[class*=\"manchet\"]",
+      "[class*=\"lead\"]",
+      "[class*=\"intro\"]"
+    ],
+    "refresh_before_schema": 14
   }
 ]

@@ -1,15 +1,16 @@
-# Opdatér til version 7.0.2
+# Opdatér til version 7.0.3
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.0.2.zip` ud.
+Pak `Ministerienyt-7.0.3.zip` ud.
 
 ## 2. Upload rodfilerne
 
-Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload kun disse fem ændrede filer:
+Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload kun disse seks ændrede filer:
 
 - `ministerier_nyheder.py`
 - `regression_tests.py`
+- `sources.json`
 - `agency_sources.json`
 - `README.md`
 - `TRIN-FOR-TRIN.md`
@@ -30,7 +31,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.0.2-kørsel genopbygger Banedanmarks fejlsammensatte poster. Hvis Rigsarkivets rettelse fra 7.0.1 ikke allerede er kørt, genopbygges også den kilde. Det øvrige arkiv bevares. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
+Den første 7.0.3-kørsel genopbygger de kilder, hvis parser eller rute er rettet, blandt andet Banedanmark, Regeringen.dk og de berørte dynamiske myndighedsarkiver. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
 
 ## 6. Kontrollér siderne
 

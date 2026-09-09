@@ -1,6 +1,16 @@
-# Ministerienyt og Styrelsesnyt 7.0.2
+# Ministerienyt og Styrelsesnyt 7.0.3
 
-Version 7.0.2 retter Banedanmarks fejlsammensatte artikel og forenkler visningen af kilder uden arkiverede artikler.
+Version 7.0.3 følger op med en fuld kildegennemgang af både Ministerienyt og Styrelsesnyt. Dynamiske myndighedsarkiver hentes nu via deres officielle læse-API'er, og falske artikelkandidater frasorteres før datokontrollen.
+
+## Rettet i version 7.0.3
+
+- Styrelsesnyt understøtter officielle GoBasic-lister, Forsvarsministeriets ListPage-endpoint, Skatteforvaltningens Next.js-søge-API og Drupal JSON:API. Det reparerer en lang række kilder, der tidligere stod med `0`, selv om de havde offentliggjort nyheder i 2026.
+- Officielle sitemaps er aktiveret selektivt på årssikre kilder, og synlige datolinjer efter artikeloverskriften læses kun på de konkret kontrollerede websites.
+- Ruterne hos blandt andre Danmarks Statistik, Rigspolitiet, PET, STAR, Vejdirektoratet, Motorstyrelsen, Toldstyrelsen, Hjemmeværnet og Styrelsen for Patientsikkerhed er opdateret.
+- Navigationssider hos blandt andre Politiklagemyndigheden, TET, Finanstilsynet, Lægemiddelstyrelsen og Slots- og Kulturstyrelsen frasorteres, så de ikke giver misvisende bemærkninger om manglende dato.
+- Regeringen.dk genopbygges, så generelle organisationsmetadata ikke vises som artikelbeskrivelse, og den manglende sikre publiceringsdato kan læses fra artikelheaderen.
+- Fuld audit stopper på kilder med lange arkiver, når en kontrolleret listeside er kommet forbi 1. januar 2026. Det fjerner misvisende bemærkninger om sidegrænsen uden at forkorte 2026-dækningen.
+- Rettelserne fra 7.0.2 er med: Banedanmark genopbygges fra artikelsiderne, og en fungerende kilde med nul artikler viser kun `0` uden en særskilt bemærkning.
 
 ## Rettet i version 7.0.2
 

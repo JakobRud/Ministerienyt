@@ -12,8 +12,7 @@
       "home_url": "https://erhvervsstyrelsen.dk/",
       "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
       "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
-      "ritzau_pressroom_id": 11727618,
-      "ritzau_supplemental": true
+      "ritzau_pressroom_id": 11727618
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",
@@ -23,28 +22,38 @@
         "https://www.kfst.dk/Menu/Presse",
         "https://www.kfst.dk/menu/presse/nyhedsarkiv"
       ],
-      "article_prefixes": ["/pressemeddelelser/"]
+      "article_prefixes": ["/pressemeddelelser/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Patent- og Varemærkestyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://www.dkpto.dk/",
       "start_urls": ["https://www.dkpto.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_url_regex": "^/nyheder/2026/",
+      "disable_sitemap": false,
+      "refresh_before_schema": 14
     },
     {
       "name": "Søfartsstyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://www.soefartsstyrelsen.dk/",
       "start_urls": ["https://www.soefartsstyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_url_regex": "^/nyheder/2026/",
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Nævnenes Hus",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://naevneneshus.dk/",
       "start_urls": ["https://naevneneshus.dk/information-fra-naevnenes-hus/"],
-      "article_prefixes": ["/information-fra-naevnenes-hus/"]
+      "article_prefixes": ["/information-fra-naevnenes-hus/"],
+      "article_exclude_regex": "^/information-fra-naevnenes-hus/?$",
+      "always_fetch_articles": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Fødevarestyrelsen",
@@ -54,7 +63,11 @@
         "https://foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1",
         "https://foedevarestyrelsen.dk/nyheder/webnyheder?Page=1"
       ],
-      "article_prefixes": ["/nyheder/pressemeddelelser/", "/nyheder/webnyheder/"]
+      "article_prefixes": ["/nyheder/pressemeddelelser/", "/nyheder/webnyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
 
     {
@@ -62,14 +75,16 @@
       "responsible_ministry": "Finansministeriet",
       "home_url": "https://oes.dk/",
       "start_urls": ["https://oes.dk/nyheder/nyhedsarkiv/?categorizations=13411"],
-      "article_prefixes": ["/nyheder/nyhedsarkiv/"]
+      "article_prefixes": ["/nyheder/nyhedsarkiv/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Medarbejder- og Kompetencestyrelsen",
       "responsible_ministry": "Finansministeriet",
       "home_url": "https://medst.dk/",
       "start_urls": ["https://medst.dk/nyheder/nyhedsarkiv/"],
-      "article_prefixes": ["/nyheder/nyhedsarkiv/"]
+      "article_prefixes": ["/nyheder/nyhedsarkiv/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Statens It",
@@ -83,14 +98,18 @@
       "responsible_ministry": "Finansministeriet",
       "home_url": "https://statens-adm.dk/",
       "start_urls": ["https://statens-adm.dk/nyheder/nyhedsarkiv/"],
-      "article_prefixes": ["/nyheder/nyhedsarkiv/"]
+      "article_prefixes": ["/nyheder/nyhedsarkiv/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "DREAM",
       "responsible_ministry": "Finansministeriet",
       "home_url": "https://dreamgruppen.dk/",
       "start_urls": ["https://dreamgruppen.dk/nyheder/"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 5,
+      "refresh_before_schema": 14
     },
 
     {
@@ -98,14 +117,23 @@
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://anklagemyndigheden.dk/",
       "start_urls": ["https://anklagemyndigheden.dk/da/nyheder"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/"],
+      "article_link_selectors": [".view-list-hyheder-article .views-row .col-md-12 > a[href]"],
+      "allow_plain_listing_date": true,
+      "disable_sitemap": true,
+      "max_listing_pages": 6,
+      "stop_pagination_before_archive_start": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Datatilsynet",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://www.datatilsynet.dk/",
       "start_urls": ["https://www.datatilsynet.dk/presse-og-nyheder/nyhedsarkiv/2026"],
-      "article_prefixes": ["/presse-og-nyheder/nyhedsarkiv/"]
+      "article_url_regex": "^/presse-og-nyheder/nyhedsarkiv/2026/",
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 6,
+      "refresh_before_schema": 14
     },
     {
       "name": "Danmarks Domstole/Domstolsstyrelsen",
@@ -114,7 +142,8 @@
       "start_urls": ["https://domstoldk.euwest01.umbraco.io/aktuelt/"],
       "extra_hosts": ["domstoldk.euwest01.umbraco.io"],
       "public_origin": "https://www.domstol.dk",
-      "article_prefixes": ["/aktuelt/"]
+      "article_prefixes": ["/aktuelt/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Danmarks Fængsler",
@@ -127,15 +156,21 @@
       "name": "Rigspolitiet/politi.dk",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://politi.dk/rigspolitiet",
-      "start_urls": ["https://politi.dk/rigspolitiet"],
-      "article_prefixes": ["/rigspolitiet/nyhedsliste/"]
+      "start_urls": ["https://politi.dk/nyhedsliste?district=Rigspolitiet"],
+      "article_prefixes": ["/rigspolitiet/nyhedsliste/"],
+      "politi_news_district": "Rigspolitiet",
+      "allow_plain_listing_date": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "PET",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://pet.dk/",
-      "start_urls": ["https://pet.dk/pet"],
-      "article_prefixes": ["/pet/nyhedsliste/"]
+      "start_urls": ["https://pet.dk/"],
+      "sitemap_urls": ["https://pet.dk/sitemap.xml"],
+      "article_prefixes": ["/pet/nyhedsliste/"],
+      "disable_sitemap": false,
+      "refresh_before_schema": 14
     },
     {
       "name": "Den Uafhængige Politiklagemyndighed",
@@ -143,21 +178,28 @@
       "home_url": "https://politiklagemyndigheden.dk/",
       "start_urls": ["https://politiklagemyndigheden.dk/kategori/nyheder/"],
       "rss_urls": ["https://politiklagemyndigheden.dk/kategori/nyheder/feed/"],
-      "article_url_regex": "^/(?!kategori/|tag/|for-pressen/|om-os/)[a-z0-9-]{8,}/?$"
+      "article_url_regex": "^/(?!kategori/|tag/|for-pressen/|om-os/)[a-z0-9-]{8,}/?$",
+      "article_exclude_regex": "^/(?:cookiepolitik|er-der-klaget-over-dig|om-politiklagemyndigheden|om-hjemmesiden|personoplysninger|politiklagemyndighedens-og-bevismiddeltilsynets-whistleblowerordning|tilmeld-nyhedsbrev|aarsberetning-og-statistik|vil-du-indgive-en-klage)/?$",
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Civilstyrelsen",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://www.civilstyrelsen.dk/",
       "start_urls": ["https://www.civilstyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_url_regex": "^/nyheder/2026/",
+      "disable_sitemap": false,
+      "refresh_before_schema": 14
     },
     {
       "name": "Tilsynet med Efterretningstjenesterne",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://tet.dk/",
       "start_urls": ["https://tet.dk/om-tet/arkiv/"],
-      "article_url_regex": "^/(?!om-tet/arkiv/?$|kontrol/?$|redegoerelser/?$)[a-z0-9-]+(?:/[a-z0-9-]+)*/?$"
+      "article_url_regex": "^/(?!en/|om-tet/|kontrol/|redegoerelser/)[a-z0-9-]+/?$",
+      "article_exclude_regex": "^/(?:cookiepolitik|lovgivning|indsigtsordning|whistleblowerordning-for-pet|tilsynet-med-efterretningstjenesterne-tet-soeger-)",
+      "always_fetch_articles": true,
+      "refresh_before_schema": 14
     },
 
     {
@@ -165,28 +207,43 @@
       "responsible_ministry": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
       "home_url": "https://ufsn.dk/",
       "start_urls": ["https://ufsn.dk/aktuelt/nyheder/"],
-      "article_prefixes": ["/aktuelt/nyheder/"]
+      "article_prefixes": ["/aktuelt/nyheder/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Digitaliseringsstyrelsen",
       "responsible_ministry": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
       "home_url": "https://digst.dk/",
       "start_urls": ["https://digst.dk/nyheder/nyhedsarkiv/?categorizations=11653"],
-      "article_prefixes": ["/nyheder/nyhedsarkiv/"]
+      "article_prefixes": ["/nyheder/nyhedsarkiv/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Danmarks Statistik",
       "responsible_ministry": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
       "home_url": "https://www.dst.dk/",
-      "start_urls": ["https://www.dst.dk/da/Statistik/udgivelser?psi=877&pub=nyt"],
-      "article_prefixes": ["/da/Statistik/nyheder-analyser-publ/nyt/"]
+      "start_urls": ["https://www.dst.dk/da/Statistik/udgivelser?gmi=01&pub=nyt"],
+      "article_prefixes": ["/nyt/"],
+      "allow_plain_listing_date": true,
+      "pagination_next_only": true,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "max_listing_pages": 40,
+      "stop_pagination_before_archive_start": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "CPR",
       "responsible_ministry": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
       "home_url": "https://www.cpr.dk/",
       "start_urls": ["https://www.cpr.dk/cpr-nyt"],
-      "article_prefixes": ["/cpr-nyt/"]
+      "article_url_regex": "^/cpr-nyt/nyhedsarkiv/2026/",
+      "gobasic_dynamic_list": true,
+      "gobasic_list_selector": ".module.dynamic-list[data-config]",
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "max_listing_pages": 4,
+      "refresh_before_schema": 14
     },
 
     {
@@ -194,42 +251,63 @@
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://ens.dk/",
       "start_urls": ["https://ens.dk/presse"],
-      "article_prefixes": ["/presse/"]
+      "article_prefixes": ["/presse/"],
+      "article_exclude_regex": "^/presse/(?:pressefoto|kontakt|abonner|nyhedsbrev)/?$",
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Geodatastyrelsen",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://gst.dk/",
       "start_urls": ["https://gst.dk/nyheder?categorizations=18067"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Klimadatastyrelsen",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://www.klimadatastyrelsen.dk/",
       "start_urls": ["https://www.klimadatastyrelsen.dk/om-klimadatastyrelsen/nyheder/nyhedsarkiv/2026"],
-      "article_prefixes": ["/om-klimadatastyrelsen/nyheder/nyhedsarkiv/"]
+      "article_url_regex": "^/om-klimadatastyrelsen/nyheder/nyhedsarkiv/2026/",
+      "disable_sitemap": false,
+      "refresh_before_schema": 14
     },
     {
       "name": "Forsyningstilsynet",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://forsyningstilsynet.dk/",
       "start_urls": ["https://forsyningstilsynet.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "GEUS",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://www.geus.dk/",
       "start_urls": ["https://www.geus.dk/om-geus/nyheder/nyhedsarkiv"],
-      "article_prefixes": ["/om-geus/nyheder/nyhedsarkiv/"]
+      "article_prefixes": ["/om-geus/nyheder/nyhedsarkiv/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "DMI",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://www.dmi.dk/",
       "start_urls": ["https://www.dmi.dk/nyhedsoverblik", "https://www.dmi.dk/"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "pagination_next_only": true,
+      "stop_pagination_before_archive_start": true
     },
 
     {
@@ -240,49 +318,64 @@
       "extra_hosts": ["banedanmark.dk", "www.banedanmark.dk"],
       "article_prefixes": ["/da/Presse/Pressemeddelelser/"],
       "always_fetch_articles": true,
-      "refresh_before_schema": 13
+      "refresh_before_schema": 14
     },
     {
       "name": "Bygningsstyrelsen",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://bygst.dk/",
       "start_urls": ["https://bygst.dk/nyheder/?pageNumber=1"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Færdselsstyrelsen",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://www.fstyr.dk/",
       "start_urls": ["https://www.fstyr.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 8,
+      "refresh_before_schema": 14
     },
     {
       "name": "Plan- og Landdistriktsstyrelsen",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://www.plst.dk/",
       "start_urls": ["https://www.plst.dk/nyheder-paa-planinfo?Page=1"],
-      "article_url_regex": "^/(?:nyheder-paa-planinfo|nyhed)/.+"
+      "article_url_regex": "^/(?:nyheder-paa-planinfo|nyhed)/.+",
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 8,
+      "refresh_before_schema": 14
     },
     {
       "name": "Trafikstyrelsen",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://www.trafikstyrelsen.dk/",
       "start_urls": ["https://www.trafikstyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 10,
+      "refresh_before_schema": 14
     },
     {
       "name": "Vejdirektoratet",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://www.vejdirektoratet.dk/",
-      "start_urls": ["https://www.vejdirektoratet.dk/presse/nyheder"],
-      "article_prefixes": ["/presse/nyheder/"]
+      "start_urls": ["https://www.vejdirektoratet.dk/presse-og-nyheder"],
+      "article_prefixes": ["/pressemeddelelse/"],
+      "drupal_jsonapi_endpoint": "/api/drupal/api/node/press_release",
+      "refresh_before_schema": 14
     },
     {
       "name": "Havarikommissionen",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://havarikommissionen.dk/",
       "start_urls": ["https://havarikommissionen.dk/information-fra-havarikommissionen"],
-      "article_prefixes": ["/information-fra-havarikommissionen/"]
+      "article_prefixes": ["/information-fra-havarikommissionen/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 5,
+      "refresh_before_schema": 14
     },
 
     {
@@ -299,7 +392,9 @@
       "start_urls": ["https://www.nyidanmark.dk/da/Nyheder"],
       "extra_hosts": ["nyidanmark.dk", "www.nyidanmark.dk"],
       "article_prefixes": ["/da/Nyheder/"],
-      "required_article_text": ["Publiceret af: SIRI", "Publiceret af SIRI"]
+      "required_article_text": ["Publiceret af: SIRI", "Publiceret af SIRI"],
+      "nyidanmark_news_api": "/api/news/getNews?newsTypeTag=all",
+      "refresh_before_schema": 14
     },
     {
       "name": "Udlændingestyrelsen",
@@ -308,7 +403,9 @@
       "start_urls": ["https://www.nyidanmark.dk/da/Nyheder"],
       "extra_hosts": ["nyidanmark.dk", "www.nyidanmark.dk"],
       "article_prefixes": ["/da/Nyheder/"],
-      "required_article_text": ["Publiceret af: Udlændingestyrelsen", "Publiceret af Udlændingestyrelsen"]
+      "required_article_text": ["Publiceret af: Udlændingestyrelsen", "Publiceret af Udlændingestyrelsen"],
+      "nyidanmark_news_api": "/api/news/getNews?newsTypeTag=all",
+      "refresh_before_schema": 14
     },
 
     {
@@ -316,14 +413,16 @@
       "responsible_ministry": "Undervisningsministeriet",
       "home_url": "https://stukuvm.dk/",
       "start_urls": ["https://stukuvm.dk/om-styrelsen/aktuelt"],
-      "article_prefixes": ["/om-styrelsen/aktuelt/"]
+      "article_prefixes": ["/om-styrelsen/aktuelt/"],
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Styrelsen for It og Læring",
       "responsible_ministry": "Undervisningsministeriet",
       "home_url": "https://www.stil.dk/",
       "start_urls": ["https://www.stil.dk/aktuelt"],
-      "article_prefixes": ["/aktuelt/"]
+      "article_prefixes": ["/aktuelt/"],
+      "stop_pagination_before_archive_start": true
     },
 
     {
@@ -331,14 +430,19 @@
       "responsible_ministry": "Beskæftigelses- og Ligestillingsministeriet",
       "home_url": "https://at.dk/",
       "start_urls": ["https://at.dk/nyheder/"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Styrelsen for Arbejdsmarked og Rekruttering",
       "responsible_ministry": "Beskæftigelses- og Ligestillingsministeriet",
       "home_url": "https://star.dk/",
-      "start_urls": ["https://star.dk/om-styrelsen/nyt/nyheder/"],
-      "article_prefixes": ["/om-styrelsen/nyt/nyheder/"]
+      "start_urls": ["https://star.dk/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering"],
+      "article_prefixes": ["/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering/"],
+      "refresh_before_schema": 14
     },
     {
       "name": "Det Nationale Forskningscenter for Arbejdsmiljø",
@@ -353,35 +457,44 @@
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.forsvaret.dk/",
       "start_urls": ["https://www.forsvaret.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "listpage_dynamic_list": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Hjemmeværnet",
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.hjemmevaernet.dk/",
-      "start_urls": ["https://www.hjemmevaernet.dk/da/aktuelt/nyheder/"],
-      "article_prefixes": ["/da/aktuelt/nyheder/"]
+      "start_urls": ["https://www.hjemmevaernet.dk/da/aktuelt/"],
+      "article_prefixes": ["/da/aktuelt/nyheder/"],
+      "refresh_before_schema": 14
     },
     {
       "name": "Forsvarets Efterretningstjeneste",
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.fe-ddis.dk/",
       "start_urls": ["https://www.fe-ddis.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "listpage_dynamic_list": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Forsvarsministeriets Materiel- og Indkøbsstyrelse",
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.fmi.dk/",
       "start_urls": ["https://www.fmi.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "listpage_dynamic_list": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Forsvarsministeriets Auditørkorps",
       "responsible_ministry": "Forsvarsministeriet",
       "home_url": "https://www.fauk.dk/da/",
       "start_urls": ["https://www.fauk.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "listpage_dynamic_list": true,
+      "refresh_before_schema": 14
     },
 
     {
@@ -389,85 +502,112 @@
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://sktst.dk/",
       "start_urls": ["https://sktst.dk/nyheder-og-pressemeddelelser"],
-      "article_prefixes": ["/nyheder-og-pressemeddelelser/"]
+      "article_prefixes": ["/nyheder-og-pressemeddelelser/"],
+      "next_index_search": true,
+      "next_index_name": "sktst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Vurderingsstyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://vurdst.dk/",
       "start_urls": ["https://vurdst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "vurdst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Motorstyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://motorst.dk/",
-      "start_urls": ["https://motorst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "start_urls": ["https://motorst.dk/nyheder/presse-og-nyheder"],
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "motorst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Gældsstyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://gaeldst.dk/",
       "start_urls": ["https://gaeldst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "gaeldst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Toldstyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://toldst.dk/",
-      "start_urls": ["https://toldst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "start_urls": ["https://toldst.dk/nyheder/pressemeddelelser"],
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "toldst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Spillemyndigheden",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://www.spillemyndigheden.dk/",
       "start_urls": ["https://www.spillemyndigheden.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "spillemyndigheden-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Skatteankestyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://skatteankestyrelsen.dk/",
       "start_urls": ["https://skatteankestyrelsen.dk/aktuelt"],
-      "article_prefixes": ["/aktuelt/"]
+      "article_prefixes": ["/aktuelt/"],
+      "next_index_search": true,
+      "next_index_name": "sanst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "Finanstilsynet",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://www.finanstilsynet.dk/",
       "start_urls": ["https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser"],
-      "article_prefixes": ["/nyheder-og-presse/"]
+      "article_prefixes": ["/nyheder-og-presse/"],
+      "article_exclude_regex": "^/nyheder-og-presse/(?:nyheder-og-pressemeddelelser|fotogalleri(?:-finanstilsynet)?|kalender)/?$",
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 10,
+      "refresh_before_schema": 14
     },
     {
       "name": "Administrations- og Servicestyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://adst.dk/",
       "start_urls": ["https://adst.dk/"],
-      "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
-      "disable_sitemap": false
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": true
     },
     {
       "name": "Udviklings- og Forenklingsstyrelsen",
       "responsible_ministry": "Skatte- og Vækstministeriet",
       "home_url": "https://ufst.dk/",
       "start_urls": ["https://ufst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "next_index_search": true,
+      "next_index_name": "ufst-da",
+      "refresh_before_schema": 14
     },
     {
       "name": "It-tilsynet",
       "responsible_ministry": "Skatte- og Vækstministeriet",
-      "home_url": "https://svmn.dk/it-udvikling/det-uafhaengige-it-tilsyn",
-      "start_urls": [
-        "https://svmn.dk/aktuelt/presse-nyheder/nyheder",
-        "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser"
-      ],
-      "article_prefixes": [
-        "/aktuelt/presse-nyheder/nyheder/",
-        "/aktuelt/presse-nyheder/pressemeddelelser/"
-      ],
-      "required_article_text": ["It-tilsynet", "IT-tilsynet"]
+      "home_url": "https://itti.dk/",
+      "start_urls": ["https://itti.dk/publikationer"],
+      "article_prefixes": ["/publikationer/"],
+      "next_index_search": true,
+      "next_index_name": "itti-da",
+      "allow_unlabeled_header_date": true,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 8,
+      "refresh_before_schema": 14
     },
 
     {
@@ -475,7 +615,9 @@
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://laegemiddelstyrelsen.dk/",
       "start_urls": ["https://laegemiddelstyrelsen.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "article_exclude_regex": "^/da/nyheder/(?:afmeld|nyhedskategorier|rediger-abonnement|temaer)/?$",
+      "stop_pagination_before_archive_start": true
     },
     {
       "name": "Sundhedsstyrelsen",
@@ -483,36 +625,47 @@
       "home_url": "https://www.sst.dk/",
       "start_urls": ["https://www.sst.dk/nyheder"],
       "article_prefixes": ["/nyheder/"],
-      "ritzau_pressroom_id": 13561973,
-      "ritzau_supplemental": true
+      "ritzau_pressroom_id": 13561973
     },
     {
       "name": "Styrelsen for Patientsikkerhed",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://stps.dk/",
       "start_urls": ["https://stps.dk/da/nyheder"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_url_regex": "^/nyheder/2026/",
+      "gobasic_dynamic_list": true,
+      "gobasic_list_selector": ".module.dynamic-list[data-config]",
+      "max_listing_pages": 5,
+      "refresh_before_schema": 14
     },
     {
       "name": "Sundhedsdatastyrelsen",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://sundhedsdatastyrelsen.dk/",
       "start_urls": ["https://sundhedsdatastyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "article_exclude_regex": "^/nyheder/newspage/?$",
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 5,
+      "refresh_before_schema": 14
     },
     {
       "name": "Statens Serum Institut",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://www.ssi.dk/",
       "start_urls": ["https://www.ssi.dk/aktuelt/nyheder"],
-      "article_prefixes": ["/aktuelt/nyheder/"]
+      "article_url_regex": "^/aktuelt/nyheder/2026/",
+      "refresh_before_schema": 14
     },
     {
       "name": "Styrelsen for Patientklager",
       "responsible_ministry": "Sundheds- og Kirkeministeriet",
       "home_url": "https://www.stpk.dk/",
       "start_urls": ["https://www.stpk.dk/nyheder/"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 20,
+      "refresh_before_schema": 14
     },
 
     {
@@ -520,15 +673,22 @@
       "responsible_ministry": "Ministeriet for Natur og Dyrevelfærd",
       "home_url": "https://sgav.dk/",
       "start_urls": ["https://sgav.dk/alle-nyheder?Page=1"],
-      "article_prefixes": ["/alle-nyheder/nyheder/", "/alle-nyheder/pressemeddelelser/"]
+      "article_prefixes": ["/alle-nyheder/nyheder/", "/alle-nyheder/pressemeddelelser/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Naturstyrelsen",
       "responsible_ministry": "Ministeriet for Natur og Dyrevelfærd",
       "home_url": "https://naturstyrelsen.dk/",
       "start_urls": ["https://naturstyrelsen.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"],
-      "disable_sitemap": false
+      "article_url_regex": "^/nyheder/2026/",
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
 
     {
@@ -536,7 +696,13 @@
       "responsible_ministry": "Kulturministeriet",
       "home_url": "https://slks.dk/",
       "start_urls": ["https://slks.dk/nyheder/"],
-      "article_prefixes": ["/nyheder/"]
+      "article_url_regex": "^/[a-z0-9][a-z0-9-]{7,}/?$",
+      "article_link_selectors": [".tx-lfpagesnews-pi1__list__table h2 a[href]"],
+      "allow_plain_listing_date": true,
+      "disable_sitemap": true,
+      "max_listing_pages": 4,
+      "stop_pagination_before_archive_start": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Rigsarkivet",
@@ -562,14 +728,20 @@
       "responsible_ministry": "Ministeriet for Samfundssikkerhed og Beredskab",
       "home_url": "https://www.brs.dk/",
       "start_urls": ["https://www.brs.dk/da/nyheder/"],
-      "article_prefixes": ["/da/nyheder/"]
+      "article_prefixes": ["/da/nyheder/"],
+      "listpage_dynamic_list": true,
+      "refresh_before_schema": 14
     },
     {
       "name": "Dansk Dekommissionering",
       "responsible_ministry": "Ministeriet for Samfundssikkerhed og Beredskab",
       "home_url": "https://dekom.dk/",
       "start_urls": ["https://dekom.dk/nyheder/"],
-      "article_url_regex": "^/(?!nyheder/?$|kategori/|tag/|author/)[a-z0-9-]{8,}/?$"
+      "article_url_regex": "^/(?!nyheder/?$|kategori/|tag/|author/)[a-z0-9-]{8,}/?$",
+      "article_exclude_regex": "^/(?:publikationer|forskningensdogn)/?$",
+      "always_fetch_articles": true,
+      "stop_pagination_before_archive_start": true,
+      "refresh_before_schema": 14
     },
 
     {
@@ -579,21 +751,29 @@
       "start_urls": ["https://www.ast.dk/nyhedsarkiv"],
       "article_prefixes": ["/nyhedsarkiv/2026/"],
       "gobasic_dynamic_list": true,
-      "max_listing_pages": 4
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "max_listing_pages": 4,
+      "refresh_before_schema": 14
     },
     {
       "name": "Social- og Boligstyrelsen",
       "responsible_ministry": "Socialministeriet",
       "home_url": "https://www.sbst.dk/",
       "start_urls": ["https://www.sbst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     },
     {
       "name": "Familieretshuset",
       "responsible_ministry": "Socialministeriet",
       "home_url": "https://familieretshuset.dk/",
       "start_urls": ["https://familieretshuset.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "stop_pagination_before_archive_start": true
     },
 
     {
@@ -601,7 +781,11 @@
       "responsible_ministry": "Miljøministeriet",
       "home_url": "https://mst.dk/",
       "start_urls": ["https://mst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"]
+      "article_prefixes": ["/nyheder/"],
+      "disable_sitemap": false,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 12,
+      "refresh_before_schema": 14
     }
   ]
 }
