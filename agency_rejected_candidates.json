@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-09T07:02:10.414646+00:00",
+  "generated_at": "2026-09-09T07:18:01.706600+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 2041,
+  "total_rejected": 1997,
   "summary_by_reason": {
-    "before_archive_start": 1943,
+    "before_archive_start": 1944,
     "missing_safe_publication_date": 45,
-    "source_filter_mismatch": 53
+    "source_filter_mismatch": 8
   },
   "rejected": [
     {
@@ -6597,6 +6597,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-08-26T00:00:00+00:00"
+    },
+    {
+      "source": "Energistyrelsen",
+      "title": "Pressemeddelelser",
+      "url": "https://ens.dk/om-os/pressemeddelelser",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-09T14:26:27+00:00"
     },
     {
       "source": "Familieretshuset",
@@ -19845,96 +19855,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/08/Den-nationale-sanktionsliste-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-08-14T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/07/Den-nationale-sanktionsliste-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-31T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Den-nationale-sanktionsliste-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-19T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Den-nationale-sanktionsliste-opdateret_2",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-27T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Den-nationale-sanktionsliste-opdateret_1",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-13T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Den-nationale-sanktionsliste-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-06T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Den-nationale-sanktionsliste-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-20T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Digital visuminvitation mulig for koncernforbundne virksomheder",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Digital-visuminvitation-mulig-for-koncernforbundne-virksomheder",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-26T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Information til personer fra Iran",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/Information-til-personer-fra-Iran",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-23T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Information til ukrainske mænd i den militærpligtige alder (23-60 år) om mulig lovændring",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Information-til-ukrainske-m%C3%A6nd-i-den-milit%C3%A6rpligtige-alder-(23-60-%C3%A5r)-om-mulig-lov%C3%A6ndring",
       "reason": "source_filter_mismatch",
@@ -19985,46 +19905,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Nye tider til personlig betjening i Udlændingestyrelsens Borgerservice udbydes dagligt",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Nye-tider-til-personlig-betjening-i-Udlaendingestyrelsens-Borgerservice-udbydes-dagligt",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-29T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "SIRI og Udlændingestyrelsen advarer mod telefonsvindel og falske mails",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/07/SIRI-og-Udlaendingestyrelsen-advarer-mod-telefonsvindel-og-falske-mails",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-31T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Udlændingestyrelsen berostiller visse sager som følge af fejl i Kriminalregisteret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Udlaendingestyrelsen-berostiller-visse-sager-som-foelge-af-fejl-i-Kriminalregisteret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-08T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Udrejsefristen for personer fra Iran eller Libanon forlænges ikke længere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Udrejsefristen-for-personer-fra-Iran-eller-Libanon-forlaenges-ikke-laengere",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-04T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Udrejsefrister forlænges for personer fra Libanon",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Udrejsefrister-forl%C3%A6nges-for-personer-fra-Libanon",
       "reason": "source_filter_mismatch",
@@ -20032,16 +19912,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-03-16T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "[Bortfaldet] Lovforslag om forbud mod indgåelse og anerkendelse af ægteskab mellem fætter og kusine og andre beslægtede er nu fremsat",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Lovforslag-faetter-kusine-fremsat",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-26T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
@@ -20062,316 +19932,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Au pair: Nye satser pr. 1. januar 2026 for lommepenge og beløb til finansiering af danskundervisning",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2025/12/Au-pair---nye-satser-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Det er nu muligt at ændre i tidsbestillinger til SIRIs borgercentre",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/New-functionality-when-booking-appointments-with-SIRI",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-30T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Er du tredjelandsstatsborger, og har du permanent ophold som familiemedlem til en EU-borger, skal du måske udskifte dit opholdskort",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/tredjelandsstatsborgere-skal-maaske-udskifte-deres-opholdskort",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-26T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Fødevarechecken kan i få tilfælde have betydning for din opholdstilladelse fra SIRI",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/07/Foedevarechecken-kan-i-faa-tilfaelde-have-betydning-for-din-opholdstilladelse",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-03T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Justering af positivlisterne",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/Justering-af-positivlisterne",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-19T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny digital ansøgning for dig, der søger om opholds- og arbejdstilladelse på baggrund af lønnet arbejde i Grønland",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Second-GL1-5",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-16T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny digital ansøgning for dig, der søger om opholdstilladelse som medfølgende familiemedlem i Grønland",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/05/Launch-GL2",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-05-11T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny digital ansøgning på erhvervsområdet i Grønland – hvad betyder det for dig som professionel bruger?",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/New-GL1-5",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-06T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny digital ansøgning til dig, der skal ansøge om familiesammenføring med en dansk statsborger efter EU-reglerne",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/07/SIRI-lancering-OD2A-C-online",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-08T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny lønstatistik for positivlisten for faglærte",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Loenstatistk-positivlisten-for-faglaerte-august-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny lønstatistik for positivlisten for faglærte",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/Ny-loenstatistik-for-positivlisten-for-faglaerte",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-07T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Nye gebyrsatser på SIRIs sagsområder",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/Nye-gebyrsatser-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-07T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Nye tal bekræfter mangel på lærepladser for bestemte praktikanter inden for det grønne område",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2025/12/Lack-of-places-for-apprenticeships",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Nyt lønniveau for fodermestre og driftsledere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/04/New-salary-level-for-herdsmen-and-farm-managers-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-04-23T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. april 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Income-Statistics-April2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-18T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. juli 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Income-statistics-july-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-17T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Orientering om forsinkelser på SIRIs opholdskort",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Orientering-om-opholdskort",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-26T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Positivlisterne bliver opdateret pr. 1 juli 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Positivlisterne-bliver-opdateret-pr-1-juli-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Positivlisterne bliver opdateret pr. 1. januar 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2025/12/PositivlisterneOpdateres",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI forbedrer layoutet på siden 'Kontakt SIRI'",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/08/Nyt-layout-for-Kontakt-SIRI",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-08-24T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI genoptager sagsbehandlingen af en række sager om praktik på det grønne område, fodermestre og driftsledere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/SIRI-genoptager-sagsbehandlingen-af-en-raekke-sager-om-praktik-paa-det-groenne-omraede-fodermestre-og-driftsledere",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-30T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI og DI inviterer til Erhvervsforum den 11. september 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Erhvervsforum-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-29T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI opdaterer AR1: ansøgning for førstegangsansøgere, der har fået tilbudt arbejde i Danmark",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/SIRI-opdaterer-AR1",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-23T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI opdaterer PR1: ansøgning om opholds- og arbejdstilladelse som praktikant – hvad betyder det for dig som professionel bruger?",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Launch-new-PR1",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI opdaterer ansøgningerne AR6 og AR7 med spørgsmål om offshore-arbejde",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/SIRI-opdaterer-AR6-og-AR7",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI stiller visse ansøgninger om praktik på det grønne område, fodermester og driftsleder i bero",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/04/SIRI-stiller-visse-ansoegninger-om-praktik-paa-det-groenne-omraede-fodermester-og-driftsleder-i-bero",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-04-23T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRIs callcenter holder lukket torsdag den 29. januar 2026, men har åbent tirsdag den 27. januar 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/01/SIRIs-callcenter-holder-lukket-torsdag-den-29-januar-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-01-26T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRIs sagsbehandlingstider for 2. halvdel af 2026 er opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/SIRIs-sagsbehandlingstider-for-2-halvdel-af-2026-er-opdateret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-07-02T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Skærpet sagsbehandling af ansøgninger om landbrugspraktik fra ansøgere fra Uganda",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Skaerpet-sagsbehandling-af-ansoegninger-om-landbrugspraktik-fra-ansoegere-fra-Uganda",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-09T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Åbning af Working Holiday-kvoterne for statsborgere i Chile og Argentina",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Working-holiday---Chile-og-Argentina",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-01T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Åbning af Working Holiday-kvoterne for statsborgere i Chile og Argentina",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/02/Working-Holiday---Chile-og-Argentina",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-02-27T00:00:00+00:00"
     }
   ]
 }
