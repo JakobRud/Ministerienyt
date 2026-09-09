@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-09T12:29:20.222056+00:00",
+  "generated_at": "2026-09-09T13:24:53.419203+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 170,
+  "total_rejected": 169,
   "summary_by_reason": {
-    "before_archive_start": 170
+    "before_archive_start": 169
   },
   "rejected": [
     {
@@ -82,7 +82,7 @@
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2025/september/danmark-bliver-foerste-stat-i-verden-til-at-lancere-en-eu-green-bond/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-09-03T00:00:00+00:00"
     },
@@ -245,16 +245,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-01-09T00:00:00+00:00"
-    },
-    {
-      "source": "Finansministeriet",
-      "title": "Finansministeriet livestreamer præsentationen af regeringens 2030-plan",
-      "url": "https://fm.dk/nyheder/nyhedsarkiv/2023/november/finansministeriet-livestreamer-praesentationen-af-regeringens-2030-plan/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2023-11-07T00:00:00+00:00"
     },
     {
       "source": "Finansministeriet",
