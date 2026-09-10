@@ -1,13 +1,103 @@
 {
-  "generated_at": "2026-09-10T06:35:53.444283+00:00",
+  "generated_at": "2026-09-10T07:17:20.495176+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1995,
+  "total_rejected": 1997,
   "summary_by_reason": {
-    "before_archive_start": 1942,
-    "missing_safe_publication_date": 45,
+    "before_archive_start": 1986,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 8
   },
   "rejected": [
+    {
+      "source": "Anklagemyndigheden",
+      "title": "28-årig kvinde tiltales for hvervning, træning og fremme af terror samt ulovlig indrejse og ophold i Syrien",
+      "url": "https://anklagemyndigheden.dk/da/28-aarig-kvinde-tiltales-hvervning-traening-og-fremme-af-terror-samt-ulovlig-indrejse-og-ophold-i",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-05T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "67 sager om THC-indhold i cannabisholdige produkter skal genoptages",
+      "url": "https://anklagemyndigheden.dk/da/67-sager-om-thc-indhold-i-cannabisholdige-produkter-skal-genoptages",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-18T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Bandidos MC i Danmark opløses ved dom",
+      "url": "https://anklagemyndigheden.dk/da/bandidos-mc-i-danmark-oploeses-ved-dom",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-29T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Det Europæiske Retlige Netværk mødes i København",
+      "url": "https://anklagemyndigheden.dk/da/det-europaeiske-retlige-netvaerk-moedes-i-koebenhavn",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-06T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Dom i drabssag fra Herlev",
+      "url": "https://anklagemyndigheden.dk/da/dom-i-drabssag-fra-herlev",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-18T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Kulturnatten: Besøg Anklagemyndigheden",
+      "url": "https://anklagemyndigheden.dk/da/kulturnatten-besoeg-anklagemyndigheden",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-09T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Ny flerårsaftale styrker anklagemyndigheden",
+      "url": "https://anklagemyndigheden.dk/da/ny-fleraarsaftale-styrker-anklagemyndigheden",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-04T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "Statsadvokaten anker sag om beføling af børnefødder",
+      "url": "https://anklagemyndigheden.dk/da/statsadvokaten-anker-sag-om-befoeling-af-boernefoedder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-21T00:00:00+00:00"
+    },
+    {
+      "source": "Anklagemyndigheden",
+      "title": "To personer tiltalt for terrorisme ved angreb mod den israelske ambassade i København",
+      "url": "https://anklagemyndigheden.dk/da/personer-tiltalt-terrorisme-ved-angreb-mod-den-israelske-ambassade-i-koebenhavn",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-29T00:00:00+00:00"
+    },
     {
       "source": "Arbejdstilsynet",
       "title": "Ny forbedret AMU går online i Grønland",
@@ -6600,6 +6690,26 @@
     },
     {
       "source": "Energistyrelsen",
+      "title": "ELFORSK genopstår som særpulje ved EUDP",
+      "url": "https://ens.dk/presse/elforsk-genopstaar-som-saerpulje-ved-eudp",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Sitemap",
+      "detail": "",
+      "detected_date": "2025-01-07T09:44:59+00:00"
+    },
+    {
+      "source": "Energistyrelsen",
+      "title": "Ny analyse: Potentialet for CO2-fangst vokser",
+      "url": "https://ens.dk/presse/ny-analyse-potentialet-co2-fangst-vokser",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Sitemap",
+      "detail": "",
+      "detected_date": "2024-10-10T13:26:45+00:00"
+    },
+    {
+      "source": "Energistyrelsen",
       "title": "Pressemeddelelser",
       "url": "https://ens.dk/om-os/pressemeddelelser",
       "reason": "before_archive_start",
@@ -6657,6 +6767,346 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-12-03T00:00:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Afslutning af den uvildige undersøgelse af Danske Banks gældsinddrivelsessag",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/afslutning-af-den-uvildige-undersoegelse-af-danske-banks-gaeldsinddrivelsessag",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-27T13:00:49+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Boliglån til forbrugere kræver tilladelse",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/sep/boliglaan-til-forbrugere-kraever-tilladelse",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-09-23T10:04:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Compliancefunktioner skal have mere fokus på forvalterspecifikke risici",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/compliancefunktioner-skal-have-mere-fokus-paa-forvalterspecifikke-risici",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-27T10:40:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Danske resultater af EU-stresstesten 2025",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/aug/eu-stresstesten-2025",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-08-01T07:13:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "EBA lægger op til regelforenkling: Mindre rapportering og mere målrettet regelarbejde",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/mindre-rapportering-og-mere-maalrettet-regelarbejde",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-02T07:14:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finansielle virksomheder kan stadig blive bedre til at rapportere om bæredygtige aktiviteter",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/sep/baeredygtige-aktiviteter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-09-01T07:55:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finansielle virksomheder skal mere konkret beskrive tiltag mod negative bæredygtighedsindvirkninger",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/negative-baeredygtighedsindvirkninger",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-10T07:21:02+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet igangsætter temaundersøgelse om udvalgte forsikringsselskabers og pensionskassers implementering af DORA-forordningen",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/forsikringimplementering-af-dora-forordningen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-10T07:58:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet indskærper sin gældsinddrivelsespraksis efter alvorlige fejl",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/finanstilsynet-indskaerper-sin-gaeldsinddrivelsespraksis-efter-alvorlige-fejl",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-28T05:45:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet justerer kravene til fonde, der betegner sig som bæredygtige",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/finanstilsynet-justerer-kravene-til-fonde-der-betegner-sig-som-baeredygtige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-01T12:59:01+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet pensionerer sit årlige orienteringsbrev om regnskabsaflæggelse og offentliggør logbog over regelforenkling",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/finanstilsynet-pensionerer-sit-aarlige-orienteringsbrev-om-regnskabsaflaeggelse-og-offentliggoer-logbog-over-regelforenkling",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-26T11:01:46+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet sender DKFIN-taksonomien i høring",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/finanstilsynet-sender-dkfin-taksonomien-i-hoering",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-02T09:33:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynet støtter nyt arbejde om en overgang fra CIBOR-renten til transaktionsbaserede referencerenter",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/fra-cibor-renten-til-transaktionsbaserede-referencerenter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-18T07:20:52+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Finanstilsynets risikobillede peger på fortsat høje geopolitiske risici",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/risikobillede_2h25",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-17T06:45:32+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Fortsat høj indtjening i den finansielle sektor",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/fortsat-hoej-indtjening-i-den-finansielle-sektor",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-08T09:30:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "God praksis for styring af ESG-relaterede risici i kreditinstitutter",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/sep/god-praksis-for-styring-af-esg-relaterede-risici-i-kreditinstitutter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-09-22T06:38:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Gunstigt rentemiljø har bidraget til høj indtjening i bankerne siden 2023",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/gunstigt-rentemiljoe-har-bidraget-til-hoej-indtjening-i-bankerne-siden-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-06T08:00:58+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Information til kreditinstitutterne om visse fleksibilitetsmuligheder i finansielle rapporter",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/information-til-kreditinstitutterne-om-visse-fleksibilitetsmuligheder-i-finansielle-rapporter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-15T08:44:40+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Kommende arrangement om hvidvask: Case-baseret undervisning",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/aug/case-baseret-undervisning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-08-14T11:31:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Mindre kompleksitet i likviditetsreglerne",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/mindre-kompleksitet-i-likviditetsreglerne",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-24T07:45:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Mindre pengeinstitutter bør løbende udvikle metoder til at håndtere ESG-relaterede kreditrisici",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/metoder-til-at-haandtere-esg-relaterede-kreditrisici",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-10T10:37:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Nets udpeget som operatør af finansiel digital infrastruktur",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/nets-udpeget-som-operatoer-af-finansiel-digital-infrastruktur",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-17T10:33:36+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Ny digital indberetning af bestyrelsesgodkendte regnskabs- og revisionsdokumenter",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/ny-digital-indberetning-af-bestyrelsesgodkendte-regnskabs-og-revisionsdokumenter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-16T10:12:19+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Ny vejledning tydeliggør fleksibilitet i kreditværdighedsvurderingen",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/ny-vejledning-tydeliggoer-fleksibilitet-i-kreditvaerdighedsvurderingen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-25T08:00:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Nye spørgsmål og svar om gearing i alternative investeringsfonde",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/nye-spoergsmaal-og-svar-om-gearing-i-alternative-investeringsfonde",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-04T07:36:59+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Observationer fra bæredygtighedsrapporteringer for 2024",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/observationer-fra-baeredygtighedsrapporteringer-for-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-18T10:43:53+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Opdateret taksonomi for rapportering på det finansielle område",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/opdateret-taksonomi-for-rapportering-paa-det-finansielle-omraade",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-01T14:03:14+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Overblik over nye krav til rapportering og risikostyring ift. bæredygtighed",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/overblik-over-nye-krav-til-rapportering-og-risikostyring-ift-baeredygtighed",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-18T11:06:48+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Reviderede bæredygtighedsstandarder sendt i offentlig høring",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/aug/reviderede-baeredygtighedsstandarder-sendt-i-offentlig-hoering",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-08-05T10:42:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Revideret vejledning om risikovurdering af foreninger",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/sep/revideret-vejledning-om-risikovurdering-af-foreninger",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-09-02T06:43:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Salg af syge- og ulykkesforsikringer skal være økonomisk holdbart",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/sep/salg-af-syge-og-ulykkesforsikringer-skal-vaere-oekonomisk-holdbart",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-09-02T07:00:00+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Skadesforsikringsselskaber har fokus på at overholde sanktioner mod Rusland",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/skadesforsikringsselskaber-har-fokus-paa-at-overholde-sanktioner-mod-rusland",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-12-10T12:06:43+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Tabsniveauer på eksponeringer sikret ved pant i fast ejendom",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/nov/tabsniveauer-paa-eksponeringer-sikret-ved-pant-i-fast-ejendom",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-11-10T12:53:59+00:00"
+    },
+    {
+      "source": "Finanstilsynet",
+      "title": "Ændringer i Finanstilsynets bestyrelse",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/okt/aendringer-i-finanstilsynets-bestyrelse",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": "",
+      "detected_date": "2025-10-07T13:18:00+00:00"
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
@@ -16599,16 +17049,6 @@
       "detected_date": "2023-06-22T00:00:00+00:00"
     },
     {
-      "source": "Miljøstyrelsen",
-      "title": "Nu åbner kystpuljen 2024",
-      "url": "https://mst.dk/nyheder/2026/maj/nu-aabner-kystpuljen-2024",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2024-05-31T00:00:00+00:00"
-    },
-    {
       "source": "Nævnenes Hus",
       "title": "Informationer",
       "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/?pageNumber=2",
@@ -19430,89 +19870,8 @@
     },
     {
       "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=1",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=2",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=3",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=4",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=5",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=6",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=7",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=8",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=9",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Finanstilsynet",
-      "title": "Nyheder og pressemeddelelser",
-      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=10",
+      "title": "Krav til kreditinstitutters ESG-risikostyring pr. 1. januar 2026",
+      "url": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser/2025/dec/krav-til-kreditinstitutters-esg-risikostyring-pr-1-januar-2026",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "GoBasic API",
@@ -19525,303 +19884,6 @@
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Høring vedr. forslag til forlængelse af godkendelse for to aktivstoffer under Biocidforordningen",
-      "url": "https://mst.dk/nyheder/2026/marts/hoering-vedr-forslag-til-forlaengelse-af-godkendelse-for-to-aktivstoffer-under-biocidforordningen",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Miljøstyrelsen støtter 27 nye projekter om reduktion af pesticidforbruget",
-      "url": "https://mst.dk/nyheder/2026/marts/miljoestyrelsen-stoetter-27-nye-projekter-om-reduktion-af-pesticidforbruget",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Miljøstyrelsen udgiver ny indkøbsvejledning: Sådan undgår du PFAS i produkter",
-      "url": "https://mst.dk/nyheder/2026/februar/miljoestyrelsen-udgiver-ny-indkoebsvejledning-saadan-undgaar-du-pfas-i-produkter",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Miljøstyrelsen udsætter­ frist for indberetning af pesticid­forbrug i SJI og udfyldelse af IPM-skema",
-      "url": "https://mst.dk/nyheder/2026/marts/miljoestyrelsen-udsaetter-fristen-for-indberetning-af-pesticidforbrug-i-sji-og-udfyldelse-af-ipm-skema",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Miljøstyrelsens tilsyn med internationale ’free-riders’ bærer frugt",
-      "url": "https://mst.dk/nyheder/2026/februar/miljoestyrelsens-tilsyn-med-internationale-free-riders-baerer-frugt",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Offentlig høring om aktivstoffet diuron",
-      "url": "https://mst.dk/nyheder/2026/marts/offentlig-hoering-om-aktivstoffet-diuron",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Sommerferie i GMO gruppen 2026",
-      "url": "https://mst.dk/nyheder/2026/juni/sommerferie-i-gmo-gruppen-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Ufarligt udslip med genetisk modificerede mikroorganismer (GMO) ved virksomhed i Bagsværd",
-      "url": "https://mst.dk/nyheder/2026/maj/ufarligt-udslip-med-genetisk-modificerede-mikroorganismer-gmo-ved-virksomhed-i-bagsvaerd",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Åbning af ansøgningsrunden 2026 - Miljøstøtte til Arktis",
-      "url": "https://mst.dk/nyheder/2026/juni/aabning-af-ansoegningsrunden-2026-miljoestoette-til-arktis",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Akut miljøindsats i Simested Ådal er kommet godt fra start med opkøb af fire dambrug",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/januar/akut-miljoeindsats-i-simested-aadal-er-kommet-godt-fra-start-med-opkoeb-af-fire-dambrug",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Børn og voksne gik på opdagelse efter arter i Danmarks første naturnationalpark",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/boern-og-voksne-gik-paa-opdagelse-efter-arter-i-danmarks-foerste-naturnationalpark",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "En af landets største myrekolonier opdaget i Vestjylland",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/maj/en-af-landets-stoerste-myrekolonier-opdaget-i-vestjylland",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Et af Danmarks største klima-lavbundsprojekter er kommet et skridt nærmere",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/et-af-danmarks-stoerste-klima-lavbundsprojekter-er-kommet-et-skridt-naermere",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Et år efter: Naturen har allerede fået mere vand, lys og luft i Danmarks første naturnationalpark",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/et-aar-efter-naturen-har-allerede-faaet-mere-vand-lys-og-luft-i-danmarks-foerste-naturnationalpark",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Favrskov har udsigt til tre nye skove og rent drikkevand",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/marts/favrskov-har-udsigt-til-tre-nye-skove-og-rent-drikkevand",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Højballe Skov blev indviet med manér",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/hoejballe-skov-blev-indviet-med-maner",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Kom med til indvielsen af Naturnationalpark Gribskov",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/august/kom-med-til-indvielsen-af-naturnationalpark-gribskov",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Ministeren fik jord under neglene og en introduktion til nogle af Naturstyrelsens vigtigste opgaver",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/ministeren-fik-jord-under-neglene-og-en-introduktion-til-nogle-af-naturstyrelsens-vigtigste-opgaver",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Mød os på Naturmødet 2026",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/moed-os-paa-naturmoedet",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Naturstyrelsen hentede ny viden om vildtlevende heste",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/naturstyrelsen-hentede-ny-viden-om-vildtlevende-heste",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Naturstyrelsen indvier Danmarks første nyetablerede statsskov, der skal blive til ”urørt” skov",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/maj/naturstyrelsen-indvier-danmarks-foerste-nyetablerede-statsskov-der-skal-blive-til-uroert-skov",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Nordfynske marker kan blive til urørt skov: Første træ er plantet",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/nordfynske-marker-kan-blive-til-uroert-skov-foerste-trae-er-plantet",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Nu bliver den gemte Guden­å gravet frem",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/februar/nu-bliver-den-gemte-gudenaa-gravet-frem",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Ny SMS-tjeneste skal hjælpe Naturstyrelsen med at regulere problemulv",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/august/ny-sms-tjeneste-skal-hjaelpe-naturstyrelsen-med-at-regulere-problemulv",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Nyt stort projekt skal over ti år styrke danskernes forhold til vild natur",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/marts/nyt-stort-projekt-skal-over-ti-aar-styrke-danskernes-forhold-til-vild-natur",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Presset ynglefugl er i fremgang i Draved Skov",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/juni/presset-ynglefugl-er-i-fremgang-i-draved-skov",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Sne og kulde betyder ekstra opmærksomhed på husdyr, der lever i naturen året rundt",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/januar/sne-og-kulde-betyder-ekstra-opmaerksomhed-paa-husdyr-der-lever-i-naturen-aaret-rundt",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Stor interesse for at blive en del af Danmarks Naturstier",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/marts/stor-interesse-for-at-blive-en-del-af-danmarks-naturstier",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Stormflod brød gennem dige og banede vejen for klima- og naturprojekt ved Præstø Fjord",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/januar/stormflod-broed-gennem-dige-og-banede-vejen-for-klima-og-naturprojekt-ved-praestoe-fjord",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Ulveværnet i Oksbøl er sat i beredskab efter hændelse",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/januar/ulvevaernet-i-oksboel-er-sat-i-beredskab-efter-haendelse",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Urørt skov: Dyk ned i planerne for 40 nye skove, hvor naturen bliver vildere",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/marts/uroert-skov-dyk-ned-i-planerne-for-40-nye-skove-hvor-naturen-bliver-vildere",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Vilde samarbejder skal genskabe vores forbindelse til naturen",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/april/vilde-samarbejder-skal-genskabe-vores-forbindelse-til-naturen",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Vores Vilde Forår: Kom på fornavn med Danmarks edderkopper",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/maj/vores-vilde-foraar-kom-paa-fornavn-med-danmarks-edderkopper",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
       "detail": ""
     },
     {
