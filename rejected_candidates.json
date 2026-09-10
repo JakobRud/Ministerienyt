@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-10T16:22:49.401446+00:00",
+  "generated_at": "2026-09-10T19:18:12.750148+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 169,
+  "total_rejected": 168,
   "summary_by_reason": {
-    "before_archive_start": 169
+    "before_archive_start": 168
   },
   "rejected": [
     {
@@ -1575,16 +1575,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-12-16T00:00:00+00:00"
-    },
-    {
-      "source": "Økonomi- og Indenrigsministeriet",
-      "title": "Ny prognose fra vismændene: Moderat højkonjunktur",
-      "url": "https://oem.dk/nyheder/nyhedsarkiv/2025/maj/ny-prognose-fra-vismaendene-moderat-hoejkonjunktur/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-05-27T00:00:00+00:00"
     },
     {
       "source": "Økonomi- og Indenrigsministeriet",
