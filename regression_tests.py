@@ -157,11 +157,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         b = self.item("Klima-, Energi- og Forsyningsministeriet", title, "https://kefm.dk/b", "2026-08-20")
         self.assertTrue(m.duplicate_match(a, b))
 
-    def test_agency_config_has_exactly_78_unique_official_sources(self):
+    def test_agency_config_has_exactly_77_unique_official_sources(self):
         raw = json.loads(Path("agency_sources.json").read_text(encoding="utf-8"))
         sources = m.load_sources_config(Path("agency_sources.json"))
         names = [source["name"] for source in sources]
-        self.assertEqual(len(sources), 78)
+        self.assertEqual(len(sources), 77)
         self.assertEqual(len(names), len(set(names)))
         self.assertTrue(all(source.get("responsible_ministry") for source in sources))
         self.assertEqual(raw["defaults"]["max_listing_pages"], 12)
@@ -178,11 +178,12 @@ class IdentityAndSafetyTests(unittest.TestCase):
         for required in (
             "Statens Administration", "DREAM", "Civilstyrelsen",
             "Tilsynet med Efterretningstjenesterne", "CPR", "Havarikommissionen",
-            "Forsvarsministeriets Auditørkorps", "Administrations- og Servicestyrelsen",
+            "Forsvarsministeriets Auditørkorps",
             "Udviklings- og Forenklingsstyrelsen", "It-tilsynet",
             "Styrelsen for Patientklager",
         ):
             self.assertIn(required, names)
+        self.assertNotIn("Administrations- og Servicestyrelsen", names)
 
     def test_police_source_is_limited_to_central_rigspolitiet_news(self):
         sources = m.load_sources_config(Path("agency_sources.json"))
@@ -237,6 +238,42 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(sources["Banedanmark"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertTrue(sources["Spillemyndigheden"]["next_index_search"])
         self.assertEqual(sources["Spillemyndigheden"]["next_index_name"], "spillemyndigheden-da")
+
+    def test_finanstilsynet_pagination_is_not_an_article(self):
+        sources = {source["name"]: source for source in m.load_sources_config(Path("agency_sources.json"))}
+        source = sources["Finanstilsynet"]
+        self.assertFalse(m.looks_like_article(
+            "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=3",
+            source,
+        ))
+
+    def test_refresh_can_override_fast_mode_with_one_time_full_audit(self):
+        source = {
+            "name": "Testmyndighed",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "_full_audit_on_refresh": True,
+        }
+        calls = []
+        original_collect_source = m.collect_source
+        original_create_session = m.create_session
+        try:
+            m.create_session = lambda: object()
+
+            def fake_collect_source(session, current, known_urls, previous, *, fast, full_audit):
+                calls.append((fast, full_audit))
+                status = m.SourceStatus(current["name"], current["home_url"])
+                status.listing_pages = 1
+                status.methods.append("HTML")
+                return [], status
+
+            m.collect_source = fake_collect_source
+            _, statuses = m.collect_fresh_items([source], set(), {}, fast=True)
+        finally:
+            m.collect_source = original_collect_source
+            m.create_session = original_create_session
+        self.assertEqual(calls, [(False, True)])
+        self.assertFalse(statuses[0].fast_mode)
 
     def test_domstole_origin_is_canonicalized_and_published_on_public_host(self):
         source = {
@@ -571,6 +608,53 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertTrue(ok)
         self.assertEqual(fake.url, "https://spillemyndigheden.dk/api/indexSearch")
         self.assertEqual(fake.kwargs["headers"]["Origin"], "https://spillemyndigheden.dk")
+
+    def test_mst_news_api_returns_dated_official_articles(self):
+        source = {
+            "name": "Naturstyrelsen",
+            "home_url": "https://naturstyrelsen.dk/",
+            "start_urls": ["https://naturstyrelsen.dk/nyheder"],
+            "article_url_regex": "^/nyheder/2026/",
+            "mst_news_api": True,
+        }
+        shell = '''<script id="__NEXT_DATA__" type="application/json">{
+          "props":{"pageProps":{"content":{"host":"http://naturstyrelsen.local:3001","page":{"properties":{"pageSections":[
+            {"content":{"documentType":"contentPageOverview","properties":{"rootFolder":{"key":"news-root"}}}}
+          ]}}}}},"runtimeConfig":{"NEXT_PUBLIC_SEARCH_API_URL":"https://search.mst.dk/"}
+        }</script>'''
+
+        class FakeSession:
+            def post(self, url, **kwargs):
+                self.url = url
+                self.kwargs = kwargs
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    json=lambda: {
+                        "searchResults": [{
+                            "url": "https://naturstyrelsen.dk/nyheder/2026/august/ny-naturindsats",
+                            "header": "Ny naturindsats er sat i gang",
+                            "lead": "Indsatsen skal give mere plads til naturen.",
+                            "date": "2026-08-21T10:51:05",
+                        }],
+                        "pagination": {"totalResults": 1},
+                    },
+                )
+
+        fake = FakeSession()
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(text=shell)
+            status = m.SourceStatus(source["name"], source["home_url"])
+            items, ok = m.collect_mst_news_items(fake, source, set(), status)
+        finally:
+            m.fetch = original_fetch
+        self.assertTrue(ok)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0].published.date().isoformat(), "2026-08-21")
+        self.assertEqual(fake.url, "https://search.mst.dk/api/News/Search")
+        self.assertEqual(fake.kwargs["json"]["key"], "news-root")
+        self.assertEqual(fake.kwargs["headers"]["Hostname"], "http://naturstyrelsen.local:3001")
+        self.assertIn("Officielt MST-nyheds-API", status.methods)
 
     def test_next_search_api_returns_catalog_articles(self):
         source = {
@@ -989,7 +1073,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.1.1", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1016,7 +1100,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         period_buttons = soup.select(".period-row .period-button")
         self.assertEqual(
             [(button.get_text(strip=True), button.get("data-days")) for button in period_buttons],
-            [("I dag", "today"), ("3 dage", "3"), ("7 dage", "7"), ("30 dage", "30"), ("Alle", "")],
+            [("Alle", ""), ("I dag", "today"), ("3 dage", "3"), ("7 dage", "7"), ("30 dage", "30")],
         )
         self.assertIn("['today', '3', '7', '30']", html)
         self.assertIn("timeZone: 'Europe/Copenhagen'", html)
@@ -1067,7 +1151,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.1", rss)
+        self.assertIn("Styrelsesnyt 7.1.1", rss)
 
     def test_zero_articles_does_not_create_source_note(self):
         source = {

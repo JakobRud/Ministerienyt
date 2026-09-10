@@ -1,6 +1,15 @@
-# Ministerienyt og Styrelsesnyt 7.1
+# Ministerienyt og Styrelsesnyt 7.1.1
 
-Version 7.1 udvider periodefilteret og afslutter kildegennemgangen fra 7.0.3. Dynamiske myndighedsarkiver hentes via deres officielle læse-API'er, og falske artikelkandidater frasorteres før datokontrollen.
+Version 7.1.1 placerer **Alle** først i periodefilteret og følger op med en ny kontrol af Styrelsesnyts bemærkninger og kilder med færre end 10 artikler i 2026.
+
+## Nyt i version 7.1.1
+
+- Periodevalgene står nu i rækkefølgen **Alle**, **I dag**, **3 dage**, **7 dage** og **30 dage** på begge hovedsider.
+- Styrelsesnyts fire aktuelle bemærkninger og samtlige kilder med under 10 artikler i 2026 er kontrolleret særskilt.
+- Finanstilsynet, Naturstyrelsen og Miljøstyrelsen bruger nu sikrere arkivdata og finder henholdsvis 45, 38 og 118 kontrollerede 2026-poster uden de tidligere bemærkninger.
+- Banedanmark medtager både pressemeddelelser og **Nyt fra Banedanmark** og læser datoen fra det officielle listekort. Styrelsen for Patientklagers listekort leverer tilsvarende den sikre dato.
+- Den første kørsel foretager en engangsdybdekontrol af de berørte kilder, så blandt andre Konkurrence- og Forbrugerstyrelsen, Anklagemyndigheden, CPR, Energistyrelsen og PET ikke starter med et ufuldstændigt 2026-arkiv.
+- Administrations- og Servicestyrelsen er fjernet efter manuel kontrol, fordi myndigheden ikke har et egentligt nyhedsarkiv. Styrelsesnyt har derfor **77 aktive kilder**.
 
 ## Nyt i version 7.1
 
@@ -41,7 +50,7 @@ Version 7.1 udvider periodefilteret og afslutter kildegennemgangen fra 7.0.3. Dy
 - Styrelsesnyt har søgning, kildefilter, **Mine myndigheder**, **Kun nye**, perioder på 7 og 30 dage, delbar visning, kopiering af links og trinvis indlæsning.
 - Brugerens læste artikler og valgte myndigheder gemmes separat fra Ministerienyt.
 - Samme historie fra flere myndigheder samles i ét kort på Styrelsesnyt. En historie kan stadig fremgå én gang på både Ministerienyt og Styrelsesnyt, fordi siderne er selvstændige.
-- De 78 kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
+- De 77 aktive kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
 - Rigspolitiets kilde er begrænset til centrale nyheder; lokale døgnrapporter medtages ikke.
 - Delte officielle arkiver filtreres på udgiver, så SIRI og Udlændingestyrelsen ikke overtager hinandens artikler.
 - Timekørslerne besøger højst to aktive listesider pr. myndighed. Den daglige dybe kontrol går højst 12 sider tilbage. Det holder belastningen af de officielle hjemmesider nede.
@@ -53,7 +62,7 @@ Version 7.0 indeholder også rettelsen fra 6.3.1, hvor Kulturministeriets synlig
 | Side | URL | Kilder | Lokale valg | Datafiler |
 | --- | --- | ---: | --- | --- |
 | Ministerienyt | repositoryets Pages-forside | 22 | Mine ministerier | `archive.json`, `health.json` m.fl. |
-| Styrelsesnyt | `/styrelsesnyt/` | 78 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
+| Styrelsesnyt | `/styrelsesnyt/` | 77 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
 
 De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfigurationer og arkiver.
 

@@ -23,7 +23,9 @@
         "https://www.kfst.dk/menu/presse/nyhedsarkiv"
       ],
       "article_prefixes": ["/pressemeddelelser/"],
-      "stop_pagination_before_archive_start": true
+      "stop_pagination_before_archive_start": true,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Patent- og Varemærkestyrelsen",
@@ -123,7 +125,8 @@
       "disable_sitemap": true,
       "max_listing_pages": 6,
       "stop_pagination_before_archive_start": true,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Datatilsynet",
@@ -170,7 +173,8 @@
       "sitemap_urls": ["https://pet.dk/sitemap.xml"],
       "article_prefixes": ["/pet/nyhedsliste/"],
       "disable_sitemap": false,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Den Uafhængige Politiklagemyndighed",
@@ -243,7 +247,8 @@
       "allow_unlabeled_after_h1_date": true,
       "after_h1_date_max_text_nodes": 12,
       "max_listing_pages": 4,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
 
     {
@@ -256,7 +261,8 @@
       "disable_sitemap": false,
       "allow_unlabeled_after_h1_date": true,
       "after_h1_date_max_text_nodes": 12,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Geodatastyrelsen",
@@ -316,9 +322,11 @@
       "home_url": "https://www.bane.dk/",
       "start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser", "https://www.bane.dk/"],
       "extra_hosts": ["banedanmark.dk", "www.banedanmark.dk"],
-      "article_prefixes": ["/da/Presse/Pressemeddelelser/"],
+      "article_prefixes": ["/da/Presse/Pressemeddelelser/", "/da/Nyt-fra-Banedanmark/"],
+      "allow_plain_listing_date": true,
       "always_fetch_articles": true,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Bygningsstyrelsen",
@@ -573,18 +581,11 @@
       "home_url": "https://www.finanstilsynet.dk/",
       "start_urls": ["https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser"],
       "article_prefixes": ["/nyheder-og-presse/"],
-      "article_exclude_regex": "^/nyheder-og-presse/(?:nyheder-og-pressemeddelelser|fotogalleri(?:-finanstilsynet)?|kalender)/?$",
+      "article_exclude_regex": "^/nyheder-og-presse/(?:nyheder-og-pressemeddelelser|fotogalleri(?:-finanstilsynet)?|kalender)/?(?:\\?.*)?$",
       "gobasic_dynamic_list": true,
       "max_listing_pages": 10,
-      "refresh_before_schema": 14
-    },
-    {
-      "name": "Administrations- og Servicestyrelsen",
-      "responsible_ministry": "Skatte- og Vækstministeriet",
-      "home_url": "https://adst.dk/",
-      "start_urls": ["https://adst.dk/"],
-      "article_prefixes": ["/nyheder/"],
-      "disable_sitemap": true
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
     {
       "name": "Udviklings- og Forenklingsstyrelsen",
@@ -663,9 +664,11 @@
       "home_url": "https://www.stpk.dk/",
       "start_urls": ["https://www.stpk.dk/nyheder/"],
       "article_prefixes": ["/nyheder/"],
+      "allow_plain_listing_date": true,
       "allow_unlabeled_after_h1_date": true,
       "after_h1_date_max_text_nodes": 20,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
 
     {
@@ -686,9 +689,10 @@
       "start_urls": ["https://naturstyrelsen.dk/nyheder"],
       "article_url_regex": "^/nyheder/2026/",
       "disable_sitemap": false,
-      "allow_unlabeled_after_h1_date": true,
-      "after_h1_date_max_text_nodes": 12,
-      "refresh_before_schema": 14
+      "mst_news_api": true,
+      "mst_news_max_pages": 5,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     },
 
     {
@@ -783,9 +787,10 @@
       "start_urls": ["https://mst.dk/nyheder"],
       "article_prefixes": ["/nyheder/"],
       "disable_sitemap": false,
-      "allow_unlabeled_after_h1_date": true,
-      "after_h1_date_max_text_nodes": 12,
-      "refresh_before_schema": 14
+      "mst_news_api": true,
+      "mst_news_max_pages": 5,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 15
     }
   ]
 }

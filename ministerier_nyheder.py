@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.1"
+APP_VERSION = "7.1.1"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 14
+ARCHIVE_SCHEMA_VERSION = 15
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -2628,6 +2628,135 @@ def collect_next_index_items(
     return sorted(result.values(), key=lambda item: item.published, reverse=True), True
 
 
+def content_overview_root_key(next_data: object) -> str:
+    """Find nøgle til nyhedsarkivet i MST-platformens officielle Next-data."""
+    sections = nested_value(
+        next_data, "props", "pageProps", "content", "page", "properties", "pageSections"
+    )
+    if not isinstance(sections, list):
+        return ""
+    for section in sections:
+        content = section.get("content", {}) if isinstance(section, dict) else {}
+        if not isinstance(content, dict) or content.get("documentType") != "contentPageOverview":
+            continue
+        properties = content.get("properties", {})
+        root = properties.get("rootFolder", {}) if isinstance(properties, dict) else {}
+        if isinstance(root, dict) and root.get("key"):
+            return clean_text(str(root["key"]))
+    return ""
+
+
+def collect_mst_news_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent nyheder fra MST-platformens officielle, offentlige nyheds-API."""
+    if not source.get("mst_news_api"):
+        return [], False
+    start_urls = source.get("start_urls", [])
+    if not start_urls:
+        append_error(status, "MST-nyhedskilden mangler start-URL.")
+        return [], False
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    try:
+        shell = fetch(session, start_url)
+        soup = BeautifulSoup(shell.text, "html.parser")
+        next_data_node = soup.find("script", id="__NEXT_DATA__")
+        next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
+        root_key = content_overview_root_key(next_data)
+        api_base = clean_text(str(nested_value(next_data, "runtimeConfig", "NEXT_PUBLIC_SEARCH_API_URL") or ""))
+        api_hostname = clean_text(str(nested_value(next_data, "props", "pageProps", "content", "host") or ""))
+        if not root_key or not api_base or not api_hostname:
+            raise ValueError("arkivnøgle, API-adresse eller værts-id blev ikke fundet")
+        endpoint = normalize_url(urljoin(api_base.rstrip("/") + "/", "api/News/Search"), keep_query=True)
+    except Exception as exc:
+        append_error(status, f"Officielt MST-nyheds-API kunne ikke forberedes: {exc}")
+        return [], False
+
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    page_size = 100
+    max_pages = max(1, min(int(source.get("mst_news_max_pages", 5)), 20))
+    api_succeeded = False
+    for page in range(max_pages):
+        try:
+            response = session.post(
+                endpoint,
+                json={
+                    "key": root_key,
+                    "documentTypes": ["articlePage"],
+                    "subjects": [],
+                    "categories": [],
+                    "takeAmount": page_size,
+                    "skipAmount": page * page_size,
+                    "to": None,
+                    "from": None,
+                    "direction": None,
+                    "UserTextInputField": "",
+                },
+                headers={
+                    "Referer": start_url,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Hostname": api_hostname,
+                },
+                timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, 60)),
+            )
+            response.raise_for_status()
+            payload = response.json()
+            rows = payload.get("searchResults", []) if isinstance(payload, dict) else []
+            if not isinstance(rows, list):
+                rows = []
+        except Exception as exc:
+            append_error(status, f"Officielt MST-nyheds-API kunne ikke hentes: {exc}")
+            return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+        api_succeeded = True
+        status.listing_pages += 1
+        page_dates: list[datetime] = []
+        for record in rows:
+            if not isinstance(record, dict):
+                continue
+            title = clean_text(str(record.get("header") or record.get("name") or ""))
+            url = normalize_url(urljoin(start_url, str(record.get("url") or "")), keep_query=True)
+            published = parse_date(str(record.get("date") or ""))
+            if published:
+                page_dates.append(published)
+            if not title or not url or not looks_like_article(url, source):
+                continue
+            candidate_count += 1
+            if not published:
+                record_rejection(
+                    source["name"], title, url, "missing_safe_publication_date",
+                    discovered_by="Officielt MST-nyheds-API",
+                )
+                continue
+            if published < ARCHIVE_START:
+                continue
+            key = canonical_url(url)
+            if key in known_urls:
+                status.known_candidates_skipped += 1
+                continue
+            description = strip_markup(str(record.get("lead") or ""))[:900]
+            result[key] = with_item_identity(
+                Item(source["name"], title, url, published, description),
+                first_seen_at=datetime.now(timezone.utc),
+            )
+        pagination = payload.get("pagination", {}) if isinstance(payload, dict) else {}
+        total_results = int(pagination.get("totalResults", len(rows)) or len(rows)) if isinstance(pagination, dict) else len(rows)
+        if not rows or (page + 1) * page_size >= total_results:
+            break
+        if page_dates and min(page_dates) < ARCHIVE_START:
+            break
+        if REQUEST_DELAY_SECONDS:
+            time.sleep(REQUEST_DELAY_SECONDS)
+
+    status.article_candidates += candidate_count
+    status.methods.append("Officielt MST-nyheds-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+
 def typed_documents(value: object) -> list[dict]:
     """Find TypedDocuments-listen i Skatteforvaltningens søge-API-svar."""
     if isinstance(value, dict):
@@ -2942,6 +3071,12 @@ def collect_source(
         status.accepted_new = len(drupal_items)
         return drupal_items, status
 
+    mst_items, mst_ok = collect_mst_news_items(session, source, known_urls, status)
+    if mst_ok and not source.get("mst_news_supplemental"):
+        status.fresh_items = len(mst_items)
+        status.accepted_new = len(mst_items)
+        return mst_items, status
+
     ritzau_items, ritzau_ok = collect_ritzau_items(session, source, known_urls, status)
     ritzau_candidate_count = status.article_candidates if ritzau_ok else 0
     if ritzau_ok and not source.get("ritzau_supplemental"):
@@ -3100,17 +3235,20 @@ def collect_fresh_items(
         started = time.monotonic()
         items: list[Item] = []
         status = SourceStatus(source["name"], source.get("home_url", ""))
-        status.fast_mode = fast
+        source_full_audit = full_audit or bool(source.get("_full_audit_on_refresh"))
+        source_fast = fast and not source_full_audit
+        status.fast_mode = source_fast
         previous = source_state.get(source["name"], {})
         first_errors: list[str] = []
         for attempt in range(1, max_attempts + 1):
             try:
                 items, status = collect_source(
-                    session, source, known_urls, previous, fast=fast, full_audit=full_audit
+                    session, source, known_urls, previous,
+                    fast=source_fast, full_audit=source_full_audit,
                 )
             except Exception as exc:
                 status = SourceStatus(source["name"], source.get("home_url", ""))
-                status.fast_mode = fast
+                status.fast_mode = source_fast
                 append_error(status, f"Uventet kildefejl: {exc}")
                 items = []
             status.retry_attempts = attempt - 1
@@ -4337,7 +4475,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.1.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.1.1</strong><ul><li>Periodevalget Alle står nu først, efterfulgt af I dag, 3 dage, 7 dage og 30 dage.</li><li>Styrelsesnyts kilder med bemærkninger eller få 2026-artikler er gennemgået og kildeopsætningen er justeret, hvor kontrollen viste mangler.</li><li>Administrations- og Servicestyrelsen er fjernet, fordi myndigheden ikke har et egentligt nyhedsarkiv; Styrelsesnyt har nu 77 aktive kilder.</li></ul>'
         '<strong>v7.1</strong><ul><li>Periodefilteret har nu valgene I dag og 3 dage ud over 7 dage, 30 dage og Alle.</li><li>I dag følger dansk kalenderdato, og alle periodevalg kan fortsat deles som en del af visningens URL.</li><li>Den afsluttende kildekontrol strammer sekventiel paginering og de officielle katalogkilder yderligere.</li></ul>'
         '<strong>v7.0.3</strong><ul><li>Styrelsesnyt understøtter nu de officielle GoBasic-, ListPage-, Next.js- og Drupal-kilder, så dynamiske nyhedsarkiver ikke længere fremstår tomme.</li><li>Kendte navigationssider frasorteres før artikelkontrollen, og datolæsning samt kilderuter er opdateret efter gennemgangen.</li><li>Regeringen.dk genopbygges med korrekt publiceringsdato og uden generelle metadata som artikelbeskrivelse. Fuld audit stopper sikkert, når den har passeret 1. januar 2026.</li></ul>'
         '<strong>v7.0.2</strong><ul><li>Banedanmarks gemte fejlkombination af rubrik, link og manchet genopbygges og kontrolleres fremover på artikelsiden.</li><li>En kilde med nul arkiverede artikler viser blot 0 i artikelkolonnen; nul i sig selv udløser ikke længere en bemærkning.</li></ul>'
@@ -4364,7 +4503,7 @@ def build_html(
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="{esc(page_description)}">{social_meta}<meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>{esc(site_name)}</title><link rel="alternate" type="application/rss+xml" title="{esc(site_name)} RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap">{brand_navigation}<div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
-<header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button></div></div></header>
+<header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
 <main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
 <footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
@@ -4711,6 +4850,9 @@ def main() -> int:
             ". Det gamle arkiv bevares, indtil den nye crawl består selvtesten.",
             file=sys.stderr,
         )
+        for source in sources:
+            if source["name"] in refresh_sources and source.get("full_audit_on_refresh"):
+                source["_full_audit_on_refresh"] = True
     known_urls = {
         canonical_url(item.url) for item in existing
         if (

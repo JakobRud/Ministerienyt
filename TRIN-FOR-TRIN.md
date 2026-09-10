@@ -1,8 +1,8 @@
-# Opdatér til version 7.1
+# Opdatér til version 7.1.1
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.1.zip` ud.
+Pak `Ministerienyt-7.1.1.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -31,15 +31,15 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.1-kørsel genopbygger de kilder, hvis parser eller rute er rettet, blandt andet Banedanmark, Regeringen.dk og de berørte dynamiske myndighedsarkiver. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat. Den planlagte kørsel kl. 03 foretager den dybere gennemgang af 2026-arkiverne.
+Den første 7.1.1-kørsel laver automatisk en engangsdybdekontrol af de ti kilder, hvis parser eller 2026-dækning er rettet. Derfor kan den første kørsel tage nogle minutter længere end normalt. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
 
 ## 6. Kontrollér siderne
 
 - Åbn Ministerienyts normale Pages-adresse.
 - Kontrollér, at **Ministerienyt** og **Styrelsesnyt** står ved siden af hinanden øverst.
 - Vælg **Styrelsesnyt**.
-- Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **I dag**, **3 dage**, **7 dage**, **30 dage**, **Alle** og **Kilder og dækning**.
-- Kontrollér, at kildelisten viser **78 kilder** og ministerområderne.
+- Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **Alle**, **I dag**, **3 dage**, **7 dage**, **30 dage** og **Kilder og dækning**.
+- Kontrollér, at kildelisten viser **77 kilder** og ministerområderne.
 
 ## 7. Lad de genererede filer blive liggende
 
