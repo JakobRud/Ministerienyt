@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-10T05:28:36.131769+00:00",
+  "generated_at": "2026-09-10T06:35:53.444283+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1996,
+  "total_rejected": 1995,
   "summary_by_reason": {
-    "before_archive_start": 1943,
+    "before_archive_start": 1942,
     "missing_safe_publication_date": 45,
     "source_filter_mismatch": 8
   },
@@ -7437,16 +7437,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2024-12-09T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvaret/Forsvarskommandoen",
-      "title": "Den danskledede internationale maritime NATO-stab og den stående fregatstyrke indsættes i Nordatlanten",
-      "url": "https://www.forsvaret.dk/da/nyheder/2024/den-danskledede-internationale-maritime-nato-stab-og-den-staende-fregatstyrke-indsattes-i-nordatlanten/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-09-12T00:00:00+00:00"
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
