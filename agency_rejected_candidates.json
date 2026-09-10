@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-10T07:29:30.266935+00:00",
+  "generated_at": "2026-09-10T08:21:50.934463+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1951,
+  "total_rejected": 2007,
   "summary_by_reason": {
-    "before_archive_start": 1941,
+    "before_archive_start": 1997,
     "missing_safe_publication_date": 2,
     "source_filter_mismatch": 8
   },
@@ -17,6 +17,566 @@
       "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2025-12-01T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "16 sønderjyske overkørsler bliver opgraderet med bomme i forbindelse med nyt signalsystem",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/16-soenderjyske-overkoersler-bliver-opgraderet-med-bomme--i-forbindelse-med-nyt-signalsystem",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-27T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Aarhus Helhedsløsning bevæger sig væk fra banegården",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Aarhus-Helhedsloesning-bevaeger-sig-vaek-fra-banegaarden",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Allersidste hånd på det nye signalsystem i Syd- og Sønderjylland",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Allersidste-haand-paa-det-nye-signalsystem-i-Syd_-og-Soenderjylland",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-16T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Arbejdet med at forny sporene ved Hellerup Station forlænges",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Arbejdet-med-at-forny-sporene-ved-Hellerup-Station-forlaenges",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-03T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark afslutter sporarbejdet mellem Fredericia og Padborg",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-afslutter-sporarbejdet--mellem-Fredericia-og-Padborg",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-19T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark forbereder det nye signalsystem på Svendborgbanen",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-forbereder-det-nye-signalsystem-paa-Svendborgbanen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-20T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark fornyer S-banen mellem Svanemøllen og Hillerød",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-fornyer-S_banen-mellem-Svanemoellen-og-Hilleroed",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-24T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark fornyer sporene på travl strækning ved Snoghøj",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-fornyer-sporene-paa-travl-straekning-ved-Snoghoej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-05T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark fortsat på udkig efter en ejendomsudvikler til brobuerne ved Nørrebro Station",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-fortsat-paa-udkig-efter-en-ejendomsudvikler-til-brobuerne-ved-Noerrebro-Station",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-13T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark inviterer indenfor på arbejdspladsen på Troljevej",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-inviterer-indenfor-paa-arbejdspladsen-paa-Troljevej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Banedanmark planlægger opgradering af overkørsler på Vestbanen",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Banedanmark-planlaegger-opgradering-af-overkoersler-paa-Vestbanen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-26T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Baneprojekternes højsæson er i fuld gang",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Baneprojekternes-hoejsaeson-er-i-fuld-gang",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-27T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Byggeriet på Aarhus H: Så langt er vi nået på et halvt år",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Byggeriet-paa-Aarhus-H_-Saa-langt-er-vi-naaet-paa-et-halvt-aar",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-10T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Byt minder for skinner til åbent hus",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Byt-minder-for-skinner-til-aabent-hus",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-12T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "EU sender 145 millioner kroner til nyt signalsystem på Fyn",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/EU-sender-145-millioner-kroner-til-nyt-signalsystem-paa-Fyn",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Et fælles ansvar: Tjek træerne",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Et-faelles-ansvar_-Tjek-traeerne",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-08T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Fortidsminder udskyder perronfornyelse",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Fortidsminder-udskyder-perronfornyelse",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-10T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Fredericia-Padborg: Snart i mål",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Fredericia_Padborg-snart-i-maal",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-25T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Hastigheden sænkes efter togulykke",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Hastigheden-saenkes-efter-togulykke",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-22T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Helle gør Aarhus Hovedbanegård klar til fremtidens el-tog",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Helle-goer-Aarhus-Hovedbanegaard-klar-til-fremtidens-el_tog",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-17T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Hold afstand: Banedanmark tænder for strømmen på vestjyske stationer",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Hold-afstand_-Banedanmark-taender-for-stroemmen-paa-vestjyske-stationer",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Højsæson for sporarbejder",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Hoejsaeson-for-sporarbejder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "I den kommende måned gøres jernbanen klar til nyt digitalt signalsystem",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/I-den-kommende-maaned-goeres-jernbanen-klar-til-nyt-digitalt-signalsystem",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-14T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Jernbanestrækninger er ikke i risiko for at lukke",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Jernbanestraekninger-er-ikke-i-risiko-for-at-lukke",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-24T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Klap og knækpølser på Kong Frederik IX’s Bro",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Klap-og-knaekpoelser-paa-Kong-Frederik-IX_s-Bro",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-22T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Kongen og danskerne fejrede Danmarks første batteritog",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Kongen-og-danskerne-fejrede-Danmarks-foerste-batteritog",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-19T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Lillebæltsbroen fylder rundt",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Lillebaeltsbroen-fylder-rundt",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-29T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Malearbejde på Oddesundbroen giver natspærringer for biltrafikken",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Malearbejde-paa-Oddesundbroen-giver-natspaerringer-for-biltrafikken",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-10T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Mennesker med synshandicap får det lettere på Roskilde Station",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Mennesker-med-synshandicap-faar-det-lettere--paa-Roskilde-Station",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-13T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Mød tre kvinder, som digitaliserer jernbanen",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Moed-tre-kvinder_-som-digitaliserer-jernbanen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-08T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nedtagning af cykelparkering på Bruuns Bro i Aarhus udskydes",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Nedtagning-af-cykelparkering-paa-Bruuns-Bro-i-Aarhus-udskydes",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-22T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Ni overkørsler på den statslige jernbane er uden bomme",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Ni-overkoersler-paa-den-statslige-jernbane-er-uden-bomme",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-18T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nu begynder omfattende ombygning af jernbanen i Aarhus",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Nu-begynder-omfattende-ombygning-af-jernbanen-i-Aarhus",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-24T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nu begynder sidste etape af sporfornyelse på sjællandsk hovedstrækning",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Nu-begynder-sidste-etape-af-sporfornyelse-paa-sjaellandsk-hovedstraekning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-22T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nu digitaliserer vi Aarhus Hovedbanegård",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Nu-digitaliserer-vi-Aarhus-Hovedbanegaard",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nu kører togene mellem Bramming og Tønder samt Esbjerg og Lunderskov på digitalt signalsystem",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Nu-koerer-togene-mellem-Bramming-og-Toender-samt-Esbjerg-og-Lunderskov-paa-digitalt-signalsystem",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-22T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Ny jernbanebro over Guldborg Sund på plads",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Ny-jernbanebro-over-Guldborg-Sund-paa-plads",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-13T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Ny organisering gør Banedanmark klar til fremtidens udfordringer",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Ny-organisering-goer-Banedanmark-klar-til-fremtidens-udfordringer",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Ny rytme i arbejdslivet: Fra trækbasunist til trafikleder",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Fra-traekbasun-til-trafikleder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-19T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nye fjerntogsperroner til København Syd",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Nye-fjerntogsperroner-til-Koebenhavn-Syd",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-17T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Nye spor klar mellem Skjern og Holstebro",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Nye-spor-klar-mellem-Skjern-og-Holstebro",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-14T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Ordning med forlodsovertagelser ophører for to projekter",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Ordning-med-forlodsovertagelser-ophoerer",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-09T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Otte intense døgn på Præstemarksvej",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Otte-intense-doegn-paa-Praestemarksvej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-01T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Sammen fejrede vi vores allesammens Lillebæltsbro",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Sammen-fejrede-vi-vores-allesammens-Lillebaeltsbro",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-12T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Skinnefræseren rykker ud for at fjerne revner i skinnerne",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Skinnefraeseren-rykker-ud-for-at-fjerne-revner-i-skinnerne",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Sporfornyelse påvirker trafikken på travl strækning",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Sporfornyelse-paavirker-trafikken-paa-travl-straekning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-27T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Sporombygningen i Vestjylland fortsætter på Ringkøbing Station",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Sporombygningen-i-Vestjylland-fortsaetter--paa-Ringkoebing-Station",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-14T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Stor interesse for Troljevej",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/Stor-interesse-for-Troljevej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-20T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Sønderjysk drejeskive fylder 100 år",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Soenderjysk-drejeskive-fylder-100-aar",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-10T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Tag imod den nye broklap",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Tag-imod-den-nye-broklap",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-11T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "To fornyede spor er nu klar på Hellerup Station",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/To-fornyede-spor-er-nu-klar-paa-Hellerup-Station",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-27T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Tog afsporet mellem Kliplev og Tinglev",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Tog-afsporet-mellem-Kliplev-og-Tinglev",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-15T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Togtrafikken til og fra Aarhus spærres i 11 dage",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Togtrafikken-til-og-fra-Aarhus-spaerres-i-11-dage",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-15T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Travl sjællandsk jernbanestrækning fornyes",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Travl-sjaellandsk-jernbanestraekning-fornyes",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-01T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Underjordiske kabler skal sikre strøm til eltog nord for Limfjorden",
+      "url": "https://www.bane.dk/Presse/Pressemeddelelser/Underjordiske-kabler-skal-sikre-stroem-til-eltog-nord-for-Limfjorden",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-08T00:00:00+00:00"
+    },
+    {
+      "source": "Banedanmark",
+      "title": "Året der gik på jernbanen: Fornyelse, digitalisering og megaprojekt i Aarhus",
+      "url": "https://www.bane.dk/Nyt-fra-Banedanmark/AAret-der-gik-paa-jernbanen_-Fornyelse_-digitalisering-og-megaprojekt-i-Aarhus",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-18T00:00:00+00:00"
     },
     {
       "source": "Beredskabsstyrelsen",
