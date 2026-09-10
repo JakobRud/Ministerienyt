@@ -1,8 +1,8 @@
-# Opdatér til version 7.1.1
+# Opdatér til version 7.1.2
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.1.1.zip` ud.
+Pak `Ministerienyt-7.1.2.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -31,7 +31,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.1.1-kørsel laver automatisk en engangsdybdekontrol af de ti kilder, hvis parser eller 2026-dækning er rettet. Derfor kan den første kørsel tage nogle minutter længere end normalt. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
+Den første 7.1.2-kørsel laver automatisk en engangsdybdekontrol af de berørte kilder, herunder Konkurrence- og Forbrugerstyrelsen, Banedanmark og Erhvervsstyrelsen. Derfor kan den første kørsel tage nogle minutter længere end normalt. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
 
 ## 6. Kontrollér siderne
 

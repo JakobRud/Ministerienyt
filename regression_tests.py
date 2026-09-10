@@ -222,6 +222,17 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-faar-ny-direktoer-for-Vedligehold",
             banedanmark,
         ))
+        self.assertTrue(m.looks_like_article(
+            "https://www.bane.dk/Presse/Pressemeddelelser/Nye-spor-og-perroner-paa-Kvissel-Station",
+            banedanmark,
+        ))
+        self.assertEqual(
+            m.public_url_for_source(
+                "https://www.bane.dk/Presse/Pressemeddelelser/Nye-spor-og-perroner-paa-Kvissel-Station",
+                banedanmark,
+            ),
+            "https://www.bane.dk/da/Presse/Pressemeddelelser/Nye-spor-og-perroner-paa-Kvissel-Station",
+        )
         self.assertFalse(m.looks_like_article("https://www.bane.dk/da/om-banedanmark", banedanmark))
 
         self.assertEqual(
@@ -230,11 +241,28 @@ class IdentityAndSafetyTests(unittest.TestCase):
         )
         self.assertTrue(sources["Ankestyrelsen"]["gobasic_dynamic_list"])
         self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
+        self.assertTrue(sources["Erhvervsstyrelsen"]["ritzau_supplemental"])
+        self.assertTrue(sources["Erhvervsstyrelsen"]["require_listing_date"])
+        self.assertEqual(len(sources["Erhvervsstyrelsen"]["historical_start_urls"]), 5)
+        self.assertEqual(
+            sources["Erhvervsstyrelsen"]["refresh_before_schema"],
+            m.ARCHIVE_SCHEMA_VERSION,
+        )
+        self.assertEqual(
+            sources["Konkurrence- og Forbrugerstyrelsen"]["sitemap_urls"],
+            ["https://kfst.dk/sitemap"],
+        )
+        self.assertTrue(sources["Konkurrence- og Forbrugerstyrelsen"]["disable_listing_pagination"])
+        self.assertFalse(sources["Konkurrence- og Forbrugerstyrelsen"]["disable_sitemap"])
         self.assertEqual(sources["Sundhedsstyrelsen"]["ritzau_pressroom_id"], 13561973)
         self.assertTrue(sources["Rigsarkivet"]["disable_feeds"])
         self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], 12)
         self.assertLessEqual(sources["Rigsarkivet"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertTrue(sources["Banedanmark"]["always_fetch_articles"])
+        self.assertEqual(
+            sources["Banedanmark"]["historical_start_urls"],
+            ["https://www.bane.dk/da/Presse/Pressemeddelelser?take=100"],
+        )
         self.assertEqual(sources["Banedanmark"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertTrue(sources["Spillemyndigheden"]["next_index_search"])
         self.assertEqual(sources["Spillemyndigheden"]["next_index_name"], "spillemyndigheden-da")
@@ -246,6 +274,55 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser?page=3",
             source,
         ))
+
+    def test_listing_pagination_can_be_disabled_for_sitemap_source(self):
+        soup = BeautifulSoup('<a href="/vejledninger/2026/en-vejledning">2026</a>', "html.parser")
+        source = {
+            "name": "Konkurrence- og Forbrugerstyrelsen",
+            "home_url": "https://kfst.dk/",
+            "start_urls": ["https://kfst.dk/menu/presse"],
+            "article_prefixes": ["/pressemeddelelser/"],
+            "disable_listing_pagination": True,
+        }
+        anchor = soup.find("a")
+        self.assertFalse(m.listing_link_candidate(
+            anchor,
+            "https://kfst.dk/vejledninger/2026/en-vejledning",
+            "https://kfst.dk/menu/presse",
+            source,
+        ))
+
+    def test_source_can_require_a_date_on_each_listing_card(self):
+        body = '''<main>
+          <nav><a href="/nyheder-og-notifikationer-fra-erhvervsstyrelsendk">Generel side uden dato</a></nav>
+          <article><time>4. september 2026</time>
+            <a href="/del-dine-erfaringer-med-baeredygtighedsrapportering">Del dine erfaringer med bæredygtighedsrapportering</a>
+          </article>
+        </main>'''
+        source = {
+            "name": "Erhvervsstyrelsen",
+            "home_url": "https://erhvervsstyrelsen.dk/",
+            "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
+            "article_url_regex": r"^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
+            "allow_plain_listing_date": True,
+            "require_listing_date": True,
+            "disable_sitemap": True,
+        }
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(
+                url=source["start_urls"][0],
+                headers={"content-type": "text/html"},
+                content=body.encode(),
+                text=body,
+            )
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(None, source, status)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(len(candidates), 1)
+        candidate = next(iter(candidates.values()))
+        self.assertEqual(candidate.published.date().isoformat(), "2026-09-04")
 
     def test_refresh_can_override_fast_mode_with_one_time_full_audit(self):
         source = {
@@ -1073,7 +1150,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.1.1", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertIn("v7.1.2", soup.select_one("footer").get_text(" ", strip=True))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1151,7 +1228,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.1.1", rss)
+        self.assertIn("Styrelsesnyt 7.1.2", rss)
 
     def test_zero_articles_does_not_create_source_note(self):
         source = {

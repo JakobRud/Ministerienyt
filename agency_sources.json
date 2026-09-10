@@ -11,8 +11,21 @@
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://erhvervsstyrelsen.dk/",
       "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
+      "historical_start_urls": [
+        "https://erhvervsstyrelsen.dk/nyheder?page=0",
+        "https://erhvervsstyrelsen.dk/nyheder?page=1",
+        "https://erhvervsstyrelsen.dk/nyheder?page=2",
+        "https://erhvervsstyrelsen.dk/nyheder?page=3",
+        "https://erhvervsstyrelsen.dk/nyheder?page=4"
+      ],
       "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
-      "ritzau_pressroom_id": 11727618
+      "require_listing_date": true,
+      "ritzau_pressroom_id": 11727618,
+      "ritzau_supplemental": true,
+      "max_listing_pages": 6,
+      "stop_pagination_before_archive_start": true,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 16
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",
@@ -23,9 +36,11 @@
         "https://www.kfst.dk/menu/presse/nyhedsarkiv"
       ],
       "article_prefixes": ["/pressemeddelelser/"],
-      "stop_pagination_before_archive_start": true,
+      "disable_listing_pagination": true,
+      "disable_sitemap": false,
+      "sitemap_urls": ["https://kfst.dk/sitemap"],
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 15
+      "refresh_before_schema": 16
     },
     {
       "name": "Patent- og Varemærkestyrelsen",
@@ -320,13 +335,24 @@
       "name": "Banedanmark",
       "responsible_ministry": "By-, Land- og Transportministeriet",
       "home_url": "https://www.bane.dk/",
-      "start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser", "https://www.bane.dk/"],
+      "start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser"],
+      "historical_start_urls": ["https://www.bane.dk/da/Presse/Pressemeddelelser?take=100"],
       "extra_hosts": ["banedanmark.dk", "www.banedanmark.dk"],
-      "article_prefixes": ["/da/Presse/Pressemeddelelser/", "/da/Nyt-fra-Banedanmark/"],
+      "article_prefixes": [
+        "/da/Presse/Pressemeddelelser/",
+        "/da/Nyt-fra-Banedanmark/",
+        "/Presse/Pressemeddelelser/",
+        "/Nyt-fra-Banedanmark/"
+      ],
+      "article_link_selectors": ["a.news__item[href]"],
+      "public_path_rewrites": {
+        "/Presse/Pressemeddelelser/": "/da/Presse/Pressemeddelelser/",
+        "/Nyt-fra-Banedanmark/": "/da/Nyt-fra-Banedanmark/"
+      },
       "allow_plain_listing_date": true,
       "always_fetch_articles": true,
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 15
+      "refresh_before_schema": 16
     },
     {
       "name": "Bygningsstyrelsen",

@@ -1,6 +1,13 @@
-# Ministerienyt og Styrelsesnyt 7.1.1
+# Ministerienyt og Styrelsesnyt 7.1.2
 
-Version 7.1.1 placerer **Alle** først i periodefilteret og følger op med en ny kontrol af Styrelsesnyts bemærkninger og kilder med færre end 10 artikler i 2026.
+Version 7.1.2 retter den ufuldstændige 2026-dækning hos Konkurrence- og Forbrugerstyrelsen, Banedanmark og Erhvervsstyrelsen. Den indeholder samtidig alle ændringer fra 7.1.1.
+
+## Rettet i version 7.1.2
+
+- Konkurrence- og Forbrugerstyrelsen henter 2026-pressemeddelelser fra myndighedens officielle sitemap. Det indeholder 30 poster pr. 10. september 2026 og undgår den tidligere fejlagtige sidesøgning.
+- Banedanmarks daglige arkivkontrol bruger den officielle `?take=100`-visning. Den indeholder 41 nyheder og pressemeddelelser fra 2026 pr. 10. september 2026; den lette timekørsel bruger fortsat kun den korte oversigt.
+- Erhvervsstyrelsens officielle, paginerede nyhedsliste er igen hovedkilden. Via Ritzau stopper ikke længere crawl efter den ene pressemeddelelse, men bruges kun som supplement.
+- De tre kilder får en målrettet engangsgenopbygning ved første kørsel med version 7.1.2.
 
 ## Nyt i version 7.1.1
 
