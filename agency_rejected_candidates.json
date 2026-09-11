@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-11T09:29:18.882367+00:00",
+  "generated_at": "2026-09-11T10:28:49.818228+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1948,
+  "total_rejected": 1946,
   "summary_by_reason": {
-    "before_archive_start": 1937,
+    "before_archive_start": 1935,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 8
   },
@@ -7307,16 +7307,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-02-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvaret/Forsvarskommandoen",
-      "title": "Danske soldater deltager i stor NATO-øvelse",
-      "url": "https://www.forsvaret.dk/da/nyheder/2024/danske-soldater-deltager-i-stor-nato-ovelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-09-19T00:00:00+00:00"
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
@@ -19077,16 +19067,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-12-19T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for Samfundssikkerhed",
-      "title": "Ny vejledning til myndigheder: Sådan bliver du mere bevidst om dine digitale risici",
-      "url": "https://samsik.dk/artikler/2025/12/ny-vejledning-til-myndigheder-saadan-bliver-du-mere-bevidst-om-dine-digitale-risici/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-02T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for Samfundssikkerhed",
