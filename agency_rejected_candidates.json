@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-11T12:35:10.445290+00:00",
+  "generated_at": "2026-09-11T13:28:38.133246+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1947,
+  "total_rejected": 1952,
   "summary_by_reason": {
-    "before_archive_start": 1935,
-    "missing_safe_publication_date": 4,
+    "before_archive_start": 1941,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 8
   },
   "rejected": [
@@ -17400,16 +17400,6 @@
     },
     {
       "source": "Statens Administration",
-      "title": "Anvendelse af periodisering via IndFak/SDI",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/december/anvendelse-af-periodisering-via-indfaksdi/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
       "title": "Automatiseret betalingskortkontrol understøtter kontrol af udstedte betalingskort",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/september/automatiseret-betalingskortkontrol-understoetter-kontrol-af-udstedte-betalingskort/",
       "reason": "before_archive_start",
@@ -17450,6 +17440,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Forårets Forum for statslige regnskabschefer er atter afholdt",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/maj/foraarets-forum-for-statslige-regnskabschefer-er-atter-afholdt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-05-02T14:56:59+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "Fremdatering er ikke længere muligt i PENSAB",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/august/fremdatering-er-ikke-laengere-muligt-i-pensab/",
       "reason": "before_archive_start",
@@ -17467,26 +17467,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-09-30T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Frist for debitorfordringer, som skal indberettes via PSRM",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/november/frist-for-debitorfordringer-som-skal-indberettes-via-psrm/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-11T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Frist for fremsendelse af ændring af sidste kørsel for 2025 i SLS",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/november/frist-for-fremsendelse-af-aendring-af-sidste-koersel-for-2025-i-sls/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-21T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -17547,16 +17527,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2023-10-02T11:12:43+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Lad Statens Administration beregne feriepengeforpligtelsen for jer",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/november/lad-statens-administration-beregne-feriepengeforpligtelsen-for-jer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-20T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -17630,6 +17600,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Ny refusionsblanket i Lønportalen og skabeloner til barsel",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/maj/ny-refusionsblanket-i-loenportalen-og-skabeloner-til-barsel/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-05-05T16:46:18+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "Ny release til automatiseret brugerkontrol øger effektiviteten af brugerrettighedskontrol",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/juni/ny-release-til-automatiseret-brugerkontrol-oeger-effektiviteten-af-brugerrettighedskontrol/",
       "reason": "before_archive_start",
@@ -17657,6 +17637,26 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-12-20T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Ny vejledningsydelse gør det mere enkelt at arbejde med finansiel risikostyring og interne kontroller",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/august/ny-vejledningsydelse-goer-det-mere-enkelt-at-arbejde-med-finansiel-risikostyring-og-interne-kontroller/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-08-10T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Nye skabeloner til barselsplaner",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/september/nye-skabeloner-til-barselsplaner/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-09-20T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -17820,16 +17820,6 @@
     },
     {
       "source": "Statens Administration",
-      "title": "Processen for tilbagedatering af rejseafregninger i RejsUd ændres pr. 1. november 2023",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/august/processen-for-tilbagedatering-af-rejseafregninger-i-rejsud-aendres-pr-1-november-2023/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2023-08-14T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
       "title": "Refusion holder lukket mandag den 2. oktober på grund af systemopdatering",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/september/refusion-holder-lukket-mandag-den-2-oktober-paa-grund-af-systemopdatering/",
       "reason": "before_archive_start",
@@ -17860,6 +17850,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Resultatet af årets kundetilfredshedsundersøgelse er nu klar",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/september/resultatet-af-aarets-kundetilfredshedsundersoegelse-er-nu-klar/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-09-21T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "SGO-opdatering: nyt samlet kontrolspørgsmål om brugeradgange",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/december/sgo-opdatering-nyt-samlet-kontrolspoergsmaal-om-brugeradgange/",
       "reason": "before_archive_start",
@@ -17880,16 +17880,6 @@
     },
     {
       "source": "Statens Administration",
-      "title": "Sidste debitorrykkere samt frister for indberetning via PSRM",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/september/sidste-debitorrykkere-samt-frister-for-indberetning-via-psrm/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-09-29T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
       "title": "Statens Administration effektiviserer lønsagsbehandlingen",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2024/september/statens-administration-effektiviserer-loensagsbehandlingen/",
       "reason": "before_archive_start",
@@ -17897,6 +17887,36 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-09-20T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Statens Administration får ny kundebetjeningsenhed pr. 1. november 2022",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/oktober/statens-administration-faar-ny-kundebetjeningsenhed-pr-1-november-2022/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-10-31T09:37:41+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Statens Administration gennemfører organisationsændring",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/september/statens-administration-gennemfoerer-organisationsaendring/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Statens Administration har igen afholdt Forum for lønansvarlige i staten",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/maj/statens-administration-har-igen-afholdt-forum-for-loenansvarlige-i-staten/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-05-12T11:41:37+00:00"
     },
     {
       "source": "Statens Administration",
@@ -17990,6 +18010,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Status på tilsynet med Statens Administration",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/august/status-paa-tilsynet-med-statens-administration/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-08-09T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "Status på tilsynet med Statens Administration 2022",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/juni/status-paa-tilsynet-med-statens-administration-2022/",
       "reason": "before_archive_start",
@@ -18060,6 +18090,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Telefonerne er lukkede mandag den 31. oktober",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/oktober/telefonerne-er-lukkede-mandag-den-31-oktober/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-10-26T14:02:24+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "Telefonerne er ude af drift",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/december/telefonerne-er-ude-af-drift/",
       "reason": "before_archive_start",
@@ -18087,6 +18127,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2023-09-11T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Undersøgelse af kundetilfredshed indledes onsdag den 24. august 2022",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/august/undersoegelse-af-kundetilfredshed-indledes-onsdag-den-24-august-2022/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-08-22T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -18207,6 +18257,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-08-07T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Ønsker I hjælp til beregning af feriepengeforpligtelsen i forbindelse med årsafslutningen 2022?",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/oktober/oensker-i-hjaelp-til-beregning-af-feriepengeforpligtelsen-i-forbindelse-med-aarsafslutningen-2022/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-10-12T12:49:33+00:00"
     },
     {
       "source": "Statens It",
@@ -19365,15 +19425,6 @@
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Forsøg med anvendelse af humlebier til spredning af mikrobiologisk insekt-middel i jordbær",
-      "url": "https://mst.dk/nyheder/2026/september/bumblebio",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
       "detail": ""
     },
     {
