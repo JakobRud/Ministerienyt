@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-12T10:26:33.146174+00:00",
+  "generated_at": "2026-09-12T11:26:14.673820+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1954,
+  "total_rejected": 1953,
   "summary_by_reason": {
-    "before_archive_start": 1944,
+    "before_archive_start": 1943,
     "missing_safe_publication_date": 2,
     "source_filter_mismatch": 8
   },
@@ -7697,16 +7697,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2024-09-27T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvaret/Forsvarskommandoen",
-      "title": "Fokus på trusler fra droner under øvelse i Letland",
-      "url": "https://www.forsvaret.dk/da/nyheder/2024/mu-38---fokus-pa-trusler-fra-droner-under-ovelse-i-letland/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-09-23T00:00:00+00:00"
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
