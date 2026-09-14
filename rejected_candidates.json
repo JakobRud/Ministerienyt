@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-14T09:49:32.639849+00:00",
+  "generated_at": "2026-09-14T16:21:49.175867+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 167,
+  "total_rejected": 165,
   "summary_by_reason": {
-    "before_archive_start": 167
+    "before_archive_start": 165
   },
   "rejected": [
     {
@@ -898,16 +898,6 @@
     },
     {
       "source": "Justitsministeriet",
-      "title": "Ny aftale for politi og anklagemyndighed sikrer milliardstyrkelse af indsatsen mod økonomisk kriminalitet",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/ny-aftale-for-politi-og-anklagemyndighed-sikrer-milliardstyrkelse-af-indsatsen-mod-oekonomisk-kriminalitet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-04T12:30:53+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
       "title": "Nyt lovforslag skal tage et opgør med voldsparate fans på den danske fodboldscene",
       "url": "https://www.justitsministeriet.dk/pressemeddelelse/nyt-lovforslag-skal-tage-et-opgoer-med-voldsparate-fans-paa-den-danske-fodboldscene/",
       "reason": "before_archive_start",
@@ -925,6 +915,16 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-12-17T12:40:46+00:00"
+    },
+    {
+      "source": "Justitsministeriet",
+      "title": "Opgavebeskrivelse for en samlet informationsindsats vedrørende oplysning til borgerne i forbindelse med folkeafstemning om retsforbeholdet",
+      "url": "https://www.justitsministeriet.dk/pressemeddelelse/opgavebeskrivelse-for-en-samlet-informationsindsats-vedroerende-oplysning-til-borgerne-i-forbindelse-med-folkeafstemning-om-retsforbeholdet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2015-07-06T15:06:32+00:00"
     },
     {
       "source": "Justitsministeriet",
@@ -1458,16 +1458,6 @@
     },
     {
       "source": "Undervisningsministeriet",
-      "title": "Styrket samarbejde er afgørende for børn med støttebehov",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/oktober/251006-styrket-samarbejde-er-afgoerende-for-boern-med-stoettebehov/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-10-06T08:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
       "title": "Tre nye IB-udbud har fået grønt lys",
       "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251217-tre-nye-ib-udbud-har-faaet-groent-lys/",
       "reason": "before_archive_start",
@@ -1655,16 +1645,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-10-14T00:00:00+00:00"
-    },
-    {
-      "source": "Økonomi- og Indenrigsministeriet",
-      "title": "Økonomiministeren er i Sydafrika for at deltage i G20-møder for finansministre og centralbankchefer fra verdens største økonomier",
-      "url": "https://oem.dk/nyheder/nyhedsarkiv/2025/juli/oekonomiministeren-er-i-sydafrika-for-at-deltage-i-g20-moeder-for-finansministre-og-centralbankchefer-fra-verdens-stoerste-oekonomier/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-07-16T00:00:00+00:00"
     },
     {
       "source": "Økonomi- og Indenrigsministeriet",
