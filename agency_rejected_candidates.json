@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-14T16:28:07.382304+00:00",
+  "generated_at": "2026-09-14T22:33:02.609868+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1120,
+  "total_rejected": 1121,
   "summary_by_reason": {
     "before_archive_start": 1108,
-    "missing_safe_publication_date": 3,
-    "source_filter_mismatch": 9
+    "missing_safe_publication_date": 5,
+    "source_filter_mismatch": 8
   },
   "rejected": [
     {
@@ -11098,12 +11098,30 @@
       "detail": ""
     },
     {
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Ny myndighed vurderer ikke-statsligt godkendte uddannelser fra 15. september 2026",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Ny-myndighed-vurderer-ikke-statsligt-godkendte-uddannelser",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Ny i Danmark API",
+      "detail": ""
+    },
+    {
       "source": "Styrelsen for Patientsikkerhed",
       "title": "Snart afholder vi temadag om patientsikkerhed for alle med kronisk sygdom",
       "url": "https://stps.dk/nyheder/2026/sep/tilmelding-til-temadag-17-september-patientsikkerhed-for-alle-med-kronisk-sygdom-2",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Ny myndighed vurderer ikke-statsligt godkendte uddannelser fra 15. september 2026",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Ny-myndighed-vurderer-ikke-statsligt-godkendte-uddannelser",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Ny i Danmark API",
       "detail": ""
     },
     {
@@ -11194,16 +11212,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny digital ansøgning for dig, der søger om opholdstilladelse som medfølgende familie til en person, der har opnået permanent opholdstilladelse i forlængelse af arbejde eller studie",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Launch-digital-MF4",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-14T00:00:00+00:00"
     }
   ]
 }
