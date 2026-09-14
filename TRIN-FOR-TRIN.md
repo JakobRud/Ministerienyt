@@ -1,8 +1,8 @@
-# Opdatér til version 7.1.3
+# Opdatér til version 7.1.4
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.1.3.zip` ud.
+Pak `Ministerienyt-7.1.4.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -32,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.1.3-kørsel genopbygger automatisk Erhvervsstyrelsens del af arkivet. Efter kørslen skal ERST normalt stå med **33 artikler** og uden 403-bemærkning: 32 verificerede nyheder fra ERSTs egen oversigt og én supplerende Via Ritzau-pressemeddelelse. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
+Den første 7.1.4-kørsel genopbygger automatisk Dansk Dekommissionerings del af arkivet. Efter kørslen skal kilden stå med **8 artikler** fra 2026. Forsvaret/Forsvarskommandoen skal fortsat bevare sit eksisterende arkiv, men uden timeout-bemærkningen. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
 
 ## 6. Kontrollér siderne
 
@@ -40,7 +40,8 @@ Den første 7.1.3-kørsel genopbygger automatisk Erhvervsstyrelsens del af arkiv
 - Kontrollér, at **Ministerienyt** og **Styrelsesnyt** står ved siden af hinanden øverst.
 - Vælg **Styrelsesnyt**.
 - Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **Alle**, **I dag**, **3 dage**, **7 dage**, **30 dage** og **Kilder og dækning**.
-- Kontrollér, at kildelisten viser **77 kilder** og ministerområderne.
+- Kontrollér, at kildelisten viser **74 kilder** og ministerområderne.
+- Kontrollér, at Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet ikke længere står i kildelisten.
 
 ## 7. Lad de genererede filer blive liggende
 

@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.1.3"
+APP_VERSION = "7.1.4"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 17
+ARCHIVE_SCHEMA_VERSION = 18
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -1075,6 +1075,21 @@ def trusted_future_publication_date_from_context(context: str, source: dict) -> 
     return None
 
 
+def strip_source_title_suffix(value: str, source: dict | None = None) -> str:
+    """Fjern et eksplicit godkendt sitenavn fra slutningen af en rubrik."""
+    title = clean_text(value)
+    suffixes = (source or {}).get("title_suffixes", [])
+    if isinstance(suffixes, str):
+        suffixes = [suffixes]
+    for raw_suffix in suffixes:
+        suffix = clean_text(str(raw_suffix))
+        if suffix and title.casefold().endswith(suffix.casefold()):
+            candidate = clean_text(title[:-len(suffix)])
+            if candidate and not is_generic_title(candidate):
+                return candidate
+    return title
+
+
 def title_from_soup(soup: BeautifulSoup, source: dict | None = None) -> str:
     """Find den egentlige artikeloverskrift.
 
@@ -1083,7 +1098,9 @@ def title_from_soup(soup: BeautifulSoup, source: dict | None = None) -> str:
     (fx blot "Nyhed"), falder vi tilbage til OpenGraph/Twitter/title.
     """
     h1 = soup.find("h1")
-    h1_title = clean_text(h1.get_text(" ", strip=True)) if h1 else ""
+    h1_title = strip_source_title_suffix(
+        h1.get_text(" ", strip=True) if h1 else "", source
+    )
     source_name = clean_text(str((source or {}).get("name", "")))
     if h1_title and not is_generic_title(h1_title):
         if not source_name or h1_title.casefold() != source_name.casefold():
@@ -1092,12 +1109,14 @@ def title_from_soup(soup: BeautifulSoup, source: dict | None = None) -> str:
     for attrs in ({"property": "og:title"}, {"name": "twitter:title"}):
         tag = soup.find("meta", attrs=attrs)
         if tag and tag.get("content"):
-            value = clean_text(str(tag["content"]))
+            value = strip_source_title_suffix(str(tag["content"]), source)
             if value and (not source_name or value.casefold() != source_name.casefold()):
                 return value
     if h1_title:
         return h1_title
-    return clean_text(soup.title.get_text(" ", strip=True) if soup.title else "")
+    return strip_source_title_suffix(
+        soup.title.get_text(" ", strip=True) if soup.title else "", source
+    )
 
 
 def strip_leading_publication_date(value: str) -> str:
@@ -4588,7 +4607,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.1.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.1.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.1.4</strong><ul><li>Forsvarets officielle ListPage-endpoint bruger nu 50 poster pr. kald og giver ikke længere timeout-bemærkningen.</li><li>Dansk Dekommissionerings datobaserede artikelstier genkendes, så alle 8 nyheder fra 2026 hentes med rene rubrikker.</li><li>Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet er fjernet, fordi de ikke har egentlige nyhedsarkiver; Styrelsesnyt har nu 74 aktive kilder.</li></ul>'
         '<strong>v7.1.3</strong><ul><li>ERST genopbygges med alle 32 verificerede nyheder fra myndighedens officielle 2026-oversigt.</li><li>Den kendte Cloudflare-403 fra ERST giver ikke længere en kildebemærkning, når det verificerede grundarkiv fungerer.</li><li>Via Ritzau bruges fortsat som supplement, så den kontrollerede kørsel giver 33 ERST-poster i alt.</li></ul>'
         '<strong>v7.1.2</strong><ul><li>KFST henter alle årets pressemeddelelser fra myndighedens officielle sitemap uden at følge uvedkommende 2026-links som listesider.</li><li>Banedanmarks fulde 2026-arkiv hentes dagligt via den officielle Vis flere-visning.</li><li>Erhvervsstyrelsens egen nyhedsliste er igen hovedkilde; Via Ritzau bruges kun som supplement.</li></ul>'
         '<strong>v7.1.1</strong><ul><li>Periodevalget Alle står nu først, efterfulgt af I dag, 3 dage, 7 dage og 30 dage.</li><li>Styrelsesnyts kilder med bemærkninger eller få 2026-artikler er gennemgået og kildeopsætningen er justeret, hvor kontrollen viste mangler.</li><li>Administrations- og Servicestyrelsen er fjernet, fordi myndigheden ikke har et egentligt nyhedsarkiv; Styrelsesnyt har nu 77 aktive kilder.</li></ul>'

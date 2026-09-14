@@ -139,6 +139,20 @@ class DateRegressionTests(unittest.TestCase):
         source = {"name": "Børne-, Ældre- og Boligministeriet"}
         self.assertEqual(m.title_from_soup(soup, source), "Ny undersøgelse viser stor tilfredshed blandt forældre til børn i dagtilbud")
 
+    def test_dekommissionering_strips_official_site_suffix_from_title(self):
+        soup = BeautifulSoup(
+            '<meta property="og:title" content="Åbent hus på Dansk Dekommissionering - Dansk Dekommissionering">',
+            "html.parser",
+        )
+        source = {
+            "name": "Dansk Dekommissionering",
+            "title_suffixes": [" - Dansk Dekommissionering"],
+        }
+        self.assertEqual(
+            m.title_from_soup(soup, source),
+            "Åbent hus på Dansk Dekommissionering",
+        )
+
 
 class IdentityAndSafetyTests(unittest.TestCase):
     def item(self, source, title, url, day):
@@ -157,11 +171,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         b = self.item("Klima-, Energi- og Forsyningsministeriet", title, "https://kefm.dk/b", "2026-08-20")
         self.assertTrue(m.duplicate_match(a, b))
 
-    def test_agency_config_has_exactly_77_unique_official_sources(self):
+    def test_agency_config_has_exactly_74_unique_official_sources(self):
         raw = json.loads(Path("agency_sources.json").read_text(encoding="utf-8"))
         sources = m.load_sources_config(Path("agency_sources.json"))
         names = [source["name"] for source in sources]
-        self.assertEqual(len(sources), 77)
+        self.assertEqual(len(sources), 74)
         self.assertEqual(len(names), len(set(names)))
         self.assertTrue(all(source.get("responsible_ministry") for source in sources))
         self.assertEqual(raw["defaults"]["max_listing_pages"], 12)
@@ -177,13 +191,19 @@ class IdentityAndSafetyTests(unittest.TestCase):
                 self.assertTrue(parsed.netloc, f"{source['name']}: {url}")
         for required in (
             "Statens Administration", "DREAM", "Civilstyrelsen",
-            "Tilsynet med Efterretningstjenesterne", "CPR", "Havarikommissionen",
+            "Tilsynet med Efterretningstjenesterne", "CPR",
             "Forsvarsministeriets Auditørkorps",
             "Udviklings- og Forenklingsstyrelsen", "It-tilsynet",
             "Styrelsen for Patientklager",
         ):
             self.assertIn(required, names)
-        self.assertNotIn("Administrations- og Servicestyrelsen", names)
+        for removed in (
+            "Administrations- og Servicestyrelsen",
+            "Havarikommissionen",
+            "Skatteankestyrelsen",
+            "Styrelsen for Undervisning og Kvalitet",
+        ):
+            self.assertNotIn(removed, names)
 
     def test_police_source_is_limited_to_central_rigspolitiet_news(self):
         sources = m.load_sources_config(Path("agency_sources.json"))
@@ -205,7 +225,6 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "Det Nationale Forskningscenter for Arbejdsmiljø": "https://nfa.dk/nyt/",
             "Hjemmeværnet": "https://www.hjemmevaernet.dk/da/aktuelt/",
             "Skattestyrelsen": "https://sktst.dk/nyheder-og-pressemeddelelser",
-            "Skatteankestyrelsen": "https://skatteankestyrelsen.dk/aktuelt",
             "Finanstilsynet": "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser",
             "Sundhedsstyrelsen": "https://www.sst.dk/nyheder",
             "Sundhedsdatastyrelsen": "https://sundhedsdatastyrelsen.dk/nyheder",
@@ -240,6 +259,14 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "https://www.domstol.dk",
         )
         self.assertTrue(sources["Ankestyrelsen"]["gobasic_dynamic_list"])
+        self.assertEqual(sources["Forsvaret/Forsvarskommandoen"]["listpage_item_count"], 50)
+        dekom = sources["Dansk Dekommissionering"]
+        self.assertTrue(m.looks_like_article(
+            "https://dekom.dk/2026/08/28/aabent-hus-paa-dansk-dekommissionering/",
+            dekom,
+        ))
+        self.assertFalse(m.looks_like_article("https://dekom.dk/nyheder/", dekom))
+        self.assertEqual(dekom["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
         self.assertTrue(sources["Erhvervsstyrelsen"]["ritzau_supplemental"])
         self.assertTrue(sources["Erhvervsstyrelsen"]["require_listing_date"])
@@ -249,7 +276,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
         )
         self.assertTrue(sources["Erhvervsstyrelsen"]["verified_archive_ignores_cloudflare_403"])
         self.assertNotIn("historical_start_urls", sources["Erhvervsstyrelsen"])
-        self.assertEqual(
+        self.assertEqual(sources["Erhvervsstyrelsen"]["refresh_before_schema"], 17)
+        self.assertLessEqual(
             sources["Erhvervsstyrelsen"]["refresh_before_schema"],
             m.ARCHIVE_SCHEMA_VERSION,
         )

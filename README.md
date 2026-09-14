@@ -1,6 +1,12 @@
-# Ministerienyt og Styrelsesnyt 7.1.3
+# Ministerienyt og Styrelsesnyt 7.1.4
 
-Version 7.1.3 retter Erhvervsstyrelsens 403-fejl og ufuldstændige 2026-dækning. Den indeholder samtidig alle ændringer fra 7.1.2.
+Version 7.1.4 retter Forsvarets kildekontrol og Dansk Dekommissionerings nyhedsarkiv og fjerner tre kilder uden egentlige nyheder. Den indeholder samtidig alle ændringer fra 7.1.3.
+
+## Rettet i version 7.1.4
+
+- Forsvaret/Forsvarskommandoen bruger nu det officielle ListPage-endpoints normale grænse på 50 poster i stedet for at bede om 500. Det fjerner timeout-bemærkningen, mens det eksisterende arkiv bevares.
+- Dansk Dekommissionerings datobaserede artikelstier genkendes nu korrekt. Den kontrollerede 2026-oversigt giver 8 nyheder, og sitenavnet fjernes fra slutningen af rubrikkerne.
+- Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet er fjernet, fordi de ikke har egentlige nyhedsarkiver. Styrelsesnyt har nu **74 aktive kilder**.
 
 ## Rettet i version 7.1.3
 
@@ -64,7 +70,7 @@ Version 7.1.3 retter Erhvervsstyrelsens 403-fejl og ufuldstændige 2026-dækning
 - Styrelsesnyt har søgning, kildefilter, **Mine myndigheder**, **Kun nye**, perioder på 7 og 30 dage, delbar visning, kopiering af links og trinvis indlæsning.
 - Brugerens læste artikler og valgte myndigheder gemmes separat fra Ministerienyt.
 - Samme historie fra flere myndigheder samles i ét kort på Styrelsesnyt. En historie kan stadig fremgå én gang på både Ministerienyt og Styrelsesnyt, fordi siderne er selvstændige.
-- De 77 aktive kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
+- De 74 aktive kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
 - Rigspolitiets kilde er begrænset til centrale nyheder; lokale døgnrapporter medtages ikke.
 - Delte officielle arkiver filtreres på udgiver, så SIRI og Udlændingestyrelsen ikke overtager hinandens artikler.
 - Timekørslerne besøger højst to aktive listesider pr. myndighed. Den daglige dybe kontrol går højst 12 sider tilbage. Det holder belastningen af de officielle hjemmesider nede.
@@ -76,7 +82,7 @@ Version 7.0 indeholder også rettelsen fra 6.3.1, hvor Kulturministeriets synlig
 | Side | URL | Kilder | Lokale valg | Datafiler |
 | --- | --- | ---: | --- | --- |
 | Ministerienyt | repositoryets Pages-forside | 22 | Mine ministerier | `archive.json`, `health.json` m.fl. |
-| Styrelsesnyt | `/styrelsesnyt/` | 77 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
+| Styrelsesnyt | `/styrelsesnyt/` | 74 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
 
 De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfigurationer og arkiver.
 

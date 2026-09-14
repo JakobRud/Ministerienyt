@@ -397,17 +397,6 @@
       "refresh_before_schema": 14
     },
     {
-      "name": "Havarikommissionen",
-      "responsible_ministry": "By-, Land- og Transportministeriet",
-      "home_url": "https://havarikommissionen.dk/",
-      "start_urls": ["https://havarikommissionen.dk/information-fra-havarikommissionen"],
-      "article_prefixes": ["/information-fra-havarikommissionen/"],
-      "gobasic_dynamic_list": true,
-      "max_listing_pages": 5,
-      "refresh_before_schema": 14
-    },
-
-    {
       "name": "Hjemrejsestyrelsen",
       "responsible_ministry": "Udlændinge- og Integrationsministeriet",
       "home_url": "https://hjemst.dk/",
@@ -437,14 +426,6 @@
       "refresh_before_schema": 14
     },
 
-    {
-      "name": "Styrelsen for Undervisning og Kvalitet",
-      "responsible_ministry": "Undervisningsministeriet",
-      "home_url": "https://stukuvm.dk/",
-      "start_urls": ["https://stukuvm.dk/om-styrelsen/aktuelt"],
-      "article_prefixes": ["/om-styrelsen/aktuelt/"],
-      "stop_pagination_before_archive_start": true
-    },
     {
       "name": "Styrelsen for It og Læring",
       "responsible_ministry": "Undervisningsministeriet",
@@ -488,6 +469,7 @@
       "start_urls": ["https://www.forsvaret.dk/da/nyheder/"],
       "article_prefixes": ["/da/nyheder/"],
       "listpage_dynamic_list": true,
+      "listpage_item_count": 50,
       "refresh_before_schema": 14
     },
     {
@@ -584,16 +566,6 @@
       "article_prefixes": ["/nyheder/"],
       "next_index_search": true,
       "next_index_name": "spillemyndigheden-da",
-      "refresh_before_schema": 14
-    },
-    {
-      "name": "Skatteankestyrelsen",
-      "responsible_ministry": "Skatte- og Vækstministeriet",
-      "home_url": "https://skatteankestyrelsen.dk/",
-      "start_urls": ["https://skatteankestyrelsen.dk/aktuelt"],
-      "article_prefixes": ["/aktuelt/"],
-      "next_index_search": true,
-      "next_index_name": "sanst-da",
       "refresh_before_schema": 14
     },
     {
@@ -762,11 +734,12 @@
       "responsible_ministry": "Ministeriet for Samfundssikkerhed og Beredskab",
       "home_url": "https://dekom.dk/",
       "start_urls": ["https://dekom.dk/nyheder/"],
-      "article_url_regex": "^/(?!nyheder/?$|kategori/|tag/|author/)[a-z0-9-]{8,}/?$",
-      "article_exclude_regex": "^/(?:publikationer|forskningensdogn)/?$",
+      "article_url_regex": "^/2026/\\d{2}/\\d{2}/[a-z0-9-]+/?$",
+      "title_suffixes": [" - Dansk Dekommissionering"],
       "always_fetch_articles": true,
       "stop_pagination_before_archive_start": true,
-      "refresh_before_schema": 14
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 18
     },
 
     {
