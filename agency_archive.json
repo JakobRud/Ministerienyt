@@ -1,7 +1,7 @@
 {
-  "schema_version": 16,
+  "schema_version": 17,
   "archive_start": "2026-01-01",
-  "updated_at": "2026-09-14T06:30:30.858211+00:00",
+  "updated_at": "2026-09-14T07:15:49.857405+00:00",
   "items": [
     {
       "source": "Vejdirektoratet",
@@ -992,6 +992,15 @@
       "description": "Nyidanmark.dk er den officielle internetportal om reglerne for indrejse og ophold i Danmark og drives i fællesskab af Udlændingestyrelsen og Styrelsen for International Rekruttering og Integration.",
       "article_id": "a6-868156d6e7a7f67dfc6f729bb5d6d80e",
       "first_seen_at": "2026-09-09T06:54:28.822897+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Del dine erfaringer med bæredygtighedsrapportering",
+      "url": "https://erhvervsstyrelsen.dk/del-dine-erfaringer-med-baeredygtighedsrapportering",
+      "published": "2026-09-04T00:00:00+00:00",
+      "description": "Hvordan håndterer din virksomhed indsamling og rapportering af bæredygtighedsdata – og hvor lang tid tager det? Brug 5-7 minutter på at besvare et kort spørgeskema, og bidrag til Erhvervsstyrelsens arbejde med at gøre bæredygtighedsrapportering enklere og mere automatiseret.",
+      "article_id": "a6-b3a4d67cb5d987e15fed148da7c6707c",
+      "first_seen_at": "2026-09-14T07:09:43.583884+00:00"
     },
     {
       "source": "Rigspolitiet/politi.dk",
@@ -2209,6 +2218,15 @@
       "first_seen_at": "2026-09-10T08:15:36.539204+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "ESEF-taksonomi 2025 er implementeret og klar til brug",
+      "url": "https://erhvervsstyrelsen.dk/esef-taksonomi-2025-er-implementeret-og-klar-til-brug",
+      "published": "2026-08-26T00:00:00+00:00",
+      "description": "Den seneste XBRL-taksonomi til at opmærke og indsende årsrapporter efter det europæiske standardformat ESEF er nu implementeret i Erhvervsstyrelsens systemer.",
+      "article_id": "a6-d36891801312a6441c73a0d78dc2c44b",
+      "first_seen_at": "2026-09-14T07:09:43.584360+00:00"
+    },
+    {
       "source": "Vejdirektoratet",
       "title": "Nu bliver cykelturen mellem Søften og Aarhus både kortere og mere sikker",
       "url": "https://www.vejdirektoratet.dk/pressemeddelelse/2026/nu-bliver-cykelturen-mellem-soeften-og-aarhus-baade-kortere-og-mere-sikker",
@@ -3188,6 +3206,15 @@
       "description": "Social- og Boligstyrelsen arbejder med udvikling, rådgivning, myndighedsopgaver og implementering på social-, bolig- og byggeriområdet. Social- og Boligstyrelsen er en del af Social- og Boligministeriets koncern.",
       "article_id": "a6-6b4e1b6131bd0274d5010ffa5ff948cc",
       "first_seen_at": "2026-09-09T07:00:46.082616+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny runde casebaseret undervisning om hvidvask og terrorfinansiering",
+      "url": "https://erhvervsstyrelsen.dk/ny-runde-casebaseret-undervisning-om-hvidvask-og-terrorfinansiering",
+      "published": "2026-08-13T00:00:00+00:00",
+      "description": "Igen i år inviterer en række myndigheder til casebaseret undervisning om hvidvask og terrorfinansiering - med mulighed for deltagelse i København den 16. november 2026 og i Skanderborg den 23. november 2026.",
+      "article_id": "a6-a6363fffe296d5ced254cb8ecb930110",
+      "first_seen_at": "2026-09-14T07:09:43.584509+00:00"
     },
     {
       "source": "Datatilsynet",
@@ -4369,6 +4396,15 @@
       "first_seen_at": "2026-09-10T01:26:55.993108+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny afgørelses- og fortolkningsdatabase for Erhvervsstyrelsens afgørelser og vejledende fortolkninger",
+      "url": "https://erhvervsstyrelsen.dk/ny-afgoerelses-og-fortolkningsdatabase-erhvervsstyrelsens-afgoerelser-og-vejledende-fortolkninger",
+      "published": "2026-07-10T00:00:00+00:00",
+      "description": "Afgørelses- og fortolkningsdatabasen giver indblik i Erhvervsstyrelsens afgørelser og vejledende fortolkninger.",
+      "article_id": "a6-de33efe73e0e5c0c4fc593ce1a6e5b6c",
+      "first_seen_at": "2026-09-14T07:09:43.584643+00:00"
+    },
+    {
       "source": "Miljøstyrelsen",
       "title": "Hold god afstand til pukkelhval ved Aarhus",
       "url": "https://mst.dk/nyheder/2026/juli/hold-god-afstand-til-pukkelhval-ved-aarhus",
@@ -4621,6 +4657,24 @@
       "first_seen_at": "2026-09-10T08:15:37.466017+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Retningslinjer for kvalitetskontrol af revisionsvirksomheder for 2026 offentliggjort",
+      "url": "https://erhvervsstyrelsen.dk/retningslinjer-kvalitetskontrol-af-revisionsvirksomheder-2026-offentliggjort",
+      "published": "2026-07-08T00:00:00+00:00",
+      "description": "Revisionsvirksomheder og tilknyttede revisorer er underlagt en lovpligtig kvalitetskontrol. Erhvervsstyrelsen har offentliggjort retningslinjer for kvalitetskontrol af revisionsvirksomheder for 2026.",
+      "article_id": "a6-6f1990ed87c5680d8035ed5f21344513",
+      "first_seen_at": "2026-09-14T07:09:43.584774+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Erhvervsstyrelsen har iværksat undersøgelse af revisionerne af årsregnskaberne for 2024 for LATA Koncernen og fonden Valhalla",
+      "url": "https://erhvervsstyrelsen.dk/erhvervsstyrelsen-har-ivaerksat-undersoegelse-af-revisionerne-af-aarsregnskaberne-2024-lata",
+      "published": "2026-07-08T00:00:00+00:00",
+      "description": "På baggrund af medieomtale af de sociale tilbud under LATA Koncernen og fonden Valhalla har Erhvervsstyrelsen iværksat en undersøgelse af årsregnskabernes revision.",
+      "article_id": "a6-099f6f627e99909e2130ff8e856c1910",
+      "first_seen_at": "2026-09-14T07:09:43.584903+00:00"
+    },
+    {
       "source": "Færdselsstyrelsen",
       "title": "Nye regler for genopsætning af ladepunkter efter 1. januar 2027",
       "url": "https://www.fstyr.dk/nyheder/2026/jul/nye-regler-for-genopsaetning-af-ladepunkter-efter-1-januar-2027",
@@ -4862,6 +4916,15 @@
       "description": "For at fremme en sund konkurrencesituation til gavn for både forbrugere og virksomheder stiller Konkurrence- og Forbrugerstyrelsen krav til en række netselskaber, der ejer fibernet i Danmark. Det omfatter prislofter for fiberleje og andre vilkår, så virksomheder, der ønsker at sælge bredbånd via fibernettet, får rimelige konkurrencevilkår. I kravene er der taget hensyn til, at telesektoren har stigende udgifter til for eksempel at beskytte kritisk infrastruktur. Udkastene til de afgørelser, som indeholder kravene for den kommende fem-årsperiode, er netop offentliggjort og sendt i høring af styrelsen.",
       "article_id": "a6-68dbf01f00e76c9fe6a1e40a52710acc",
       "first_seen_at": "2026-09-10T08:15:38.896427+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Europa-Kommissionen vedtager forenklede standarder for bæredygtighedsrapportering",
+      "url": "https://erhvervsstyrelsen.dk/kommissionen-vedtager-forenklede-standarder-baeredygtighedsrapportering",
+      "published": "2026-07-06T00:00:00+00:00",
+      "description": "Europa-Kommissionen har den 3. juli 2026 vedtaget forenklede standarder for bæredygtighedsrapportering. Det betyder, at virksomheder, der er omfattet af kravene, allerede kan anvende de nye standarder for regnskabsåret 2026.",
+      "article_id": "a6-5cd81ce6e11f5303026cbe12f87f4829",
+      "first_seen_at": "2026-09-14T07:09:43.585034+00:00"
     },
     {
       "source": "DMI",
@@ -5348,6 +5411,24 @@
       "description": "Østre Landsret har i en nævningesag idømt en 24-årig mand et års fængsel, men ikke forvaring som påstået. Landsretten har dermed skærpet straffen til manden, der af Retten i Roskilde blev idømt 10 måneders fængsel.",
       "article_id": "a6-f70ccb268dc084cf1ac8f02a826e69e4",
       "first_seen_at": "2026-09-10T07:13:01.423027+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Lovforslag om forenkling af reglerne for bæredygtighedsrapportering sendt i høring",
+      "url": "https://erhvervsstyrelsen.dk/lovforslag-om-forenkling-af-reglerne-baeredygtighedsrapportering-sendt-i-hoering",
+      "published": "2026-07-02T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen har sendt et lovforslag i høring, som vil implementere ændringerne til CSRD og reducere antallet af virksomheder, der er omfattet af kravene til bæredygtighedsrapportering.",
+      "article_id": "a6-ab9d112220aa78ef2f38415d77fa5e36",
+      "first_seen_at": "2026-09-14T07:09:43.585177+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Bekendtgørelse med nye krav til digitale standard bogføringssystemer er nu i høring",
+      "url": "https://erhvervsstyrelsen.dk/bekendtgoerelse-med-nye-krav-til-digitale-standard-bogfoeringssystemer-er-nu-i-hoering",
+      "published": "2026-07-02T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen ønsker at gennemføre en række tiltag for at understøtte udbredelsen af e-fakturering. Høringssvar skal sendes senest den 17. august 2026.",
+      "article_id": "a6-d190412ba024dfd2dcce53810dc1c54d",
+      "first_seen_at": "2026-09-14T07:09:43.585301+00:00"
     },
     {
       "source": "Miljøstyrelsen",
@@ -6293,6 +6374,24 @@
       "description": "I første kvartal 2026 var der et overskud på de offentlige finanser på 9,3 mia. kr., hvilket er 7,7 mia. kr. højere end i fjerde kvartal 2025.",
       "article_id": "a6-fecbf0d89836f0edd32e4af069e0082a",
       "first_seen_at": "2026-09-10T01:27:22.783332+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Vejledning om de nye regler for generationsskifte af virksomheder til medarbejdereje",
+      "url": "https://erhvervsstyrelsen.dk/vejledning-om-de-nye-regler-generationsskifte-af-virksomheder-til-medarbejdereje",
+      "published": "2026-06-26T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen udgiver en vejledning om de nye regler for generationsskifte af virksomheder til medarbejdere via en medarbejderejevirksomhed.",
+      "article_id": "a6-015631a6f53c9a7d92af126c94a8c8d6",
+      "first_seen_at": "2026-09-14T07:09:43.585422+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Afklaring vedrørende identiske regnskaber – i medierne omtalt som kopierede regnskaber",
+      "url": "https://erhvervsstyrelsen.dk/afklaring-vedroerende-identiske-regnskaber-i-medierne-omtalt-som-kopierede-regnskaber-0",
+      "published": "2026-06-26T00:00:00+00:00",
+      "description": "Hen over foråret var der fokus på de såkaldte identiske regnskaber i CVR og på, om de kan være en indikation på omfattende snyd og økonomisk svindel hos danske virksomheder.",
+      "article_id": "a6-a82889df7b3c3e49a437741bd1ef0ca2",
+      "first_seen_at": "2026-09-14T07:09:43.585546+00:00"
     },
     {
       "source": "Færdselsstyrelsen",
@@ -7643,6 +7742,15 @@
       "description": "Langt de fleste respekterer blink, klokker og bomme ved landets jernbaneoverkørsler. Alligevel registrerede Banedanmark i 2025 hele 471 nærved-hændelser, hvor det var tæt på at gå galt. Det er en stigning på 46 procent sammenlignet med året før. Det bekymrer Banedanmark, og derfor advarer vi nu danskerne mod en adfærd, der hvert år sætter menneskeliv på spil.",
       "article_id": "a6-6b7b68cc5a9d8d989f67c077ac573da5",
       "first_seen_at": "2026-09-10T08:18:36.981487+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Klimakontoplanen i mål med første fase: vigtigt skridt mod automatiseret klimarapportering",
+      "url": "https://erhvervsstyrelsen.dk/klimakontoplanen-i-maal-med-foerste-fase-vigtigt-skridt-mod-automatiseret-klimarapportering",
+      "published": "2026-06-17T00:00:00+00:00",
+      "description": "Klimakontoplanen er et vigtigt skridt mod mere automatiseret klimarapportering og skal gøre det muligt at genbruge eksisterende bogføringsdata til at udlede klimadata.",
+      "article_id": "a6-be83188a7fe88ac16c0f190955002b68",
+      "first_seen_at": "2026-09-14T07:09:43.585674+00:00"
     },
     {
       "source": "Naturstyrelsen",
@@ -9103,6 +9211,15 @@
       "first_seen_at": "2026-09-10T07:13:17.629541+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Flere sektorer bliver omfattet af CO2-kvoteordningen",
+      "url": "https://erhvervsstyrelsen.dk/flere-sektorer-bliver-omfattet-af-co2-kvoteordningen",
+      "published": "2026-05-29T00:00:00+00:00",
+      "description": "EU udvider CO2-kvoteordningen med ETS2, så blandt andet brændstofoperatører samt virksomheder inden for byggeindustrien og vejtransport bliver omfattet.",
+      "article_id": "a6-97f33772738c3ced09df04f71fcce9b0",
+      "first_seen_at": "2026-09-14T07:09:43.585791+00:00"
+    },
+    {
       "source": "Vejdirektoratet",
       "title": "Dyrskue forventes at give tæt trafik ved Roskilde",
       "url": "https://www.vejdirektoratet.dk/pressemeddelelse/2026/dyrskue-forventes-give-taet-trafik-ved-roskilde",
@@ -9299,6 +9416,15 @@
       "description": "Østre Landsret har i dag afsagt dom i sagen om hvidvask af 29 milliarder kroner, der strømmede gennem danske kommanditselskabers konti i Danske Banks filial i Estland, K/S-sagen.",
       "article_id": "a6-f47aa2a4df18236c6edeb3713fef4b0b",
       "first_seen_at": "2026-09-10T07:13:01.423467+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Europa-Kommissionen sender nye standarder for bæredygtighedsrapportering i høring",
+      "url": "https://erhvervsstyrelsen.dk/europa-kommissionen-sender-nye-standarder-baeredygtighedsrapportering-i-hoering",
+      "published": "2026-05-27T00:00:00+00:00",
+      "description": "Kommissionens udkast til forenklede standarder for bæredygtighedsrapportering er i høring med frist den 3. juni 2026.",
+      "article_id": "a6-b9b7d64d9eac2d02b255f91d1238d954",
+      "first_seen_at": "2026-09-14T07:09:43.585904+00:00"
     },
     {
       "source": "Naturstyrelsen",
@@ -10921,6 +11047,15 @@
       "first_seen_at": "2026-09-10T08:18:40.750327+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny årsberetning for Erhvervsstyrelsens kontrol og tilsyn 2025",
+      "url": "https://erhvervsstyrelsen.dk/ny-aarsberetning-erhvervsstyrelsens-kontrol-og-tilsyn-2025",
+      "published": "2026-04-29T00:00:00+00:00",
+      "description": "Årsberetningen giver et overblik over Erhvervsstyrelsens erhvervsrettede kontrol i 2025.",
+      "article_id": "a6-2791687d34e8d9f3921837632e78866f",
+      "first_seen_at": "2026-09-14T07:09:43.586017+00:00"
+    },
+    {
       "source": "Ankestyrelsen",
       "title": "Højesteret har afsagt dom om erhvervsevnetab på arbejdsskadeområdet",
       "url": "https://www.ast.dk/nyhedsarkiv/2026/apr/hoejesteret-har-afsagt-dom-om-erhvervsevnetab-paa-arbejdsskadeomraadet",
@@ -11164,6 +11299,15 @@
       "first_seen_at": "2026-09-10T08:15:44.167601+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Nyt formatkrav til rapport om indkomstskatteoplysninger",
+      "url": "https://erhvervsstyrelsen.dk/nyt-formatkrav-til-rapport-om-indkomstskatteoplysninger",
+      "published": "2026-04-24T00:00:00+00:00",
+      "description": "Rapporten om indkomstskatteoplysninger for de allerstørste virksomheder skal fremover indberettes i inline-XBRL ved brug af land for land-taksonomien.",
+      "article_id": "a6-aea52bcfbc2435b4b2c3feb3a7cda3da",
+      "first_seen_at": "2026-09-14T07:09:43.586144+00:00"
+    },
+    {
       "source": "Miljøstyrelsen",
       "title": "Fremtidige høringer om forslag til Kommissionens gennemførelsesforordninger",
       "url": "https://mst.dk/nyheder/2026/april/fremtidige-hoeringer-om-forslag-til-kommissionens-gennemfoerelsesforordninger-om-godkendelse-fornyelse-ikke-godkendelse-ikke-fornyelse-eller-administrativ-forlaengelse-af-aktivstoffer-i-plantebeskyttelsesmidler",
@@ -11234,6 +11378,15 @@
       "description": "3F og GLS-A har indgået en ny overenskomst (jordbrugsoverenskomsten) gældende fra 1. marts 2026 og har vedtaget et nyt vejledende lønniveau for fodermestre og driftsledere på landbrugsområdet. Ansøgninger indgivet til SIRI den 23. april 2026 og senere vil være omfattet af det nye lønniveau.",
       "article_id": "a6-7c3a671b50752f895770d4504af82a39",
       "first_seen_at": "2026-09-09T06:54:07.361927+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Nyt nordisk klimaprojekt om udvikling af en fælles emissionsfaktordatabase",
+      "url": "https://erhvervsstyrelsen.dk/nyt-nordisk-klimaprojekt-om-udvikling-af-en-faelles-emissionsfaktordatabase",
+      "published": "2026-04-23T00:00:00+00:00",
+      "description": "Et nyt nordisk myndighedssamarbejde skal bidrage til mere ensartede klimaregnskaber og fremme grøn omstilling og konkurrenceevne hos SMV’er i Norden.",
+      "article_id": "a6-8a9a772a289a7b8eed7cf50e48fd84ec",
+      "first_seen_at": "2026-09-14T07:09:43.586261+00:00"
     },
     {
       "source": "Naturstyrelsen",
@@ -13324,6 +13477,15 @@
       "first_seen_at": "2026-09-10T01:29:59.166481+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Mange fondsejede virksomheder registrerer mere detaljeret om reelle ejere end nødvendigt",
+      "url": "https://erhvervsstyrelsen.dk/mange-fondsejede-virksomheder-registrerer-mere-detaljeret-om-reelle-ejere-end-noedvendigt",
+      "published": "2026-03-11T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen har præciseret sin vejledning, så fondsejede virksomheder kan undgå unødig merregistrering af oplysninger om reelle ejere.",
+      "article_id": "a6-a2374a7e232a8d1b23e8b62390ad2c0d",
+      "first_seen_at": "2026-09-14T07:09:43.586379+00:00"
+    },
+    {
       "source": "Styrelsen for Samfundssikkerhed",
       "title": "DDoS-angreb: Hvad er det, og hvordan beskytter man sig mod dem?",
       "url": "https://samsik.dk/artikler/2026/03/ddos-angreb-hvad-er-det-og-hvordan-beskytter-man-sig-mod-dem/",
@@ -13540,6 +13702,15 @@
       "first_seen_at": "2026-09-10T01:30:05.332210+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Virksomheder, der endnu ikke har ansøgt om godkendelse som CBAM-klarerer, skal ansøge snarest",
+      "url": "https://erhvervsstyrelsen.dk/virksomheder-der-endnu-ikke-har-ansoegt-om-godkendelse-som-cbam-klarerer-skal-ansoege-snarest",
+      "published": "2026-03-06T00:00:00+00:00",
+      "description": "Virksomheder, der importerer varer omfattet af CBAM, skal ansøge om godkendelse som CBAM-klarerer senest den 31. marts 2026 for at kunne fortsætte importen.",
+      "article_id": "a6-9e012d7446e8407a478d7f66af3fd5b9",
+      "first_seen_at": "2026-09-14T07:09:43.586500+00:00"
+    },
+    {
       "source": "Vejdirektoratet",
       "title": "Første spadestik: Nu udvides E45/E20 ved Kolding",
       "url": "https://www.vejdirektoratet.dk/pressemeddelelse/2026/foerste-spadestik-nu-udvides-e45e20-ved-kolding",
@@ -13747,6 +13918,24 @@
       "first_seen_at": "2026-09-10T07:13:45.613399+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny vejledning om anvendelse af reglerne i kønsbalanceloven",
+      "url": "https://erhvervsstyrelsen.dk/ny-vejledning-om-anvendelse-af-reglerne-i-koensbalanceloven",
+      "published": "2026-03-03T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen udgiver en vejledning om reglerne i kønsbalanceloven målrettet de børsnoterede selskaber, der er omfattet.",
+      "article_id": "a6-e020f9a3bf918b49f872bd92772a8e42",
+      "first_seen_at": "2026-09-14T07:09:43.586619+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Nordisk samarbejde fokuserer på enklere bæredygtighedsrapportering for virksomheder",
+      "url": "https://erhvervsstyrelsen.dk/nordisk-samarbejde-fokuserer-paa-enklere-baeredygtighedsrapportering-virksomheder",
+      "published": "2026-03-03T00:00:00+00:00",
+      "description": "De nordiske myndigheder tager et fælles skridt mod mere automatiserede og standardiserede løsninger for bæredygtighedsrapportering på tværs af landegrænser.",
+      "article_id": "a6-a24708c5b35c2ff709cefd2c4a6c83b9",
+      "first_seen_at": "2026-09-14T07:09:43.586735+00:00"
+    },
+    {
       "source": "Ankestyrelsen",
       "title": "Årsrapporten 2025 for Klagenævnet for Specialundervisning",
       "url": "https://www.ast.dk/nyhedsarkiv/2026/mar/aarsrapporten-2025-for-klagenaevnet-for-specialundervisning",
@@ -13826,6 +14015,15 @@
       "description": "Søndag var der mulighed for at komme ind bag byggepladshegnet og helt tæt på arbejdet med at gøre Aarhus klar til fremtidens eltog, da Banedanmark bød indenfor til åben byggeplads på Bjørnholms Allé i Aarhus. Her lagde både børn og voksne vejen forbi for at få et indblik i arbejdet og se nærmere på broen ved Kongsvang, som i øjeblikket forberedes til elektrificering.",
       "article_id": "a6-f7737af8e2d6333e44cad2b56203f1ee",
       "first_seen_at": "2026-09-10T08:18:45.644339+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Praksisændring vedrørende revisorer med forfalden gæld til det offentlige",
+      "url": "https://erhvervsstyrelsen.dk/praksisaendring-vedroerende-revisorer-med-forfalden-gaeld-til-det-offentlige",
+      "published": "2026-03-02T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen ændrer praksis for fratagelse af godkendelsen for revisorer med forfalden gæld til det offentlige.",
+      "article_id": "a6-0940cff336976e0073bab0273eec08e9",
+      "first_seen_at": "2026-09-14T07:09:43.586851+00:00"
     },
     {
       "source": "Forsvarsministeriets Materiel- og Indkøbsstyrelse",
@@ -14249,6 +14447,15 @@
       "description": "Næsten hver anden danske virksomhed, som sælger produkter via online markedspladser, er i tvivl om, hvad der afgør, om netop deres produkter bliver vist øverst i søgeresultater, og godt hver tredje har oplevet, at vilkår ændres uden varsel. Det viser en ny undersøgelse blandt godt 500 danske virksomheder, der sælger online via markedspladser.",
       "article_id": "a6-3ebfa03d6e144d080c40ded8cefef2fb",
       "first_seen_at": "2026-09-10T08:15:46.103327+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Færre virksomheder skal rapportere om bæredygtighed - allerede fra regnskabsår 2025",
+      "url": "https://erhvervsstyrelsen.dk/faerre-virksomheder-skal-rapportere-om-baeredygtighed-allerede-fra-regnskabsaar-2025",
+      "published": "2026-02-25T00:00:00+00:00",
+      "description": "En bekendtgørelse undtager visse virksomheder fra bæredygtighedsrapportering under CSRD, som efter kommende EU-regulering ikke længere vil være omfattet.",
+      "article_id": "a6-c0d0e1fe9f29f1bdc824a9889773a116",
+      "first_seen_at": "2026-09-14T07:09:43.586969+00:00"
     },
     {
       "source": "Miljøstyrelsen",
@@ -15367,6 +15574,15 @@
       "first_seen_at": "2026-09-10T07:13:01.424494+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "SAF-T version 2 og rettelser til standardkontoplanen",
+      "url": "https://erhvervsstyrelsen.dk/saf-t-version-2-og-rettelser-til-standardkontoplanen",
+      "published": "2026-02-10T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen offentliggør version 2.0 af filformatet SAF-T og en ny version af standardkontoplanen med rettelser af kritiske fejl.",
+      "article_id": "a6-6e152b1b990decdf04b35a5f33089cdf",
+      "first_seen_at": "2026-09-14T07:09:43.587096+00:00"
+    },
+    {
       "source": "Miljøstyrelsen",
       "title": "Hvilken affaldstransportforordning gælder for anmeldelser i overgangsperioden?",
       "url": "https://mst.dk/nyheder/2026/februar/hvilken-affaldstransportforordning-gaelder-for-anmeldelser-i-overgangsperioden",
@@ -15617,6 +15833,15 @@
       "description": "Konkurrence- og Forbrugerstyrelsen har været på kontrolbesøg i branchen for opladning af elbiler. Det er sket, fordi styrelsen har en formodning om, at konkurrencereglerne kan være overtrådt.",
       "article_id": "a6-19db6d7f04d45a39b12f6399584b4013",
       "first_seen_at": "2026-09-10T08:15:47.982812+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny analyse og opdateret publikation om bæredygtighedsrapportering",
+      "url": "https://erhvervsstyrelsen.dk/ny-analyse-og-opdateret-publikation-om-baeredygtighedsrapportering",
+      "published": "2026-02-06T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen har udgivet en analyse af tendenser i de første bæredygtighedsrapporteringer og opdateret sin publikation om forventninger til de første år.",
+      "article_id": "a6-aed557e6653a8177e236258b5fb33016",
+      "first_seen_at": "2026-09-14T07:09:43.587212+00:00"
     },
     {
       "source": "Datatilsynet",
@@ -15943,6 +16168,15 @@
       "first_seen_at": "2026-09-09T06:55:53.872999+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Nu åbnes der op for anmodning om deltagelse i regulatoriske sandkasseforløb på biosolutions- og droneområdet",
+      "url": "https://erhvervsstyrelsen.dk/nu-aabnes-der-op-anmodning-om-deltagelse-i-regulatoriske-sandkasseforloeb-paa-biosolutions-og",
+      "published": "2026-02-04T00:00:00+00:00",
+      "description": "Virksomheder, organisationer og konsortier kan ansøge om at deltage i regulatoriske sandkasseforløb på drone- og biosolutionsområdet.",
+      "article_id": "a6-11a4a89fe729d12368642001e802f3e0",
+      "first_seen_at": "2026-09-14T07:09:43.587329+00:00"
+    },
+    {
       "source": "Naturstyrelsen",
       "title": "Nu bliver den gemte Gudenå gravet frem",
       "url": "https://naturstyrelsen.dk/nyheder/2026/februar/nu-bliver-den-gemte-gudenaa-gravet-frem",
@@ -16159,6 +16393,15 @@
       "first_seen_at": "2026-09-09T06:57:30.065765+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Kapitalfondes investeringer i revisionsvirksomheder skaber både muligheder og risici",
+      "url": "https://erhvervsstyrelsen.dk/kapitalfondes-investeringer-i-revisionsvirksomheder-skaber-baade-muligheder-og-risici-herunder",
+      "published": "2026-02-02T00:00:00+00:00",
+      "description": "Kapitalfondes investeringer kan give revisionsvirksomheder fordele, men indebærer også betydelige risici, herunder trusler mod uafhængigheden.",
+      "article_id": "a6-c14d0c57792ea168350ad90795d771cb",
+      "first_seen_at": "2026-09-14T07:09:43.587449+00:00"
+    },
+    {
       "source": "Sundhedsstyrelsen",
       "title": "Nye materialer om opioider skal hjælpe fritidsklubber og foreninger",
       "url": "https://via.ritzau.dk/pressemeddelelse/14775587/nye-materialer-om-opioider-skal-hjaelpe-fritidsklubber-og-foreninger?lang=da&publisherId=13561973",
@@ -16192,7 +16435,7 @@
       "published": "2026-01-30T07:56:40.236000+00:00",
       "description": "Nu får nord- og sydjyske virksomheder 226 mio. kr. til at udvikle og skalere grøn teknologi, så fremtidens jobs sikres i de to landsdele. Fonden for Retfærdig Omstilling investerer i 16 projekter, der skal styrke erhvervslivet og skabe nye arbejdspladser.",
       "article_id": "a6-c130007e320c9074acb028f8bd01021b",
-      "first_seen_at": "2026-09-10T08:15:26.043662+00:00"
+      "first_seen_at": "2026-09-14T07:09:44.236555+00:00"
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
@@ -16681,6 +16924,15 @@
       "first_seen_at": "2026-09-10T08:18:49.395716+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ekstern høring om udkast til \"Anbefalinger om god ledelse af demokratiske virksomheder\"",
+      "url": "https://erhvervsstyrelsen.dk/ekstern-hoering-om-udkast-til-anbefalinger-god-ledelse-af-demokratiske-virksomheder",
+      "published": "2026-01-27T00:00:00+00:00",
+      "description": "Udvalget for god ledelse af demokratiske virksomheder sender et udkast til anbefalinger i ekstern høring frem til den 10. marts 2026.",
+      "article_id": "a6-adabfbfbc3ae8c802728fe7c4544c73e",
+      "first_seen_at": "2026-09-14T07:09:43.587570+00:00"
+    },
+    {
       "source": "Energistyrelsen",
       "title": "Frist for endelige bud til puljen for CO2-fangst og lagring udskydes",
       "url": "https://ens.dk/presse/frist-endelige-bud-til-puljen-co2-fangst-og-lagring-udskydes",
@@ -16895,6 +17147,15 @@
       "description": "I løbet af 2026 udskifter Banedanmark master og køreledninger mellem Nordhavn og Svanemøllen Station. Arbejdet er en del af fremtidssikringen af S-banen, så den også fremover kan være blandt verdens mest punktlige bybaner.",
       "article_id": "a6-83e0b386cca74b2c71b333f393bb71cb",
       "first_seen_at": "2026-09-10T08:18:49.948639+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Erhvervsstyrelsen inviterer til infomøde om mulighed for at anmode om regulatoriske sandkasseforløb 04.02.26",
+      "url": "https://erhvervsstyrelsen.dk/erhvervsstyrelsen-inviterer-til-infomoede-om-mulighed-anmode-om-regulatoriske-sandkasseforloeb",
+      "published": "2026-01-23T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen inviterer til et virtuelt informationsmøde om muligheden for at deltage i et regulatorisk sandkasseforløb for droneområdet.",
+      "article_id": "a6-442ab43c9030115637eadef0e85ae1bf",
+      "first_seen_at": "2026-09-14T07:09:43.587689+00:00"
     },
     {
       "source": "Finanstilsynet",
@@ -17536,6 +17797,24 @@
       "first_seen_at": "2026-09-09T06:55:53.873538+00:00"
     },
     {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny opdateret guide til kunstbranchen om forpligtigelserne efter hvidvaskloven",
+      "url": "https://erhvervsstyrelsen.dk/ny-opdateret-guide-til-kunstbranchen-om-forpligtigelserne-efter-hvidvaskloven",
+      "published": "2026-01-16T00:00:00+00:00",
+      "description": "Erhvervsstyrelsen har opdateret sin guide om hvidvaskloven for kunstbranchen med de væsentligste krav, som virksomhederne skal efterleve.",
+      "article_id": "a6-62dda6dd5bf8da69ea4609a6bdead10d",
+      "first_seen_at": "2026-09-14T07:09:43.587805+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Årsregnskabslov-taksonomi 2025 er implementeret og klar til brug",
+      "url": "https://erhvervsstyrelsen.dk/aarsregnskabslov-taksonomi-2025-er-implementeret-og-klar-til-brug",
+      "published": "2026-01-16T00:00:00+00:00",
+      "description": "Den nye XBRL-taksonomi til at opmærke og indsende årsrapporter efter årsregnskabsloven er implementeret i Erhvervsstyrelsens systemer.",
+      "article_id": "a6-51f8db5aef72f3c687fc5544ca7844f3",
+      "first_seen_at": "2026-09-14T07:09:43.587916+00:00"
+    },
+    {
       "source": "Energistyrelsen",
       "title": "Selskab får tilladelse til efterforskning af potentielt CO2-lager i Nordsøen",
       "url": "https://ens.dk/presse/selskab-faar-tilladelse-til-efterforskning-af-potentielt-co2-lager-i-nordsoeen",
@@ -17597,6 +17876,15 @@
       "description": "Styrelsen bidrager til at fastholde og udvikle Danmarks internationale position som et af verdens førende lande inden for fødevaresikkerhed, sund kost, dyresundhed og dyrevelfærd. Vi bidrager samtidig til at fremme internationalt samarbejde og handel.",
       "article_id": "a6-6dc8790b88be8852d70c058df13694ed",
       "first_seen_at": "2026-09-09T06:43:09.990088+00:00"
+    },
+    {
+      "source": "Erhvervsstyrelsen",
+      "title": "Ny lovgivning gør det muligt for virksomhedsejere at overdrage deres virksomhed til medarbejderne med skattemæssig succession",
+      "url": "https://erhvervsstyrelsen.dk/ny-lovgivning-goer-det-muligt-virksomhedsejere-overdrage-deres-virksomhed-til-medarbejderne-med",
+      "published": "2026-01-15T00:00:00+00:00",
+      "description": "Nye regler gør det muligt for en virksomhedsejer at overdrage sit selskab til medarbejderne uden at blive beskattet af købesummen.",
+      "article_id": "a6-4ecc8c74f9f615591f53f61ceefcaa3e",
+      "first_seen_at": "2026-09-14T07:09:43.588031+00:00"
     },
     {
       "source": "Naturstyrelsen",
