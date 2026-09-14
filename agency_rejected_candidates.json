@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-14T08:08:19.396882+00:00",
+  "generated_at": "2026-09-14T09:55:51.376515+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 1592,
+  "total_rejected": 1591,
   "summary_by_reason": {
-    "before_archive_start": 1580,
+    "before_archive_start": 1579,
     "missing_safe_publication_date": 4,
     "source_filter_mismatch": 8
   },
@@ -6447,16 +6447,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-04-02T00:00:00+00:00"
-    },
-    {
-      "source": "Digitaliseringsstyrelsen",
-      "title": "Webinar: Bliv klogere på hvordan du ansøger om midler til Digital Europe-programmet",
-      "url": "https://digst.dk/nyheder/nyhedsarkiv/2024/marts/webinar-bliv-klogere-paa-hvordan-du-ansoeger-om-midler-til-digital-europe-programmet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2024-03-07T00:00:00+00:00"
     },
     {
       "source": "Digitaliseringsstyrelsen",
