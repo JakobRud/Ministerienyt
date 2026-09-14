@@ -1,6 +1,13 @@
-# Ministerienyt og Styrelsesnyt 7.1.2
+# Ministerienyt og Styrelsesnyt 7.1.3
 
-Version 7.1.2 retter den ufuldstændige 2026-dækning hos Konkurrence- og Forbrugerstyrelsen, Banedanmark og Erhvervsstyrelsen. Den indeholder samtidig alle ændringer fra 7.1.1.
+Version 7.1.3 retter Erhvervsstyrelsens 403-fejl og ufuldstændige 2026-dækning. Den indeholder samtidig alle ændringer fra 7.1.2.
+
+## Rettet i version 7.1.3
+
+- Erhvervsstyrelsen har nu et verificeret grundarkiv med alle 32 nyheder, som myndighedens officielle nyhedsoversigt viser for 2026 pr. 14. september 2026.
+- Den officielle levende nyhedsliste forsøges fortsat som løbende supplement. Hvis ERSTs Cloudflare-beskyttelse afviser GitHub Actions med den kendte 403-fejl, bevares grundarkivet, og den forventede afvisning vises ikke længere som en kildefejl.
+- Erhvervsstyrelsens officielle Via Ritzau-presserum bruges fortsat som supplement. Den kontrollerede kørsel giver derfor 33 ERST-poster i alt: 32 nyheder fra ERST og én supplerende pressemeddelelse fra Via Ritzau.
+- ERST får en målrettet engangsgenopbygning ved første kørsel med version 7.1.3. KST og Banedanmark er uændrede.
 
 ## Rettet i version 7.1.2
 

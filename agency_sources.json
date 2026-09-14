@@ -11,21 +11,16 @@
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://erhvervsstyrelsen.dk/",
       "start_urls": ["https://erhvervsstyrelsen.dk/nyheder"],
-      "historical_start_urls": [
-        "https://erhvervsstyrelsen.dk/nyheder?page=0",
-        "https://erhvervsstyrelsen.dk/nyheder?page=1",
-        "https://erhvervsstyrelsen.dk/nyheder?page=2",
-        "https://erhvervsstyrelsen.dk/nyheder?page=3",
-        "https://erhvervsstyrelsen.dk/nyheder?page=4"
-      ],
       "article_url_regex": "^/[a-z0-9]+(?:-[a-z0-9]+){3,}/?$",
       "require_listing_date": true,
+      "verified_archive_file": "erst_verified_archive.json",
+      "verified_archive_ignores_cloudflare_403": true,
       "ritzau_pressroom_id": 11727618,
       "ritzau_supplemental": true,
       "max_listing_pages": 6,
       "stop_pagination_before_archive_start": true,
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 16
+      "refresh_before_schema": 17
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",

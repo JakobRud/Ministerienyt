@@ -243,7 +243,12 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
         self.assertTrue(sources["Erhvervsstyrelsen"]["ritzau_supplemental"])
         self.assertTrue(sources["Erhvervsstyrelsen"]["require_listing_date"])
-        self.assertEqual(len(sources["Erhvervsstyrelsen"]["historical_start_urls"]), 5)
+        self.assertEqual(
+            sources["Erhvervsstyrelsen"]["verified_archive_file"],
+            "erst_verified_archive.json",
+        )
+        self.assertTrue(sources["Erhvervsstyrelsen"]["verified_archive_ignores_cloudflare_403"])
+        self.assertNotIn("historical_start_urls", sources["Erhvervsstyrelsen"])
         self.assertEqual(
             sources["Erhvervsstyrelsen"]["refresh_before_schema"],
             m.ARCHIVE_SCHEMA_VERSION,
@@ -263,7 +268,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
             sources["Banedanmark"]["historical_start_urls"],
             ["https://www.bane.dk/da/Presse/Pressemeddelelser?take=100"],
         )
-        self.assertEqual(sources["Banedanmark"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertEqual(sources["Banedanmark"]["refresh_before_schema"], 16)
+        self.assertLessEqual(sources["Banedanmark"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertTrue(sources["Spillemyndigheden"]["next_index_search"])
         self.assertEqual(sources["Spillemyndigheden"]["next_index_name"], "spillemyndigheden-da")
 
@@ -886,6 +892,37 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(items[0].title, item.title)
         self.assertEqual(status.article_candidates, 1)
 
+    def test_erst_verified_archive_survives_cloudflare_403(self):
+        sources = {source["name"]: source for source in m.load_sources_config(Path("agency_sources.json"))}
+        source = sources["Erhvervsstyrelsen"]
+        original_ritzau = m.collect_ritzau_items
+        original_listing = m.crawl_listing_pages
+        original_feed = m.collect_feed_items
+        try:
+            m.collect_ritzau_items = lambda *args, **kwargs: ([], False)
+
+            def fake_listing(session, src, status, source_state, fast=False, full_audit=False):
+                m.append_error(
+                    status,
+                    "Liste kunne ikke hentes: https://erhvervsstyrelsen.dk/nyheder: "
+                    "403 Client Error: Forbidden",
+                )
+                return {}, []
+
+            m.crawl_listing_pages = fake_listing
+            m.collect_feed_items = lambda *args, **kwargs: []
+            items, status = m.collect_source(None, source, set(), {}, full_audit=False)
+        finally:
+            m.collect_ritzau_items = original_ritzau
+            m.crawl_listing_pages = original_listing
+            m.collect_feed_items = original_feed
+
+        self.assertEqual(len(items), 32)
+        self.assertEqual(status.article_candidates, 32)
+        self.assertIn("Verificeret ERST-arkiv", status.methods)
+        self.assertEqual(status.errors, [])
+        self.assertEqual(items[0].title, "Del dine erfaringer med bæredygtighedsrapportering")
+
     def test_sitemap_fallback_runs_when_no_other_discovery_method_works(self):
         source = {
             "name": "Testministeriet",
@@ -1228,7 +1265,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             {"site_name": "Styrelsesnyt", "rss_title": "Styrelsesnyt – nyheder fra danske styrelser og myndigheder"},
         ).decode("utf-8")
         self.assertIn("Styrelsesnyt – nyheder fra danske styrelser og myndigheder", rss)
-        self.assertIn("Styrelsesnyt 7.1.2", rss)
+        self.assertIn(f"Styrelsesnyt {m.APP_VERSION}", rss)
 
     def test_zero_articles_does_not_create_source_note(self):
         source = {

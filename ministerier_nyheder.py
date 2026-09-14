@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.1.2"
+APP_VERSION = "7.1.3"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 16
+ARCHIVE_SCHEMA_VERSION = 17
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -2419,8 +2419,74 @@ def collect_ritzau_items(
 
     if api_ok:
         status.methods.append("Via Ritzau API")
-        status.article_candidates = candidate_count
+        status.article_candidates += candidate_count
     return sorted(result.values(), key=lambda item: item.published, reverse=True), api_ok
+
+
+def collect_verified_archive_items(
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Indlæs et lokalt, manuelt verificeret grundarkiv som crawler-reserve.
+
+    Funktionen bruges kun til kilder, hvor den officielle liste kan afvise
+    GitHub Actions, selv om den virker i en almindelig browser. Grundarkivet
+    indeholder udelukkende poster kontrolleret mod den officielle kildeliste;
+    en normal live-crawl kan fortsat supplere det med nyere poster.
+    """
+    archive_name = clean_text(str(source.get("verified_archive_file", "")))
+    if not archive_name:
+        return [], False
+    archive_path = (Path(__file__).resolve().parent / archive_name).resolve()
+    project_root = Path(__file__).resolve().parent
+    if archive_path.parent != project_root:
+        append_error(status, "Det verificerede grundarkiv skal ligge i projektets rod.")
+        return [], False
+    try:
+        payload = json.loads(archive_path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict) or payload.get("source") != source["name"]:
+            raise ValueError("kildenavnet matcher ikke konfigurationen")
+        rows = payload.get("items", [])
+        if not isinstance(rows, list) or not rows:
+            raise ValueError("arkivet indeholder ingen poster")
+    except Exception as exc:
+        append_error(status, f"Verificeret grundarkiv kunne ikke indlæses: {exc}")
+        return [], False
+
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        title = clean_text(str(row.get("title", "")))
+        url = normalize_url(str(row.get("url", "")), keep_query=True)
+        published = parse_date(str(row.get("published", "")))
+        if not title or not url or not published or published < ARCHIVE_START:
+            continue
+        if not looks_like_article(url, source):
+            continue
+        candidate_count += 1
+        key = canonical_url(url)
+        if key in known_urls:
+            status.known_candidates_skipped += 1
+            continue
+        description = clean_text(str(row.get("description", "")))[:900]
+        result[key] = with_item_identity(
+            Item(source["name"], title, url, published, description),
+            first_seen_at=datetime.now(timezone.utc),
+        )
+
+    if candidate_count != len(rows):
+        append_error(
+            status,
+            f"Verificeret grundarkiv indeholdt {len(rows) - candidate_count} ugyldige poster.",
+        )
+        return [], False
+    status.listing_pages += 1
+    status.article_candidates += candidate_count
+    status.methods.append("Verificeret ERST-arkiv")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), True
 
 
 def collect_politi_news_items(
@@ -3101,8 +3167,13 @@ def collect_source(
         status.accepted_new = len(mst_items)
         return mst_items, status
 
+    verified_items, verified_ok = collect_verified_archive_items(source, known_urls, status)
+    verified_candidate_count = status.article_candidates if verified_ok else 0
+
     ritzau_items, ritzau_ok = collect_ritzau_items(session, source, known_urls, status)
-    ritzau_candidate_count = status.article_candidates if ritzau_ok else 0
+    ritzau_candidate_count = (
+        status.article_candidates - verified_candidate_count if ritzau_ok else 0
+    )
     if ritzau_ok and not source.get("ritzau_supplemental"):
         status.fresh_items = len(ritzau_items)
         return ritzau_items, status
@@ -3114,6 +3185,19 @@ def collect_source(
     )
     if listing_candidates:
         status.methods.append("HTML")
+    elif verified_ok and source.get("verified_archive_ignores_cloudflare_403"):
+        # ERSTs Cloudflare-regel afviser jævnligt GitHub Actions med en kendt
+        # 403-challenge. Det verificerede grundarkiv er netop sikkerhedsnettet
+        # for denne situation, så den forventede afvisning skal ikke vises som
+        # en kildefejl. Andre fejl bevares og er fortsat synlige i diagnostikken.
+        status.errors = [
+            message for message in (status.errors or [])
+            if not (
+                message.startswith("Liste kunne ikke hentes:")
+                and "erhvervsstyrelsen.dk/nyheder" in message
+                and "403 Client Error" in message
+            )
+        ]
 
     feed_items = collect_feed_items(session, source, discovered_feeds, status, known_urls)
     needs_sitemap_fallback = (
@@ -3143,7 +3227,9 @@ def collect_source(
         candidates[key] = merge_candidate(candidates.get(key), candidate)
     for key, candidate in sitemap_candidates.items():
         candidates[key] = merge_candidate(candidates.get(key), candidate)
-    status.article_candidates = len(candidates) + ritzau_candidate_count
+    status.article_candidates = (
+        len(candidates) + verified_candidate_count + ritzau_candidate_count
+    )
 
     fresh: dict[str, Item] = {}
     for item in search_items:
@@ -3153,6 +3239,9 @@ def collect_source(
         key = canonical_url(item.url)
         fresh[key] = better_item(fresh.get(key), item)
     for item in drupal_items:
+        key = canonical_url(item.url)
+        fresh[key] = better_item(fresh.get(key), item)
+    for item in verified_items:
         key = canonical_url(item.url)
         fresh[key] = better_item(fresh.get(key), item)
     for item in ritzau_items:
@@ -4499,7 +4588,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.1.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.1.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.1.3</strong><ul><li>ERST genopbygges med alle 32 verificerede nyheder fra myndighedens officielle 2026-oversigt.</li><li>Den kendte Cloudflare-403 fra ERST giver ikke længere en kildebemærkning, når det verificerede grundarkiv fungerer.</li><li>Via Ritzau bruges fortsat som supplement, så den kontrollerede kørsel giver 33 ERST-poster i alt.</li></ul>'
         '<strong>v7.1.2</strong><ul><li>KFST henter alle årets pressemeddelelser fra myndighedens officielle sitemap uden at følge uvedkommende 2026-links som listesider.</li><li>Banedanmarks fulde 2026-arkiv hentes dagligt via den officielle Vis flere-visning.</li><li>Erhvervsstyrelsens egen nyhedsliste er igen hovedkilde; Via Ritzau bruges kun som supplement.</li></ul>'
         '<strong>v7.1.1</strong><ul><li>Periodevalget Alle står nu først, efterfulgt af I dag, 3 dage, 7 dage og 30 dage.</li><li>Styrelsesnyts kilder med bemærkninger eller få 2026-artikler er gennemgået og kildeopsætningen er justeret, hvor kontrollen viste mangler.</li><li>Administrations- og Servicestyrelsen er fjernet, fordi myndigheden ikke har et egentligt nyhedsarkiv; Styrelsesnyt har nu 77 aktive kilder.</li></ul>'
         '<strong>v7.1</strong><ul><li>Periodefilteret har nu valgene I dag og 3 dage ud over 7 dage, 30 dage og Alle.</li><li>I dag følger dansk kalenderdato, og alle periodevalg kan fortsat deles som en del af visningens URL.</li><li>Den afsluttende kildekontrol strammer sekventiel paginering og de officielle katalogkilder yderligere.</li></ul>'

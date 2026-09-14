@@ -1,17 +1,18 @@
-# Opdatér til version 7.1.2
+# Opdatér til version 7.1.3
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.1.2.zip` ud.
+Pak `Ministerienyt-7.1.3.zip` ud.
 
 ## 2. Upload rodfilerne
 
-Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload kun disse seks ændrede filer:
+Åbn roden af Ministerienyt-repositoryet på GitHub, vælg **Add file → Upload files**, og upload kun disse syv ændrede filer:
 
 - `ministerier_nyheder.py`
 - `regression_tests.py`
 - `sources.json`
 - `agency_sources.json`
+- `erst_verified_archive.json`
 - `README.md`
 - `TRIN-FOR-TRIN.md`
 
@@ -31,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.1.2-kørsel laver automatisk en engangsdybdekontrol af de berørte kilder, herunder Konkurrence- og Forbrugerstyrelsen, Banedanmark og Erhvervsstyrelsen. Derfor kan den første kørsel tage nogle minutter længere end normalt. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
+Den første 7.1.3-kørsel genopbygger automatisk Erhvervsstyrelsens del af arkivet. Efter kørslen skal ERST normalt stå med **33 artikler** og uden 403-bemærkning: 32 verificerede nyheder fra ERSTs egen oversigt og én supplerende Via Ritzau-pressemeddelelse. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
 
 ## 6. Kontrollér siderne
 
