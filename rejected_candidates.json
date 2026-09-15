@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-15T09:24:43.145614+00:00",
+  "generated_at": "2026-09-15T14:57:21.754633+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 165,
+  "total_rejected": 164,
   "summary_by_reason": {
-    "before_archive_start": 165
+    "before_archive_start": 164
   },
   "rejected": [
     {
@@ -548,16 +548,6 @@
     },
     {
       "source": "Finansministeriet",
-      "title": "Regeringen præsenterer 2030-plan: Danmark rustet til fremtiden",
-      "url": "https://fm.dk/nyheder/nyhedsarkiv/2023/november/regeringen-praesenterer-2030-plan-danmark-rustet-til-fremtiden/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2023-11-07T00:00:00+00:00"
-    },
-    {
-      "source": "Finansministeriet",
       "title": "Regeringen vil løfte forsvarsudgifterne yderligere",
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2024/marts/regeringen-vil-loefte-forsvarsudgifterne-yderligere/",
       "reason": "before_archive_start",
@@ -692,7 +682,7 @@
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2025/september/statens-koeb-af-koebenhavns-lufthavne-as-er-nu-gennemfoert/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-09-30T00:00:00+00:00"
     },
@@ -878,6 +868,16 @@
     },
     {
       "source": "Justitsministeriet",
+      "title": "Fire politidirektører til politiets topledelse",
+      "url": "https://www.justitsministeriet.dk/pressemeddelelse/fire-politidirektoerer-til-politiets-topledelse/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2015-07-07T09:30:37+00:00"
+    },
+    {
+      "source": "Justitsministeriet",
       "title": "Folketinget strammer reglerne mod konkurssvindel",
       "url": "https://www.justitsministeriet.dk/pressemeddelelse/folketinget-strammer-reglerne-mod-konkurssvindel/",
       "reason": "before_archive_start",
@@ -895,16 +895,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2015-07-02T10:00:00+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Nyt lovforslag skal tage et opgør med voldsparate fans på den danske fodboldscene",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/nyt-lovforslag-skal-tage-et-opgoer-med-voldsparate-fans-paa-den-danske-fodboldscene/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-17T09:37:24+00:00"
     },
     {
       "source": "Justitsministeriet",
