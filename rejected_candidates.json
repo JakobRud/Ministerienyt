@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-16T07:29:42.723006+00:00",
+  "generated_at": "2026-09-16T09:17:02.428006+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 163,
+  "total_rejected": 162,
   "summary_by_reason": {
-    "before_archive_start": 163
+    "before_archive_start": 162
   },
   "rejected": [
     {
@@ -795,16 +795,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-10-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
-      "title": "Kandidatudvalget offentliggør sin afrapportering",
-      "url": "https://ufm.dk/aktuelt/nyheder/2024/november/kandidatudvalget-offentliggoer-sin-afrapportering/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2024-11-20T00:00:00+00:00"
     },
     {
       "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
