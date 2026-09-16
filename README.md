@@ -1,6 +1,13 @@
-# Ministerienyt og Styrelsesnyt 7.2
+# Ministerienyt og Styrelsesnyt 7.2.1
 
-Version 7.2 tilføjer personlige emnefiltre og en stærkere, intern kvalitetskontrol af kilder og artikeldata. Den indeholder samtidig alle rettelser fra 7.1.4.
+Version 7.2.1 fjerner timeout-bemærkningerne fra FMI og Beredskabsstyrelsen og gør ListPage-hentningen mere robust. Den indeholder samtidig alle funktioner fra 7.2.
+
+## Rettet i version 7.2.1
+
+- Forsvarsministeriets Materiel- og Indkøbsstyrelse bruger nu de 30 poster, som myndighedens egen side angiver. Live-kontrollen gav 30 kandidater uden fejl.
+- Beredskabsstyrelsen henter de seneste 50 poster i stedet for det tunge kald med 500. Live-kontrollen gav 48 aktuelle kandidater uden fejl.
+- ListPage-kilder bruger fremover sidens eget officielle `itemCount`, medmindre kilden har en særlig grænse. Hvis et stort kald fejler, prøver crawleren automatisk igen med 50 poster.
+- Et vellykket reduceret genforsøg registreres som en normal, teknisk vellykket hentning og giver derfor ikke en misvisende bemærkning i kildelisten.
 
 ## Nyt i version 7.2
 

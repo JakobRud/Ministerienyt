@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.2"
+APP_VERSION = "7.2.1"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -1790,9 +1790,17 @@ def listpage_dynamic_listing_pages(
         return []
 
     try:
-        count = max(20, min(int(source.get("listpage_item_count", 500)), 1000))
-    except Exception:
-        count = 500
+        advertised_count = int(script_value("itemCount", default="500"))
+    except (TypeError, ValueError):
+        advertised_count = 500
+    try:
+        count = max(20, min(int(source.get("listpage_item_count", advertised_count)), 1000))
+    except (TypeError, ValueError):
+        count = max(20, min(advertised_count, 1000))
+    try:
+        retry_count = max(20, min(int(source.get("listpage_retry_item_count", 50)), count))
+    except (TypeError, ValueError):
+        retry_count = min(50, count)
     endpoint = normalize_url(
         urljoin(base_url, clean_text(str(source.get("listpage_endpoint", ""))) or "/ListPage/UpdateList"),
         keep_query=True,
@@ -1809,16 +1817,25 @@ def listpage_dynamic_listing_pages(
         "pageAuthority": authority,
         "cultureInfo": culture,
     }
-    try:
-        response = session.get(
-            endpoint,
-            params=params,
-            headers={"Referer": base_url},
-            timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
-        )
-        response.raise_for_status()
-    except Exception as exc:
-        append_error(status, f"Dynamisk ListPage-liste kunne ikke hentes: {exc}")
+    response = None
+    last_error: Exception | None = None
+    request_counts = [count] + ([retry_count] if retry_count < count else [])
+    for request_count in request_counts:
+        params["count"] = request_count
+        try:
+            response = session.get(
+                endpoint,
+                params=params,
+                headers={"Referer": base_url},
+                timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+            )
+            response.raise_for_status()
+            break
+        except Exception as exc:
+            last_error = exc
+            response = None
+    if response is None:
+        append_error(status, f"Dynamisk ListPage-liste kunne ikke hentes: {last_error}")
         return []
     if REQUEST_DELAY_SECONDS:
         time.sleep(REQUEST_DELAY_SECONDS)
@@ -4844,7 +4861,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.2.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.2.1</strong><ul><li>FMI bruger 30 poster og Beredskabsstyrelsen 50, så deres ListPage-kald ikke længere giver timeout-bemærkninger.</li><li>ListPage-kilder følger sidens officielle antal poster og prøver automatisk igen med 50, hvis et større kald fejler.</li><li>Et vellykket reduceret genforsøg tæller som en normal hentning og giver ikke en kildebemærkning.</li></ul>'
         '<strong>v7.2</strong><ul><li>Mine emner gemmer op til 20 søgeemner lokalt og bruger dem på både Ministerienyt og Styrelsesnyt.</li><li>Kildelisten viser nu, om arkivet indeholder nyheder, pressemeddelelser, taler, rapporter eller debatindlæg.</li><li>Den interne diagnostik lærer hver kildes normale kandidatniveau og publiceringsrytme og prioriterer pludselige fald, høj frasortering, stilhed og mulige rubrik-/manchet-/linkbrud med en kvalitetsscore.</li></ul>'
         '<strong>v7.1.4</strong><ul><li>Forsvarets officielle ListPage-endpoint bruger nu 50 poster pr. kald og giver ikke længere timeout-bemærkningen.</li><li>Dansk Dekommissionerings datobaserede artikelstier genkendes, så alle 8 nyheder fra 2026 hentes med rene rubrikker.</li><li>Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet er fjernet, fordi de ikke har egentlige nyhedsarkiver; Styrelsesnyt har nu 74 aktive kilder.</li></ul>'
         '<strong>v7.1.3</strong><ul><li>ERST genopbygges med alle 32 verificerede nyheder fra myndighedens officielle 2026-oversigt.</li><li>Den kendte Cloudflare-403 fra ERST giver ikke længere en kildebemærkning, når det verificerede grundarkiv fungerer.</li><li>Via Ritzau bruges fortsat som supplement, så den kontrollerede kørsel giver 33 ERST-poster i alt.</li></ul>'

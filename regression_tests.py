@@ -260,6 +260,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         )
         self.assertTrue(sources["Ankestyrelsen"]["gobasic_dynamic_list"])
         self.assertEqual(sources["Forsvaret/Forsvarskommandoen"]["listpage_item_count"], 50)
+        self.assertEqual(
+            sources["Forsvarsministeriets Materiel- og Indkøbsstyrelse"]["listpage_item_count"],
+            30,
+        )
+        self.assertEqual(sources["Beredskabsstyrelsen"]["listpage_item_count"], 50)
         dekom = sources["Dansk Dekommissionering"]
         self.assertTrue(m.looks_like_article(
             "https://dekom.dk/2026/08/28/aabent-hus-paa-dansk-dekommissionering/",
@@ -817,7 +822,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "listpage_dynamic_list": True,
         }
         shell = BeautifulSoup(
-            "<script>var rootId = 801; var pageType = 49; var pageAuthority = 266; var cultureInfo = 'da';</script>",
+            "<script>var rootId = 801; var pageType = 49; var itemCount = '30'; var pageAuthority = 266; var cultureInfo = 'da';</script>",
             "html.parser",
         )
 
@@ -837,6 +842,43 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(len(pages), 1)
         self.assertEqual(fake.kwargs["params"]["rootId"], "801")
         self.assertEqual(fake.kwargs["params"]["sorting"], "PublishedDescending")
+        self.assertEqual(fake.kwargs["params"]["count"], 30)
+        self.assertIn("Officiel ListPage API", status.methods)
+
+    def test_listpage_api_retries_with_smaller_count_without_warning(self):
+        source = {
+            "name": "Beredskabsstyrelsen",
+            "home_url": "https://www.brs.dk/",
+            "start_urls": ["https://www.brs.dk/da/nyheder/"],
+            "article_prefixes": ["/da/nyheder/"],
+            "listpage_dynamic_list": True,
+        }
+        shell = BeautifulSoup(
+            "<script>var rootId = 652; var pageType = 49; var itemCount = '500'; var pageAuthority = 267; var cultureInfo = 'da';</script>",
+            "html.parser",
+        )
+
+        class FakeSession:
+            def __init__(self):
+                self.counts = []
+
+            def get(self, url, **kwargs):
+                self.counts.append(kwargs["params"]["count"])
+                if len(self.counts) == 1:
+                    raise m.requests.ReadTimeout("første kald tog for lang tid")
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    text='<article><a href="/da/nyheder/2026/en-nyhed">En nyhed fra Beredskabsstyrelsen</a></article>',
+                )
+
+        fake = FakeSession()
+        status = m.SourceStatus(source["name"], source["home_url"])
+        pages = m.listpage_dynamic_listing_pages(
+            fake, source, shell, source["start_urls"][0], status, 1
+        )
+        self.assertEqual(len(pages), 1)
+        self.assertEqual(fake.counts, [500, 50])
+        self.assertEqual(status.errors, [])
         self.assertIn("Officiel ListPage API", status.methods)
 
     def test_refresh_guard_keeps_last_good(self):
@@ -1270,7 +1312,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertTrue(soup.select_one(".changelog > summary").get_text(strip=True).startswith("v7.2"))
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.2.1")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")

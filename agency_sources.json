@@ -497,6 +497,7 @@
       "start_urls": ["https://www.fmi.dk/da/nyheder/"],
       "article_prefixes": ["/da/nyheder/"],
       "listpage_dynamic_list": true,
+      "listpage_item_count": 30,
       "refresh_before_schema": 14
     },
     {
@@ -728,6 +729,7 @@
       "start_urls": ["https://www.brs.dk/da/nyheder/"],
       "article_prefixes": ["/da/nyheder/"],
       "listpage_dynamic_list": true,
+      "listpage_item_count": 50,
       "refresh_before_schema": 14
     },
     {
