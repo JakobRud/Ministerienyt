@@ -1,6 +1,15 @@
-# Ministerienyt og Styrelsesnyt 7.1.4
+# Ministerienyt og Styrelsesnyt 7.2
 
-Version 7.1.4 retter Forsvarets kildekontrol og Dansk Dekommissionerings nyhedsarkiv og fjerner tre kilder uden egentlige nyheder. Den indeholder samtidig alle ændringer fra 7.1.3.
+Version 7.2 tilføjer personlige emnefiltre og en stærkere, intern kvalitetskontrol af kilder og artikeldata. Den indeholder samtidig alle rettelser fra 7.1.4.
+
+## Nyt i version 7.2
+
+- **Mine emner** gemmer op til 20 kommaadskilte emner i browseren. Emnerne deles lokalt mellem Ministerienyt og Styrelsesnyt og kan aktiveres som et selvstændigt filter.
+- En aktiveret emnevisning kan deles via **Del visning**; emnerne følger med i URL'en uden at ændre modtagerens øvrige lokale valg.
+- **Kilder og dækning** viser nu kildens observerede indholdstyper, fx nyheder, pressemeddelelser, taler, rapporter og debatindlæg.
+- Den interne `diagnostics.html` har fået en kvalitetsscore og fremhæver kilder, der bør kontrolleres. Vurderingen omfatter tekniske fejl, pludselige fald i kandidatantal, høj frasortering, usædvanlig stilhed og mulige brud mellem rubrik, manchet og link.
+- Hver kilde lærer gradvist sit normale kandidatniveau. Den forventede publicering pr. 30 dage beregnes ud fra kildens seneste 90 dage, så naturligt lavfrekvente kilder ikke sammenlignes med meget aktive kilder.
+- Sammenhængstjekket er diagnostisk og fjerner ikke automatisk artikler. Banedanmark er sat til særskilt følsom kontrol, fordi kilden tidligere har blandet rubrik og manchet.
 
 ## Rettet i version 7.1.4
 

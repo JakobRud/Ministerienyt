@@ -292,6 +292,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], 12)
         self.assertLessEqual(sources["Rigsarkivet"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertTrue(sources["Banedanmark"]["always_fetch_articles"])
+        self.assertEqual(sources["Banedanmark"]["content_consistency_review_threshold"], 1)
         self.assertEqual(
             sources["Banedanmark"]["historical_start_urls"],
             ["https://www.bane.dk/da/Presse/Pressemeddelelser?take=100"],
@@ -862,6 +863,60 @@ class IdentityAndSafetyTests(unittest.TestCase):
             m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(old_cfg)
         self.assertEqual(alerts["active_alerts"], 1)
 
+    def test_source_quality_learns_expected_candidate_level(self):
+        status = m.SourceStatus("Testministeriet", "https://x.dk/")
+        status.listing_pages = 1
+        status.article_candidates = 20
+        status.methods.append("HTML")
+        previous_row = {"expected_candidate_count": 50}
+        m.evaluate_source_self_test(status, previous_row)
+        self.assertEqual(status.expected_candidate_count, 50)
+        self.assertEqual(status.candidate_volume_ratio, 0.4)
+        self.assertTrue(any("forventet" in flag for flag in status.quality_flags))
+        state = {"schema_version": 1, "sources": {"Testministeriet": previous_row}}
+        updated = m.update_source_state(state, [status])
+        self.assertEqual(updated["sources"]["Testministeriet"]["expected_candidate_count"], 44.0)
+
+    def test_content_consistency_finds_banedanmark_style_mismatch(self):
+        wrong = m.Item(
+            "Banedanmark",
+            "Banedanmark får ny direktør for Vedligehold",
+            "https://www.bane.dk/da/Presse/Pressemeddelelser/Banedanmark-faar-ny-direktoer-for-Vedligehold",
+            datetime.fromisoformat("2026-09-01T08:00:00+00:00"),
+            "Byggepladserne nedlægges, og cykelstien ved Brabrandstien åbner igen efter arbejdet ved Aarhus H.",
+        )
+        matching_other = m.Item(
+            "Banedanmark",
+            "Byggepladserne nedlægges og cykelstien ved Brabrandstien åbner igen",
+            "https://www.bane.dk/da/Presse/Pressemeddelelser/Byggepladserne-nedlaegges-og-cykelstien-ved-Brabrandstien-aabner-igen",
+            datetime.fromisoformat("2026-08-28T08:00:00+00:00"),
+            "Arbejdet med at nedlægge de midlertidige byggepladser er gået i gang.",
+        )
+        warnings = {
+            item.title: flags
+            for item, flags in m.source_content_consistency_warnings([wrong, matching_other])
+        }
+        self.assertIn(
+            "Manchetten matcher en anden rubrik i samme kilde bedre.",
+            warnings[wrong.title],
+        )
+
+        status = m.SourceStatus("Banedanmark", "https://www.bane.dk/")
+        status.listing_pages = 1
+        status.self_test = "pass"
+        diagnostics = m.diagnostics_payload(
+            [status],
+            [wrong, matching_other],
+            [m.DisplayEntry(wrong), m.DisplayEntry(matching_other)],
+            0,
+            1.0,
+            [{"name": "Banedanmark", "content_consistency_review_threshold": 1}],
+        )
+        row = diagnostics["sources"][0]
+        self.assertEqual(row["content_consistency_warnings"], 1)
+        self.assertTrue(row["review_recommended"])
+        self.assertLess(row["quality_score"], 100)
+
 
     def test_self_test_warns_when_safe_dates_are_mostly_missing(self):
         status = m.SourceStatus("Testministeriet", "https://x.dk/")
@@ -1215,7 +1270,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertIn("v7.1.2", soup.select_one("footer").get_text(" ", strip=True))
+        self.assertTrue(soup.select_one(".changelog > summary").get_text(strip=True).startswith("v7.2"))
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1235,6 +1290,10 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(soup.select_one('meta[property="og:title"]')["content"], "Ministerienyt")
         self.assertIn("params.getAll('favorit')", html)
         self.assertIn("url.searchParams.append('favorit', favorite)", html)
+        self.assertIn("params.getAll('emne')", html)
+        self.assertIn("ministerienyt.savedTopics.v1", html)
+        self.assertIsNotNone(soup.select_one("#topics-menu #topics-only"))
+        self.assertIn("De samme emner bruges på Ministerienyt og Styrelsesnyt", html)
         self.assertEqual(len(soup.select("#favorites-menu")), 1)
         self.assertIsNotNone(soup.select_one("#favorites-menu #mine-only"))
         self.assertIsNone(soup.select_one(".quick-actions > #mine-only"))
@@ -1282,6 +1341,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertNotIn('"ministerienyt.seenArticleIds.v2"', html)
         self.assertIn("Forsknings-, Uddannelses- og Digitaliseringsministeriet", html)
         self.assertIn("Samme historie fra flere styrelser eller myndigheder samles i ét kort.", html)
+        self.assertIn("ministerienyt.savedTopics.v1", html)
+        self.assertEqual(soup.select_one("#sources thead tr").get_text(" ", strip=True).count("Indhold"), 1)
 
     def test_styrelsesnyt_rss_has_own_identity(self):
         item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")
@@ -1309,8 +1370,9 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         row = soup.select_one("#sources tbody tr")
         cells = row.select("td")
-        self.assertEqual(cells[1].get_text(" ", strip=True), "0")
-        self.assertEqual(cells[2].get_text(" ", strip=True), "OK")
+        self.assertEqual(cells[1].get_text(" ", strip=True), "Nyhed")
+        self.assertEqual(cells[2].get_text(" ", strip=True), "0")
+        self.assertEqual(cells[3].get_text(" ", strip=True), "OK")
         self.assertEqual(cells[-1].get_text(" ", strip=True), "–")
         self.assertNotIn("Ingen artikler fundet fra kilden", html)
         self.assertNotIn("bemærkning", soup.select_one("#sources summary").get_text(" ", strip=True).casefold())

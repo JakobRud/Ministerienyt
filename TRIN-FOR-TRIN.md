@@ -1,8 +1,8 @@
-# Opdatér til version 7.1.4
+# Opdatér til version 7.2
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.1.4.zip` ud.
+Pak `Ministerienyt-7.2.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -32,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Den første 7.1.4-kørsel genopbygger automatisk Dansk Dekommissionerings del af arkivet. Efter kørslen skal kilden stå med **8 artikler** fra 2026. Forsvaret/Forsvarskommandoen skal fortsat bevare sit eksisterende arkiv, men uden timeout-bemærkningen. En kilde erstatter kun sin gamle del af arkivet, når den nye crawl består sikkerhedskontrollen; ellers bevares seneste gode resultat.
+Version 7.2 kræver ikke en ny genopbygning af arkiverne. Den første kørsel opretter de nye kvalitetsmålinger i de interne diagnostik- og statusfiler. Rettelserne fra 7.1.4 bevares: Dansk Dekommissionering skal stå med **8 artikler** fra 2026, og Forsvaret/Forsvarskommandoen skal være uden timeout-bemærkning.
 
 ## 6. Kontrollér siderne
 
@@ -40,7 +40,9 @@ Den første 7.1.4-kørsel genopbygger automatisk Dansk Dekommissionerings del af
 - Kontrollér, at **Ministerienyt** og **Styrelsesnyt** står ved siden af hinanden øverst.
 - Vælg **Styrelsesnyt**.
 - Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **Alle**, **I dag**, **3 dage**, **7 dage**, **30 dage** og **Kilder og dækning**.
+- Gem fx `klima, Ukraine` under **Mine emner**, aktivér filteret, og kontrollér at valget også er tilgængeligt på den anden hovedside.
 - Kontrollér, at kildelisten viser **74 kilder** og ministerområderne.
+- Kontrollér, at kildelisten har kolonnen **Indhold**.
 - Kontrollér, at Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet ikke længere står i kildelisten.
 
 ## 7. Lad de genererede filer blive liggende

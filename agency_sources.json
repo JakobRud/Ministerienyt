@@ -346,6 +346,7 @@
       },
       "allow_plain_listing_date": true,
       "always_fetch_articles": true,
+      "content_consistency_review_threshold": 1,
       "full_audit_on_refresh": true,
       "refresh_before_schema": 16
     },
