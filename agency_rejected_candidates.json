@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-16T18:59:06.717902+00:00",
+  "generated_at": "2026-09-16T20:42:33.581835+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 677,
+  "total_rejected": 525,
   "summary_by_reason": {
-    "before_archive_start": 666,
+    "before_archive_start": 515,
     "missing_safe_publication_date": 2,
-    "source_filter_mismatch": 9
+    "source_filter_mismatch": 8
   },
   "rejected": [
     {
@@ -17,6 +17,196 @@
       "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2025-12-01T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "App fra Beredskabsstyrelsen skal hjælpe ukrainere i krig",
+      "url": "https://www.brs.dk/da/nyheder/2025/app-fra-beredskabsstyrelsen-skal-hjalpe-ukrainere-i-krig/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-11-20T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "BESS-anlæg, parkeringskældre og solceller: Ny rapport sætter fokus på de vigtigste udviklinger inden for byggeriet i Danmark af betydning for redningsberedskabet",
+      "url": "https://www.brs.dk/da/nyheder/2025/bess-anlag-parkeringskaldre-og-solceller-ny-rapport-satter-fokus-pa-de-vigtigste-udviklinger-inden-for-byggeriet-i-danmark-af-betydning-for-redningsberedskabet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-11-27T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Beredskabsstyrelsen og politiet tester sirener i Skagen",
+      "url": "https://www.brs.dk/da/nyheder/2025/beredskabsstyrelsen-og-politiet-tester-sirener-i-skagen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-09T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Beredskabsstyrelsen træner måling af radioaktiv forurening ved kysterne og på havet",
+      "url": "https://www.brs.dk/da/nyheder/2025/beredskabsstyrelsen-traner-maling-af-radioaktiv-forurening-ved-kysterne-og-pa-havet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-27T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Boligbrande topper i december",
+      "url": "https://www.brs.dk/da/nyheder/2025/boligbrande-topper-i-december/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-11-21T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Flere solcelleanlæg betyder ikke nødvendigvis flere brande",
+      "url": "https://www.brs.dk/da/nyheder/2025/flere-solcelleanlag-betyder-ikke-nodvendigvis-flere-brande/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-07T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Højt smittetryk fra fugleinfluenza kræver støtte fra Beredskabsstyrelsen",
+      "url": "https://www.brs.dk/da/nyheder/2025/hojt-smittetryk-fra-fugleinfluenza-kraver-stotte-fra-beredskabsstyrelsen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-11-19T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Mere end 300 deltog i øvelse Tordenskjold på havnen i Hirtshals",
+      "url": "https://www.brs.dk/da/nyheder/2025/mere-end-300-deltog-i-ovelse-tordenskjold-pa-havnen-i-hirtshals/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-04T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Nu kan Danmark og Tyskland hurtigere udveksle beredskabsassistance",
+      "url": "https://www.brs.dk/da/nyheder/2025/nu-kan-danmark-og-tyskland-hurtigere-udveksle-beredskabsassistance/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-11T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Ny dimensioneringsbekendtgørelse og vejledning",
+      "url": "https://www.brs.dk/da/nyheder/2025/ny-dimensioneringsbekendtgorelse/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-15T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Ny film om brandtests i solcellepaneler giver praksisnær viden om indsatsteknik og -taktik",
+      "url": "https://www.brs.dk/da/nyheder/2025/brandtests-i-solcellepaneler-giver-ny-praksisnar-viden-om-indsatsteknik-og--taktik/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-12T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Nye watertubes styrker beredskabet",
+      "url": "https://www.brs.dk/da/nyheder/2025/nye-watertubes-styrker-beredskabet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-13T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Nytårsdøgnet er årets travleste for landets brandfolk",
+      "url": "https://www.brs.dk/da/nyheder/2025/nytarsdognet-er-arets-travleste-for-landets-brandfolk/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-29T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Rekordfå skorstensbrande: Antallet faldet med 40 procent på fem år",
+      "url": "https://www.brs.dk/da/nyheder/2025/rekordfa-skorstensbrande/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-16T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Resultater fra ’Undersøgelse af kønskrænkende adfærd 2025’ og ’Værnepligtsundersøgelse 2025’",
+      "url": "https://www.brs.dk/da/nyheder/2025/varnepligtsundersogelsen-2025/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-18T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Støtte til myndighederne under EU-topmøde",
+      "url": "https://www.brs.dk/da/nyheder/2025/topmode/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-10-03T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Tjek din røgalarm",
+      "url": "https://www.brs.dk/da/nyheder/2025/tjek-din-rogalarm/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-12-01T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Tusindvis af skoleelever lærer om brandsikkerhed i denne uge",
+      "url": "https://www.brs.dk/da/nyheder/2025/brandsikker-uge/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Beredskabsstyrelsen",
+      "title": "Ukrainsk besøg med fokus på erfaringsdeling og samarbejde",
+      "url": "https://www.brs.dk/da/nyheder/2025/fokus-pa-erfaringsdeling-og-samarbejde-ved-ukrainsk-besog/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "Officiel ListPage API",
+      "detail": "",
+      "detected_date": "2025-11-21T00:00:00+00:00"
     },
     {
       "source": "Bygningsstyrelsen",
@@ -1810,16 +2000,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "Aftale om terrorpakke til FE på plads",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/aftale-om-terrorpakke-til-fe-pa-plads/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-04-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Anja Dalgaard-Nielsen stopper som efterretningschef i FE",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/anja-dalgaard-nielsen-stopper-som-efterretningschef-i-fe/",
       "reason": "before_archive_start",
@@ -1827,186 +2007,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-03-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Benchmarking af Forsvarets Efterretningstjeneste",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/benchmarking-af-forsvarets-efterretningstjeneste/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-05-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Beretning 2011-2012",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2013/beretning-2011-2012/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-05-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Beretning 2013-2014",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/beretning-2013-2014/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-10-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Beretning 2015-2016",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/beretning-2015-2016/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-06-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Beretning afgivet af Folketingets Udvalg vedrørende Efterretningstjenesterne",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/beretning-afgivet-af-folketingets-udvalg-vedrorende-efterretningstjenesterne/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-09-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Beretning om det danske samfunds indsats og beredskab mod terror",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/beretning-om-det-danske-samfunds-indsats-og-beredskab-mod-terror/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-10-31T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Bliv junior cyberanalytiker, og vær med til at passe på Danmark",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/bliv-junior-cyberanalytiker-og-var-med-til-at-passe-pa-danmark/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-02-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Center for Cybersikkerhed indvier i dag nyt Cybersituationscenter",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/center-for-cybersikkerhed-indvier-i-dag-nyt-cybersituationscenter/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-09-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Center for Cybersikkerhed lancerer målrettet uddannelse til cyberanalytikere",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/center-for-cybersikkerhed-lancerer-malrettet-uddannelse-til-cyberanalytikere/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-03-05T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Center for Cybersikkerhed skal have ny chef",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2024/center-for-cybersikkerhed-skal-have-ny-chef/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-11-05T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Chefen for Center for Cybersikkerhed fortsætter",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/chefen-for-center-for-cybersikkerhed-fortsatter/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-08-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Chefen for FE indlæg i Jyllandsposten",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/chefen-for-fe-indlag-i-jyllandsposten/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-04-29T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Chefen for FE indlæg i Weekendavisen",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/chefen-for-fe-indlag-i-weekendavisen/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-05-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Chefen for Forsvarets Efterretningstjeneste kommentar til Østre Landsret domsafsigelse i Grevil-sagen",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/chefen-for-forsvarets-efterretningstjeneste-kommentar-til-ostre-landsret-domsafsigelse-i-grevil-sagen/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-09-23T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Cyberlandsholdet har haft en kæmpe oplevelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/cyberlandsholdet-har-haft-en-kampe-oplevelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-10-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Cyberlandsholdet – it-talenter har dystet for Danmark",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/cyberlandsholdet--it-talenter-har-dystet-for-danmark/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-11-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Cybertruslen mod Danmark 2019",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/cybertruslen-mod-danmark-2019/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-03-26T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "DDIS’s annual risk assessment available in English",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2024/ddiss-annual-risk-assessment-available-in-english/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2025-01-22T00:00:00+00:00"
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -2020,196 +2020,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "Danske og Europæiske Cybermesterskaber skal sikre den digitale fremtid",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2021/danske-og-europaiske-cybermesterskaber-skal-sikre-den-digitale-fremtid/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2021-02-02T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Det danske Cyberlandshold for 2018 dyster i London",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/det-danske-cyberlandshold-for-2018-dyster-i-london/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-10-12T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Det danske cyberlandshold er klar til EM",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/det-danske-cyberlandshold-er-klar-til-em/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-09-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Det er blevet nemmere at søge job hos FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/det-er-blevet-nemmere-at-soge-job-hos-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-02-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Dialog med det akademiske miljø",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/dialog-med-det-akademiske-miljo/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-07-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Efterretningsmæssig Risikovurdering 2012",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/efterretningsmassig-risikovurdering-2012/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-10-26T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Efterretningsmæssig Risikovurdering 2013",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2013/efterretningsmassig-risikovurdering-2013/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-11-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Efterretningsmæssig Risikovurdering 2014",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2014/efterretningsmassig-risikovurdering-2014/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-10-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Efterretningsmæssig Risikovurdering 2015",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/efterretningsmassig-risikovurdering-2015/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-11-04T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Efterretningsmæssig Risikovurdering 2016",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2016/efterretningsmassig-risikovurdering-2016/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-12-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "En åben efterretningstjeneste",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/en-aben-efterretningstjeneste2/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-09-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "En åben efterretningstjeneste",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/en-aben-efterretningstjeneste/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-09-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE afleverer arkivalier til Statens Arkiver",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/fe-afleverer-arkivalier-til-statens-arkiver/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-06-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE deltager i Folkemødet",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/fe-deltager-i-folkemodet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-06-15T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE deltager i Kulturnatten 2012",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/fe-deltager-i-kulturnatten-2012/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-10-12T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE foretager omprioriteringer",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/fe-foretager-omprioriteringer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-01-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE fortsætter succesen med Hackerakademiet",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/fe-fortsatter-succesen-med-hackerakademiet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-03-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE har sat Cyberlandsholdet for 2018",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/fe-har-sat-cyberlandsholdet-for-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-06-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE leder efter danske it-talenter til cybermesterskab",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/fe-leder-efter-danske-it-talenter-til-cybermesterskab/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-05-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "FE lukker sensornetværk på grund af sikkerhedsrisiko",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/fe-lukker-sensornetvark-pa-grund-af-sikkerhedsrisiko/",
       "reason": "before_archive_start",
@@ -2217,156 +2027,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-08-04T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE og Center for Cybersikkerhed deltager i Cyber Europe 2018",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/fe-og-center-for-cybersikkerhed-deltager-i-cyber-europe-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-06-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE opretter hackerakademi",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2016/fe-opretter-hackerakademi/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-03-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE sender cyberlandshold til mesterskab i Malaga",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/fe-sender-cyberlandshold-til-mesterskab-i-malaga/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-10-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE sender unge it-talenter ud på en fysisk og digital skattejagt",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/fe-sender-unge-it-talenter-ud-pa-en-fysisk-og-digital-skattejagt/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-02-04T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE skal have ny chef",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/fe-skal-have-ny-chef/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-08-05T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE styrker arbejdet med teknologi, data og AI",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/fe-styrker-arbejdet-med-teknologi-data-og-ai/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-08-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE søger 10 it-talenter til Cyberlandshold",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/fe-soger-10-it-talenter-til-cyberlandshold/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-03-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE søger igen hackertalenter",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/fe-soger-igen-hackertalenter/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-12-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver Efterretningsmæssig Risikovurdering 2018",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/fe-udgiver-efterretningsmassig-risikovurdering-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-12-04T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver Efterretningsmæssig Risikovurdering 2020",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/risikovurdering-2020/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-12-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver Efterretningsmæssig risikovurdering 2017",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/fe-udgiver-efterretningsmassig-risikovurdering-2017/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-12-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver risikovurdering for 2019",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/fe-udgiver-risikovurdering-for-2019/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-11-29T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver sin årlige risikovurdering UDSYN 2021",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2021/udsyn-2021/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2021-12-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE udgiver sin årlige risikovurdering, UDSYN 2022",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2022/udsyn-2022/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2022-12-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE vurderede, at Kabul næppe ville falde i 2021",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2021/fe-vurderede-at-kabul-naeppe-ville-falde-i-2021/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2021-08-25T00:00:00+00:00"
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -2380,196 +2040,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE's samarbejde med Experimentarium",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2008/fes-samarbejde-med-experimentarium/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2008-10-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE-indlæg om pirateri i Somalia",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/fe-indlag-om-pirateri-i-somalia/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-10-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE-indlæg ved workshop på Københavns Universitet",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/fe-indlag-ved-workshop-pa-kobenhavns-universitet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-07-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE-udtalelse efter indstilling af straffesager",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/fe-udtalelse-efter-indstilling-af-straffesager/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-11-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE’s vurdering af truslen for påvirkning af folketingsvalget",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/fes-vurdering-af-truslen-for-pavirkning-af-folketingsvalget/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-04-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "FE’s årlige risikovurdering, UDSYN, viser yderst sammensat trusselsbillede",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/udsyn-2023/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-12-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Flagdagen får egen portal",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2011/flagdagen-far-egen-portal/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-08-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste fejrer 50 års jubilæum",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/forsvarets-efterretningstjeneste-fejrer-50-ars-jubilaum/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-11-23T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste får ny chef",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/forsvarets-efterretningstjeneste-far-ny-chef/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste indgår aftale om teknologisamarbejde med DTU",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/forsvarets-efterretningstjeneste-indgar-aftale-om-teknologisamarbejde-med-dtu/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-06-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste på Kulturnat 2015",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/forsvarets-efterretningstjeneste-pa-kulturnat-2015/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-10-08T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste på Kulturnat 2018",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/forsvarets-efterretningstjeneste-pa-kulturnat-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-10-12T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarets Efterretningstjeneste søger it-talenter til det danske Cyberlandshold",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/forsvarets-efterretningstjeneste-soger-it-talenter-til-det-danske-cyberlandshold/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-05-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarsforlig styrker Danmarks cyberforsvar",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/forsvarsforlig-styrker-danmarks-cyberforsvar/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-01-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarsloven ændret. Supplerende bestemmelser om FE virke",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/forsvarsloven-andret.-supplerende-bestemmelser-om-fe-virke",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-06-09T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarsministerens årlige redegørelse 2005",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/forsvarsministerens-arlige-redegorelse-2005/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-06-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Forsvarsministerens årlige redegørelse 2006",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2007/forsvarsministerens-arlige-redegorelse-2006/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2007-06-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Få et INDBLIK i FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/indblik-i-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-11-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Få et indblik i FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2021/fa-et-indblik-i-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2021-12-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Fælles udtalelse fra FE og PET i forbindelse med Højesterets dom den 2. september 2025",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/falles-udtalelse-fra-fe-og-pet-i-forbindelse-med-hojesterets-dom-den-2.-september-2025",
       "reason": "before_archive_start",
@@ -2577,56 +2047,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-09-02T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Fælles udtalelse fra FE og PET til Østre Landsrets dom i Ahmed Samsam-sag",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/falles-udtalelse-fra-fe-og-pet-til-ostre-landsrets-dom-i-ahmed-samsam-sag/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-11-08T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Fælles udtalelse fra PET og FE vedrørende nylige udmeldinger fra terrororganisationen al-Qaeda",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/falles-udtalelse-fra-pet-og-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-08-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Gennemgang af det danske samfunds beredskab og indsats mod terrorhandlinger",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/gennemgang-af-det-danske-samfunds-beredskab-og-indsats-mod-terrorhandlinger/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-08-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Hold kontakten - men med omtanke",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2007/hold-kontakten---men-med-omtanke/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2007-08-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ingen systematisk og koordineret påvirkning af det danske valg til Europa-Parlamentet",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2024/ep-valg/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-06-24T00:00:00+00:00"
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -2640,196 +2060,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "KRISØV19 – Øvelsesdeltagerne og CFCS øver håndtering af phishingmails i ly af kemisk ulykke",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/krisov19--ovelsesdeltagerne-og-cfcs-over-handtering-af-phishingmails-i-ly-af-kemisk-ulykke/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-09-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Kommentarer til artikel i Politiken om personregistrering",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/kommentarer-til-artikel-i-politiken-om-personregistrering/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-05-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Københavns Byrets dom i straffesagen mod Berlingske Tidende",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/kobenhavns-byrets-dom-i-straffesagen-mod-berlingske-tidende/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-12-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Lovændring styrker FE’s indsats overfor terrortruslen fra danske ekstremister i udlandet",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/lovandring-styrker-fes-indsats-overfor-terrortruslen-fra-danske-ekstremister-i-udlandet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-12-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Lækager skader efterretningstjenesterne - ikke forsøget på at stoppe lækagerne",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/lakager-skader-efterretningstjenesterne/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-11-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Markant flere kvindelige ansøgere til FE’s cyberakademi",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/markant-flere-kvindelige-ansogere-til-fes-cyberakademi/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-07-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "National cybersikkerhedsmåned skal løfte danskernes digitale sikkerhed",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/national-cybersikkerhedsmaned-skal-lofte-danskernes-digitale-sikkerhed/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-10-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny beretning fra Udvalget vedr. Efterretningstjenesterne",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/ny-beretning-fra-udvalget-vedr.-efterretningstjenesterne",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-12-09T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny chef for Center for Cybersikkerhed",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2022/ny-chef-for-cfcs/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2022-04-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny chef for Forsvarets Efterretningstjeneste",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/ny-chef-for-forsvarets-efterretningstjeneste/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-08-27T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny folder om it-sikkerhed",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/ny-folder-om-it-sikkerhed/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-08-31T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny forsvarschef og ny chef for FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2008/ny-forsvarschef-og-ny-chef-for-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2008-08-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny koncernfælles kommunikationspolitik",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/ny-koncernfalles-kommunikationspolitik/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-01-27T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny lov om FE trådt i kraft",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2014/ny-lov-om-fe-tradt-i-kraft/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-01-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny organisation i FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2011/ny-organisation-i-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-02-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ny årgang cyberakademister er klar til at styrke Danmarks cyberforsvar",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/ny-argang-cyberakademister/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-10-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Nye retningslinjer for personoplysninger",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2010/nye-retningslinjer-for-personoplysninger/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-06-02T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Nyt lovforslag skal styrke FE's indsats mod terrortrusler",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2015/nyt-lovforslag-skal-styrke-fes-indsats-mod-terrortrusler/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-10-09T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Omdømmemåling af Forsvarsministeriets område",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/omdommemaling-af-forsvarsministeriets-omrade/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-10-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Opdateret vurdering af truslen fra Rusland mod Rigsfællesskabet",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/opdateret-vurdering-af-truslen-fra-rusland/",
       "reason": "before_archive_start",
@@ -2837,116 +2067,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-02-11T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Opførelsen af FE’s nye hovedsæde kan gå i gang",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/opforelsen-af-fes-nye-hovedsade-kan-ga-i-gang/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-03-02T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Orientering af Det Udenrigspolitiske Nævn",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/orientering-af-det-udenrigspolitiske-navn/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-04-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Pressemeddelelse af 14. april 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/pressemeddelelse-af-14.-april-2004",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-04-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Pressemeddelelse af 19. april 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/pressemeddelelse-af-19.-april-2004",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-04-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Pressemeddelelse af 19. marts 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/pressemeddelelse-af-19.-marts-2004",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-03-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Pressemeddelelse af 26. februar 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/pressemeddelelse-af-26.-februar-2004",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-03-26T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Pressemeddelelse af 9. december 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/pressemeddelelse-af-9.-december-2004",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-12-09T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Reception i hemmelighedens skær",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/reception-i-hemmelighedens-skar/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-11-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Redegørelse fra regeringen om indsatsen mod terrorisme",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2004/redegorelse-fra-regeringen-om-indsatsen-mod-terrorisme/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2004-06-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Redegørelse fra regeringen om indsatsen mod terrorisme - \"Udvikling i det internationale samarbejde\"",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/redegorelse-fra-regeringen-om-indsatsen-mod-terrorisme---udvikling-i-det-internationale-samarbejde/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-06-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Regeringens handlingsplan for terrorbekæmpelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/regeringens-handlingsplan-for-terrorbekampelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-11-16T00:00:00+00:00"
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -2980,86 +2100,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelse 2015",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2016/tilsynet-med-efterretningstjenesternes-arsredegorelse-2015/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-05-31T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelse 2016",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2017/tilsynet-med-efterretningstjenesternes-arsredegorelse-2016/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-07-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelse 2019 vedrørende FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2020/tet-arsredegorelse-2019/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2020-11-23T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelse for 2020",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2021/tilsynet-med-efterretningstjenesternes-arsredegorelse-for-2020/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2021-09-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelser 2017",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2018/tilsynet-med-efterretningstjenesternes-arsredegorelser-2017/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-06-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelser 2018 vedrørende FE og CFCS",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2019/tilsynet-med-efterretningstjenesternes-arsredegorelser-2018-vedrorende-fe-og-cfcs/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-07-16T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelser for 2021",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2022/tilsynet-med-efterretningstjenesternes-arsredegorelser-for-2021/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2022-06-27T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Tilsynet med Efterretningstjenesternes årsredegørelser for 2022",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2023/tilsynet-med-efterretningstjenesternes-arsredegorelser-for-2022/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2023-11-06T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Tilsynet med Efterretningstjenesternes årsredegørelser for 2024",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/tilsynet-med-efterretningstjenesternes-arsredegorelser-for-2024/",
       "reason": "before_archive_start",
@@ -3067,26 +2107,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-04-08T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Trendanalyse af Danmarks sikkerhedspolitiske udfordringer",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2016/trendanalyse-af-danmarks-sikkerhedspolitiske-udfordringer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-05-02T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Truslen mod Danmark under Den Kolde Krig",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/truslen-mod-danmark-under-den-kolde-krig/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-04-10T00:00:00+00:00"
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -3100,16 +2120,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "Trusselsbilledet mod Danmark er blevet mere alvorligt",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2024/trusselsbilledet-mod-danmark-er-blevet-mere-alvorligt/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Trusselsvurdering for kommunal og regionsråds-valget",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/trusselsvurdering-for-kommunal-og-regionsrads-valget/",
       "reason": "before_archive_start",
@@ -3120,36 +2130,6 @@
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
-      "title": "Uddrag af Forsvarsministerens årlige redegørelse 2004",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2005/uddrag-af-forsvarsministerens-arlige-redegorelse-2004/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2005-05-01T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Udvalg foreslår nye love om PET og FE",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/udvalg-foreslar-nye-love-om-pet-og-fe/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-02-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Vil du hjælpe FE med at passe på Danmark?",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2024/hjaelp-fe-med-at-passe-pa-danmark/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2024-09-27T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
       "title": "Vurdering af den hybride trussel mod Danmark",
       "url": "https://www.fe-ddis.dk/da/nyheder/2025/vurdering-af-den-hybride-trussel-mod-danmark/",
       "reason": "before_archive_start",
@@ -3157,66 +2137,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-10-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Vurdering af truslen for påvirkning af folketingsvalget",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2022/vurdering-af-truslen-for-pavirkning-af-folketingsvalget/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2022-10-07T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Wamberg-udvalget offentliggør redegørelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2014/wamberg-udvalget-offentliggor-redegorelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-03-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Wamberg-udvalget offentliggør årlig redegørelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2013/wamberg-udvalget-offentliggor-arlig-redegorelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-04-23T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Wamberg-udvalget offentliggør årlig redegørelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2012/wamberg-udvalget-offentliggor-arlig-redegorelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-03-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Wamberg-udvalget offentliggør årlig redegørelse",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2011/wamberg-udvalget-offentliggor-arlig-redegorelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-04-11T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarets Efterretningstjeneste",
-      "title": "Ændring af § 13 i forsvarsloven – FE’s opgaver",
-      "url": "https://www.fe-ddis.dk/da/nyheder/2006/andring-af--13-i-forsvarsloven--fes-opgaver/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2006-03-16T00:00:00+00:00"
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
@@ -3250,66 +2170,6 @@
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afgørelse af militær straffesag om besiddelse af ikke-udleveret ammunition i Afghanistan",
-      "url": "https://www.fauk.dk/da/nyheder/2010/afgorelse-af-militar-straffesag-om-besiddelse-af-ikke-udleveret-ammunition-i-afghanistan/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-03-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afslutning af efterforskningen i sagen mod oversergent Thomas Rathsack",
-      "url": "https://www.fauk.dk/da/nyheder/2010/afslutning-af-efterforskningen-i-sagen-mod-oversergent-thomas-rathsack/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-10-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afslutning af undersøgelse af egenbeskydningsulykke den 21. februar 2010 i Afghanistan",
-      "url": "https://www.fauk.dk/da/nyheder/2011/afslutning-af-undersogelse-af-egenbeskydningsulykke-den-21.-februar-2010-i-afghanistan",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-05-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afslutning af undersøgelse af oplysninger om utilsigtet følgeskadevirkning på civile",
-      "url": "https://www.fauk.dk/da/nyheder/2011/afslutning-af-undersogelse-af-oplysninger-om-utilsigtet-folgeskadevirkning-pa-civile/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-03-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afslutning af undersøgelse vedr. filmen \"Armadillo\"",
-      "url": "https://www.fauk.dk/da/nyheder/2010/afslutning-af-undersogelse-vedr.-filmen-armadillo",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-12-15T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Afslutning af undersøgelse vedr. påstande om overværelse af tortur i Irak i 2006",
-      "url": "https://www.fauk.dk/da/nyheder/2011/afslutning-af-undersogelse-vedr.-pastande-om-overvarelse-af-tortur-i-irak-i-2006",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-02-04T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
       "title": "Afslutning på voldtægtssag, der tidligere har været omtalt i pressen",
       "url": "https://www.fauk.dk/da/nyheder/20252/afslutning-pa-voldtagtssag/",
       "reason": "before_archive_start",
@@ -3317,26 +2177,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-09-29T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Ansættelse af officer som juridisk konsulent i auditørkorpset",
-      "url": "https://www.fauk.dk/da/nyheder/2013/ansattelse-af-officer-som-juridisk-konsulent-i-auditorkorpset/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-02-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Auditøren i København indleder ny efterforskning i sagen om operation ”Green Desert”",
-      "url": "https://www.fauk.dk/da/nyheder/2012/auditoren-i-kobenhavn-indleder-ny-efterforskning-i-sagen-om-operation-green-desert/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-10-23T00:00:00+00:00"
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
@@ -3350,16 +2190,6 @@
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Auditørkorpsets årsberetning 2018",
-      "url": "https://www.fauk.dk/da/nyheder/2019/auditorkorpsets-arsberetning-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-03-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
       "title": "Auditørkorpsets årsberetning 2021",
       "url": "https://www.fauk.dk/da/nyheder/2022/arsberetning-2021/",
       "reason": "before_archive_start",
@@ -3367,116 +2197,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2022-03-22T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Autitørkorpsets årsberetning 2017",
-      "url": "https://www.fauk.dk/da/nyheder/2018/autitorkorpsets-arsberetning-2017/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-03-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Den Militære Retsplejeordning 2016",
-      "url": "https://www.fauk.dk/da/nyheder/2016/den-militare-retsplejeordning-2016/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-03-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "FAUK Strategi 2016-2018",
-      "url": "https://www.fauk.dk/da/nyheder/2016/fauk-strategi-2016-2018/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-04-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Forsvarets Auditørkorps udgiver i dag årsberetning for 2012",
-      "url": "https://www.fauk.dk/da/nyheder/2013/forsvarets-auditorkorps-udgiver-i-dag-arsberetning-for-2012/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-04-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Forsvarets Auditørkorps Årsberetning 2015",
-      "url": "https://www.fauk.dk/da/nyheder/2016/forsvarets-auditorkorps-arsberetning-2015/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-03-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Indledning af undersøgelse af oplysninger om kamphandling den 25. juni 2009 i Afghanistan",
-      "url": "https://www.fauk.dk/da/nyheder/2010/indledning-af-undersogelse-af-oplysninger-om-kamphandling-den-25.-juni-2009-i-afghanistan",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-05-14T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Indstilling af efterforskningen i sagen om Absalons bording af piratkontrolleret fartøj den 27. februar 2012 i Adenbugten",
-      "url": "https://www.fauk.dk/da/nyheder/2012/indstilling-af-efterforskningen-i-sagen-om-absalons-bording-af-piratkontrolleret-fartoj-den-27.-februar-2012-i-adenbugten",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-07-03T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Indstilling af efterforskningen i sagen om urigtige oplysninger omkring brugen af videokamera under operation ”Green Desert” den 25. november 2004 i Irak",
-      "url": "https://www.fauk.dk/da/nyheder/2014/indstilling-af-efterforskningen-i-sagen-om-urigtige-oplysninger-omkring-brugen-af-videokamera-under-operation-green-desert-den-25.-november-2004-i-irak",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-01-13T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Indstilling af efterforskningen vedrørende aktion i Adenbugten den 12. maj 2011",
-      "url": "https://www.fauk.dk/da/nyheder/2011/indstilling-af-efterforskningen-vedrorende-aktion-i-adenbugten-den-12.-maj-2011",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-07-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Ingen straffesag mod feltpræst Victor Greve",
-      "url": "https://www.fauk.dk/da/nyheder/2012/ingen-straffesag-mod-feltprast-victor-greve/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-06-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Kommunikationsstrategi",
-      "url": "https://www.fauk.dk/da/nyheder/2016/kommunikationsstrategi/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-04-13T00:00:00+00:00"
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
@@ -3520,56 +2240,6 @@
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Ny viceauditør i den militære anklagemyndighed",
-      "url": "https://www.fauk.dk/da/nyheder/2012/ny-viceauditor-i-den-militare-anklagemyndighed/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-03-22T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Nye bødetakster fra 1. januar 2014",
-      "url": "https://www.fauk.dk/da/nyheder/2013/nye-bodetakster-fra-1.-januar-2014",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-12-19T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Nye chefer i den militære anklagemyndighed - Forsvarets Auditørkorps",
-      "url": "https://www.fauk.dk/da/nyheder/2011/nye-chefer-i-den-militare-anklagemyndighed---forsvarets-auditorkorps/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-08-22T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Press release",
-      "url": "https://www.fauk.dk/da/nyheder/2015/press-release/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-06-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse - indledning af undersøgelse om udlevering af fanger i Irak",
-      "url": "https://www.fauk.dk/da/nyheder/2015/pressemeddelelse---indledning-af-undersogelse-om-udlevering-af-fanger-i-irak/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-07-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
       "title": "Pressemeddelelse i undersøgelsessag mod ansat i Det Økonomiske Partnerelement ved Forsvarskommandoen i Karup",
       "url": "https://www.fauk.dk/da/nyheder/2019/pressemeddelelse-i-undersogelsessag-mod-ansat-i-det-okonomiske-partnerelement-ved-forsvarskommandoen-i-karup/",
       "reason": "before_archive_start",
@@ -3580,156 +2250,6 @@
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse i undersøgelsessag mod vicedirektøren i Forsvarsministeriets Personalestyrelse",
-      "url": "https://www.fauk.dk/da/nyheder/2019/pressemeddelelse-i-undersogelsessag-mod-vicedirektoren-i-forsvarsministeriets-personalestyrelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-03-05T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om Auditørkorpset rejser sigtelse i sagen om mulig tjenestemisbrug og pligtforsømmelse i Forsvaret",
-      "url": "https://www.fauk.dk/da/nyheder/2019/pressemeddelelse-om-auditorkorpset-rejser-sigtelse-i-sagen-om-mulig-tjenestemisbrug-og-pligtforsommelse-i-forsvaret/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2019-01-31T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om afgørelse i sag om anonym påstand om strafbar mandskabsbehandling ved Gardehusarregimentets Hesteskadron",
-      "url": "https://www.fauk.dk/da/nyheder/2014/pressemeddelelse-om-afgorelse-i-sag-om-anonym-pastand-om-strafbar-mandskabsbehandling-ved-gardehusarregimentets-hesteskadron/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-03-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om indledning af efterforskning i sag om mulig pligtforsømmelse og tjenestemisbrug i Forsvaret",
-      "url": "https://www.fauk.dk/da/nyheder/2018/pressemeddelelse-om-indledning-af-efterforskning-i-sag-om-mulig-pligtforsommelse-og-tjenestemisbrug-i-forsvaret/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2018-10-31T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om indstilling af efterforskning i sagen om mulig pligtforsømmelse begået af danske soldater i forbindelse med træning af irakiske sikkerhedsstyrker",
-      "url": "https://www.fauk.dk/da/nyheder/2017/pressemeddelelse-om-indstilling-af-efterforskning-i-sagen-om-mulig-pligtforsommelse-begaet-af-danske-soldater-i-forbindelse-med-traning-af-irakiske-sikkerhedsstyrker/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-05-10T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om indstilling af efterforskningen i sagen om F-16 angrebet i Syrien den 17. september 2016",
-      "url": "https://www.fauk.dk/da/nyheder/2017/pressemeddelelse-om-indstilling-af-efterforskningen-i-sagen-om-f-16-angrebet-i-syrien-den-17.-september-2016",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-03-28T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse om indstilling af efterforskningen i sagen om manglende indberetning af et muligt brud på krigens love begået af en irakisk soldat",
-      "url": "https://www.fauk.dk/da/nyheder/2017/pressemeddelelse-om-indstilling-af-efterforskningen-i-sagen-om-manglende-indberetning-af-et-muligt-brud-pa-krigens-love-begaet-af-en-irakisk-soldat/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-08-24T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse vedrørende Auditørens efterforskning omkring de tilfangetagne irakere",
-      "url": "https://www.fauk.dk/da/nyheder/2016/pressemeddelelse-vedrorende-auditorens-efterforskning-omkring-de-tilfangetagne-irakere2/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-08-22T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Pressemeddelelse vedrørende Auditørens efterforskning omkring de tilfangetagne irakere",
-      "url": "https://www.fauk.dk/da/nyheder/2016/pressemeddelelse-vedrorende-auditorens-efterforskning-omkring-de-tilfangetagne-irakere/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2016-08-22T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Presseudtalelse i anledning af DR’s kritik af behandlingen af en sag om fangehåndtering fra Afghanistan",
-      "url": "https://www.fauk.dk/da/nyheder/2013/presseudtalelse-i-anledning-af-drs-kritik-af-behandlingen-af-en-sag-om-fangehandtering-fra-afghanistan/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2013-02-21T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Påtale opgives i den såkaldte ”Apache-sag”",
-      "url": "https://www.fauk.dk/da/nyheder/2012/patale-opgives-i-den-sakaldte-apache-sag/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-12-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Sagen om den arabiske oversættelse af bogen ”Jæger – i krig med eliten” er nu endeligt afgjort",
-      "url": "https://www.fauk.dk/da/nyheder/2012/sagen-om-den-arabiske-oversattelse-af-bogen-jager--i-krig-med-eliten-er-nu-endeligt-afgjort/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-04-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Soldater idømt ubetinget fængselsstraf for afgivelse af skud på kaserne",
-      "url": "https://www.fauk.dk/da/nyheder/2010/soldater-idomt-ubetinget-fangselsstraf-for-afgivelse-af-skud-pa-kaserne/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2010-03-30T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Udgivelse af Auditørkorpsets årsberetning 2011",
-      "url": "https://www.fauk.dk/da/nyheder/2012/udgivelse-af-auditorkorpsets-arsberetning-2011/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2012-06-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Udgivelse af auditørkorpsets årsberetning 2010",
-      "url": "https://www.fauk.dk/da/nyheder/2011/udgivelse-af-auditorkorpsets-arsberetning-2010/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2011-10-17T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
       "title": "Udgivelse af Årsberetning 2019",
       "url": "https://www.fauk.dk/da/nyheder/2020/udgivelse-af-arsberetning-2019/",
       "reason": "before_archive_start",
@@ -3737,36 +2257,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2020-04-29T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Udgivelse af årsberetning 2013",
-      "url": "https://www.fauk.dk/da/nyheder/2014/udgivelse-af-arsberetning-2013/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2014-03-20T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Udgivelse af årsberetning 2014",
-      "url": "https://www.fauk.dk/da/nyheder/2015/udgivelse-af-arsberetning-2014/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2015-03-25T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriets Auditørkorps",
-      "title": "Årsberetning 2016",
-      "url": "https://www.fauk.dk/da/nyheder/2017/arsberetning-2016/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2017-03-07T00:00:00+00:00"
     },
     {
       "source": "Forsvarsministeriets Auditørkorps",
@@ -6745,16 +5235,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-03-16T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Ændrede åbningstider for telefonisk betjening i Udlændingestyrelsen",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Aendrede-aabningstider-for-telefonisk-betjening",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-16T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
