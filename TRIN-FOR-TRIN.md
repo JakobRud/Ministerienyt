@@ -1,8 +1,8 @@
-# Opdatér til version 7.2.1
+# Opdatér til version 7.2.2
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.2.1.zip` ud.
+Pak `Ministerienyt-7.2.2.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -32,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Version 7.2.1 kræver ikke en ny genopbygning af arkiverne. Efter den første kørsel skal FMI og Beredskabsstyrelsen stå uden timeout-bemærkninger. Rettelserne fra 7.1.4 bevares: Dansk Dekommissionering skal stå med **8 artikler** fra 2026, og Forsvaret/Forsvarskommandoen skal være uden timeout-bemærkning.
+Version 7.2.2 kræver ikke en ny genopbygning af arkiverne. Efter den første kørsel skal DMI, Færdselsstyrelsen, Forsvarets Efterretningstjeneste, FMI og Beredskabsstyrelsen stå uden bemærkninger. Færdselsstyrelsen kan samtidig få tilføjet de 2026-artikler, som før blev afvist, fordi artikelparseren ikke læste sidens officielle `data-date`-felt.
 
 ## 6. Kontrollér siderne
 
@@ -43,7 +43,7 @@ Version 7.2.1 kræver ikke en ny genopbygning af arkiverne. Efter den første k�
 - Gem fx `klima, Ukraine` under **Mine emner**, aktivér filteret, og kontrollér at valget også er tilgængeligt på den anden hovedside.
 - Kontrollér, at kildelisten viser **74 kilder** og ministerområderne.
 - Kontrollér, at kildelisten har kolonnen **Indhold**.
-- Kontrollér, at FMI og Beredskabsstyrelsen står med **OK** uden timeout-bemærkninger.
+- Kontrollér, at DMI, Færdselsstyrelsen, Forsvarets Efterretningstjeneste, FMI og Beredskabsstyrelsen står med **OK** uden bemærkninger.
 - Kontrollér, at Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet ikke længere står i kildelisten.
 
 ## 7. Lad de genererede filer blive liggende

@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.2.1"
+APP_VERSION = "7.2.2"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -870,6 +870,33 @@ def plain_listing_date_from_node(node) -> datetime | None:
     return None
 
 
+def configured_article_date_values(soup: BeautifulSoup, source: dict | None) -> list[str]:
+    """Læs kun datofelter, som er udtrykkeligt godkendt for den konkrete kilde."""
+    if not source:
+        return []
+    selectors = source.get("article_date_selectors", [])
+    if isinstance(selectors, str):
+        selectors = [selectors]
+    values: list[str] = []
+    for selector in selectors:
+        try:
+            nodes = soup.select(str(selector))
+        except Exception:
+            continue
+        for node in nodes:
+            value = next(
+                (
+                    str(node.get(attribute, ""))
+                    for attribute in ("data-date", "datetime", "content")
+                    if node.get(attribute)
+                ),
+                node.get_text(" ", strip=True),
+            )
+            if clean_text(value):
+                values.append(value)
+    return values
+
+
 def date_from_soup(soup: BeautifulSoup, source: dict | None = None) -> datetime | None:
     """Find artikelens publiceringsdato uden at læse vilkårlige brødtekstdatoer.
 
@@ -884,6 +911,10 @@ def date_from_soup(soup: BeautifulSoup, source: dict | None = None) -> datetime 
     metadata_dates = metadata_publication_dates(soup)
     if metadata_dates:
         return metadata_dates[0]
+    for value in configured_article_date_values(soup, source):
+        parsed = parse_date(value)
+        if parsed:
+            return parsed
     labeled = labeled_publication_date_from_soup(soup)
     if labeled:
         return labeled
@@ -936,6 +967,7 @@ def trusted_future_publication_date_from_soup(
     egentlige artikelbrødtekst for vilkårlige datoer.
     """
     raw_values: list[str] = []
+    raw_values.extend(configured_article_date_values(soup, source))
     for key, value in [
         ("property", "article:published_time"),
         ("property", "og:published_time"),
@@ -1442,8 +1474,14 @@ def create_session() -> requests.Session:
     return session
 
 
-def fetch(session: requests.Session, url: str) -> requests.Response:
-    response = session.get(url, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), allow_redirects=True)
+def fetch(
+    session: requests.Session,
+    url: str,
+    *,
+    read_timeout: float | None = None,
+) -> requests.Response:
+    effective_read_timeout = READ_TIMEOUT if read_timeout is None else max(READ_TIMEOUT, min(float(read_timeout), 60.0))
+    response = session.get(url, timeout=(CONNECT_TIMEOUT, effective_read_timeout), allow_redirects=True)
     response.raise_for_status()
     if REQUEST_DELAY_SECONDS:
         time.sleep(REQUEST_DELAY_SECONDS)
@@ -1455,6 +1493,14 @@ def append_error(status: SourceStatus, message: str) -> None:
     if message and len(status.errors or []) < MAX_ERROR_MESSAGES_PER_SOURCE:
         assert status.errors is not None
         status.errors.append(message[:400])
+
+
+def is_rate_limit_error(exc: Exception) -> bool:
+    response = getattr(exc, "response", None)
+    if getattr(response, "status_code", None) == 429:
+        return True
+    message = clean_text(str(exc)).casefold()
+    return "429" in message or "too many requests" in message or "too many 429" in message
 
 
 def record_rejection(
@@ -1844,6 +1890,9 @@ def listpage_dynamic_listing_pages(
         append_error(status, "Den dynamiske ListPage-liste returnerede ingen links.")
         return []
     status.listing_pages += 1
+    # Endpointet returnerer én bevidst afgrænset, nyeste blok. Kandidatantallet
+    # kan derfor ikke sammenlignes med ældre fulde hentninger uden falsk alarm.
+    status.pagination_limited = True
     if "Officiel ListPage API" not in (status.methods or []):
         status.methods.append("Officiel ListPage API")
     return [page_soup]
@@ -1892,15 +1941,40 @@ def crawl_listing_pages(
         deep_pages = cfg_int("deep_listing_pages", DEFAULT_DEEP_LISTING_PAGES, 4, 80)
         max_pages = min(configured_max_pages, max(len(queued_urls), deep_pages))
     archive_cutoff_reached = False
+    try:
+        listing_page_delay = max(0.0, min(float(source.get("listing_page_delay_seconds", 0) or 0), 15.0))
+    except (TypeError, ValueError):
+        listing_page_delay = 0.0
     while queue and len(visited) < max_pages:
         requested_url = queue.popleft()
         page_key = normalize_url(requested_url, keep_query=True)
         if not page_key or page_key in visited:
             continue
         visited.add(page_key)
+        if listing_page_delay and len(visited) > 1:
+            time.sleep(listing_page_delay)
         try:
-            response = fetch(session, requested_url)
+            listing_read_timeout = source.get("listing_read_timeout_seconds")
+            if listing_read_timeout is None:
+                response = fetch(session, requested_url)
+            else:
+                response = fetch(session, requested_url, read_timeout=float(listing_read_timeout))
         except Exception as exc:
+            requested_key = canonical_url(requested_url)
+            is_active_entry = any(requested_key == canonical_url(url) for url in active_urls)
+            allow_partial_failure = bool(source.get("allow_partial_pagination_failure"))
+            allow_rate_limit = bool(source.get("allow_partial_on_pagination_throttle")) and is_rate_limit_error(exc)
+            if (
+                status.listing_pages > 0
+                and not is_active_entry
+                and (allow_partial_failure or allow_rate_limit)
+            ):
+                status.pagination_limited = True
+                status.quality_flags.append(
+                    "En senere listeside kunne ikke hentes; den aktuelle forside blev hentet, og arkivet blev bevaret."
+                )
+                queue.clear()
+                break
             append_error(status, f"Liste kunne ikke hentes: {requested_url}: {exc}")
             continue
 
@@ -4861,7 +4935,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.2.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.2.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.2.2</strong><ul><li>DMI følger kun det officielle nyhedsarkiv, henter langsommere og håndterer afviste senere arkivsider med det bevarede arkiv som sikkerhedsnet.</li><li>Færdselsstyrelsens officielle data-date-felt læses nu også sikkert på artikelsiden.</li><li>FE, FMI og Beredskabsstyrelsens afgrænsede ListPage-svar sammenlignes ikke længere med ældre fulde kandidatantal.</li></ul>'
         '<strong>v7.2.1</strong><ul><li>FMI bruger 30 poster og Beredskabsstyrelsen 50, så deres ListPage-kald ikke længere giver timeout-bemærkninger.</li><li>ListPage-kilder følger sidens officielle antal poster og prøver automatisk igen med 50, hvis et større kald fejler.</li><li>Et vellykket reduceret genforsøg tæller som en normal hentning og giver ikke en kildebemærkning.</li></ul>'
         '<strong>v7.2</strong><ul><li>Mine emner gemmer op til 20 søgeemner lokalt og bruger dem på både Ministerienyt og Styrelsesnyt.</li><li>Kildelisten viser nu, om arkivet indeholder nyheder, pressemeddelelser, taler, rapporter eller debatindlæg.</li><li>Den interne diagnostik lærer hver kildes normale kandidatniveau og publiceringsrytme og prioriterer pludselige fald, høj frasortering, stilhed og mulige rubrik-/manchet-/linkbrud med en kvalitetsscore.</li></ul>'
         '<strong>v7.1.4</strong><ul><li>Forsvarets officielle ListPage-endpoint bruger nu 50 poster pr. kald og giver ikke længere timeout-bemærkningen.</li><li>Dansk Dekommissionerings datobaserede artikelstier genkendes, så alle 8 nyheder fra 2026 hentes med rene rubrikker.</li><li>Skatteankestyrelsen, Havarikommissionen og Styrelsen for Undervisning og Kvalitet er fjernet, fordi de ikke har egentlige nyhedsarkiver; Styrelsesnyt har nu 74 aktive kilder.</li></ul>'

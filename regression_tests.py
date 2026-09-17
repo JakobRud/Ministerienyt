@@ -68,6 +68,15 @@ class DateRegressionTests(unittest.TestCase):
         soup = BeautifulSoup('<div>17-08-2026</div><h1>Knap 100.000 danskere har fået glæde af kørselsfradraget</h1>', "html.parser")
         self.assertEqual(m.date_from_soup(soup, {"allow_unlabeled_header_date": True}).date().isoformat(), "2026-08-17")
 
+    def test_configured_article_data_date_is_source_scoped(self):
+        soup = BeautifulSoup(
+            '<h1>Nyhed</h1><span class="datetime" data-date="2026-05-27T12:10:26Z">27-05-2026</span>',
+            "html.parser",
+        )
+        self.assertIsNone(m.date_from_soup(soup, {}))
+        source = {"article_date_selectors": [".datetime[data-date]"]}
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-05-27")
+
     def test_kefm_body_date_is_not_publication_date(self):
         soup = BeautifulSoup('<meta property="article:published_time" content="2026-07-02T09:00:00+02:00"><h1>Tommy Ahlers er ny bestyrelsesformand</h1><p>Tiltræder den 15. august 2026.</p>', "html.parser")
         self.assertEqual(m.date_from_soup(soup, {}).date().isoformat(), "2026-07-02")
@@ -259,6 +268,15 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "https://www.domstol.dk",
         )
         self.assertTrue(sources["Ankestyrelsen"]["gobasic_dynamic_list"])
+        self.assertEqual(sources["DMI"]["start_urls"], ["https://www.dmi.dk/nyhedsoverblik"])
+        self.assertEqual(sources["DMI"]["listing_page_delay_seconds"], 3)
+        self.assertEqual(sources["DMI"]["listing_read_timeout_seconds"], 60)
+        self.assertTrue(sources["DMI"]["allow_partial_on_pagination_throttle"])
+        self.assertTrue(sources["DMI"]["allow_partial_pagination_failure"])
+        self.assertEqual(
+            sources["Færdselsstyrelsen"]["article_date_selectors"],
+            [".datetime[data-date]"],
+        )
         self.assertEqual(sources["Forsvaret/Forsvarskommandoen"]["listpage_item_count"], 50)
         self.assertEqual(
             sources["Forsvarsministeriets Materiel- og Indkøbsstyrelse"]["listpage_item_count"],
@@ -843,6 +861,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(fake.kwargs["params"]["rootId"], "801")
         self.assertEqual(fake.kwargs["params"]["sorting"], "PublishedDescending")
         self.assertEqual(fake.kwargs["params"]["count"], 30)
+        self.assertTrue(status.pagination_limited)
         self.assertIn("Officiel ListPage API", status.methods)
 
     def test_listpage_api_retries_with_smaller_count_without_warning(self):
@@ -879,7 +898,84 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(len(pages), 1)
         self.assertEqual(fake.counts, [500, 50])
         self.assertEqual(status.errors, [])
+        self.assertTrue(status.pagination_limited)
         self.assertIn("Officiel ListPage API", status.methods)
+
+    def test_limited_listpage_does_not_trigger_candidate_drop_warning(self):
+        status = m.SourceStatus("Testmyndighed", "https://example.dk/")
+        status.listing_pages = 2
+        status.article_candidates = 20
+        status.pagination_limited = True
+        status.methods.extend(["HTML", "Officiel ListPage API"])
+        m.evaluate_source_self_test(status, {"last_full_candidate_count": 500})
+        self.assertEqual(status.self_test, "pass")
+        self.assertFalse(any("Kandidatantal faldt" in note for note in status.self_test_notes))
+
+    def test_later_pagination_failure_is_kept_internal_for_configured_source(self):
+        source = {
+            "name": "DMI",
+            "home_url": "https://www.dmi.dk/",
+            "start_urls": ["https://www.dmi.dk/nyhedsoverblik"],
+            "article_prefixes": ["/nyheder/"],
+            "pagination_next_only": True,
+            "allow_partial_pagination_failure": True,
+            "max_listing_pages": 4,
+        }
+        first_page = '''<article><a href="/nyheder/2026/en-nyhed">En DMI-nyhed</a>
+          <time datetime="2026-09-17">17. september 2026</time></article>
+          <a href="/nyhedsoverblik?page=2">next</a>'''
+        calls = []
+        original_fetch = m.fetch
+        try:
+            def fake_fetch(session, url):
+                calls.append(url)
+                if len(calls) == 1:
+                    return types.SimpleNamespace(
+                        url=url,
+                        headers={"content-type": "text/html"},
+                        content=first_page.encode(),
+                        text=first_page,
+                    )
+                raise m.requests.ConnectionError("senere side afviste forbindelsen")
+            m.fetch = fake_fetch
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(object(), source, status, {}, full_audit=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(len(calls), 2)
+        self.assertTrue(status.pagination_limited)
+        self.assertEqual(status.errors, [])
+        self.assertTrue(any("senere listeside" in flag for flag in status.quality_flags))
+
+    def test_entry_page_failure_is_still_public_for_partial_source(self):
+        source = {
+            "name": "DMI",
+            "home_url": "https://www.dmi.dk/",
+            "start_urls": ["https://www.dmi.dk/nyhedsoverblik"],
+            "article_prefixes": ["/nyheder/"],
+            "allow_partial_pagination_failure": True,
+        }
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: (_ for _ in ()).throw(
+                m.requests.ConnectionError("indgangen kunne ikke hentes")
+            )
+            status = m.SourceStatus(source["name"], source["home_url"])
+            m.crawl_listing_pages(object(), source, status, {}, full_audit=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertFalse(status.pagination_limited)
+        self.assertTrue(status.errors)
+
+    def test_fetch_can_use_longer_source_specific_read_timeout(self):
+        class FakeSession:
+            def get(self, url, **kwargs):
+                self.kwargs = kwargs
+                return types.SimpleNamespace(raise_for_status=lambda: None)
+        fake = FakeSession()
+        m.fetch(fake, "https://example.dk/nyheder", read_timeout=60)
+        self.assertEqual(fake.kwargs["timeout"], (m.CONNECT_TIMEOUT, 60.0))
 
     def test_refresh_guard_keeps_last_good(self):
         old = [self.item("Testministeriet", f"Gammel artikel nummer {i} med en tydelig titel", f"https://x.dk/n/{i}", f"2026-01-{i+1:02d}") for i in range(10)]
@@ -1312,7 +1408,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.2.1")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.2.2")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")

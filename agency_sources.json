@@ -320,9 +320,13 @@
       "name": "DMI",
       "responsible_ministry": "Klima-, Energi- og Forsyningsministeriet",
       "home_url": "https://www.dmi.dk/",
-      "start_urls": ["https://www.dmi.dk/nyhedsoverblik", "https://www.dmi.dk/"],
+      "start_urls": ["https://www.dmi.dk/nyhedsoverblik"],
       "article_prefixes": ["/nyheder/"],
       "pagination_next_only": true,
+      "listing_page_delay_seconds": 3,
+      "listing_read_timeout_seconds": 60,
+      "allow_partial_on_pagination_throttle": true,
+      "allow_partial_pagination_failure": true,
       "stop_pagination_before_archive_start": true
     },
 
@@ -364,6 +368,7 @@
       "home_url": "https://www.fstyr.dk/",
       "start_urls": ["https://www.fstyr.dk/nyheder"],
       "article_prefixes": ["/nyheder/"],
+      "article_date_selectors": [".datetime[data-date]"],
       "gobasic_dynamic_list": true,
       "max_listing_pages": 8,
       "refresh_before_schema": 14

@@ -1,6 +1,13 @@
-# Ministerienyt og Styrelsesnyt 7.2.1
+# Ministerienyt og Styrelsesnyt 7.2.2
 
-Version 7.2.1 fjerner timeout-bemærkningerne fra FMI og Beredskabsstyrelsen og gør ListPage-hentningen mere robust. Den indeholder samtidig alle funktioner fra 7.2.
+Version 7.2.2 fjerner de fem resterende bemærkninger i Styrelsesnyts 7.2.1-kildeliste. Den indeholder samtidig alle funktioner og rettelser fra 7.2.1.
+
+## Rettet i version 7.2.2
+
+- DMI bruger kun det officielle nyhedsarkiv som indgang, venter tre sekunder mellem listesiderne og har længere svartid. Hvis en senere arkivside alligevel afvises, bevares den hentede forside og det eksisterende arkiv, mens hændelsen registreres i den interne diagnostik frem for som en offentlig kildebemærkning. En fejl på selve indgangssiden vises fortsat.
+- Færdselsstyrelsens sikre `data-date`-felt læses nu også på selve artikelsiden. Tre hidtil afviste 2026-artikler kan dermed optages, mens datoer fra brødteksten fortsat ikke bruges.
+- Forsvarets Efterretningstjeneste, Forsvarsministeriets Materiel- og Indkøbsstyrelse og Beredskabsstyrelsen bruger afgrænsede svar fra deres officielle ListPage-API. Disse svar markeres nu korrekt som begrænsede og sammenlignes derfor ikke med ældre, fulde kandidatantal.
+- Ministerienyts 22 kilder havde ingen synlige bemærkninger ved kontrollen af den offentliggjorte 7.2.1. Rettelserne er derfor afgrænset til Styrelsesnyt.
 
 ## Rettet i version 7.2.1
 
