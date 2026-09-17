@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-17T09:32:26.762191+00:00",
+  "generated_at": "2026-09-17T15:02:01.240178+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 526,
+  "total_rejected": 524,
   "summary_by_reason": {
-    "before_archive_start": 515,
+    "before_archive_start": 514,
     "missing_safe_publication_date": 1,
-    "source_filter_mismatch": 10
+    "source_filter_mismatch": 9
   },
   "rejected": [
     {
@@ -4930,16 +4930,6 @@
     },
     {
       "source": "Styrelsen for Samfundssikkerhed",
-      "title": "Eftersyn af beskyttelsesrum er nu i gang i hele landet",
-      "url": "https://samsik.dk/artikler/2025/12/eftersyn-af-beskyttelsesrum-er-nu-i-gang-i-hele-landet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-05T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for Samfundssikkerhed",
       "title": "Forsvarets Efterretningstjeneste vurderer, at Rusland står bag destruktive og forstyrrende cyberangreb mod Danmark",
       "url": "https://samsik.dk/artikler/2025/12/forsvarets-efterretningstjeneste-vurderer-at-rusland-staar-bag-destruktive-og-forstyrrende-cyberangreb-mod-danmark/",
       "reason": "before_archive_start",
@@ -5256,16 +5246,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. oktober 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Opdateret-loenstatistik-fra-1-oktober-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-17T00:00:00+00:00"
     }
   ]
 }
