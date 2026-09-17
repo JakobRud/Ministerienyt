@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-17T07:34:57.756740+00:00",
+  "generated_at": "2026-09-17T09:32:26.762191+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 528,
+  "total_rejected": 526,
   "summary_by_reason": {
     "before_archive_start": 515,
-    "missing_safe_publication_date": 5,
-    "source_filter_mismatch": 8
+    "missing_safe_publication_date": 1,
+    "source_filter_mismatch": 10
   },
   "rejected": [
     {
@@ -5159,24 +5159,6 @@
       "detected_date": "2022-04-21T06:58:16+00:00"
     },
     {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedrørende-personer-fra-Iran-berostilles-ikke-længere",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. oktober 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Opdateret-loenstatistik-fra-1-oktober-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
       "source": "Styrelsen for Patientsikkerhed",
       "title": "Snart afholder vi temadag om patientsikkerhed for alle med kronisk sygdom",
       "url": "https://stps.dk/nyheder/2026/sep/tilmelding-til-temadag-17-september-patientsikkerhed-for-alle-med-kronisk-sygdom-2",
@@ -5186,22 +5168,14 @@
       "detail": ""
     },
     {
-      "source": "Udlændingestyrelsen",
+      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedrørende-personer-fra-Iran-berostilles-ikke-længere",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
       "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. oktober 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Opdateret-loenstatistik-fra-1-oktober-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
+      "detail": "",
+      "detected_date": "2026-09-17T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
@@ -5282,6 +5256,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Opdateret lønstatistik med virkning for ansøgninger indgivet fra 1. oktober 2026",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Opdateret-loenstatistik-fra-1-oktober-2026",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-09-17T00:00:00+00:00"
     }
   ]
 }
