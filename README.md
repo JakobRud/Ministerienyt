@@ -1,6 +1,14 @@
-# Ministerienyt og Styrelsesnyt 7.2.2
+# Ministerienyt og Styrelsesnyt 7.3
 
-Version 7.2.2 fjerner de fem resterende bemærkninger i Styrelsesnyts 7.2.1-kildeliste. Den indeholder samtidig alle funktioner og rettelser fra 7.2.1.
+Version 7.3 udvider Styrelsesnyt med fem officielle kilder og indeholder samtidig alle funktioner og rettelser fra 7.2.2.
+
+## Nyt i version 7.3
+
+- Forbrugerombudsmanden, Dansk Sprognævn, VIVE, Folketingets Ombudsmand og Rigsrevisionen er tilføjet. Styrelsesnyt har nu **79 aktive kilder**.
+- Forbrugerombudsmanden og VIVE bruger deres officielle data-API'er, så nye poster kan opdages i de almindelige timekørsler. De kontrollerede 2026-arkiver gav henholdsvis 55 og 68 poster pr. 18. september 2026.
+- Dansk Sprognævns sekventielle nyhedsarkiv gav 12 poster fra 2026 uden bemærkninger. Folketingets Ombudsmands årsarkiv gav 16, og Rigsrevisionens officielle GoBasic-arkiv gav 72.
+- Kildelistens kolonne **Ministerområde** hedder nu **Tilhørsforhold**, så Folketingets Ombudsmand og Rigsrevisionen kan vises korrekt under Folketinget.
+- Råd er fortsat ikke medtaget.
 
 ## Rettet i version 7.2.2
 
@@ -93,7 +101,7 @@ Version 7.2.2 fjerner de fem resterende bemærkninger i Styrelsesnyts 7.2.1-kild
 - Styrelsesnyt har søgning, kildefilter, **Mine myndigheder**, **Kun nye**, perioder på 7 og 30 dage, delbar visning, kopiering af links og trinvis indlæsning.
 - Brugerens læste artikler og valgte myndigheder gemmes separat fra Ministerienyt.
 - Samme historie fra flere myndigheder samles i ét kort på Styrelsesnyt. En historie kan stadig fremgå én gang på både Ministerienyt og Styrelsesnyt, fordi siderne er selvstændige.
-- De 74 aktive kilder vises med ansvarligt ministerområde under **Kilder og dækning**.
+- De aktive kilder vises med tilhørsforhold under **Kilder og dækning**.
 - Rigspolitiets kilde er begrænset til centrale nyheder; lokale døgnrapporter medtages ikke.
 - Delte officielle arkiver filtreres på udgiver, så SIRI og Udlændingestyrelsen ikke overtager hinandens artikler.
 - Timekørslerne besøger højst to aktive listesider pr. myndighed. Den daglige dybe kontrol går højst 12 sider tilbage. Det holder belastningen af de officielle hjemmesider nede.
@@ -105,7 +113,7 @@ Version 7.0 indeholder også rettelsen fra 6.3.1, hvor Kulturministeriets synlig
 | Side | URL | Kilder | Lokale valg | Datafiler |
 | --- | --- | ---: | --- | --- |
 | Ministerienyt | repositoryets Pages-forside | 22 | Mine ministerier | `archive.json`, `health.json` m.fl. |
-| Styrelsesnyt | `/styrelsesnyt/` | 74 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
+| Styrelsesnyt | `/styrelsesnyt/` | 79 | Mine myndigheder | `agency_archive.json`, `agency_health.json` m.fl. |
 
 De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfigurationer og arkiver.
 

@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.2.2"
+APP_VERSION = "7.3"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -62,7 +62,7 @@ DEFAULT_FAST_LISTING_PAGES = 4
 DEFAULT_DEEP_LISTING_PAGES = 24
 MAX_SITEMAP_FILES_PER_SOURCE = 100
 MAX_ERROR_MESSAGES_PER_SOURCE = 12
-ARCHIVE_SCHEMA_VERSION = 18
+ARCHIVE_SCHEMA_VERSION = 19
 DEFAULT_SOURCE_RETRY_ATTEMPTS = 2
 DEFAULT_SOURCE_RETRY_WAIT_SECONDS = 5
 DEFAULT_ALERT_AFTER_FAILURES = 3
@@ -1681,6 +1681,8 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
         return False
 
     text = clean_text(anchor.get_text(" ", strip=True)).casefold()
+    rel_tokens = {clean_text(str(value)).casefold() for value in anchor.get("rel", [])}
+    class_tokens = {clean_text(str(value)).casefold() for value in anchor.get("class", [])}
     parsed = urlparse(target)
     query_keys = {key.casefold() for key, _ in parse_qsl(parsed.query, keep_blank_values=True)}
     path = parsed.path.casefold()
@@ -1690,6 +1692,8 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
         or "flere nyheder" in text
         or "næste" in text
         or "naeste" in text
+        or "next" in rel_tokens
+        or any(token.endswith("--next") or token.endswith("-next") for token in class_tokens)
     )
     if source.get("pagination_next_only"):
         return next_like
@@ -3175,6 +3179,191 @@ def collect_drupal_jsonapi_items(
     return sorted(result.values(), key=lambda item: item.published, reverse=True), True
 
 
+def collect_umbraco_search_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent et officielt nyhedsarkiv fra KFST-platformens søge-API."""
+    if not source.get("umbraco_search_api"):
+        return [], False
+    start_urls = source.get("start_urls", [])
+    endpoint_raw = clean_text(str(source.get("umbraco_search_endpoint", "")))
+    include = clean_text(str(source.get("umbraco_search_include", "")))
+    culture = clean_text(str(source.get("umbraco_search_culture", "")))
+    page_id = clean_text(str(source.get("umbraco_search_page_id", "")))
+    if not start_urls or not endpoint_raw or not include or not culture or not page_id:
+        append_error(status, "Umbraco-søgekilden mangler start-URL eller API-parametre.")
+        return [], False
+
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    endpoint = normalize_url(urljoin(start_url, endpoint_raw), keep_query=True)
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    api_succeeded = False
+    max_pages = max(1, min(int(source.get("umbraco_search_max_pages", 20)), 50))
+
+    for page in range(max_pages):
+        try:
+            response = session.post(
+                endpoint,
+                data={
+                    "topic": "0",
+                    "include": include,
+                    "culture": culture,
+                    "currentPageId": page_id,
+                    "years": str(ARCHIVE_START.year),
+                    "dateSorting": "2",  # Nyeste først på den officielle side.
+                    "page": str(page),
+                },
+                headers={
+                    "Referer": start_url,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Accept": "application/json",
+                },
+                timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, 60)),
+            )
+            response.raise_for_status()
+            payload = response.json()
+            rows = payload.get("Results", []) if isinstance(payload, dict) else []
+            if not isinstance(rows, list):
+                raise ValueError("Results var ikke en liste")
+        except Exception as exc:
+            append_error(status, f"Officielt Umbraco-søge-API kunne ikke hentes: {exc}")
+            return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+        api_succeeded = True
+        status.listing_pages += 1
+        for record in rows:
+            if not isinstance(record, dict):
+                continue
+            title = clean_text(str(record.get("Name") or ""))
+            url = normalize_url(urljoin(start_url, str(record.get("Url") or "")), keep_query=True)
+            published = parse_date(str(record.get("Date") or ""))
+            if not title or not url or not looks_like_article(url, source):
+                continue
+            candidate_count += 1
+            if not published:
+                record_rejection(
+                    source["name"], title, url, "missing_safe_publication_date",
+                    discovered_by="Officielt Umbraco-søge-API",
+                )
+                continue
+            if published < ARCHIVE_START:
+                continue
+            key = canonical_url(url)
+            if key in known_urls:
+                status.known_candidates_skipped += 1
+                continue
+            description = strip_markup(str(record.get("Teaser") or ""))[:900]
+            result[key] = with_item_identity(
+                Item(source["name"], title, url, published, description),
+                first_seen_at=datetime.now(timezone.utc),
+            )
+
+        total = int(payload.get("TotalResults", len(rows)) or len(rows))
+        page_size = int(payload.get("PageSize", len(rows)) or len(rows) or 1)
+        if not rows or (page + 1) * page_size >= total:
+            break
+        if REQUEST_DELAY_SECONDS:
+            time.sleep(REQUEST_DELAY_SECONDS)
+
+    status.article_candidates += candidate_count
+    status.methods.append("Officielt Umbraco-søge-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+
+def collect_vive_news_items(
+    session: requests.Session,
+    source: dict,
+    known_urls: set[str],
+    status: SourceStatus,
+) -> tuple[list[Item], bool]:
+    """Hent VIVEs nyheder og debatindlæg fra sidens officielle JSON-API."""
+    if not source.get("vive_news_api"):
+        return [], False
+    start_urls = source.get("start_urls", [])
+    endpoint_raw = clean_text(str(source.get("vive_news_endpoint", "/api/news")))
+    page_id = clean_text(str(source.get("vive_news_page_id", "")))
+    culture_id = clean_text(str(source.get("vive_news_culture_id", "")))
+    if not start_urls or not endpoint_raw or not page_id or not culture_id:
+        append_error(status, "VIVE-kilden mangler start-URL, side-id eller kultur-id.")
+        return [], False
+
+    start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    endpoint = normalize_url(urljoin(start_url, endpoint_raw), keep_query=True)
+    limit = max(16, min(int(source.get("vive_news_limit", 100)), 500))
+    max_pages = max(1, min(int(source.get("vive_news_max_pages", 5)), 20))
+    result: dict[str, Item] = {}
+    candidate_count = 0
+    api_succeeded = False
+
+    for page in range(max_pages):
+        offset = page * limit
+        try:
+            response = session.get(
+                endpoint,
+                params={
+                    "pageId": page_id,
+                    "cultureId": culture_id,
+                    "years": str(ARCHIVE_START.year),
+                    "limit": limit,
+                    "offset": offset,
+                },
+                headers={"Referer": start_url, "Accept": "application/json"},
+                timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, 60)),
+            )
+            response.raise_for_status()
+            payload = response.json()
+            rows = payload.get("data", []) if isinstance(payload, dict) else []
+            if not isinstance(rows, list):
+                raise ValueError("data var ikke en liste")
+        except Exception as exc:
+            append_error(status, f"VIVEs officielle nyheds-API kunne ikke hentes: {exc}")
+            return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+        api_succeeded = True
+        status.listing_pages += 1
+        for record in rows:
+            if not isinstance(record, dict):
+                continue
+            title = clean_text(str(record.get("title") or record.get("name") or ""))
+            url = normalize_url(urljoin(start_url, str(record.get("url") or "")), keep_query=True)
+            published = parse_date(str(record.get("date8601") or record.get("date") or ""))
+            if not title or not url or not looks_like_article(url, source):
+                continue
+            candidate_count += 1
+            if not published:
+                record_rejection(
+                    source["name"], title, url, "missing_safe_publication_date",
+                    discovered_by="VIVE nyheds-API",
+                )
+                continue
+            if published < ARCHIVE_START:
+                continue
+            key = canonical_url(url)
+            if key in known_urls:
+                status.known_candidates_skipped += 1
+                continue
+            description = strip_markup(str(record.get("teaser") or ""))[:900]
+            result[key] = with_item_identity(
+                Item(source["name"], title, url, published, description),
+                first_seen_at=datetime.now(timezone.utc),
+            )
+
+        pagination = payload.get("pagination", {}) if isinstance(payload, dict) else {}
+        total = int(pagination.get("total", len(rows)) or len(rows)) if isinstance(pagination, dict) else len(rows)
+        if not rows or offset + len(rows) >= total:
+            break
+        if REQUEST_DELAY_SECONDS:
+            time.sleep(REQUEST_DELAY_SECONDS)
+
+    status.article_candidates += candidate_count
+    status.methods.append("VIVE nyheds-API")
+    return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+
 def collect_nyidanmark_candidates(
     session: requests.Session,
     source: dict,
@@ -3252,6 +3441,18 @@ def collect_source(
 ) -> tuple[list[Item], SourceStatus]:
     status = SourceStatus(source["name"], source.get("home_url", source.get("start_urls", [""])[0]))
     status.fast_mode = fast
+
+    umbraco_items, umbraco_ok = collect_umbraco_search_items(session, source, known_urls, status)
+    if umbraco_ok and not source.get("umbraco_search_supplemental"):
+        status.fresh_items = len(umbraco_items)
+        status.accepted_new = len(umbraco_items)
+        return umbraco_items, status
+
+    vive_items, vive_ok = collect_vive_news_items(session, source, known_urls, status)
+    if vive_ok and not source.get("vive_news_supplemental"):
+        status.fresh_items = len(vive_items)
+        status.accepted_new = len(vive_items)
+        return vive_items, status
 
     politi_items, politi_ok = collect_politi_news_items(session, source, known_urls, status)
     if politi_ok and not source.get("politi_news_supplemental"):
@@ -4304,7 +4505,7 @@ def build_html(
     )
 
     source_rows: list[str] = []
-    source_table_parent_header = "<th>Ministerområde</th>" if agency_mode else ""
+    source_table_parent_header = "<th>Tilhørsforhold</th>" if agency_mode else ""
     for name in ministries:
         source = source_lookup[name]
         status = status_lookup.get(name)
@@ -4935,7 +5136,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.2.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.3</strong><ul><li>Forbrugerombudsmanden, Dansk Sprognævn, VIVE, Folketingets Ombudsmand og Rigsrevisionen er tilføjet; Styrelsesnyt har nu 79 aktive kilder.</li><li>Forbrugerombudsmanden og VIVE bruger deres officielle data-API’er, mens de tre øvrige kilder læses fra afgrænsede officielle 2026-arkiver.</li><li>Kildelistens kolonne Ministerområde hedder nu Tilhørsforhold, så Folketingets uafhængige kontrolorganer vises korrekt.</li></ul>'
         '<strong>v7.2.2</strong><ul><li>DMI følger kun det officielle nyhedsarkiv, henter langsommere og håndterer afviste senere arkivsider med det bevarede arkiv som sikkerhedsnet.</li><li>Færdselsstyrelsens officielle data-date-felt læses nu også sikkert på artikelsiden.</li><li>FE, FMI og Beredskabsstyrelsens afgrænsede ListPage-svar sammenlignes ikke længere med ældre fulde kandidatantal.</li></ul>'
         '<strong>v7.2.1</strong><ul><li>FMI bruger 30 poster og Beredskabsstyrelsen 50, så deres ListPage-kald ikke længere giver timeout-bemærkninger.</li><li>ListPage-kilder følger sidens officielle antal poster og prøver automatisk igen med 50, hvis et større kald fejler.</li><li>Et vellykket reduceret genforsøg tæller som en normal hentning og giver ikke en kildebemærkning.</li></ul>'
         '<strong>v7.2</strong><ul><li>Mine emner gemmer op til 20 søgeemner lokalt og bruger dem på både Ministerienyt og Styrelsesnyt.</li><li>Kildelisten viser nu, om arkivet indeholder nyheder, pressemeddelelser, taler, rapporter eller debatindlæg.</li><li>Den interne diagnostik lærer hver kildes normale kandidatniveau og publiceringsrytme og prioriterer pludselige fald, høj frasortering, stilhed og mulige rubrik-/manchet-/linkbrud med en kvalitetsscore.</li></ul>'

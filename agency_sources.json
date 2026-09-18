@@ -38,6 +38,23 @@
       "refresh_before_schema": 16
     },
     {
+      "name": "Forbrugerombudsmanden",
+      "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
+      "home_url": "https://forbrugerombudsmanden.dk/",
+      "start_urls": ["https://forbrugerombudsmanden.dk/menu/nyheder-og-presse/pressemeddelelser"],
+      "article_prefixes": ["/pressemeddelelser/2026/"],
+      "umbraco_search_api": true,
+      "umbraco_search_endpoint": "/umbraco/api/searchApi/post",
+      "umbraco_search_include": "118061",
+      "umbraco_search_culture": "6",
+      "umbraco_search_page_id": "79039",
+      "umbraco_search_max_pages": 10,
+      "disable_sitemap": false,
+      "sitemap_urls": ["https://forbrugerombudsmanden.dk/sitemap"],
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 19
+    },
+    {
       "name": "Patent- og Varemærkestyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
       "home_url": "https://www.dkpto.dk/",
@@ -122,6 +139,21 @@
       "gobasic_dynamic_list": true,
       "max_listing_pages": 5,
       "refresh_before_schema": 14
+    },
+
+    {
+      "name": "VIVE",
+      "responsible_ministry": "Økonomi- og Indenrigsministeriet",
+      "home_url": "https://www.vive.dk/",
+      "start_urls": ["https://www.vive.dk/da/nyheder-og-debat/"],
+      "article_prefixes": ["/da/nyheder-og-debat/"],
+      "vive_news_api": true,
+      "vive_news_endpoint": "/api/news",
+      "vive_news_page_id": "10714",
+      "vive_news_culture_id": "1113",
+      "vive_news_limit": 100,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 19
     },
 
     {
@@ -214,6 +246,31 @@
       "article_exclude_regex": "^/(?:cookiepolitik|lovgivning|indsigtsordning|whistleblowerordning-for-pet|tilsynet-med-efterretningstjenesterne-tet-soeger-)",
       "always_fetch_articles": true,
       "refresh_before_schema": 14
+    },
+
+    {
+      "name": "Folketingets Ombudsmand",
+      "responsible_ministry": "Folketinget",
+      "home_url": "https://www.ombudsmanden.dk/",
+      "start_urls": ["https://www.ombudsmanden.dk/find-viden/nyheder/2026"],
+      "article_prefixes": ["/find-viden/nyheder/2026/"],
+      "disable_listing_pagination": true,
+      "always_fetch_articles": true,
+      "allow_unlabeled_after_h1_date": true,
+      "after_h1_date_max_text_nodes": 6,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 19
+    },
+    {
+      "name": "Rigsrevisionen",
+      "responsible_ministry": "Folketinget",
+      "home_url": "https://www.rigsrevisionen.dk/",
+      "start_urls": ["https://www.rigsrevisionen.dk/nyheder/2026"],
+      "article_prefixes": ["/nyheder/2026/"],
+      "gobasic_dynamic_list": true,
+      "max_listing_pages": 12,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 19
     },
 
     {
@@ -718,6 +775,20 @@
       "disable_feeds": true,
       "always_fetch_articles": true,
       "refresh_before_schema": 12
+    },
+    {
+      "name": "Dansk Sprognævn",
+      "responsible_ministry": "Kulturministeriet",
+      "home_url": "https://dsn.dk/",
+      "start_urls": ["https://dsn.dk/nyheder/"],
+      "article_prefixes": ["/nyheder-og-arrangementer/"],
+      "article_link_selectors": ["a.post-archive-card[href]"],
+      "disable_feeds": true,
+      "pagination_next_only": true,
+      "max_listing_pages": 6,
+      "stop_pagination_before_archive_start": true,
+      "full_audit_on_refresh": true,
+      "refresh_before_schema": 19
     },
 
     {

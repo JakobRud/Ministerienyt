@@ -180,11 +180,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         b = self.item("Klima-, Energi- og Forsyningsministeriet", title, "https://kefm.dk/b", "2026-08-20")
         self.assertTrue(m.duplicate_match(a, b))
 
-    def test_agency_config_has_exactly_74_unique_official_sources(self):
+    def test_agency_config_has_exactly_79_unique_official_sources(self):
         raw = json.loads(Path("agency_sources.json").read_text(encoding="utf-8"))
         sources = m.load_sources_config(Path("agency_sources.json"))
         names = [source["name"] for source in sources]
-        self.assertEqual(len(sources), 74)
+        self.assertEqual(len(sources), 79)
         self.assertEqual(len(names), len(set(names)))
         self.assertTrue(all(source.get("responsible_ministry") for source in sources))
         self.assertEqual(raw["defaults"]["max_listing_pages"], 12)
@@ -204,6 +204,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
             "Forsvarsministeriets Auditørkorps",
             "Udviklings- og Forenklingsstyrelsen", "It-tilsynet",
             "Styrelsen for Patientklager",
+            "Forbrugerombudsmanden", "Dansk Sprognævn", "VIVE",
+            "Folketingets Ombudsmand", "Rigsrevisionen",
         ):
             self.assertIn(required, names)
         for removed in (
@@ -289,7 +291,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
             dekom,
         ))
         self.assertFalse(m.looks_like_article("https://dekom.dk/nyheder/", dekom))
-        self.assertEqual(dekom["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertLessEqual(dekom["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
         self.assertEqual(sources["Erhvervsstyrelsen"]["ritzau_pressroom_id"], 11727618)
         self.assertTrue(sources["Erhvervsstyrelsen"]["ritzau_supplemental"])
         self.assertTrue(sources["Erhvervsstyrelsen"]["require_listing_date"])
@@ -310,6 +312,13 @@ class IdentityAndSafetyTests(unittest.TestCase):
         )
         self.assertTrue(sources["Konkurrence- og Forbrugerstyrelsen"]["disable_listing_pagination"])
         self.assertFalse(sources["Konkurrence- og Forbrugerstyrelsen"]["disable_sitemap"])
+        self.assertTrue(sources["Forbrugerombudsmanden"]["umbraco_search_api"])
+        self.assertEqual(sources["Forbrugerombudsmanden"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertTrue(sources["VIVE"]["vive_news_api"])
+        self.assertEqual(sources["VIVE"]["refresh_before_schema"], m.ARCHIVE_SCHEMA_VERSION)
+        self.assertTrue(sources["Rigsrevisionen"]["gobasic_dynamic_list"])
+        self.assertTrue(sources["Folketingets Ombudsmand"]["allow_unlabeled_after_h1_date"])
+        self.assertTrue(sources["Dansk Sprognævn"]["pagination_next_only"])
         self.assertEqual(sources["Sundhedsstyrelsen"]["ritzau_pressroom_id"], 13561973)
         self.assertTrue(sources["Rigsarkivet"]["disable_feeds"])
         self.assertEqual(sources["Rigsarkivet"]["refresh_before_schema"], 12)
@@ -831,6 +840,84 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(items[0].published.date().isoformat(), "2026-08-28")
         self.assertIn("Officielt katalog-API", status.methods)
 
+    def test_forbrugerombudsmand_search_api_returns_press_releases(self):
+        source = {
+            "name": "Forbrugerombudsmanden",
+            "home_url": "https://forbrugerombudsmanden.dk/",
+            "start_urls": ["https://forbrugerombudsmanden.dk/menu/nyheder-og-presse/pressemeddelelser"],
+            "article_prefixes": ["/pressemeddelelser/2026/"],
+            "umbraco_search_api": True,
+            "umbraco_search_endpoint": "/umbraco/api/searchApi/post",
+            "umbraco_search_include": "118061",
+            "umbraco_search_culture": "6",
+            "umbraco_search_page_id": "79039",
+        }
+
+        class FakeSession:
+            def post(self, url, **kwargs):
+                self.url = url
+                self.kwargs = kwargs
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    json=lambda: {
+                        "Results": [{
+                            "Name": "Forbrugerombudsmanden offentliggør nye anbefalinger",
+                            "Url": "/pressemeddelelser/2026/20260904-nye-anbefalinger",
+                            "Date": "2026-09-04T00:00:00",
+                            "Teaser": "Anbefalingerne gør reglerne tydeligere for virksomheder.",
+                        }],
+                        "TotalResults": 1,
+                        "PageSize": 10,
+                    },
+                )
+
+        fake = FakeSession()
+        status = m.SourceStatus(source["name"], source["home_url"])
+        items, ok = m.collect_umbraco_search_items(fake, source, set(), status)
+        self.assertTrue(ok)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0].published.date().isoformat(), "2026-09-04")
+        self.assertEqual(fake.kwargs["data"]["dateSorting"], "2")
+        self.assertIn("Officielt Umbraco-søge-API", status.methods)
+
+    def test_vive_news_api_returns_dated_items(self):
+        source = {
+            "name": "VIVE",
+            "home_url": "https://www.vive.dk/",
+            "start_urls": ["https://www.vive.dk/da/nyheder-og-debat/"],
+            "article_prefixes": ["/da/nyheder-og-debat/"],
+            "vive_news_api": True,
+            "vive_news_endpoint": "/api/news",
+            "vive_news_page_id": "10714",
+            "vive_news_culture_id": "1113",
+        }
+
+        class FakeSession:
+            def get(self, url, **kwargs):
+                self.url = url
+                self.kwargs = kwargs
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    json=lambda: {
+                        "pagination": {"total": 1, "limit": 100, "offset": 0},
+                        "data": [{
+                            "title": "Ny VIVE-analyse af dansk velfærd",
+                            "url": "/da/nyheder-og-debat/2026/ny-vive-analyse/",
+                            "date8601": "2026-09-08",
+                            "teaser": "Analysen belyser udviklingen på velfærdsområdet.",
+                        }],
+                    },
+                )
+
+        fake = FakeSession()
+        status = m.SourceStatus(source["name"], source["home_url"])
+        items, ok = m.collect_vive_news_items(fake, source, set(), status)
+        self.assertTrue(ok)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0].published.date().isoformat(), "2026-09-08")
+        self.assertEqual(fake.kwargs["params"]["years"], "2026")
+        self.assertIn("VIVE nyheds-API", status.methods)
+
     def test_listpage_api_returns_dynamic_news_cards(self):
         source = {
             "name": "Forsvaret/Forsvarskommandoen",
@@ -1255,6 +1342,24 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertFalse(m.listing_link_candidate(numeric, "https://www.dst.dk/da/Statistik/udgivelser?page=701", current, source))
         self.assertTrue(m.listing_link_candidate(next_link, "https://www.dst.dk/da/Statistik/udgivelser?page=2", current, source))
 
+    def test_next_only_pagination_accepts_accessible_next_class_without_text(self):
+        source = {
+            "name": "Dansk Sprognævn",
+            "home_url": "https://dsn.dk/",
+            "start_urls": ["https://dsn.dk/nyheder/"],
+            "article_prefixes": ["/nyheder-og-arrangementer/"],
+            "pagination_next_only": True,
+        }
+        soup = BeautifulSoup(
+            '<a class="mtt-simple-pagination__toggle mtt-simple-pagination__toggle--next" '
+            'href="https://dsn.dk/nyheder/?pagenumber=2"></a>',
+            "html.parser",
+        )
+        anchor = soup.find("a")
+        self.assertTrue(m.listing_link_candidate(
+            anchor, anchor["href"], source["start_urls"][0], source
+        ))
+
     def test_full_audit_stops_cleanly_on_first_all_old_listing_page(self):
         source = {
             "name": "Sekventielt arkiv",
@@ -1408,7 +1513,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.2.2")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.3")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1481,6 +1586,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIn("Samme historie fra flere styrelser eller myndigheder samles i ét kort.", html)
         self.assertIn("ministerienyt.savedTopics.v1", html)
         self.assertEqual(soup.select_one("#sources thead tr").get_text(" ", strip=True).count("Indhold"), 1)
+        self.assertIn("Tilhørsforhold", soup.select_one("#sources thead tr").get_text(" ", strip=True))
+        self.assertNotIn("Ministerområde", soup.select_one("#sources thead tr").get_text(" ", strip=True))
 
     def test_styrelsesnyt_rss_has_own_identity(self):
         item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")
