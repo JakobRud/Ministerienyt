@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.3"
+APP_VERSION = "7.4"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -70,6 +70,7 @@ DEFAULT_HISTORICAL_SCAN_HOURS = 168
 DEFAULT_SITEMAP_SCAN_HOURS = 24
 DEFAULT_LATE_DISCOVERY_GRACE_DAYS = 7
 DEFAULT_PAGE_SIZE = 15
+DEFAULT_INITIAL_HTML_CARDS = 200
 DATE_PATTERN_MIN_ITEMS = 8
 IMPOSSIBLE_CHANGE_MIN_BASELINE = 10
 IMPOSSIBLE_CHANGE_RATIO = 0.2
@@ -1705,7 +1706,7 @@ def listing_link_candidate(anchor, target: str, current_url: str, source: dict) 
         return True
     if re.search(r"/(?:page|side)/\d+/?$", path):
         return True
-    if text == "2026" or path_has_archive_year(target):
+    if (text.isdigit() and int(text) in active_archive_years()) or path_has_archive_year(target):
         return True
 
     configured = {canonical_url(url) for url in [*source.get("start_urls", []), *source.get("historical_start_urls", [])]}
@@ -3213,7 +3214,7 @@ def collect_umbraco_search_items(
                     "include": include,
                     "culture": culture,
                     "currentPageId": page_id,
-                    "years": str(ARCHIVE_START.year),
+                    "years": str(active_archive_years()[-1]),
                     "dateSorting": "2",  # Nyeste først på den officielle side.
                     "page": str(page),
                 },
@@ -3307,7 +3308,7 @@ def collect_vive_news_items(
                 params={
                     "pageId": page_id,
                     "cultureId": culture_id,
-                    "years": str(ARCHIVE_START.year),
+                    "years": str(active_archive_years()[-1]),
                     "limit": limit,
                     "offset": offset,
                 },
@@ -3934,6 +3935,39 @@ class DisplayEntry:
     also: tuple[Item, ...] = ()
 
 
+def active_archive_years(now: datetime | None = None) -> list[int]:
+    """År, som crawleren må besøge; kommende år aktiveres først, når de begynder."""
+    current_year = (now or datetime.now(timezone.utc)).astimezone(timezone.utc).year
+    return list(range(ARCHIVE_START.year, max(ARCHIVE_START.year, current_year) + 1))
+
+
+def expand_source_archive_years(source: dict, now: datetime | None = None) -> dict:
+    """Gør 2026-baserede kilder årsrullende uden at kontakte eller vise fremtidige år."""
+    years = active_archive_years(now)
+    if years == [ARCHIVE_START.year]:
+        return source
+    result = dict(source)
+    base_year = str(ARCHIVE_START.year)
+    for field in ("start_urls", "historical_start_urls", "article_prefixes"):
+        values = result.get(field)
+        if not isinstance(values, list):
+            continue
+        expanded: list[str] = []
+        for year in reversed(years):
+            for raw in values:
+                value = str(raw)
+                candidate = value.replace(base_year, str(year)) if base_year in value else value
+                if candidate not in expanded:
+                    expanded.append(candidate)
+        result[field] = expanded
+    for field in ("article_url_regex", "article_exclude_regex"):
+        value = clean_text(str(result.get(field, "")))
+        if value and base_year in value:
+            year_pattern = "(?:" + "|".join(str(year) for year in years) + ")"
+            result[field] = value.replace(base_year, year_pattern)
+    return result
+
+
 def duplicate_title_key(title: str) -> str:
     value = unicodedata.normalize("NFKC", clean_text(title)).casefold()
     value = re.sub(r"^(?:pressemeddelelse|nyhed|aktuelt)\s*[:\-–—]\s*", "", value)
@@ -4396,6 +4430,79 @@ def esc(value: str) -> str:
     return html.escape(value or "", quote=True)
 
 
+def display_entry_payload(entry: DisplayEntry, source_lookup: dict[str, dict]) -> dict:
+    """Kompakt, sikker kortmodel til både den første HTML og de opdelte årsarkiver."""
+    item = entry.primary
+    description = tidy_description_text(item.description, item.title)
+    if len(description) > 280:
+        description = description[:277].rstrip() + "..."
+    article_id = item.article_id or make_article_id(item.source, item.title, item.published)
+    first_seen = (item.first_seen_at or item.published).astimezone(timezone.utc).isoformat()
+    article_type = infer_article_type(item, source_lookup.get(item.source))
+    all_sources = [item.source, *(other.source for other in entry.also)]
+    responsible_ministry = clean_text(str(source_lookup.get(item.source, {}).get("responsible_ministry", "")))
+    return {
+        "id": article_id,
+        "aliases": " ".join(browser_seen_alias_ids(item.url)),
+        "published": item.published.isoformat(),
+        "first_seen": first_seen,
+        "sources": "|".join(source.casefold() for source in all_sources),
+        "search": " ".join([*all_sources, responsible_ministry, item.title, description, article_type]).casefold(),
+        "source": item.source,
+        "type": article_type,
+        "date": fmt_date_da(item.published),
+        "title": item.title,
+        "description": description,
+        "url": item.url,
+        "also": [{"source": other.source, "url": other.url} for other in entry.also],
+    }
+
+
+def render_display_card(payload: dict) -> str:
+    type_html = f'<span class="type-badge">{esc(str(payload.get("type", "")))}</span>' if payload.get("type") else ""
+    also = payload.get("also", []) if isinstance(payload.get("also"), list) else []
+    also_html = ""
+    if also:
+        links = ", ".join(
+            f'<a href="{esc(str(other.get("url", "")))}" target="_blank" rel="noopener noreferrer">{esc(str(other.get("source", "")))}</a>'
+            for other in also if isinstance(other, dict)
+        )
+        also_html = f'<span class="also-published">Også publiceret på {links}</span>'
+    description = clean_text(str(payload.get("description", "")))
+    title = clean_text(str(payload.get("title", "")))
+    url = clean_text(str(payload.get("url", "")))
+    return f'''<article class="card" data-id="{esc(str(payload.get('id', '')))}" data-seen-aliases="{esc(str(payload.get('aliases', '')))}" data-published="{esc(str(payload.get('published', '')))}" data-first-seen="{esc(str(payload.get('first_seen', '')))}" data-sources="{esc(str(payload.get('sources', '')))}" data-search="{esc(str(payload.get('search', '')))}">
+  <div class="meta"><span class="source-name">{esc(str(payload.get('source', '')))}</span>{type_html}<time datetime="{esc(str(payload.get('published', '')))}">{esc(str(payload.get('date', '')))}</time><span class="new-badge">Ny siden sidst</span></div>
+  <h2><a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(title)}</a></h2>
+  {f'<p>{esc(description)}</p>' if description else ''}
+  <div class="card-footer"><div class="card-actions"><a class="more" href="{esc(url)}" target="_blank" rel="noopener noreferrer">Læs hos kilden &nearr;</a><button class="copy-link" type="button" data-copy-url="{esc(url)}" aria-label="Kopiér link til {esc(title)}">Kopiér link</button></div>{also_html}</div>
+</article>'''
+
+
+def write_archive_shards(
+    site_dir: Path,
+    entries: list[DisplayEntry],
+    source_lookup: dict[str, dict],
+) -> list[dict]:
+    """Skriv kompakte årsarkiver. Kun år med artikler bliver oprettet og annonceret."""
+    archive_dir = site_dir / "archive"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    grouped: dict[int, list[dict]] = {}
+    for entry in sorted(entries, key=lambda row: row.primary.published, reverse=True):
+        grouped.setdefault(entry.primary.published.year, []).append(display_entry_payload(entry, source_lookup))
+    manifest: list[dict] = []
+    for year in sorted(grouped, reverse=True):
+        items = grouped[year]
+        payload = {"version": APP_VERSION, "year": year, "count": len(items), "items": items}
+        filename = f"{year}.json"
+        (archive_dir / filename).write_text(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+        manifest.append({"year": year, "url": f"archive/{filename}", "count": len(items)})
+    return manifest
+
+
 
 def build_html(
     entries: list[DisplayEntry],
@@ -4407,6 +4514,7 @@ def build_html(
     noindex: bool = False,
     goatcounter_code: str = "",
     ui_config: dict | None = None,
+    archive_shards: list[dict] | None = None,
 ) -> str:
     ui_config = ui_config or {}
     site_name = clean_text(str(ui_config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
@@ -4443,6 +4551,7 @@ def build_html(
         "Artikler med samme historie hos et ministerium og Regeringen.dk samles i ét kort.",
     )))
     page_size = max(5, min(100, int(ui_config.get("page_size", DEFAULT_PAGE_SIZE) or DEFAULT_PAGE_SIZE)))
+    initial_html_cards = max(50, min(250, int(ui_config.get("initial_html_cards", DEFAULT_INITIAL_HTML_CARDS) or DEFAULT_INITIAL_HTML_CARDS)))
     late_discovery_grace_days = max(0, min(30, int(ui_config.get("late_discovery_grace_days", DEFAULT_LATE_DISCOVERY_GRACE_DAYS) or DEFAULT_LATE_DISCOVERY_GRACE_DAYS)))
     stalled_after_missed_runs = max(1, min(4, int(ui_config.get("stalled_after_missed_runs", 2) or 2)))
     stalled_run_grace_minutes = max(5, min(60, int(ui_config.get("stalled_run_grace_minutes", 20) or 20)))
@@ -4465,36 +4574,14 @@ def build_html(
     quality_warning_count = sum(1 for status in statuses if status.self_test in {"warn", "fail"})
 
     entries = sorted(entries, key=lambda entry: entry.primary.published, reverse=True)
-    cards: list[str] = []
-    for entry in entries:
-        item = entry.primary
-        description = tidy_description_text(item.description, item.title)
-        if len(description) > 280:
-            description = description[:277].rstrip() + "..."
-        article_id = item.article_id or make_article_id(item.source, item.title, item.published)
-        first_seen = (item.first_seen_at or item.published).astimezone(timezone.utc).isoformat()
-        seen_alias_ids = " ".join(browser_seen_alias_ids(item.url))
-        article_type = infer_article_type(item, source_lookup.get(item.source))
-        all_sources = [item.source, *(other.source for other in entry.also)]
-        source_keys = "|".join(source.casefold() for source in all_sources)
-        also_html = ""
-        if entry.also:
-            links = ", ".join(
-                f'<a href="{esc(other.url)}" target="_blank" rel="noopener noreferrer">{esc(other.source)}</a>'
-                for other in entry.also
-            )
-            also_html = f'<span class="also-published">Også publiceret på {links}</span>'
-        type_html = f'<span class="type-badge">{esc(article_type)}</span>' if article_type else ""
-        responsible_ministry = clean_text(str(source_lookup.get(item.source, {}).get("responsible_ministry", "")))
-        search_text = " ".join([*all_sources, responsible_ministry, item.title, description, article_type]).casefold()
-        cards.append(
-            f'''<article class="card" data-id="{article_id}" data-seen-aliases="{esc(seen_alias_ids)}" data-published="{esc(item.published.isoformat())}" data-first-seen="{esc(first_seen)}" data-sources="{esc(source_keys)}" data-search="{esc(search_text)}">
-  <div class="meta"><span class="source-name">{esc(item.source)}</span>{type_html}<time datetime="{esc(item.published.isoformat())}">{esc(fmt_date_da(item.published))}</time><span class="new-badge">Ny siden sidst</span></div>
-  <h2><a href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">{esc(item.title)}</a></h2>
-  {f'<p>{esc(description)}</p>' if description else ''}
-  <div class="card-footer"><div class="card-actions"><a class="more" href="{esc(item.url)}" target="_blank" rel="noopener noreferrer">Læs hos kilden &nearr;</a><button class="copy-link" type="button" data-copy-url="{esc(item.url)}" aria-label="Kopiér link til {esc(item.title)}">Kopiér link</button></div>{also_html}</div>
-</article>'''
-        )
+    archive_shards = archive_shards or []
+    initial_entries = entries[:initial_html_cards] if archive_shards else entries
+    cards = [render_display_card(display_entry_payload(entry, source_lookup)) for entry in initial_entries]
+    available_years = sorted({entry.primary.published.year for entry in entries}, reverse=True)
+    year_buttons = ['<button class="year-button" type="button" data-year="" aria-pressed="true">Alle</button>'] + [
+        f'<button class="year-button" type="button" data-year="{year}" aria-pressed="false">{year}</button>'
+        for year in available_years
+    ]
 
     options = ['<option value="">Alle kilder</option>'] + [
         f'<option value="{esc(name.casefold())}">{esc(name)}</option>' for name in ministries
@@ -4613,6 +4700,10 @@ def build_html(
 .brand-nav{display:flex;align-items:stretch;align-self:stretch;gap:2px}.brand-link{display:flex;align-items:center;padding:0 10px;color:rgba(255,255,255,.78);text-decoration:none;font-weight:750;letter-spacing:.01em;border-bottom:3px solid transparent}.brand-link:first-child{padding-left:0}.brand-link:hover{color:#fff}.brand-link.active{color:#fff;border-bottom-color:#fff;font-weight:850}@media(max-width:650px){.brand-link{padding:0 7px;font-size:.88rem}.brand-link:first-child{padding-left:0}}
 .outage-status{display:inline-flex;align-items:center;gap:5px;margin-left:7px;color:var(--warn);font-size:.78rem;font-weight:750}.outage-status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}@media(max-width:650px){.outage-status{display:flex;margin:5px 0 0;font-size:.7rem}}
 
+/* v7.4: årsopdelt, progressivt indlæst arkiv */
+.year-row{display:flex;align-items:center;gap:7px;margin-top:7px;flex-wrap:wrap;color:var(--muted);font-size:.82rem}.year-button{min-height:34px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:5px 9px;font:700 .8rem/1.1 system-ui;cursor:pointer;display:inline-flex;align-items:center;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}.year-button:hover{border-color:#7f8b95}.year-button[aria-pressed="true"]{background:var(--brand2);color:#fff;border-color:var(--brand2)}.archive-loading{color:var(--muted);font-size:.82rem}
+@media(max-width:650px){.year-row{gap:5px}.year-row .year-button{flex:1;justify-content:center}}
+
 '''
     script = r'''
 (() => {
@@ -4633,6 +4724,7 @@ def build_html(
   const topicsPreview = document.getElementById('topics-preview');
   const clearTopics = document.getElementById('clear-topics');
   const periodButtons = [...document.querySelectorAll('.period-button')];
+  const yearButtons = [...document.querySelectorAll('.year-button')];
   const loadMore = document.getElementById('load-more');
   const cards = [...document.querySelectorAll('.card')];
   const count = document.getElementById('count');
@@ -4653,6 +4745,8 @@ def build_html(
   const FAVORITES_KEY = {favorites_key_json};
   const TOPICS_KEY = {topics_key_json};
   const PAGE_SIZE = {page_size};
+  const ARCHIVE_TOTAL = {archive_total};
+  const ARCHIVE_SHARDS = {archive_shards_json};
   const norm = value => (value || '').toLocaleLowerCase('da-DK').trim();
   let previousIds = null;
   let lastVisit = null;
@@ -4660,6 +4754,9 @@ def build_html(
   let favorites = new Set();
   let topics = [];
   let periodDays = '';
+  let selectedYear = '';
+  let archiveLoadPromise = null;
+  let fullArchiveLoaded = ARCHIVE_SHARDS.length === 0;
 
   try {
     const raw = localStorage.getItem(SEEN_KEY);
@@ -4741,6 +4838,158 @@ def build_html(
   });
   for (const card of cards) list.appendChild(card);
 
+  function recordFromCard(card) {
+    return {
+      id: card.dataset.id || '', aliases: card.dataset.seenAliases || '',
+      published: card.dataset.published || '', first_seen: card.dataset.firstSeen || '',
+      sources: card.dataset.sources || '', search: card.dataset.search || '',
+      element: card, isNew: card.classList.contains('is-new')
+    };
+  }
+
+  function recordIsNew(record) {
+    if (!previousIds || !record.id) return false;
+    if (previousIds.has(record.id)) return false;
+    const aliases = (record.aliases || '').split(/\s+/).filter(Boolean);
+    if (aliases.some(id => previousIds.has(id))) return false;
+    const nowMs = Date.now();
+    const publishedMs = Date.parse(record.published || '') || 0;
+    const firstSeenMs = Date.parse(record.first_seen || '') || publishedMs;
+    const discoveredSinceVisit = Boolean(lastVisitMs && firstSeenMs >= lastVisitMs);
+    const publishedSinceVisit = Boolean(lastVisitMs && publishedMs >= lastVisitMs);
+    const recentLateDiscovery = Boolean(publishedMs && publishedMs <= nowMs && (nowMs - publishedMs) <= LATE_DISCOVERY_GRACE_MS);
+    return discoveredSinceVisit && (publishedSinceVisit || recentLateDiscovery);
+  }
+
+  function makeLink(url, text, className = '') {
+    const link = document.createElement('a');
+    link.href = url || '#';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = text || '';
+    if (className) link.className = className;
+    return link;
+  }
+
+  function createCard(record) {
+    if (record.element) return record.element;
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.id = record.id || '';
+    card.dataset.seenAliases = record.aliases || '';
+    card.dataset.published = record.published || '';
+    card.dataset.firstSeen = record.first_seen || record.published || '';
+    card.dataset.sources = record.sources || '';
+    card.dataset.search = record.search || '';
+    if (record.isNew) card.classList.add('is-new');
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const sourceName = document.createElement('span');
+    sourceName.className = 'source-name';
+    sourceName.textContent = record.source || '';
+    meta.appendChild(sourceName);
+    if (record.type) {
+      const badge = document.createElement('span');
+      badge.className = 'type-badge';
+      badge.textContent = record.type;
+      meta.appendChild(badge);
+    }
+    const time = document.createElement('time');
+    time.dateTime = record.published || '';
+    time.textContent = record.date || '';
+    meta.appendChild(time);
+    const newBadge = document.createElement('span');
+    newBadge.className = 'new-badge';
+    newBadge.textContent = 'Ny siden sidst';
+    meta.appendChild(newBadge);
+    card.appendChild(meta);
+
+    const heading = document.createElement('h2');
+    heading.appendChild(makeLink(record.url, record.title));
+    card.appendChild(heading);
+    if (record.description) {
+      const description = document.createElement('p');
+      description.textContent = record.description;
+      card.appendChild(description);
+    }
+    const footer = document.createElement('div');
+    footer.className = 'card-footer';
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    actions.appendChild(makeLink(record.url, 'Læs hos kilden ↗', 'more'));
+    const copy = document.createElement('button');
+    copy.className = 'copy-link';
+    copy.type = 'button';
+    copy.dataset.copyUrl = record.url || '';
+    copy.setAttribute('aria-label', 'Kopiér link til ' + (record.title || 'artikel'));
+    copy.textContent = 'Kopiér link';
+    actions.appendChild(copy);
+    footer.appendChild(actions);
+    if (Array.isArray(record.also) && record.also.length) {
+      const also = document.createElement('span');
+      also.className = 'also-published';
+      also.appendChild(document.createTextNode('Også publiceret på '));
+      record.also.forEach((other, index) => {
+        if (index) also.appendChild(document.createTextNode(', '));
+        also.appendChild(makeLink(other.url, other.source));
+      });
+      footer.appendChild(also);
+    }
+    card.appendChild(footer);
+    record.element = card;
+    return card;
+  }
+
+  let records = cards.map(recordFromCard);
+
+  function sortRecords() {
+    records.sort((a, b) => {
+      const newDifference = Number(Boolean(b.isNew)) - Number(Boolean(a.isNew));
+      if (newDifference !== 0) return newDifference;
+      return (Date.parse(b.published || '') || 0) - (Date.parse(a.published || '') || 0);
+    });
+  }
+  sortRecords();
+
+  async function ensureFullArchive() {
+    if (fullArchiveLoaded) return true;
+    if (archiveLoadPromise) return archiveLoadPromise;
+    archiveLoadPromise = (async () => {
+      count.textContent = 'Henter hele arkivet…';
+      try {
+        const payloads = await Promise.all(ARCHIVE_SHARDS.map(async shard => {
+          const response = await fetch(shard.url, {cache: 'no-cache'});
+          if (!response.ok) throw new Error('Arkiv ' + shard.year + ' kunne ikke hentes');
+          return response.json();
+        }));
+        const known = new Map(records.map(record => [record.id, record]));
+        let addedNew = 0;
+        for (const payload of payloads) {
+          for (const record of (payload && Array.isArray(payload.items) ? payload.items : [])) {
+            if (!record || !record.id || known.has(record.id)) continue;
+            record.isNew = recordIsNew(record);
+            if (record.isNew) addedNew++;
+            known.set(record.id, record);
+          }
+        }
+        records = [...known.values()];
+        newCount += addedNew;
+        sortRecords();
+        fullArchiveLoaded = true;
+        updateNewSummary();
+        return true;
+      } catch (error) {
+        console.warn(error);
+        count.textContent = 'Arkivet kunne ikke hentes – prøv igen';
+        return false;
+      } finally {
+        archiveLoadPromise = null;
+      }
+    })();
+    return archiveLoadPromise;
+  }
+
   function visitText(value) {
     if (!value) return '';
     const date = new Date(value);
@@ -4778,16 +5027,20 @@ def build_html(
   updateFreshness();
   window.setInterval(updateFreshness, 60000);
 
-  if (!previousIds) {
-    newSummary.textContent = 'Nye artikler markeres fra dit næste besøg.';
-  } else if (newCount === 0) {
-    newSummary.textContent = 'Ingen nye artikler siden dit sidste besøg.';
-  } else {
-    const when = visitText(lastVisit);
-    newSummary.disabled = false;
-    newSummary.textContent = (newCount === 1 ? '1 ny artikel' : newCount + ' nye artikler') +
-      ' siden dit sidste besøg' + (when ? ' (' + when + ')' : '') + ' – vis dem';
+  function updateNewSummary() {
+    newSummary.disabled = true;
+    if (!previousIds) {
+      newSummary.textContent = 'Nye artikler markeres fra dit næste besøg.';
+    } else if (newCount === 0) {
+      newSummary.textContent = 'Ingen nye artikler siden dit sidste besøg.';
+    } else {
+      const when = visitText(lastVisit);
+      newSummary.disabled = false;
+      newSummary.textContent = (newCount === 1 ? '1 ny artikel' : newCount + ' nye artikler') +
+        ' siden dit sidste besøg' + (when ? ' (' + when + ')' : '') + ' – vis dem';
+    }
   }
+  updateNewSummary();
 
   try {
     const merged = [...(previousIds ? [...previousIds] : []), ...currentIds];
@@ -4829,6 +5082,12 @@ def build_html(
     }
   }
 
+  function syncYears() {
+    for (const button of yearButtons) {
+      button.setAttribute('aria-pressed', button.dataset.year === selectedYear ? 'true' : 'false');
+    }
+  }
+
   function syncMobile() {
     if (mobileNew) {
       mobileNew.classList.toggle('active', newOnly.getAttribute('aria-pressed') === 'true');
@@ -4837,8 +5096,8 @@ def build_html(
     if (mobileFavorites) mobileFavorites.classList.toggle('active', mineOnly.getAttribute('aria-pressed') === 'true');
   }
 
-  function cardSources(card) {
-    return (card.dataset.sources || '').split('|').filter(Boolean);
+  function recordSources(record) {
+    return (record.sources || '').split('|').filter(Boolean);
   }
 
   function copenhagenDateKey(value) {
@@ -4850,8 +5109,20 @@ def build_html(
     return parts.year + '-' + parts.month + '-' + parts.day;
   }
 
-  function applyFilters(resetLimit = false) {
+  let filterRun = 0;
+  async function applyFilters(resetLimit = false) {
+    const thisRun = ++filterRun;
     if (resetLimit) visibleLimit = PAGE_SIZE;
+    const filterRequested = Boolean(
+      norm(search.value) || norm(sourceSelect.value) ||
+      newOnly.getAttribute('aria-pressed') === 'true' ||
+      mineOnly.getAttribute('aria-pressed') === 'true' ||
+      topicsOnly.getAttribute('aria-pressed') === 'true' || periodDays || selectedYear
+    );
+    if (!fullArchiveLoaded && (filterRequested || visibleLimit > records.length)) {
+      await ensureFullArchive();
+      if (thisRun !== filterRun) return;
+    }
     const query = norm(search.value);
     const selected = norm(sourceSelect.value);
     const onlyNew = newOnly.getAttribute('aria-pressed') === 'true';
@@ -4860,29 +5131,32 @@ def build_html(
     const todayKey = periodDays === 'today' ? copenhagenDateKey(new Date()) : '';
     const cutoff = periodDays && periodDays !== 'today' ? Date.now() - Number(periodDays) * 86400000 : 0;
     const matching = [];
-    for (const card of cards) {
-      const sources = cardSources(card);
+    for (const record of records) {
+      const sources = recordSources(record);
       const matchSource = !selected || sources.includes(selected);
       const matchMine = !onlyMine || sources.some(source => favorites.has(source));
-      const matchTopics = !onlyTopics || topics.some(topic => card.dataset.search.includes(topic));
-      const published = Date.parse(card.dataset.published || '') || 0;
+      const matchTopics = !onlyTopics || topics.some(topic => (record.search || '').includes(topic));
+      const published = Date.parse(record.published || '') || 0;
       const matchPeriod = periodDays === 'today'
         ? copenhagenDateKey(published) === todayKey
         : (!cutoff || published >= cutoff);
-      const match = (!query || card.dataset.search.includes(query)) && matchSource && matchMine && matchTopics &&
-        matchPeriod && (!onlyNew || card.classList.contains('is-new'));
-      if (match) matching.push(card);
-      else card.hidden = true;
+      const matchYear = !selectedYear || String(new Date(published).getUTCFullYear()) === selectedYear;
+      const match = (!query || (record.search || '').includes(query)) && matchSource && matchMine && matchTopics &&
+        matchPeriod && matchYear && (!onlyNew || record.isNew);
+      if (match) matching.push(record);
     }
-    matching.forEach((card, index) => { card.hidden = index >= visibleLimit; });
+    const hasFilters = Boolean(query || selected || onlyNew || onlyMine || onlyTopics || periodDays || selectedYear);
+    const totalMatching = (!hasFilters && !fullArchiveLoaded) ? ARCHIVE_TOTAL : matching.length;
     const shown = Math.min(visibleLimit, matching.length);
-    const remaining = Math.max(0, matching.length - shown);
-    const hasFilters = Boolean(query || selected || onlyNew || onlyMine || onlyTopics || periodDays);
-    if (matching.length === 0) count.textContent = hasFilters ? '0 resultater' : '0 artikler';
-    else if (remaining > 0) count.textContent = 'Viser ' + shown + ' af ' + matching.length + (hasFilters ? ' resultater' : ' artikler');
-    else if (hasFilters) count.textContent = matching.length === 1 ? '1 resultat' : matching.length + ' resultater';
-    else count.textContent = matching.length === 1 ? '1 artikel' : matching.length + ' artikler';
-    empty.style.display = matching.length ? 'none' : 'block';
+    const fragment = document.createDocumentFragment();
+    for (const record of matching.slice(0, shown)) fragment.appendChild(createCard(record));
+    list.replaceChildren(fragment);
+    const remaining = Math.max(0, totalMatching - shown);
+    if (totalMatching === 0) count.textContent = hasFilters ? '0 resultater' : '0 artikler';
+    else if (remaining > 0) count.textContent = 'Viser ' + shown + ' af ' + totalMatching + (hasFilters ? ' resultater' : ' artikler');
+    else if (hasFilters) count.textContent = totalMatching === 1 ? '1 resultat' : totalMatching + ' resultater';
+    else count.textContent = totalMatching === 1 ? '1 artikel' : totalMatching + ' artikler';
+    empty.style.display = totalMatching ? 'none' : 'block';
     loadMore.hidden = remaining === 0;
     if (remaining > 0) {
       const next = Math.min(PAGE_SIZE, remaining);
@@ -4903,8 +5177,10 @@ def build_html(
       for (const topic of topics) url.searchParams.append('emne', topic);
     }
     periodDays ? url.searchParams.set('periode', periodDays) : url.searchParams.delete('periode');
+    selectedYear ? url.searchParams.set('aar', selectedYear) : url.searchParams.delete('aar');
     history.replaceState(null, '', url);
     syncPeriods();
+    syncYears();
     syncTopicsUI();
     syncMobile();
   }
@@ -4952,9 +5228,12 @@ def build_html(
   if (params.get('mine') === '1' && favorites.size) mineOnly.setAttribute('aria-pressed', 'true');
   if (params.get('emner') === '1' && topics.length) topicsOnly.setAttribute('aria-pressed', 'true');
   if (['today', '3', '7', '30'].includes(params.get('periode'))) periodDays = params.get('periode');
+  const availableYears = new Set(yearButtons.map(button => button.dataset.year).filter(Boolean));
+  if (availableYears.has(params.get('aar'))) selectedYear = params.get('aar');
   syncFavoritesUI();
   syncTopicsUI();
   syncPeriods();
+  syncYears();
 
   search.addEventListener('input', () => applyFilters(true));
   sourceSelect.addEventListener('change', () => {
@@ -4982,6 +5261,10 @@ def build_html(
   });
   periodButtons.forEach(button => button.addEventListener('click', () => {
     periodDays = button.dataset.days || '';
+    applyFilters(true);
+  }));
+  yearButtons.forEach(button => button.addEventListener('click', () => {
+    selectedYear = button.dataset.year || '';
     applyFilters(true);
   }));
   favoriteBoxes.forEach(box => box.addEventListener('change', () => {
@@ -5028,7 +5311,9 @@ def build_html(
     return ok;
   }
 
-  document.querySelectorAll('.copy-link').forEach(button => button.addEventListener('click', async () => {
+  list.addEventListener('click', async event => {
+    const button = event.target.closest('.copy-link');
+    if (!button || !list.contains(button)) return;
     const original = 'Kopiér link';
     try {
       const ok = await copyText(button.dataset.copyUrl || '');
@@ -5038,7 +5323,7 @@ def build_html(
     } catch (error) {
       button.textContent = original;
     }
-  }));
+  });
 
   if (shareView) shareView.addEventListener('click', async () => {
     const original = 'Del visning';
@@ -5127,6 +5412,8 @@ def build_html(
         .replace('{late_discovery_grace_days}', str(late_discovery_grace_days))
         .replace('{stalled_after_missed_runs}', str(stalled_after_missed_runs))
         .replace('{stalled_run_grace_minutes}', str(stalled_run_grace_minutes))
+        .replace('{archive_total}', str(len(entries)))
+        .replace('{archive_shards_json}', json.dumps(archive_shards, ensure_ascii=False, separators=(",", ":")))
         .replace('{site_name_json}', json.dumps(site_name, ensure_ascii=False))
         .replace('{favorites_label_json}', json.dumps(favorites_label, ensure_ascii=False))
         .replace('{seen_key_json}', json.dumps(f'{storage_namespace}.seenArticleIds.v2'))
@@ -5136,7 +5423,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.4</strong><ul><li>Kun de 200 nyeste kort ligger i den første HTML; resten hentes og tegnes trinvist fra kompakte årsarkiver, når de skal bruges.</li><li>Søgning, Mine emner, kilde- og periodefiltre arbejder fortsat på hele arkivet, mens siden starter væsentligt lettere.</li><li>Årsfilter og crawler-ruter følger automatisk de år, der faktisk er begyndt og har artikler; 2027 bliver derfor først synligt efter den første artikel fra 2027.</li></ul>'
         '<strong>v7.3</strong><ul><li>Forbrugerombudsmanden, Dansk Sprognævn, VIVE, Folketingets Ombudsmand og Rigsrevisionen er tilføjet; Styrelsesnyt har nu 79 aktive kilder.</li><li>Forbrugerombudsmanden og VIVE bruger deres officielle data-API’er, mens de tre øvrige kilder læses fra afgrænsede officielle 2026-arkiver.</li><li>Kildelistens kolonne Ministerområde hedder nu Tilhørsforhold, så Folketingets uafhængige kontrolorganer vises korrekt.</li></ul>'
         '<strong>v7.2.2</strong><ul><li>DMI følger kun det officielle nyhedsarkiv, henter langsommere og håndterer afviste senere arkivsider med det bevarede arkiv som sikkerhedsnet.</li><li>Færdselsstyrelsens officielle data-date-felt læses nu også sikkert på artikelsiden.</li><li>FE, FMI og Beredskabsstyrelsens afgrænsede ListPage-svar sammenlignes ikke længere med ældre fulde kandidatantal.</li></ul>'
         '<strong>v7.2.1</strong><ul><li>FMI bruger 30 poster og Beredskabsstyrelsen 50, så deres ListPage-kald ikke længere giver timeout-bemærkninger.</li><li>ListPage-kilder følger sidens officielle antal poster og prøver automatisk igen med 50, hvis et større kald fejler.</li><li>Et vellykket reduceret genforsøg tæller som en normal hentning og giver ikke en kildebemærkning.</li></ul>'
@@ -5171,7 +5459,7 @@ def build_html(
 <html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{robots_meta}<meta name="description" content="{esc(page_description)}">{social_meta}<meta name="theme-color" content="#5f1420"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>{esc(site_name)}</title><link rel="alternate" type="application/rss+xml" title="{esc(site_name)} RSS" href="{feed_href}"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap">{brand_navigation}<div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
-<header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><details id="topics-menu" class="favorites-menu topics-menu"><summary id="topics-summary">Mine emner</summary><div class="favorites-panel"><p class="favorites-help">Gem op til 20 emner adskilt med komma. De samme emner bruges på Ministerienyt og Styrelsesnyt.</p><form id="topics-form" class="topics-form"><label class="sr-only" for="topics-input">Mine emner</label><input id="topics-input" type="text" placeholder="Fx klima, Ukraine, arbejdsmiljø" autocomplete="off"><button class="filter-button" type="submit">Gem</button></form><div class="topics-actions"><button id="topics-only" class="filter-button" type="button" aria-pressed="false">Vis mine emner</button><button id="clear-topics" class="text-button" type="button">Ryd emner</button></div><div id="topics-preview" class="topics-preview" aria-live="polite">Ingen emner gemt</div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div></div></header>
+<header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><details id="topics-menu" class="favorites-menu topics-menu"><summary id="topics-summary">Mine emner</summary><div class="favorites-panel"><p class="favorites-help">Gem op til 20 emner adskilt med komma. De samme emner bruges på Ministerienyt og Styrelsesnyt.</p><form id="topics-form" class="topics-form"><label class="sr-only" for="topics-input">Mine emner</label><input id="topics-input" type="text" placeholder="Fx klima, Ukraine, arbejdsmiljø" autocomplete="off"><button class="filter-button" type="submit">Gem</button></form><div class="topics-actions"><button id="topics-only" class="filter-button" type="button" aria-pressed="false">Vis mine emner</button><button id="clear-topics" class="text-button" type="button">Ryd emner</button></div><div id="topics-preview" class="topics-preview" aria-live="polite">Ingen emner gemt</div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div><div class="year-row" role="group" aria-label="År"><span>År:</span>{''.join(year_buttons)}</div></div></header>
 <main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} Kolonnen “Indhold” viser de artikeltyper, der findes i arkivet. “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Indhold</th><th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
 <footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
@@ -5451,8 +5739,20 @@ self.addEventListener('fetch', event => {
     return;
   }
   const url = new URL(event.request.url);
+  if (url.origin === self.location.origin && /archive\/\d{4}\.json$/.test(url.pathname)) {
+    event.respondWith(fetch(event.request).then(response => {
+      const copy = response.clone();
+      caches.open(CACHE).then(cache => cache.put(event.request, copy));
+      return response;
+    }).catch(() => caches.match(event.request)));
+    return;
+  }
   if (url.origin === self.location.origin && /(?:manifest\.webmanifest|icon-192\.png|icon-512\.png)$/.test(url.pathname)) {
-    event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
+    event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+      const copy = response.clone();
+      caches.open(CACHE).then(cache => cache.put(event.request, copy));
+      return response;
+    })));
   }
 });
 '''.replace("{namespace}", storage_namespace).replace("{version}", APP_VERSION)
@@ -5510,6 +5810,7 @@ def load_sources_config(path: Path) -> list[dict]:
         sources = [{**defaults, **source} for source in raw["sources"] if isinstance(source, dict)]
     else:
         raise ValueError(f"{path} skal indeholde en kildeliste eller et objekt med feltet 'sources'.")
+    sources = [expand_source_archive_years(source) for source in sources]
     if not sources:
         raise ValueError(f"{path} indeholder ingen kilder.")
     names = [clean_text(str(source.get("name", ""))) for source in sources]
@@ -5634,6 +5935,7 @@ def main() -> int:
         status_output.write_text(json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup, config))
+    archive_shards = write_archive_shards(html_output.parent, display_entries, source_lookup)
     html_output.write_text(
         build_html(
             display_entries, args.feed_url or "feed.xml", sources, statuses,
@@ -5641,6 +5943,7 @@ def main() -> int:
             noindex=bool(config.get("noindex")),
             goatcounter_code=str(config.get("goatcounter_code", "")),
             ui_config=config,
+            archive_shards=archive_shards,
         ),
         encoding="utf-8",
     )

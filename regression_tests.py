@@ -6,6 +6,7 @@ import unittest
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from urllib.parse import urlparse
 
 try:
@@ -1513,7 +1514,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.3")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1549,6 +1550,68 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIn("['today', '3', '7', '30']", html)
         self.assertIn("timeZone: 'Europe/Copenhagen'", html)
         self.assertIn("copenhagenDateKey(published) === todayKey", html)
+
+    def test_archive_years_roll_forward_only_when_the_year_begins(self):
+        source = {
+            "start_urls": ["https://example.dk/nyheder/2026/"],
+            "article_prefixes": ["/nyheder/2026/"],
+            "article_url_regex": r"^/nyheder/2026/",
+        }
+        during_2026 = m.expand_source_archive_years(
+            source, datetime(2026, 12, 31, 12, tzinfo=timezone.utc)
+        )
+        self.assertEqual(during_2026["start_urls"], ["https://example.dk/nyheder/2026/"])
+        self.assertNotIn("2027", during_2026["article_url_regex"])
+
+        during_2027 = m.expand_source_archive_years(
+            source, datetime(2027, 1, 1, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(
+            during_2027["start_urls"],
+            ["https://example.dk/nyheder/2027/", "https://example.dk/nyheder/2026/"],
+        )
+        self.assertIn("(?:2026|2027)", during_2027["article_url_regex"])
+
+    def test_progressive_archive_limits_html_and_only_shows_years_with_articles(self):
+        source = {
+            "name": "Testministeriet",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+        }
+        status = m.SourceStatus(source["name"], source["home_url"])
+        status.listing_pages = 1
+        entries = []
+        for day in range(230):
+            published = datetime(2026, 1, 1, tzinfo=timezone.utc) + m.timedelta(days=day)
+            item = m.Item(
+                source["name"], f"Testartikel nummer {day} med en tydelig titel",
+                f"https://example.dk/nyheder/{day}", published,
+            )
+            entries.append(m.DisplayEntry(item))
+        with TemporaryDirectory() as tmp:
+            shards = m.write_archive_shards(Path(tmp), entries, {source["name"]: source})
+            html = m.build_html(entries, "feed.xml", [source], [status], archive_shards=shards)
+            soup = BeautifulSoup(html, "html.parser")
+            self.assertEqual(len(soup.select("article.card")), 200)
+            self.assertEqual(shards, [{"year": 2026, "url": "archive/2026.json", "count": 230}])
+            self.assertTrue((Path(tmp) / "archive" / "2026.json").exists())
+            self.assertIsNone(soup.select_one('.year-button[data-year="2027"]'))
+            self.assertIn('const ARCHIVE_TOTAL = 230', html)
+            self.assertIn('ensureFullArchive()', html)
+
+            future = m.Item(
+                source["name"], "Første artikel i det nye år med en tydelig titel",
+                "https://example.dk/nyheder/2027/foerste", datetime(2027, 1, 2, tzinfo=timezone.utc),
+            )
+            future_entries = [m.DisplayEntry(future), *entries]
+            future_shards = m.write_archive_shards(Path(tmp), future_entries, {source["name"]: source})
+            future_html = m.build_html(
+                future_entries, "feed.xml", [source], [status], archive_shards=future_shards
+            )
+            future_soup = BeautifulSoup(future_html, "html.parser")
+            self.assertIsNotNone(future_soup.select_one('.year-button[data-year="2027"]'))
+            self.assertEqual([row["year"] for row in future_shards], [2027, 2026])
 
     def test_styrelsesnyt_is_independent_main_page(self):
         item = self.item("Digitaliseringsstyrelsen", "Ny digital løsning gør hverdagen enklere", "https://digst.dk/nyheder/test", "2026-08-20")

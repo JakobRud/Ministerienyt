@@ -1,6 +1,15 @@
-# Ministerienyt og Styrelsesnyt 7.3
+# Ministerienyt og Styrelsesnyt 7.4
 
-Version 7.3 udvider Styrelsesnyt med fem officielle kilder og indeholder samtidig alle funktioner og rettelser fra 7.2.2.
+Version 7.4 gør begge hovedsider væsentligt lettere og indeholder samtidig alle kilder og rettelser fra 7.3.
+
+## Nyt i version 7.4
+
+- Kun de **200 nyeste kort** ligger i den første HTML. Når JavaScript er startet, ligger kun den aktuelle side på 15 kort i DOM'en.
+- Resten af arkivet udgives som kompakte årsarkiver, fx `archive/2026.json`, og hentes først, når brugeren søger, filtrerer eller bladrer forbi de 200 nyeste.
+- Søgning, **Mine emner**, kildefilter, favoritter, perioder og delbare visninger arbejder fortsat på hele arkivet. Den nye leveringsform ændrer ikke søgeresultaterne.
+- Et nyt årsfilter viser kun år, der faktisk indeholder artikler. **2027 vises derfor ikke endnu**, men oprettes og bliver synligt automatisk efter den første artikel fra 2027.
+- Kilder med årstal i arkivadressen ruller automatisk videre, når et nyt kalenderår begynder. Crawleren kontakter ikke fremtidige årsarkiver på forhånd.
+- Med det medfølgende arkiv faldt Styrelsesnyts genererede HTML fra ca. **3,00 MB til 0,47 MB** (84 %), mens Ministerienyt faldt fra ca. **1,23 MB til 0,46 MB** (63 %). De ældre data ligger i separate filer og belaster ikke den første sidevisning.
 
 ## Nyt i version 7.3
 
@@ -130,6 +139,8 @@ Workflowet sender ikke selv e-mails eller opretter issues. GitHubs egne Actions-
 GitHub Actions opretter og vedligeholder de genererede `agency_*`-filer efter første vellykkede kørsel. De skal ligge i repositoryet, når de først er oprettet, men de skal ikke uploades manuelt ved denne opgradering.
 
 `archive.json` og `agency_archive.json` bevarer fundne artikler, selv hvis de senere forsvinder fra en officiel forside eller et feed. Diagnostikfilerne ligger kun i repositoryet; de vises ikke som topadvarsler på siderne.
+
+Ved hver Pages-generering oprettes desuden årsopdelte, offentlige læsefiler under `site/archive/` og `site/styrelsesnyt/archive/`. De er en del af Pages-artefaktet og skal ikke uploades eller vedligeholdes manuelt.
 
 ## Manuel fuld audit
 

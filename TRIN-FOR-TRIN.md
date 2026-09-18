@@ -1,8 +1,8 @@
-# Opdatér til version 7.3
+# Opdatér til version 7.4
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.3.zip` ud.
+Pak `Ministerienyt-7.4.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -32,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Version 7.3 laver automatisk en engangskontrol af de fem nye kilders 2026-arkiver. Første kørsel kan derfor tage lidt længere end en normal timekørsel. De eksisterende arkiver bevares, mens de nye poster tilføjes.
+Version 7.4 bevarer de eksisterende arkiver og opdeler kun den offentlige visning i lettere årsdata. Første kørsel opretter automatisk `archive/2026.json` for begge hovedsider som en del af Pages-udgivelsen; filerne skal ikke uploades manuelt.
 
 ## 6. Kontrollér siderne
 
@@ -40,6 +40,9 @@ Version 7.3 laver automatisk en engangskontrol af de fem nye kilders 2026-arkive
 - Kontrollér, at **Ministerienyt** og **Styrelsesnyt** står ved siden af hinanden øverst.
 - Vælg **Styrelsesnyt**.
 - Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **Alle**, **I dag**, **3 dage**, **7 dage**, **30 dage** og **Kilder og dækning**.
+- Kontrollér, at årsfilteret viser **Alle** og **2026**, men ikke **2027**.
+- Tryk flere gange på **Vis flere nyheder**, og kontrollér, at nye kort kommer frem uden en fuld genindlæsning.
+- Søg efter en ældre artikel, og kontrollér, at søgningen også finder poster uden for de 200 nyeste.
 - Gem fx `klima, Ukraine` under **Mine emner**, aktivér filteret, og kontrollér at valget også er tilgængeligt på den anden hovedside.
 - Kontrollér, at kildelisten viser **79 kilder** og kolonnen **Tilhørsforhold**.
 - Kontrollér, at kildelisten har kolonnen **Indhold**.
