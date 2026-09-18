@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-18T08:13:10.978933+00:00",
+  "generated_at": "2026-09-18T08:36:41.841362+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 531,
+  "total_rejected": 525,
   "summary_by_reason": {
-    "before_archive_start": 520,
+    "before_archive_start": 514,
     "missing_safe_publication_date": 2,
     "source_filter_mismatch": 9
   },
@@ -1077,66 +1077,6 @@
       "discovered_by": "GoBasic API",
       "detail": "",
       "detected_date": "2025-12-30T23:01:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "20.11.2025 PRESSEMEDDELELSE",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/pressemeddelelse-halvfjerds-nye-ord-gennem-halvfjerds-aar/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-11-20T00:00:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "JERNMARKER er årets ord 2025",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/jernmarker-er-aarets-ord-2025/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-12T00:00:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "NyS 68 er netop udkommet",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/nys-68-er-netop-udkommet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "Retskrivningsordbogen 5.1 er nu tilgængelig på ro.dsn.dk",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/retskrivningsordbogen-5-1-er-nu-tilgaengelig/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-16T00:00:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "Retskrivningsordbogen 5.1 udkommer 16. december",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/pressemeddelelse-ro-5-1/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-09T00:00:00+00:00"
-    },
-    {
-      "source": "Dansk Sprognævn",
-      "title": "Årets tegn 2025",
-      "url": "https://dsn.dk/nyheder-og-arrangementer/aarets-tegn-2025/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-02T00:00:00+00:00"
     },
     {
       "source": "Digitaliseringsstyrelsen",
