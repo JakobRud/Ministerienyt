@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-20T09:16:54.225663+00:00",
+  "generated_at": "2026-09-20T14:11:30.504646+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 162,
+  "total_rejected": 163,
   "summary_by_reason": {
-    "before_archive_start": 162
+    "before_archive_start": 163
   },
   "rejected": [
     {
@@ -875,6 +875,16 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2015-07-02T10:00:00+00:00"
+    },
+    {
+      "source": "Justitsministeriet",
+      "title": "Justitsministeren besøger Nørrebro",
+      "url": "https://www.justitsministeriet.dk/pressemeddelelse/justitsministeren-besoeger-noerrebro/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2015-08-10T19:30:30+00:00"
     },
     {
       "source": "Justitsministeriet",
