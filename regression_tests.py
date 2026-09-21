@@ -286,6 +286,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
             30,
         )
         self.assertEqual(sources["Beredskabsstyrelsen"]["listpage_item_count"], 50)
+        self.assertEqual(sources["Styrelsen for Samfundssikkerhed"]["listing_read_timeout_seconds"], 60)
+        self.assertTrue(sources["Styrelsen for Samfundssikkerhed"]["allow_partial_pagination_failure"])
         dekom = sources["Dansk Dekommissionering"]
         self.assertTrue(m.looks_like_article(
             "https://dekom.dk/2026/08/28/aabent-hus-paa-dansk-dekommissionering/",
@@ -1514,7 +1516,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.1")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
@@ -1527,7 +1529,9 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIsNone(soup.select_one("header #outage-status"))
         self.assertIn("const STALLED_AFTER_MISSED_RUNS = 2", html)
         self.assertIn("const STALLED_GRACE_MS = 20 * 60 * 1000", html)
+        self.assertIn("const STALLED_MIN_AGE_MS = 3 * 60 * 60 * 1000", html)
         self.assertIn("SCHEDULED_HOURS_COPENHAGEN", html)
+        self.assertIn("ageMs >= STALLED_MIN_AGE_MS", html)
         self.assertIn("missedScheduledRuns(stamp, Date.now()) >= STALLED_AFTER_MISSED_RUNS", html)
         self.assertNotIn("Opdatering forsinket", html)
         self.assertEqual(soup.select_one('link[rel="canonical"]')["href"], "https://example.dk/ministerienyt/")

@@ -1,6 +1,12 @@
-# Ministerienyt og Styrelsesnyt 7.4
+# Ministerienyt og Styrelsesnyt 7.4.1
 
-Version 7.4 gør begge hovedsider væsentligt lettere og indeholder samtidig alle kilder og rettelser fra 7.3.
+Version 7.4.1 retter den aktuelle bemærkning i Styrelsesnyt og gør driftsvarslet mindre følsomt. Den indeholder samtidig alle ydelsesforbedringer fra 7.4.
+
+## Rettet i version 7.4.1
+
+- Driftsbemærkningen om manglende opdateringer kan først vises, når siden ikke er opdateret i mindst **tre timer**. Kravet om mindst to udeblevne planlagte kørsler er bevaret.
+- Styrelsen for Samfundssikkerhed får 60 sekunders svartid på sine listesider. Hvis en senere arkivside fortsat får en enkelt timeout, efter at nyhedsforsiden er hentet korrekt, bevares det eksisterende arkiv uden en offentlig kildebemærkning.
+- En fejl på selve SAMSIKs nyhedsforside vil fortsat blive vist. Rettelsen skjuler derfor ikke en reel kildenedlukning.
 
 ## Nyt i version 7.4
 
@@ -130,7 +136,7 @@ De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfi
 
 Workflowet kører i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler og kørslen efter en upload er lette friskhedstjek; kl. 03 foretages en dybere kontrol. Den første dag i hver måned køres en fuld audit.
 
-Siden viser kun en diskret driftsbemærkning under **Kilder og dækning**, hvis to planlagte opdateringer i træk ser ud til at være udeblevet, plus 20 minutters afslutningstid. Det svarer normalt til godt to timer om dagen og op til godt seks timer om natten.
+Siden viser kun en diskret driftsbemærkning under **Kilder og dækning**, når der er gået mindst tre timer siden seneste opdatering, og mindst to planlagte kørsler ser ud til at være udeblevet. Der gives desuden 20 minutters afslutningstid til hver planlagt kørsel.
 
 Workflowet sender ikke selv e-mails eller opretter issues. GitHubs egne Actions-mails styres under **Settings → Notifications → System → Actions** på GitHub.
 

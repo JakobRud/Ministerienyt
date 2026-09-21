@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.4"
+APP_VERSION = "7.4.1"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -71,6 +71,7 @@ DEFAULT_SITEMAP_SCAN_HOURS = 24
 DEFAULT_LATE_DISCOVERY_GRACE_DAYS = 7
 DEFAULT_PAGE_SIZE = 15
 DEFAULT_INITIAL_HTML_CARDS = 200
+DEFAULT_STALLED_AFTER_HOURS = 3
 DATE_PATTERN_MIN_ITEMS = 8
 IMPOSSIBLE_CHANGE_MIN_BASELINE = 10
 IMPOSSIBLE_CHANGE_RATIO = 0.2
@@ -4555,6 +4556,7 @@ def build_html(
     late_discovery_grace_days = max(0, min(30, int(ui_config.get("late_discovery_grace_days", DEFAULT_LATE_DISCOVERY_GRACE_DAYS) or DEFAULT_LATE_DISCOVERY_GRACE_DAYS)))
     stalled_after_missed_runs = max(1, min(4, int(ui_config.get("stalled_after_missed_runs", 2) or 2)))
     stalled_run_grace_minutes = max(5, min(60, int(ui_config.get("stalled_run_grace_minutes", 20) or 20)))
+    stalled_after_hours = max(1, min(24, int(ui_config.get("stalled_after_hours", DEFAULT_STALLED_AFTER_HOURS) or DEFAULT_STALLED_AFTER_HOURS)))
     footer_about = clean_text(str(ui_config.get("footer_about", f"{site_name} samler links til officielle kilder · Artikler åbner hos udgiveren.")))
     footer_about_mobile = clean_text(str(ui_config.get("footer_about_mobile", f"{site_name} · officielle kilder · artikler åbner hos udgiveren")))
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
@@ -4778,6 +4780,7 @@ def build_html(
   const LATE_DISCOVERY_GRACE_MS = {late_discovery_grace_days} * 24 * 60 * 60 * 1000;
   const STALLED_AFTER_MISSED_RUNS = {stalled_after_missed_runs};
   const STALLED_GRACE_MS = {stalled_run_grace_minutes} * 60 * 1000;
+  const STALLED_MIN_AGE_MS = {stalled_after_hours} * 60 * 60 * 1000;
   const SCHEDULED_HOURS_COPENHAGEN = new Set([0, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21]);
   const COPENHAGEN_CLOCK = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/Copenhagen', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
@@ -5014,12 +5017,13 @@ def build_html(
     }
     updatedStatus.textContent = relative;
     if (outageStatus) {
-      const stalled = missedScheduledRuns(stamp, Date.now()) >= STALLED_AFTER_MISSED_RUNS;
+      const stalled = ageMs >= STALLED_MIN_AGE_MS &&
+        missedScheduledRuns(stamp, Date.now()) >= STALLED_AFTER_MISSED_RUNS;
       outageStatus.hidden = !stalled;
       if (stalled) {
         const hours = Math.floor(ageMs / (60 * 60 * 1000));
         outageStatus.textContent = 'Ingen opdatering i ' + hours + '+ timer';
-        outageStatus.title = 'De to seneste planlagte opdateringer ser ikke ud til at være gennemført.';
+        outageStatus.title = 'Siden er ikke opdateret i mindst tre timer, og mindst to planlagte opdateringer ser ikke ud til at være gennemført.';
       }
     }
   }
@@ -5412,6 +5416,7 @@ def build_html(
         .replace('{late_discovery_grace_days}', str(late_discovery_grace_days))
         .replace('{stalled_after_missed_runs}', str(stalled_after_missed_runs))
         .replace('{stalled_run_grace_minutes}', str(stalled_run_grace_minutes))
+        .replace('{stalled_after_hours}', str(stalled_after_hours))
         .replace('{archive_total}', str(len(entries)))
         .replace('{archive_shards_json}', json.dumps(archive_shards, ensure_ascii=False, separators=(",", ":")))
         .replace('{site_name_json}', json.dumps(site_name, ensure_ascii=False))
@@ -5423,7 +5428,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.4.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.4.1</strong><ul><li>Driftsbemærkningen om manglende opdateringer vises tidligst efter tre timer og fortsat kun, når mindst to planlagte kørsler ser ud til at være udeblevet.</li><li>Styrelsen for Samfundssikkerheds senere arkivsider får længere svartid; en enkelt timeout efter en vellykket forside giver ikke længere en offentlig kildebemærkning, mens det bevarede arkiv fortsat fungerer som sikkerhedsnet.</li></ul>'
         '<strong>v7.4</strong><ul><li>Kun de 200 nyeste kort ligger i den første HTML; resten hentes og tegnes trinvist fra kompakte årsarkiver, når de skal bruges.</li><li>Søgning, Mine emner, kilde- og periodefiltre arbejder fortsat på hele arkivet, mens siden starter væsentligt lettere.</li><li>Årsfilter og crawler-ruter følger automatisk de år, der faktisk er begyndt og har artikler; 2027 bliver derfor først synligt efter den første artikel fra 2027.</li></ul>'
         '<strong>v7.3</strong><ul><li>Forbrugerombudsmanden, Dansk Sprognævn, VIVE, Folketingets Ombudsmand og Rigsrevisionen er tilføjet; Styrelsesnyt har nu 79 aktive kilder.</li><li>Forbrugerombudsmanden og VIVE bruger deres officielle data-API’er, mens de tre øvrige kilder læses fra afgrænsede officielle 2026-arkiver.</li><li>Kildelistens kolonne Ministerområde hedder nu Tilhørsforhold, så Folketingets uafhængige kontrolorganer vises korrekt.</li></ul>'
         '<strong>v7.2.2</strong><ul><li>DMI følger kun det officielle nyhedsarkiv, henter langsommere og håndterer afviste senere arkivsider med det bevarede arkiv som sikkerhedsnet.</li><li>Færdselsstyrelsens officielle data-date-felt læses nu også sikkert på artikelsiden.</li><li>FE, FMI og Beredskabsstyrelsens afgrænsede ListPage-svar sammenlignes ikke længere med ældre fulde kandidatantal.</li></ul>'
@@ -5779,6 +5785,7 @@ def load_site_config(path: Path) -> dict:
         "late_discovery_grace_days": DEFAULT_LATE_DISCOVERY_GRACE_DAYS,
         "stalled_after_missed_runs": 2,
         "stalled_run_grace_minutes": 20,
+        "stalled_after_hours": DEFAULT_STALLED_AFTER_HOURS,
         "historical_scan_hours": DEFAULT_HISTORICAL_SCAN_HOURS,
         "sitemap_scan_hours": DEFAULT_SITEMAP_SCAN_HOURS,
         "fast_listing_pages": DEFAULT_FAST_LISTING_PAGES,

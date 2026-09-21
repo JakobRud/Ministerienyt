@@ -796,7 +796,9 @@
       "responsible_ministry": "Ministeriet for Samfundssikkerhed og Beredskab",
       "home_url": "https://samsik.dk/",
       "start_urls": ["https://samsik.dk/nyheder/"],
-      "article_prefixes": ["/artikler/"]
+      "article_prefixes": ["/artikler/"],
+      "listing_read_timeout_seconds": 60,
+      "allow_partial_pagination_failure": true
     },
     {
       "name": "Beredskabsstyrelsen",
