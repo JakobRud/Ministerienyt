@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-23T15:04:12.798457+00:00",
+  "generated_at": "2026-09-23T19:08:12.122559+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 522,
+  "total_rejected": 534,
   "summary_by_reason": {
-    "before_archive_start": 512,
+    "before_archive_start": 524,
     "missing_safe_publication_date": 1,
     "source_filter_mismatch": 9
   },
@@ -2347,6 +2347,126 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2023-06-22T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Tilsynsplan 2022",
+      "url": "https://itti.dk/publikationer/tilsynsplan-2022",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-27T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Tilsynsplan 2023",
+      "url": "https://itti.dk/publikationer/tilsynsplan-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-03-22T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Tilsynsplan 2024",
+      "url": "https://itti.dk/publikationer/tilsynsplan-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-02-01T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Tilsynsplan 2025",
+      "url": "https://itti.dk/publikationer/tilsynsplan-2025",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-02-04T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rlig redegÃ¸relse 2021",
+      "url": "https://itti.dk/publikationer/arlig-redegoerelse-2021",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-24T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rlig redegÃ¸relse 2022",
+      "url": "https://itti.dk/publikationer/arlig-redegoerelse-2022",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-03-29T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rlig redegÃ¸relse 2023",
+      "url": "https://itti.dk/publikationer/arlig-redegoerelse-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-25T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rlig redegÃ¸relse 2024",
+      "url": "https://itti.dk/publikationer/arlig-redegoerelse-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-27T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rsrapport 2021",
+      "url": "https://itti.dk/publikationer/arsrapport-2021",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-21T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rsrapport 2022",
+      "url": "https://itti.dk/publikationer/arsrapport-2022",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-04-03T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rsrapport 2023",
+      "url": "https://itti.dk/publikationer/arsrapport-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-25T00:00:00+00:00"
+    },
+    {
+      "source": "It-tilsynet",
+      "title": "Ã rsrapport 2024",
+      "url": "https://itti.dk/publikationer/arsrapport-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-24T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
