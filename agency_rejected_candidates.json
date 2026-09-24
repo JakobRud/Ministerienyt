@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-24T09:22:38.793027+00:00",
+  "generated_at": "2026-09-24T15:05:56.600396+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 521,
+  "total_rejected": 520,
   "summary_by_reason": {
-    "before_archive_start": 511,
+    "before_archive_start": 510,
     "missing_safe_publication_date": 1,
     "source_filter_mismatch": 9
   },
@@ -4907,16 +4907,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for Samfundssikkerhed",
-      "title": "Kritisk sårbarhed udnyttes aktivt",
-      "url": "https://samsik.dk/artikler/2025/12/kritisk-saarbarhed-udnyttes-aktivt/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-11T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for Samfundssikkerhed",
