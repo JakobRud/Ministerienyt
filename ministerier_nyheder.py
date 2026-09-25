@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.4.1"
+APP_VERSION = "7.4.2"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -2750,6 +2750,40 @@ def article_records(value: object) -> list[dict]:
     return unique
 
 
+def next_index_page_id(next_data: object, start_url: str) -> object:
+    """Find side-id'et, også hvis Next.js flytter page-objektet i JSON-træet."""
+    exact = nested_value(next_data, "props", "pageProps", "content", "page", "id")
+    if exact:
+        return exact
+    target_path = (urlparse(start_url).path or "/").rstrip("/") or "/"
+    found: object = None
+
+    def visit(current: object) -> None:
+        nonlocal found
+        if found is not None:
+            return
+        if isinstance(current, dict):
+            candidate_id = current.get("id")
+            paths = [current.get("url"), current.get("path")]
+            if candidate_id and any(
+                isinstance(path, str)
+                and ((urlparse(path).path or "/").rstrip("/") or "/") == target_path
+                for path in paths
+            ):
+                found = candidate_id
+                return
+            for child in current.values():
+                if isinstance(child, (dict, list)):
+                    visit(child)
+        elif isinstance(current, list):
+            for child in current:
+                if isinstance(child, (dict, list)):
+                    visit(child)
+
+    visit(next_data)
+    return found
+
+
 def collect_next_index_items(
     session: requests.Session,
     source: dict,
@@ -2765,15 +2799,37 @@ def collect_next_index_items(
         append_error(status, "Next.js-kilden mangler start-URL eller indeksnavn.")
         return [], False
     start_url = normalize_url(str(start_urls[0]), keep_query=True)
+    page_id: object = None
+    api_base_url = start_url
+    for attempt in range(2):
+        try:
+            shell = fetch(session, start_url)
+            api_base_url = normalize_url(getattr(shell, "url", ""), keep_query=True) or start_url
+            soup = BeautifulSoup(shell.text, "html.parser")
+            next_data_node = soup.find("script", id="__NEXT_DATA__")
+            next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
+            page_id = next_index_page_id(next_data, api_base_url)
+        except Exception as exc:
+            if attempt == 1:
+                append_error(status, f"Officielt nyheds-API kunne ikke hentes: {exc}")
+                return [], False
+        if page_id:
+            break
+        if attempt == 0:
+            status.retry_attempts += 1
+            if REQUEST_DELAY_SECONDS:
+                time.sleep(REQUEST_DELAY_SECONDS)
+
+    if not page_id:
+        # Nogle myndigheder flytter en eksisterende nyhedsside væk fra Next.js.
+        # Efter et ekstra forsøg får HTML/RSS/sitemap derfor lov at tage over.
+        # De normale selvtests advarer stadig, hvis ingen metode finder noget.
+        status.quality_flags.append(
+            "Det konfigurerede Next.js-API er ikke længere tilgængeligt; andre hentemetoder blev anvendt."
+        )
+        return [], False
+
     try:
-        shell = fetch(session, start_url)
-        api_base_url = normalize_url(getattr(shell, "url", ""), keep_query=True) or start_url
-        soup = BeautifulSoup(shell.text, "html.parser")
-        next_data_node = soup.find("script", id="__NEXT_DATA__")
-        next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
-        page_id = nested_value(next_data, "props", "pageProps", "content", "page", "id")
-        if not page_id:
-            raise ValueError("sidens page.id blev ikke fundet")
         endpoint = normalize_url(urljoin(api_base_url, "/api/indexSearch"), keep_query=True)
         payload = {
             "index": index_name,
@@ -5428,7 +5484,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.4.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.4.2</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.4.2</strong><ul><li>It-tilsynets dynamiske nyheds-API prøves nu igen, hvis sidens page-id midlertidigt mangler, så en kortvarig ufuldstændig side ikke giver en misvisende bemærkning.</li><li>Page-id’et kan findes efter et internt layoutskift, og hvis Next.js-metoden reelt forsvinder, falder crawleren tilbage til HTML, RSS eller sitemap; en total kildefejl opdages fortsat af selvtesten.</li></ul>'
         '<strong>v7.4.1</strong><ul><li>Driftsbemærkningen om manglende opdateringer vises tidligst efter tre timer og fortsat kun, når mindst to planlagte kørsler ser ud til at være udeblevet.</li><li>Styrelsen for Samfundssikkerheds senere arkivsider får længere svartid; en enkelt timeout efter en vellykket forside giver ikke længere en offentlig kildebemærkning, mens det bevarede arkiv fortsat fungerer som sikkerhedsnet.</li></ul>'
         '<strong>v7.4</strong><ul><li>Kun de 200 nyeste kort ligger i den første HTML; resten hentes og tegnes trinvist fra kompakte årsarkiver, når de skal bruges.</li><li>Søgning, Mine emner, kilde- og periodefiltre arbejder fortsat på hele arkivet, mens siden starter væsentligt lettere.</li><li>Årsfilter og crawler-ruter følger automatisk de år, der faktisk er begyndt og har artikler; 2027 bliver derfor først synligt efter den første artikel fra 2027.</li></ul>'
         '<strong>v7.3</strong><ul><li>Forbrugerombudsmanden, Dansk Sprognævn, VIVE, Folketingets Ombudsmand og Rigsrevisionen er tilføjet; Styrelsesnyt har nu 79 aktive kilder.</li><li>Forbrugerombudsmanden og VIVE bruger deres officielle data-API’er, mens de tre øvrige kilder læses fra afgrænsede officielle 2026-arkiver.</li><li>Kildelistens kolonne Ministerområde hedder nu Tilhørsforhold, så Folketingets uafhængige kontrolorganer vises korrekt.</li></ul>'

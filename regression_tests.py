@@ -756,6 +756,95 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(fake.url, "https://spillemyndigheden.dk/api/indexSearch")
         self.assertEqual(fake.kwargs["headers"]["Origin"], "https://spillemyndigheden.dk")
 
+    def test_next_index_api_missing_page_id_falls_back_without_public_error(self):
+        source = {
+            "name": "Flyttet myndighed",
+            "home_url": "https://example.dk/",
+            "start_urls": ["https://example.dk/nyheder"],
+            "article_prefixes": ["/nyheder/"],
+            "next_index_search": True,
+            "next_index_name": "gammelt-indeks",
+        }
+
+        class FakeSession:
+            def post(self, *args, **kwargs):
+                raise AssertionError("API'et må ikke kaldes uden et page-id")
+
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(
+                text="<html><body><main>Almindelig HTML-side</main></body></html>",
+                url="https://example.dk/nyheder",
+            )
+            status = m.SourceStatus(source["name"], source["home_url"])
+            items, ok = m.collect_next_index_items(FakeSession(), source, set(), status)
+        finally:
+            m.fetch = original_fetch
+
+        self.assertFalse(ok)
+        self.assertEqual(items, [])
+        self.assertEqual(status.errors, [])
+        self.assertEqual(status.retry_attempts, 1)
+        self.assertTrue(any("Next.js-API" in note for note in status.quality_flags))
+
+    def test_next_index_api_retries_transient_missing_page_id(self):
+        source = {
+            "name": "It-tilsynet",
+            "home_url": "https://itti.dk/",
+            "start_urls": ["https://itti.dk/publikationer"],
+            "article_prefixes": ["/publikationer/"],
+            "next_index_search": True,
+            "next_index_name": "itti-da",
+        }
+        shells = iter([
+            "<html><body>Midlertidigt ufuldstændig side</body></html>",
+            '<script id="__NEXT_DATA__" type="application/json">'
+            '{"props":{"pageProps":{"content":{"page":{"id":"itti-page"}}}}}'
+            "</script>",
+        ])
+
+        class FakeSession:
+            def post(self, url, **kwargs):
+                self.kwargs = kwargs
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"results": []})
+
+        fake = FakeSession()
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(
+                text=next(shells), url="https://itti.dk/publikationer"
+            )
+            status = m.SourceStatus(source["name"], source["home_url"])
+            _, ok = m.collect_next_index_items(fake, source, set(), status)
+        finally:
+            m.fetch = original_fetch
+
+        self.assertTrue(ok)
+        self.assertEqual(status.retry_attempts, 1)
+        self.assertEqual(status.errors, [])
+        self.assertEqual(fake.kwargs["json"]["parentGId"], "itti-page")
+
+    def test_next_index_page_id_survives_moved_page_object(self):
+        payload = {
+            "props": {
+                "pageProps": {
+                    "newWrapper": {
+                        "current": {"id": "moved-page", "url": "/publikationer"}
+                    }
+                }
+            }
+        }
+        self.assertEqual(
+            m.next_index_page_id(payload, "https://itti.dk/publikationer"),
+            "moved-page",
+        )
+
+    def test_it_tilsynet_keeps_dynamic_index_api(self):
+        payload = json.loads((Path(__file__).with_name("agency_sources.json")).read_text(encoding="utf-8"))
+        source = next(row for row in payload["sources"] if row["name"] == "It-tilsynet")
+        self.assertTrue(source.get("next_index_search"))
+        self.assertEqual(source.get("next_index_name"), "itti-da")
+
     def test_mst_news_api_returns_dated_official_articles(self):
         source = {
             "name": "Naturstyrelsen",
@@ -1516,7 +1605,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.1")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.2")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")

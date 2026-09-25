@@ -1,8 +1,8 @@
-# Opdatér til version 7.4.1
+# Opdatér til version 7.4.2
 
 ## 1. Pak leverancen ud
 
-Pak `Ministerienyt-7.4.1.zip` ud.
+Pak `Ministerienyt-7.4.2.zip` ud.
 
 ## 2. Upload rodfilerne
 
@@ -32,7 +32,7 @@ Commit de uploadede filer direkte til `main`. En push-kørsel starter normalt au
 2. Åbn **Opdater Ministerienyt og Styrelsesnyt**.
 3. Kontrollér, at trinnene med regressionstests, generering og Pages-udgivelse bliver grønne.
 
-Version 7.4.1 bevarer de eksisterende arkiver. Første kørsel kontrollerer Styrelsen for Samfundssikkerhed med den mere robuste timeout-håndtering og bygger begge hovedsider med tretimersgrænsen for driftsbemærkningen.
+Version 7.4.2 bevarer de eksisterende arkiver. Første kørsel kontrollerer It-tilsynets dynamiske API med genforsøg og bygger begge hovedsider med tretimersgrænsen for driftsbemærkningen.
 
 ## 6. Kontrollér siderne
 
@@ -41,7 +41,7 @@ Version 7.4.1 bevarer de eksisterende arkiver. Første kørsel kontrollerer Styr
 - Vælg **Styrelsesnyt**.
 - Kontrollér søgning, kildefilter, **Mine myndigheder**, **Kun nye**, **Alle**, **I dag**, **3 dage**, **7 dage**, **30 dage** og **Kilder og dækning**.
 - Kontrollér, at årsfilteret viser **Alle** og **2026**, men ikke **2027**.
-- Åbn **Kilder og dækning** på Styrelsesnyt, og kontrollér, at Styrelsen for Samfundssikkerhed står med **OK** uden bemærkning.
+- Åbn **Kilder og dækning** på Styrelsesnyt, og kontrollér, at både It-tilsynet og Styrelsen for Samfundssikkerhed står med **OK** uden bemærkning.
 - Tryk flere gange på **Vis flere nyheder**, og kontrollér, at nye kort kommer frem uden en fuld genindlæsning.
 - Søg efter en ældre artikel, og kontrollér, at søgningen også finder poster uden for de 200 nyeste.
 - Gem fx `klima, Ukraine` under **Mine emner**, aktivér filteret, og kontrollér at valget også er tilgængeligt på den anden hovedside.

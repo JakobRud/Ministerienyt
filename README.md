@@ -1,6 +1,13 @@
-# Ministerienyt og Styrelsesnyt 7.4.1
+# Ministerienyt og Styrelsesnyt 7.4.2
 
-Version 7.4.1 retter den aktuelle bemærkning i Styrelsesnyt og gør driftsvarslet mindre følsomt. Den indeholder samtidig alle ydelsesforbedringer fra 7.4.
+Version 7.4.2 fjerner den aktuelle, misvisende bemærkning for It-tilsynet og gør dynamiske Next.js-kilder mere robuste. Den indeholder samtidig alle rettelser og ydelsesforbedringer fra 7.4.1 og 7.4.
+
+## Rettet i version 7.4.2
+
+- It-tilsynets dynamiske API prøver nu automatisk igen, hvis sidens `page.id` midlertidigt mangler. Første svar kan dermed være ufuldstændigt uden at udløse en misvisende offentlig bemærkning.
+- `page.id` kan desuden findes, selv hvis Next.js flytter sideobjektet til en anden placering i sit JSON-træ.
+- Hvis en myndighed reelt flytter sin side væk fra Next.js, behandles et manglende `page.id` som et kontrolleret skift til HTML, RSS eller sitemap i stedet for som en API-fejl.
+- Hvis alle hentemetoder fejler, slår den eksisterende selvtest fortsat ud; robustheden skjuler derfor ikke en reel total kildefejl.
 
 ## Rettet i version 7.4.1
 
