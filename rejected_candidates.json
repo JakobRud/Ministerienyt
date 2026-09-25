@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-25T09:35:25.497536+00:00",
+  "generated_at": "2026-09-25T10:56:33.315111+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 157,
+  "total_rejected": 148,
   "summary_by_reason": {
-    "before_archive_start": 156,
+    "before_archive_start": 147,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -869,16 +869,6 @@
     },
     {
       "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "COP30: Enighed om ny klimaaftale i Brasilien",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2025/nov/cop30-enighed-om-ny-klimaaftale-i-brasilien",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-22T00:00:00+00:00"
-    },
-    {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
       "title": "Danmark sætter kurs mod grøn indenrigssøfart",
       "url": "https://www.kefm.dk/aktuelt/nyheder/2025/nov/danmark-saetter-kurs-mod-groen-indenrigssoefart",
       "reason": "before_archive_start",
@@ -899,103 +889,23 @@
     },
     {
       "source": "Skatte- og Vækstministeriet",
-      "title": "Fortsat fremgang i regnskabet for statens skatter og afgifter",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/fortsat-fremgang-i-regnskabet-for-statens-skatter-og-afgifter-4",
+      "title": "100.000 borgere har indbetalt over 550 mio. kr. via digital løsning – knap en fjerdedel er blevet gældfri ved betalingen",
+      "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/100000-borgere-har-indbetalt-over-550-mio-kr-via-digital-loesning-knap-en-fjerdedel-er-blevet-gaeldfri-ved-betalingen",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
+      "discovered_by": "Sitemap",
       "detail": "",
-      "detected_date": "2025-03-21T00:00:00+00:00"
+      "detected_date": "2025-12-27T00:00:00+00:00"
     },
     {
       "source": "Skatte- og Vækstministeriet",
-      "title": "It-tilsynet offentliggÃ¸r Ã¥rlig redegÃ¸relse om skattevÃ¦senets it-omrÃ¥de",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/it-tilsynet-offentliggoer-aarlig-redegoerelse-om-skattevaesenets-it-omraade",
+      "title": "Ny afgift på urenset spildevand skal sikre et renere vandmiljø",
+      "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/ny-afgift-paa-urenset-spildevand-skal-sikre-et-renere-vandmiljoe",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
+      "discovered_by": "Sitemap",
       "detail": "",
-      "detected_date": "2025-03-27T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Kompensation fortsÃ¦tter til kommuner i 2026-2028 for lavere indtÃ¦gter end ventet fra grundskyld",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/kompensation-fortsaetter-til-kommuner-i-2026-2028-for-lavere-indtaegter-end-ventet-fra-grundskyld",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-06-30T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Motionister skal kunne trÃ¦kke en del af motionsregningen fra i skat",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/motionister-skal-kunne-traekke-en-del-af-motionsregningen-fra-i-skat-1",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-10-28T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Regeringen lemper elafgiften",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/regeringen-lemper-elafgiften",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-08-21T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Regeringens VÃ¦rdighedsreform har to initiativer vedrÃ¸rerende skatteomrÃ¥det",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/regeringens-vaerdighedsreform-har-to-initiativer-vedroererende-skatteomraadet",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-05-16T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Skatteministeren ansÃ¦tter sÃ¦rlig rÃ¥dgiver",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/skatteministeren-ansaetter-saerlig-raadgiver",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-09-25T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Skatteministeriet klar med SkatteÃ¸konomisk RedegÃ¸relse 2025",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/skatteministeriet-klar-med-skatteoekonomisk-redegoerelse-2025",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-05-15T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Skatteministeriet pÃ¥tÃ¦nker personaletilpasninger i seks styrelser",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/skatteministeriet-paataenker-personaletilpasninger-i-seks-styrelser",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-11-24T00:00:00+00:00"
-    },
-    {
-      "source": "Skatte- og Vækstministeriet",
-      "title": "Statsligt arbejdsprogram: Skatteministeriet gennemfÃ¸rer konkrete opgavebortfald",
-      "url": "https://svmn.dk/aktuelt/presse-nyheder/nyheder/statsligt-arbejdsprogram-skatteministeriet-gennemfoerer-konkrete-opgavebortfald",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-12-16T00:00:00+00:00"
+      "detected_date": "2025-12-19T00:00:00+00:00"
     },
     {
       "source": "Statsministeriet",
