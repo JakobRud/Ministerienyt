@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-28T07:41:09.511707+00:00",
+  "generated_at": "2026-09-28T10:57:35.450020+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 519,
   "summary_by_reason": {
-    "before_archive_start": 509,
-    "missing_safe_publication_date": 1,
+    "before_archive_start": 508,
+    "missing_safe_publication_date": 2,
     "source_filter_mismatch": 9
   },
   "rejected": [
@@ -187,16 +187,6 @@
       "discovered_by": "Officiel ListPage API",
       "detail": "",
       "detected_date": "2025-12-01T00:00:00+00:00"
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "Tusindvis af skoleelever lærer om brandsikkerhed i denne uge",
-      "url": "https://www.brs.dk/da/nyheder/2025/brandsikker-uge/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": "",
-      "detected_date": "2025-09-30T00:00:00+00:00"
     },
     {
       "source": "Beredskabsstyrelsen",
@@ -5099,12 +5089,21 @@
       "detected_date": "2022-04-21T06:58:16+00:00"
     },
     {
-      "source": "Styrelsen for Patientsikkerhed",
-      "title": "Snart afholder vi temadag om patientsikkerhed for alle med kronisk sygdom",
-      "url": "https://stps.dk/nyheder/2026/sep/tilmelding-til-temadag-17-september-patientsikkerhed-for-alle-med-kronisk-sygdom-2",
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Episode i SIRIs Borgerservice den 28. september",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "GoBasic API",
+      "discovered_by": "Ny i Danmark API",
+      "detail": ""
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Episode i SIRIs Borgerservice den 28. september",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Ny i Danmark API",
       "detail": ""
     },
     {
