@@ -1,6 +1,15 @@
-# Ministerienyt og Styrelsesnyt 7.4.2
+# Ministerienyt og Styrelsesnyt 7.4.3
 
-Version 7.4.2 fjerner den aktuelle, misvisende bemærkning for It-tilsynet og gør dynamiske Next.js-kilder mere robuste. Den indeholder samtidig alle rettelser og ydelsesforbedringer fra 7.4.1 og 7.4.
+Version 7.4.3 fjerner de to misvisende bemærkninger for Rigspolitiet og PET og gør den offentlige kildestatus mere robust over for enkeltstående netværksfejl.
+
+## Rettet i version 7.4.3
+
+- En enkelt total timeout vises ikke straks som en offentlig kildebemærkning. Fejlen gemmes fortsat i den interne diagnostik, arkivet bevares, og bemærkningen bliver synlig, hvis næste kørsel også fejler.
+- En delvis timeout vises ikke offentligt, når en alternativ metode, eksempelvis sitemap, leverer mindst 75 % af kildens normale kandidatniveau.
+- PETs forside-timeout bliver derfor intern, fordi det fungerende sitemap fortsat fandt alle 8 kandidater. Rigspolitiets enkelte nattetimeout bliver intern, mens de 13 eksisterende arkivposter bevares.
+- Den eksisterende alarm efter tre sammenhængende tekniske fejl er uændret.
+
+Versionen indeholder samtidig alle rettelser og ydelsesforbedringer fra 7.4.2, 7.4.1 og 7.4.
 
 ## Rettet i version 7.4.2
 

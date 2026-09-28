@@ -1180,6 +1180,31 @@ class IdentityAndSafetyTests(unittest.TestCase):
             m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(old_cfg)
         self.assertEqual(alerts["active_alerts"], 1)
 
+    def test_first_total_timeout_is_kept_internal_until_next_run(self):
+        status = m.SourceStatus("Rigspolitiet/politi.dk", "https://politi.dk/")
+        status.self_test = "fail"
+        status.self_test_notes = ["Ingen teknisk vellykket hentemetode i denne kørsel."]
+        m.evaluate_source_public_warning(status, {"consecutive_failures": 0})
+        self.assertFalse(status.public_warning)
+
+        m.evaluate_source_public_warning(status, {"consecutive_failures": 1})
+        self.assertTrue(status.public_warning)
+
+    def test_healthy_fallback_keeps_partial_timeout_internal(self):
+        status = m.SourceStatus("PET", "https://pet.dk/")
+        status.methods.append("Sitemap")
+        status.sitemap_files = 1
+        status.article_candidates = 8
+        status.errors = ["Forsiden fik timeout"]
+        status.self_test = "warn"
+        status.self_test_notes = ["Kilden havde delvise hentefejl, men mindst én metode lykkedes."]
+        m.evaluate_source_public_warning(status, {"expected_candidate_count": 7.4})
+        self.assertFalse(status.public_warning)
+
+        status.article_candidates = 2
+        m.evaluate_source_public_warning(status, {"expected_candidate_count": 8})
+        self.assertTrue(status.public_warning)
+
     def test_source_quality_learns_expected_candidate_level(self):
         status = m.SourceStatus("Testministeriet", "https://x.dk/")
         status.listing_pages = 1
@@ -1605,7 +1630,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.2")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.3")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")
