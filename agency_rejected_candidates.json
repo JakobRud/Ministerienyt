@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-28T18:43:18.916404+00:00",
+  "generated_at": "2026-09-28T23:56:46.363400+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 518,
+  "total_rejected": 517,
   "summary_by_reason": {
     "before_archive_start": 508,
-    "source_filter_mismatch": 10
+    "source_filter_mismatch": 9
   },
   "rejected": [
     {
@@ -5176,16 +5176,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Episode i SIRIs Borgerservice den 28. september",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-28T00:00:00+00:00"
     }
   ]
 }
