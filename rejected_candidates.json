@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-28T10:51:53.344763+00:00",
+  "generated_at": "2026-09-28T18:36:52.632483+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 147,
+  "total_rejected": 146,
   "summary_by_reason": {
-    "before_archive_start": 146,
+    "before_archive_start": 145,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1456,16 +1456,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-10-14T00:00:00+00:00"
-    },
-    {
-      "source": "Økonomi- og Indenrigsministeriet",
-      "title": "Økonomisk Redegørelse: Dansk økonomi i god form trods global usikkerhed",
-      "url": "https://oem.dk/nyheder/nyhedsarkiv/2025/august/oekonomisk-redegoerelse-dansk-oekonomi-i-god-form-trods-global-usikkerhed/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-08-29T00:00:00+00:00"
     },
     {
       "source": "Erhvervsministeriet",

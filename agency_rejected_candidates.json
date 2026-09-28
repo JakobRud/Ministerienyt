@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-09-28T10:57:35.450020+00:00",
+  "generated_at": "2026-09-28T18:43:18.916404+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 519,
+  "total_rejected": 518,
   "summary_by_reason": {
     "before_archive_start": 508,
-    "missing_safe_publication_date": 2,
-    "source_filter_mismatch": 9
+    "source_filter_mismatch": 10
   },
   "rejected": [
     {
@@ -5090,24 +5089,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Episode i SIRIs Borgerservice den 28. september",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Episode i SIRIs Borgerservice den 28. september",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
       "reason": "source_filter_mismatch",
@@ -5195,6 +5176,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Episode i SIRIs Borgerservice den 28. september",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/28-09-2026",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-09-28T00:00:00+00:00"
     }
   ]
 }
