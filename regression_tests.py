@@ -1687,7 +1687,17 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.4")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.5")
+        self.assertEqual(
+            soup.select_one("#about-contact-open .about-label-long").get_text(strip=True),
+            "Om siden og kontakt",
+        )
+        dialog = soup.select_one("#about-contact-dialog")
+        self.assertIsNotNone(dialog)
+        self.assertIn("uofficielt hobbyprojekt", dialog.get_text(" ", strip=True))
+        self.assertIn("Jakob Flintegaard Rud", dialog.get_text(" ", strip=True))
+        self.assertEqual(dialog.select_one('a[href^="mailto:"]')["href"], "mailto:jakob@rud.net")
+        self.assertIn("aboutContactDialog.showModal()", html)
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")

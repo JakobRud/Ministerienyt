@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.4.4"
+APP_VERSION = "7.5"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -4681,6 +4681,8 @@ def build_html(
     stalled_after_hours = max(1, min(24, int(ui_config.get("stalled_after_hours", DEFAULT_STALLED_AFTER_HOURS) or DEFAULT_STALLED_AFTER_HOURS)))
     footer_about = clean_text(str(ui_config.get("footer_about", f"{site_name} samler links til officielle kilder · Artikler åbner hos udgiveren.")))
     footer_about_mobile = clean_text(str(ui_config.get("footer_about_mobile", f"{site_name} · officielle kilder · artikler åbner hos udgiveren")))
+    contact_name = "Jakob Flintegaard Rud"
+    contact_email = "jakob@rud.net"
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
     source_lookup = {source["name"]: source for source in sources}
     status_lookup = {status.name: status for status in statuses}
@@ -4784,6 +4786,19 @@ def build_html(
         '<span id="visit-counter" aria-live="polite">–</span></span>'
         if goatcounter_code else ""
     )
+    about_contact_button = (
+        '<button id="about-contact-open" class="footer-link-button" type="button" '
+        'aria-haspopup="dialog" aria-controls="about-contact-dialog">'
+        '<span class="about-label-long">Om siden og kontakt</span>'
+        '<span class="about-label-short">Om</span></button>'
+    )
+    about_contact_dialog = f'''<dialog id="about-contact-dialog" class="about-contact-dialog" aria-labelledby="about-contact-title">
+<div class="about-contact-content"><h2 id="about-contact-title">Om siden og kontakt</h2>
+<p>Ministerienyt og Styrelsesnyt er et uafhængigt og uofficielt hobbyprojekt, som er udviklet og drives af {esc(contact_name)}. Siden samler links og korte uddrag fra danske ministerier, styrelser og myndigheder.</p>
+<p>Indholdet tilhører de oprindelige udgivere, og artiklerne åbnes altid hos den officielle kilde.</p>
+<h3>Kontakt</h3><p>Har du fundet en fejl, savner du en relevant myndighed, eller har du forslag til siden, er du velkommen til at skrive til <a href="mailto:{esc(contact_email)}">{esc(contact_email)}</a>.</p>
+<form method="dialog" class="about-contact-actions"><button class="about-contact-close" type="submit">Luk</button></form></div>
+</dialog>'''
     goatcounter_html = ""
     if goatcounter_code:
         counter_host = f"https://{goatcounter_code}.goatcounter.com"
@@ -4828,6 +4843,9 @@ def build_html(
 .year-row{display:flex;align-items:center;gap:7px;margin-top:7px;flex-wrap:wrap;color:var(--muted);font-size:.82rem}.year-button{min-height:34px;border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:5px 9px;font:700 .8rem/1.1 system-ui;cursor:pointer;display:inline-flex;align-items:center;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}.year-button:hover{border-color:#7f8b95}.year-button[aria-pressed="true"]{background:var(--brand2);color:#fff;border-color:var(--brand2)}.archive-loading{color:var(--muted);font-size:.82rem}
 @media(max-width:650px){.year-row{gap:5px}.year-row .year-button{flex:1;justify-content:center}}
 
+/* v7.5: kompakt om- og kontaktfelt */
+.footer-link-button{border:0;background:none;padding:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.about-label-short{display:none}.about-contact-dialog{width:min(680px,calc(100vw - 28px));max-height:min(82vh,720px);border:1px solid var(--line);border-radius:12px;padding:0;background:#fff;color:var(--ink);box-shadow:0 18px 60px rgba(0,0,0,.22)}.about-contact-dialog::backdrop{background:rgba(24,34,44,.48)}.about-contact-content{padding:22px 24px}.about-contact-content h2{margin:0 0 13px;font-size:1.35rem;letter-spacing:-.015em}.about-contact-content h3{margin:18px 0 5px;font-size:1rem}.about-contact-content p{margin:0 0 10px;color:#414d57}.about-contact-content a{color:var(--brand2);font-weight:750}.about-contact-actions{display:flex;justify-content:flex-end;margin-top:18px}.about-contact-close{border:1px solid #aeb8c2;border-radius:7px;background:#fff;color:var(--ink);padding:7px 13px;font-weight:750;cursor:pointer}.footer-meta>.footer-link-button{flex:0 0 auto}@media(max-width:650px){.about-label-long{display:none}.about-label-short{display:inline}.about-contact-content{padding:18px}.about-contact-dialog{max-height:78vh}.footer-link-button{font-size:.7rem}}
+
 '''
     script = r'''
 (() => {
@@ -4862,6 +4880,8 @@ def build_html(
   const backToTop = document.getElementById('back-to-top');
   const updatedStatus = document.getElementById('updated-status');
   const outageStatus = document.getElementById('outage-status');
+  const aboutContactOpen = document.getElementById('about-contact-open');
+  const aboutContactDialog = document.getElementById('about-contact-dialog');
   const SITE_NAME = {site_name_json};
   const FAVORITES_LABEL = {favorites_label_json};
   const SEEN_KEY = {seen_key_json};
@@ -5468,6 +5488,16 @@ def build_html(
     }
   });
 
+  if (aboutContactOpen && aboutContactDialog) {
+    aboutContactOpen.addEventListener('click', () => {
+      if (typeof aboutContactDialog.showModal === 'function') aboutContactDialog.showModal();
+      else aboutContactDialog.setAttribute('open', '');
+    });
+    aboutContactDialog.addEventListener('click', event => {
+      if (event.target === aboutContactDialog) aboutContactDialog.close();
+    });
+  }
+
   document.addEventListener('keydown', event => {
     const target = event.target;
     const editable = target instanceof HTMLElement &&
@@ -5550,7 +5580,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.4.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.5</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.5</strong><ul><li>Footeren har fået “Om siden og kontakt” med en kort beskrivelse af Ministerienyt og Styrelsesnyt som et uafhængigt, uofficielt hobbyprojekt.</li><li>Kontaktoplysninger til Jakob Flintegaard Rud vises i et tilgængeligt dialogfelt med mail-link til jakob@rud.net.</li></ul>'
         '<strong>v7.4.4</strong><ul><li>VIVEs API prøves straks igen, hvis det svarer korrekt, men midlertidigt returnerer en tom resultatliste.</li><li>Et enkelt nulresultat bliver i den interne diagnostik og vises først som offentlig bemærkning, hvis næste kørsel også finder nul kandidater.</li></ul>'
         '<strong>v7.4.3</strong><ul><li>En enkelt total timeout bliver i den interne diagnostik og vises først offentligt, hvis næste kørsel også fejler; det fjerner Rigspolitiets misvisende engangsbemærkning.</li><li>En delvis fejl bliver intern, når en alternativ metode stadig leverer normal dækning; PETs fungerende sitemap giver derfor ikke en bemærkning på grund af en samtidig forsidetimeout.</li></ul>'
         '<strong>v7.4.2</strong><ul><li>It-tilsynets dynamiske nyheds-API prøves nu igen, hvis sidens page-id midlertidigt mangler, så en kortvarig ufuldstændig side ikke giver en misvisende bemærkning.</li><li>Page-id’et kan findes efter et internt layoutskift, og hvis Next.js-metoden reelt forsvinder, falder crawleren tilbage til HTML, RSS eller sitemap; en total kildefejl opdages fortsat af selvtesten.</li></ul>'
@@ -5592,7 +5623,8 @@ def build_html(
 <div class="top"><div class="wrap">{brand_navigation}<div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
 <header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><details id="topics-menu" class="favorites-menu topics-menu"><summary id="topics-summary">Mine emner</summary><div class="favorites-panel"><p class="favorites-help">Gem op til 20 emner adskilt med komma. De samme emner bruges på Ministerienyt og Styrelsesnyt.</p><form id="topics-form" class="topics-form"><label class="sr-only" for="topics-input">Mine emner</label><input id="topics-input" type="text" placeholder="Fx klima, Ukraine, arbejdsmiljø" autocomplete="off"><button class="filter-button" type="submit">Gem</button></form><div class="topics-actions"><button id="topics-only" class="filter-button" type="button" aria-pressed="false">Vis mine emner</button><button id="clear-topics" class="text-button" type="button">Ryd emner</button></div><div id="topics-preview" class="topics-preview" aria-live="polite">Ingen emner gemt</div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div><div class="year-row" role="group" aria-label="År"><span>År:</span>{''.join(year_buttons)}</div></div></header>
 <main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} Kolonnen “Indhold” viser de artikeltyper, der findes i arkivet. “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Indhold</th><th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
-<footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
+<footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{about_contact_button}<span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
+{about_contact_dialog}
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
 <nav class="mobile-dock" aria-label="Hurtige handlinger"><button id="mobile-search" type="button"><span>⌕</span>Søg</button><button id="mobile-new" type="button"><span>Nye</span>Kun nye</button><button id="mobile-favorites" type="button"><span>★</span>Mine</button></nav>
 <script>{script}</script>

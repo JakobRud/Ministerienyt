@@ -1,6 +1,16 @@
-# Ministerienyt og Styrelsesnyt 7.4.4
+# Ministerienyt og Styrelsesnyt 7.5
 
-Version 7.4.4 fjerner den misvisende VIVE-bemærkning og gør crawleren robust over for et enkelt teknisk gyldigt, men tomt API-svar.
+Version 7.5 tilføjer en diskret præsentation af projektet og en direkte kontaktmulighed uden at gøre forsiden tungere.
+
+## Nyt i version 7.5
+
+- Footeren har fået linket **Om siden og kontakt**. På mobil vises den korte tekst **Om**, så footeren fortsat holder sig kompakt.
+- Linket åbner et tilgængeligt dialogfelt, der kan lukkes med knappen **Luk**, Escape-tasten eller et klik uden for feltet.
+- Teksten forklarer, at Ministerienyt og Styrelsesnyt er et uafhængigt og uofficielt hobbyprojekt, som er udviklet og drives af Jakob Flintegaard Rud.
+- Brugere kan kontakte Jakob på det klikbare mail-link `jakob@rud.net`, hvis de finder en fejl, savner en myndighed eller har forslag.
+- Løsningen bruger ingen kontaktformular, database eller ekstra sporing og gemmer derfor ingen kontaktoplysninger på siden.
+
+Versionen indeholder samtidig alle rettelser fra 7.4.4.
 
 ## Rettet i version 7.4.4
 
