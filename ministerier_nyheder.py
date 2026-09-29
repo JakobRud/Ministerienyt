@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.4.3"
+APP_VERSION = "7.4.4"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -3360,27 +3360,39 @@ def collect_vive_news_items(
 
     for page in range(max_pages):
         offset = page * limit
-        try:
-            response = session.get(
-                endpoint,
-                params={
-                    "pageId": page_id,
-                    "cultureId": culture_id,
-                    "years": str(active_archive_years()[-1]),
-                    "limit": limit,
-                    "offset": offset,
-                },
-                headers={"Referer": start_url, "Accept": "application/json"},
-                timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, 60)),
-            )
-            response.raise_for_status()
-            payload = response.json()
-            rows = payload.get("data", []) if isinstance(payload, dict) else []
-            if not isinstance(rows, list):
-                raise ValueError("data var ikke en liste")
-        except Exception as exc:
-            append_error(status, f"VIVEs officielle nyheds-API kunne ikke hentes: {exc}")
-            return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+        empty_retries = 0
+        while True:
+            try:
+                response = session.get(
+                    endpoint,
+                    params={
+                        "pageId": page_id,
+                        "cultureId": culture_id,
+                        "years": str(active_archive_years()[-1]),
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    headers={"Referer": start_url, "Accept": "application/json"},
+                    timeout=(CONNECT_TIMEOUT, max(READ_TIMEOUT, 60)),
+                )
+                response.raise_for_status()
+                payload = response.json()
+                rows = payload.get("data", []) if isinstance(payload, dict) else []
+                if not isinstance(rows, list):
+                    raise ValueError("data var ikke en liste")
+            except Exception as exc:
+                append_error(status, f"VIVEs officielle nyheds-API kunne ikke hentes: {exc}")
+                return sorted(result.values(), key=lambda item: item.published, reverse=True), api_succeeded
+
+            if page == 0 and not rows and empty_retries == 0:
+                # VIVEs API kan lejlighedsvis svare 200 med en tom dataliste,
+                # selv om samme forespørgsel kort efter returnerer hele arkivet.
+                empty_retries += 1
+                status.retry_attempts += 1
+                if REQUEST_DELAY_SECONDS:
+                    time.sleep(REQUEST_DELAY_SECONDS)
+                continue
+            break
 
         api_succeeded = True
         status.listing_pages += 1
@@ -3744,6 +3756,18 @@ def evaluate_source_public_warning(status: SourceStatus, previous_state: dict | 
         if coverage_ok:
             # En alternativ metode har leveret normal dækning. Den mislykkede
             # ekstrametode er nyttig diagnostik, men ikke en offentlig advarsel.
+            status.public_warning = False
+
+    empty_result_note = "Nyhedssiden kunne hentes, men ingen artikelkandidater blev genkendt; layoutet kan være ændret."
+    if status.self_test == "warn" and notes == [empty_result_note] and status.article_candidates == 0:
+        repeated_empty_result = (
+            previous_state.get("last_self_test") == "warn"
+            and int(previous_state.get("last_candidate_count", 0) or 0) == 0
+        )
+        if not repeated_empty_result:
+            # Et enkelt tomt, men teknisk gyldigt API-svar kan være en kortvarig
+            # backendfejl. Det bliver i diagnostikken og bliver først offentligt,
+            # hvis samme afvigelse gentager sig i næste kørsel.
             status.public_warning = False
 
 
@@ -5526,7 +5550,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.4.3</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.4.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.4.4</strong><ul><li>VIVEs API prøves straks igen, hvis det svarer korrekt, men midlertidigt returnerer en tom resultatliste.</li><li>Et enkelt nulresultat bliver i den interne diagnostik og vises først som offentlig bemærkning, hvis næste kørsel også finder nul kandidater.</li></ul>'
         '<strong>v7.4.3</strong><ul><li>En enkelt total timeout bliver i den interne diagnostik og vises først offentligt, hvis næste kørsel også fejler; det fjerner Rigspolitiets misvisende engangsbemærkning.</li><li>En delvis fejl bliver intern, når en alternativ metode stadig leverer normal dækning; PETs fungerende sitemap giver derfor ikke en bemærkning på grund af en samtidig forsidetimeout.</li></ul>'
         '<strong>v7.4.2</strong><ul><li>It-tilsynets dynamiske nyheds-API prøves nu igen, hvis sidens page-id midlertidigt mangler, så en kortvarig ufuldstændig side ikke giver en misvisende bemærkning.</li><li>Page-id’et kan findes efter et internt layoutskift, og hvis Next.js-metoden reelt forsvinder, falder crawleren tilbage til HTML, RSS eller sitemap; en total kildefejl opdages fortsat af selvtesten.</li></ul>'
         '<strong>v7.4.1</strong><ul><li>Driftsbemærkningen om manglende opdateringer vises tidligst efter tre timer og fortsat kun, når mindst to planlagte kørsler ser ud til at være udeblevet.</li><li>Styrelsen for Samfundssikkerheds senere arkivsider får længere svartid; en enkelt timeout efter en vellykket forside giver ikke længere en offentlig kildebemærkning, mens det bevarede arkiv fortsat fungerer som sikkerhedsnet.</li></ul>'

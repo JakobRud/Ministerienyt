@@ -1010,6 +1010,43 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(fake.kwargs["params"]["years"], "2026")
         self.assertIn("VIVE nyheds-API", status.methods)
 
+    def test_vive_news_api_retries_transient_empty_result(self):
+        source = {
+            "name": "VIVE",
+            "home_url": "https://www.vive.dk/",
+            "start_urls": ["https://www.vive.dk/da/nyheder-og-debat/"],
+            "article_prefixes": ["/da/nyheder-og-debat/"],
+            "vive_news_api": True,
+            "vive_news_endpoint": "/api/news",
+            "vive_news_page_id": "10714",
+            "vive_news_culture_id": "1113",
+        }
+
+        class FakeSession:
+            def __init__(self):
+                self.calls = 0
+
+            def get(self, url, **kwargs):
+                self.calls += 1
+                rows = [] if self.calls == 1 else [{
+                    "title": "VIVE udgiver ny analyse",
+                    "url": "/da/nyheder-og-debat/2026/vive-udgiver-ny-analyse/",
+                    "date8601": "2026-09-28",
+                }]
+                return types.SimpleNamespace(
+                    raise_for_status=lambda: None,
+                    json=lambda: {"pagination": {"total": len(rows)}, "data": rows},
+                )
+
+        fake = FakeSession()
+        status = m.SourceStatus(source["name"], source["home_url"])
+        items, ok = m.collect_vive_news_items(fake, source, set(), status)
+        self.assertTrue(ok)
+        self.assertEqual(fake.calls, 2)
+        self.assertEqual(status.retry_attempts, 1)
+        self.assertEqual(status.article_candidates, 1)
+        self.assertEqual(len(items), 1)
+
     def test_listpage_api_returns_dynamic_news_cards(self):
         source = {
             "name": "Forsvaret/Forsvarskommandoen",
@@ -1203,6 +1240,26 @@ class IdentityAndSafetyTests(unittest.TestCase):
 
         status.article_candidates = 2
         m.evaluate_source_public_warning(status, {"expected_candidate_count": 8})
+        self.assertTrue(status.public_warning)
+
+    def test_first_empty_candidate_result_is_kept_internal_until_next_run(self):
+        note = "Nyhedssiden kunne hentes, men ingen artikelkandidater blev genkendt; layoutet kan være ændret."
+        status = m.SourceStatus("VIVE", "https://www.vive.dk/")
+        status.methods.append("VIVE nyheds-API")
+        status.listing_pages = 1
+        status.self_test = "warn"
+        status.self_test_notes = [note]
+
+        m.evaluate_source_public_warning(
+            status,
+            {"last_self_test": "pass", "last_candidate_count": 72},
+        )
+        self.assertFalse(status.public_warning)
+
+        m.evaluate_source_public_warning(
+            status,
+            {"last_self_test": "warn", "last_candidate_count": 0},
+        )
         self.assertTrue(status.public_warning)
 
     def test_source_quality_learns_expected_candidate_level(self):
@@ -1630,7 +1687,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.3")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.4.4")
         self.assertIn("Kulturministeriets synlige artikelmanchet", html)
         self.assertEqual([link.get_text(strip=True) for link in soup.select(".brand-nav .brand-link")], ["Ministerienyt", "Styrelsesnyt"])
         self.assertEqual(soup.select_one(".brand-nav .brand-link.active").get_text(strip=True), "Ministerienyt")

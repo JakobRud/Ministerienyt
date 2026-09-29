@@ -1,6 +1,14 @@
-# Ministerienyt og Styrelsesnyt 7.4.3
+# Ministerienyt og Styrelsesnyt 7.4.4
 
-Version 7.4.3 fjerner de to misvisende bemærkninger for Rigspolitiet og PET og gør den offentlige kildestatus mere robust over for enkeltstående netværksfejl.
+Version 7.4.4 fjerner den misvisende VIVE-bemærkning og gør crawleren robust over for et enkelt teknisk gyldigt, men tomt API-svar.
+
+## Rettet i version 7.4.4
+
+- VIVEs API prøves straks igen, hvis første svar indeholder en tom dataliste. Live-kontrollen efter fejlen gav igen alle 72 kandidater.
+- Hvis også genforsøget giver nul kandidater, gemmes afvigelsen i den interne diagnostik. En offentlig bemærkning vises først, hvis næste planlagte kørsel gentager nulresultatet.
+- Arkivet bevares uændret under fejlen, så et tomt API-svar hverken sletter eller skjuler de 72 eksisterende VIVE-poster.
+
+Versionen indeholder samtidig alle rettelser fra 7.4.3.
 
 ## Rettet i version 7.4.3
 
