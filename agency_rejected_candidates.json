@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-29T07:11:50.418072+00:00",
+  "generated_at": "2026-09-29T10:43:57.501379+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 517,
+  "total_rejected": 518,
   "summary_by_reason": {
-    "before_archive_start": 508,
+    "before_archive_start": 509,
     "source_filter_mismatch": 9
   },
   "rejected": [
@@ -2325,7 +2325,7 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2025-11-12T00:00:00+00:00"
+      "detected_date": "2025-09-09T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
@@ -2335,7 +2335,7 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2024-11-19T00:00:00+00:00"
+      "detected_date": "2024-08-29T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
@@ -2345,7 +2345,17 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2024-05-07T00:00:00+00:00"
+      "detected_date": "2024-05-06T00:00:00+00:00"
+    },
+    {
+      "source": "Nævnenes Hus",
+      "title": "Miljø- og Fødevareklagenævnet afviser anmodning om genoptagelse i sag om Tangeværket",
+      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/2025/november/miljoe-og-foedevareklagenaevnet-afviser-anmodning-om-genoptagelse-i-sag-om-tangevaerket/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-12T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",

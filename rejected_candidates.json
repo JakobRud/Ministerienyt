@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-29T07:05:52.784741+00:00",
+  "generated_at": "2026-09-29T10:38:36.080605+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 146,
+  "total_rejected": 147,
   "summary_by_reason": {
-    "before_archive_start": 145,
+    "before_archive_start": 146,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -856,6 +856,16 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-09-10T00:00:00+00:00"
+    },
+    {
+      "source": "Justitsministeriet",
+      "title": "Grønt lys til at politiet kan få udbetalt overarbejdstimer",
+      "url": "https://www.justitsministeriet.dk/pressemeddelelse/groent-lys-til-at-politiet-kan-faa-udbetalt-overarbejdstimer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2015-07-02T10:00:00+00:00"
     },
     {
       "source": "Justitsministeriet",
