@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-29T10:43:57.501379+00:00",
+  "generated_at": "2026-09-29T12:56:36.273603+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 518,
+  "total_rejected": 517,
   "summary_by_reason": {
-    "before_archive_start": 509,
+    "before_archive_start": 508,
     "source_filter_mismatch": 9
   },
   "rejected": [
@@ -1546,16 +1546,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-04-29T00:00:00+00:00"
-    },
-    {
-      "source": "Digitaliseringsstyrelsen",
-      "title": "Ny analyse: Populære spil-apps til børn sender data videre til tech-giganter",
-      "url": "https://digst.dk/nyheder/nyhedsarkiv/2024/marts/ny-analyse-populaere-spil-apps-til-boern-sender-data-videre-til-tech-giganter/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2024-03-22T00:00:00+00:00"
     },
     {
       "source": "Digitaliseringsstyrelsen",
