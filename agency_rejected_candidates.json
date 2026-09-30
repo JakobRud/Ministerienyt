@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-30T16:57:33.373187+00:00",
+  "generated_at": "2026-09-30T23:04:38.467555+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 519,
+  "total_rejected": 518,
   "summary_by_reason": {
     "before_archive_start": 508,
-    "source_filter_mismatch": 11
+    "source_filter_mismatch": 10
   },
   "rejected": [
     {
@@ -5176,16 +5176,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI: Nye regler for studerende fra tredjelande på statsligt godkendte videregående uddannelser",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/SIRI---Nye-regler-for-studerende",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-30T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
