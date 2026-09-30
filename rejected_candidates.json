@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-30T10:27:53.764592+00:00",
+  "generated_at": "2026-09-30T16:50:33.451493+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 146,
+  "total_rejected": 144,
   "summary_by_reason": {
-    "before_archive_start": 145,
+    "before_archive_start": 143,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -898,16 +898,6 @@
       "detected_date": "2015-06-28T12:47:23+00:00"
     },
     {
-      "source": "Klima-, Energi- og Forsyningsministeriet",
-      "title": "Regeringen fastsætter et af verdens højeste 2035-klimamål",
-      "url": "https://www.kefm.dk/aktuelt/nyheder/2025/dec/regeringen-fastsaetter-et-af-verdens-hoejeste-2035-klimamaal",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
       "source": "Skatte- og Vækstministeriet",
       "title": "100.000 borgere har indbetalt over 550 mio. kr. via digital løsning – knap en fjerdedel er blevet gældfri ved betalingen",
       "url": "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser/100000-borgere-har-indbetalt-over-550-mio-kr-via-digital-loesning-knap-en-fjerdedel-er-blevet-gaeldfri-ved-betalingen",
@@ -1026,16 +1016,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-15T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Epx: Nu går omlægningen af landets uddannelser og institutioner i gang",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/oktober/251031-epx-nu-gaar-omlaegningen-af-landets-uddannelser-og-institutioner-i-gang/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-10-31T10:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
