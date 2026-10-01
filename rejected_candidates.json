@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-01T10:55:23.530663+00:00",
+  "generated_at": "2026-10-01T17:22:30.677276+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 143,
+  "total_rejected": 142,
   "summary_by_reason": {
-    "before_archive_start": 142,
+    "before_archive_start": 141,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1196,16 +1196,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-11-19T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Regeringen præsenterer ny karakterskala, der skal mindske karakterpres",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/november/251106-regeringen-praesenterer-ny-karakterskala-der-skal-mindske-karakterpres/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-06T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
