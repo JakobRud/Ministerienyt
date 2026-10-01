@@ -1,22 +1,12 @@
 {
-  "generated_at": "2026-10-01T17:28:53.485731+00:00",
+  "generated_at": "2026-10-01T23:15:19.587172+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 515,
+  "total_rejected": 513,
   "summary_by_reason": {
-    "before_archive_start": 504,
-    "source_filter_mismatch": 11
+    "before_archive_start": 503,
+    "source_filter_mismatch": 10
   },
   "rejected": [
-    {
-      "source": "Arbejdstilsynet",
-      "title": "Ny forbedret AMU går online i Grønland",
-      "url": "https://at.dk/nyheder/2026/01/ny-forbedret-amu-gaar-online-i-groenland/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2025-12-01T00:00:00+00:00"
-    },
     {
       "source": "Beredskabsstyrelsen",
       "title": "App fra Beredskabsstyrelsen skal hjælpe ukrainere i krig",
@@ -5136,16 +5126,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Positivlisten for personer med videregående uddannelse bliver opdateret pr. 1. oktober 2026",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Positivliste-for-videregaaende-uddannelser-2026",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-10-01T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
