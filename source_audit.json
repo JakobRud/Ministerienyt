@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T02:39:20.657837+00:00",
+  "generated_at": "2026-10-01T02:42:02.046244+00:00",
   "full_audit": true,
   "source_count": 22,
   "technical_ok": 22,
@@ -71,6 +71,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -130,7 +131,7 @@
       ],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "HTML",
         "Sitemap"
@@ -192,7 +193,7 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "HTML",
         "Sitemap"
@@ -210,16 +211,14 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
         "HTML",
         "RSS/Atom"
       ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Sikkerhedsgrænsen på 160 listesider blev nået; kontrollér kilden ved meget store arkiver."
-      ]
+      "errors": []
     },
     {
       "source": "Beskæftigelses- og Ligestillingsministeriet",
@@ -256,7 +255,6 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
-        "RSS/Atom",
         "Sitemap"
       ],
       "redirects": [],
@@ -335,15 +333,13 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
         "HTML"
       ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Sikkerhedsgrænsen på 6 listesider blev nået; kontrollér kilden ved meget store arkiver."
-      ]
+      "errors": []
     },
     {
       "source": "Ministeriet for Samfundssikkerhed og Beredskab",
@@ -419,7 +415,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
-        "Via Ritzau API"
+        "Via Ritzau API",
+        "Sitemap"
       ],
       "redirects": [],
       "unexpected_redirects": [],

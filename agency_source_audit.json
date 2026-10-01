@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-02T06:55:33.231404+00:00",
-  "full_audit": false,
-  "source_count": 78,
-  "technical_ok": 60,
+  "generated_at": "2026-10-01T03:01:33.336699+00:00",
+  "full_audit": true,
+  "source_count": 79,
+  "technical_ok": 79,
   "sources": [
     {
       "source": "Erhvervsstyrelsen",
@@ -12,31 +12,54 @@
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Verificeret ERST-arkiv",
+        "Via Ritzau API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://erhvervsstyrelsen.dk/nyheder: 403 Client Error: Forbidden for url: https://erhvervsstyrelsen.dk/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Konkurrence- og Forbrugerstyrelsen",
       "home_url": "https://www.kfst.dk/",
       "active_start_urls": [
-        "https://www.kfst.dk/pressemeddelelser/kfst/"
+        "https://www.kfst.dk/Menu/Presse",
+        "https://www.kfst.dk/menu/presse/nyhedsarkiv"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
+      "redirects": [
+        "https://www.kfst.dk/Menu/Presse -> https://kfst.dk/Menu/Presse",
+        "https://www.kfst.dk/menu/presse/nyhedsarkiv -> https://kfst.dk/menu/presse/nyhedsarkiv"
+      ],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Forbrugerombudsmanden",
+      "home_url": "https://forbrugerombudsmanden.dk/",
+      "active_start_urls": [
+        "https://forbrugerombudsmanden.dk/menu/nyheder-og-presse/pressemeddelelser"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Officielt Umbraco-søge-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.kfst.dk/pressemeddelelser/kfst/: 404 Client Error: Not Found for url: https://kfst.dk/pressemeddelelser/kfst"
-      ]
+      "errors": []
     },
     {
       "source": "Patent- og Varemærkestyrelsen",
@@ -48,7 +71,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -63,7 +88,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -96,7 +123,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -180,7 +209,27 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "VIVE",
+      "home_url": "https://www.vive.dk/",
+      "active_start_urls": [
+        "https://www.vive.dk/da/nyheder-og-debat/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "VIVE nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -195,7 +244,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -210,7 +261,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -219,18 +273,18 @@
       "source": "Danmarks Domstole/Domstolsstyrelsen",
       "home_url": "https://www.domstol.dk/",
       "active_start_urls": [
-        "https://www.domstol.dk/aktuelt/"
+        "https://domstoldk.euwest01.umbraco.io/aktuelt/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.domstol.dk/aktuelt/: 403 Client Error: Forbidden for url: https://www.domstol.dk/aktuelt/"
-      ]
+      "errors": []
     },
     {
       "source": "Danmarks Fængsler",
@@ -253,35 +307,36 @@
       "source": "Rigspolitiet/politi.dk",
       "home_url": "https://politi.dk/rigspolitiet",
       "active_start_urls": [
-        "https://politi.dk/rigspolitiet/nyhedsliste"
+        "https://politi.dk/nyhedsliste?district=Rigspolitiet"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Politiets nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://politi.dk/rigspolitiet/nyhedsliste: 404 Client Error: Page not found for url: https://politi.dk/rigspolitiet/nyhedsliste"
-      ]
+      "errors": []
     },
     {
       "source": "PET",
       "home_url": "https://pet.dk/",
       "active_start_urls": [
-        "https://pet.dk/pet/nyhedsliste/"
+        "https://pet.dk/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML",
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://pet.dk/pet/nyhedsliste/: 404 Client Error: Page not found for url: https://pet.dk/pet/nyhedsliste/"
-      ]
+      "errors": []
     },
     {
       "source": "Den Uafhængige Politiklagemyndighed",
@@ -313,7 +368,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -327,10 +384,43 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
         "HTML",
         "RSS/Atom"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Folketingets Ombudsmand",
+      "home_url": "https://www.ombudsmanden.dk/",
+      "active_start_urls": [
+        "https://www.ombudsmanden.dk/find-viden/nyheder/2026"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
+    },
+    {
+      "source": "Rigsrevisionen",
+      "home_url": "https://www.rigsrevisionen.dk/",
+      "active_start_urls": [
+        "https://www.rigsrevisionen.dk/nyheder/2026"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "GoBasic API",
+        "HTML"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -375,16 +465,20 @@
       "source": "Danmarks Statistik",
       "home_url": "https://www.dst.dk/",
       "active_start_urls": [
-        "https://www.dst.dk/da/Statistik/udgivelser?psi=877&pub=nyt"
+        "https://www.dst.dk/da/Statistik/udgivelser?gmi=01&pub=nyt"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
-      "methods": [],
+      "self_test": "warn",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": []
+      "errors": [
+        "Sikkerhedsgrænsen på 40 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ]
     },
     {
       "source": "CPR",
@@ -397,6 +491,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
         "HTML"
       ],
       "redirects": [],
@@ -414,7 +509,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
-        "HTML"
+        "HTML",
+        "Sitemap"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -430,7 +526,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -445,7 +543,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -454,18 +554,18 @@
       "source": "Forsyningstilsynet",
       "home_url": "https://forsyningstilsynet.dk/",
       "active_start_urls": [
-        "https://forsyningstilsynet.dk/aktuelt/nyheder"
+        "https://forsyningstilsynet.dk/nyheder"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://forsyningstilsynet.dk/aktuelt/nyheder: 404 Client Error: Not Found for url: https://forsyningstilsynet.dk/aktuelt/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "GEUS",
@@ -477,7 +577,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -486,35 +588,37 @@
       "source": "DMI",
       "home_url": "https://www.dmi.dk/",
       "active_start_urls": [
-        "https://www.dmi.dk/nyheder/"
+        "https://www.dmi.dk/nyhedsoverblik"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.dmi.dk/nyheder/: 404 Client Error: Not Found for url: https://www.dmi.dk/nyheder/"
-      ]
+      "errors": []
     },
     {
       "source": "Banedanmark",
-      "home_url": "https://www.banedanmark.dk/",
+      "home_url": "https://www.bane.dk/",
       "active_start_urls": [
-        "https://www.banedanmark.dk/Presse/Nyheder"
+        "https://www.bane.dk/da/Presse/Pressemeddelelser"
       ],
-      "historical_start_urls": [],
+      "historical_start_urls": [
+        "https://www.bane.dk/da/Presse/Pressemeddelelser?take=100"
+      ],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.banedanmark.dk/Presse/Nyheder: 404 Client Error: Not Found for url: https://www.banedanmark.dk/Presse/Nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Bygningsstyrelsen",
@@ -544,7 +648,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -559,7 +666,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -574,7 +684,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -583,28 +696,15 @@
       "source": "Vejdirektoratet",
       "home_url": "https://www.vejdirektoratet.dk/",
       "active_start_urls": [
-        "https://www.vejdirektoratet.dk/presse/nyheder"
+        "https://www.vejdirektoratet.dk/presse-og-nyheder"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
-      "redirects": [],
-      "unexpected_redirects": [],
-      "errors": []
-    },
-    {
-      "source": "Havarikommissionen",
-      "home_url": "https://havarikommissionen.dk/",
-      "active_start_urls": [
-        "https://havarikommissionen.dk/information-fra-havarikommissionen"
+      "methods": [
+        "Drupal JSON:API"
       ],
-      "historical_start_urls": [],
-      "rss_urls": [],
-      "technical_ok": true,
-      "self_test": "pass",
-      "methods": [],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -636,7 +736,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Ny i Danmark API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -651,23 +753,8 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
-      "redirects": [],
-      "unexpected_redirects": [],
-      "errors": []
-    },
-    {
-      "source": "Styrelsen for Undervisning og Kvalitet",
-      "home_url": "https://stukuvm.dk/",
-      "active_start_urls": [
-        "https://stukuvm.dk/om-styrelsen/aktuelt"
-      ],
-      "historical_start_urls": [],
-      "rss_urls": [],
-      "technical_ok": true,
-      "self_test": "pass",
       "methods": [
-        "HTML"
+        "Ny i Danmark API"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -702,7 +789,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -711,16 +800,16 @@
       "source": "Styrelsen for Arbejdsmarked og Rekruttering",
       "home_url": "https://star.dk/",
       "active_start_urls": [
-        "https://star.dk/om-styrelsen/nyt/nyheder/"
+        "https://star.dk/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
-      "redirects": [
-        "https://star.dk/om-styrelsen/nyt/nyheder/ -> https://star.dk/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering"
+      "methods": [
+        "HTML"
       ],
+      "redirects": [],
       "unexpected_redirects": [],
       "errors": []
     },
@@ -728,18 +817,18 @@
       "source": "Det Nationale Forskningscenter for Arbejdsmiljø",
       "home_url": "https://nfa.dk/",
       "active_start_urls": [
-        "https://nfa.dk/nyt/nyheder/"
+        "https://nfa.dk/nyt/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://nfa.dk/nyt/nyheder/: 404 Client Error: Not Found for url: https://nfa.dk/nyt/nyheder/"
-      ]
+      "errors": []
     },
     {
       "source": "Forsvaret/Forsvarskommandoen",
@@ -751,7 +840,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -760,18 +852,18 @@
       "source": "Hjemmeværnet",
       "home_url": "https://www.hjemmevaernet.dk/",
       "active_start_urls": [
-        "https://www.hjemmevaernet.dk/da/nyheder/"
+        "https://www.hjemmevaernet.dk/da/aktuelt/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.hjemmevaernet.dk/da/nyheder/: 404 Client Error: Not Found for url: https://www.hjemmevaernet.dk/da/nyheder/"
-      ]
+      "errors": []
     },
     {
       "source": "Forsvarets Efterretningstjeneste",
@@ -783,7 +875,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -798,7 +893,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -813,7 +911,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -822,18 +923,18 @@
       "source": "Skattestyrelsen",
       "home_url": "https://sktst.dk/",
       "active_start_urls": [
-        "https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder"
+        "https://sktst.dk/nyheder-og-pressemeddelelser"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Officielt nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder: 404 Client Error: Not Found for url: https://sktst.dk/aktuelt/pressemeddelelser-og-nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Vurderingsstyrelsen",
@@ -845,7 +946,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officielt nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -854,14 +957,14 @@
       "source": "Motorstyrelsen",
       "home_url": "https://motorst.dk/",
       "active_start_urls": [
-        "https://motorst.dk/nyheder"
+        "https://motorst.dk/nyheder/presse-og-nyheder"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
-        "HTML"
+        "Officielt nyheds-API"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -877,7 +980,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officielt nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -886,14 +991,14 @@
       "source": "Toldstyrelsen",
       "home_url": "https://toldst.dk/",
       "active_start_urls": [
-        "https://toldst.dk/nyheder"
+        "https://toldst.dk/nyheder/pressemeddelelser"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
-        "HTML"
+        "Officielt nyheds-API"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -909,58 +1014,25 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
-      "redirects": [
-        "https://www.spillemyndigheden.dk/nyheder -> https://spillemyndigheden.dk/nyheder"
+      "methods": [
+        "Officielt nyheds-API"
       ],
-      "unexpected_redirects": [],
-      "errors": []
-    },
-    {
-      "source": "Skatteankestyrelsen",
-      "home_url": "https://skatteankestyrelsen.dk/",
-      "active_start_urls": [
-        "https://skatteankestyrelsen.dk/nyheder"
-      ],
-      "historical_start_urls": [],
-      "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://skatteankestyrelsen.dk/nyheder: 404 Client Error: Not Found for url: https://skatteankestyrelsen.dk/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Finanstilsynet",
       "home_url": "https://www.finanstilsynet.dk/",
       "active_start_urls": [
-        "https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser"
-      ],
-      "historical_start_urls": [],
-      "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
-      "redirects": [],
-      "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser: 404 Client Error: Not Found for url: https://www.finanstilsynet.dk/nyheder-og-presse/pressemeddelelser"
-      ]
-    },
-    {
-      "source": "Administrations- og Servicestyrelsen",
-      "home_url": "https://adst.dk/",
-      "active_start_urls": [
-        "https://adst.dk/"
+        "https://www.finanstilsynet.dk/nyheder-og-presse/nyheder-og-pressemeddelelser"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
+        "GoBasic API",
         "HTML"
       ],
       "redirects": [],
@@ -977,23 +1049,26 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officielt nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
     },
     {
       "source": "It-tilsynet",
-      "home_url": "https://svmn.dk/it-udvikling/det-uafhaengige-it-tilsyn",
+      "home_url": "https://itti.dk/",
       "active_start_urls": [
-        "https://svmn.dk/aktuelt/presse-nyheder/nyheder",
-        "https://svmn.dk/aktuelt/presse-nyheder/pressemeddelelser"
+        "https://itti.dk/publikationer"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officielt nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -1020,18 +1095,18 @@
       "source": "Sundhedsstyrelsen",
       "home_url": "https://www.sst.dk/",
       "active_start_urls": [
-        "https://www.sst.dk/da/nyheder"
+        "https://www.sst.dk/nyheder"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "Via Ritzau API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://www.sst.dk/da/nyheder: 429 Client Error: Too Many Requests for url: https://www.sst.dk/da/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Styrelsen for Patientsikkerhed",
@@ -1043,7 +1118,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [
         "https://stps.dk/da/nyheder -> https://stps.dk/nyt-fra-styrelsen-for-patientsikkerhed"
       ],
@@ -1054,18 +1132,19 @@
       "source": "Sundhedsdatastyrelsen",
       "home_url": "https://sundhedsdatastyrelsen.dk/",
       "active_start_urls": [
-        "https://sundhedsdatastyrelsen.dk/da/nyheder"
+        "https://sundhedsdatastyrelsen.dk/nyheder"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://sundhedsdatastyrelsen.dk/da/nyheder: 404 Client Error: Not Found for url: https://sundhedsdatastyrelsen.dk/da/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Statens Serum Institut",
@@ -1093,7 +1172,7 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
         "HTML"
       ],
@@ -1111,7 +1190,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -1131,41 +1212,60 @@
       ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": []
+      "errors": [
+        "Officielt MST-nyheds-API kunne ikke hentes: 400 Client Error: Bad Request for url: https://search.mst.dk/api/News/Search"
+      ]
     },
     {
       "source": "Slots- og Kulturstyrelsen",
       "home_url": "https://slks.dk/",
       "active_start_urls": [
-        "https://slks.dk/omraader/presse/nyheder"
+        "https://slks.dk/nyheder/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://slks.dk/omraader/presse/nyheder: 404 Client Error: Not Found for url: https://slks.dk/omraader/presse/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Rigsarkivet",
-      "home_url": "https://rigsarkivet.dk/",
+      "home_url": "https://www.rigsarkivet.dk/",
       "active_start_urls": [
-        "https://rigsarkivet.dk/nyt-og-nyheder/"
+        "https://www.rigsarkivet.dk/nyheder/"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://rigsarkivet.dk/nyt-og-nyheder/: 404 Client Error: Not Found for url: https://www.rigsarkivet.dk/nyt-og-nyheder/"
-      ]
+      "errors": []
+    },
+    {
+      "source": "Dansk Sprognævn",
+      "home_url": "https://dsn.dk/",
+      "active_start_urls": [
+        "https://dsn.dk/nyheder/"
+      ],
+      "historical_start_urls": [],
+      "rss_urls": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "HTML"
+      ],
+      "redirects": [],
+      "unexpected_redirects": [],
+      "errors": []
     },
     {
       "source": "Styrelsen for Samfundssikkerhed",
@@ -1195,7 +1295,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -1209,31 +1312,34 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
         "HTML",
         "RSS/Atom"
       ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": []
+      "errors": [
+        "Sikkerhedsgrænsen på 12 listesider blev nået; kontrollér kilden ved meget store arkiver."
+      ]
     },
     {
       "source": "Ankestyrelsen",
-      "home_url": "https://ast.dk/",
+      "home_url": "https://www.ast.dk/",
       "active_start_urls": [
-        "https://ast.dk/nyheder"
+        "https://www.ast.dk/nyhedsarkiv"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
-      "technical_ok": false,
-      "self_test": "fail",
-      "methods": [],
+      "technical_ok": true,
+      "self_test": "pass",
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Liste kunne ikke hentes: https://ast.dk/nyheder: 404 Client Error: Not Found for url: https://www.ast.dk/nyheder"
-      ]
+      "errors": []
     },
     {
       "source": "Social- og Boligstyrelsen",
@@ -1245,7 +1351,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Sitemap"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -1277,7 +1385,9 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "Officielt MST-nyheds-API"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
