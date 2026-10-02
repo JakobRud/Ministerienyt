@@ -1,4 +1,23 @@
-# Ministerienyt og Styrelsesnyt 7.5
+# Ministerienyt og Styrelsesnyt 7.5.1
+
+Version 7.5.1 retter en misvisende kildebemærkning og forbereder den officielt annoncerede sammenlægning af DMI og Klimadatastyrelsen.
+
+## Rettet og forberedt i version 7.5.1
+
+- **Medarbejder- og Kompetencestyrelsen:** Det officielle `<time class="area-content__date-time" datetime="…">` understøttes som publiceringsdato. Tre tidligere afviste artikler er fra 2025 og frasorteres nu korrekt som ældre end arkivets begyndelse. Der anvendes ingen datoer fra rubrik eller brødtekst.
+- Live-kontrol 2. oktober 2026: 80 kandidater, alle 63 eksisterende 2026-artikler genkendt, 17 artikler fra 2025 frasorteret, ingen hentefejl eller datobemærkninger.
+- **DMI og Klimadatastyrelsen:** Den fælles kilde **DMI, Kort og Grunddata** aktiveres ved første sideopbygning den 1. december 2026 eller senere, efter dansk dato. Indtil da er kilderne separate.
+- Begge officielle arkiver crawles fortsat med hver sin cache og fejlkontrol. Sammenlægningen ændrer kun den offentlige kildeliste og filtreringen; den sletter eller omskriver ikke det gemte artikelarkiv.
+- Kilde- og favoritfiltre samles under den nye myndighed. Gamle lokale favoritvalg og delte links med DMI eller Klimadatastyrelsen oversættes automatisk.
+- Historiske kort og RSS-poster bevarer deres oprindelige afsender. Nye artikler fra 1. december mærkes med den fælles myndighed. Artikel-ID'er, links, datoer og markering af allerede sete artikler bevares.
+- Kildelisten viser fra sammenlægningen 78 myndigheder i stedet for 79; interne driftsdata har fortsat 79 crawlindgange. En reel bemærkning fra et af arkiverne vises fortsat med den berørte indgangs navn.
+- Den fælles GoatCounter-tæller, teksten “Unikke besøg seneste 30 dage” og om- og kontaktfeltet er bevaret.
+
+Validering: 95 regressionstests bestået; fuld live-kontrol af Medarbejder- og Kompetencestyrelsen samt JavaScript/DOM-kontrol af kildefilter, gamle lokale favoritter, delte links og indlæsning af historiske årsarkiver. DMI og Klimadatastyrelsen har tilsammen 52 viste historier efter dubletkontrol; alle er bevaret i den samlede filtrering.
+
+Officiel beslutning: [Klima-, Energi- og Forsyningsministeriet, 1. september 2026](https://www.kefm.dk/aktuelt/nyheder/2026/sep/dmi-og-klimadatastyrelsen-sammenlaegges-til-ny-styrelse). Den permanente nyhedsstruktur for den nye myndighed bør kontrolleres efter ikrafttrædelsen; indtil da er begge nuværende indgange sikkerhedsnettet.
+
+## Version 7.5
 
 Version 7.5 tilføjer en diskret præsentation af projektet og en direkte kontaktmulighed uden at gøre forsiden tungere.
 

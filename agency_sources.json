@@ -109,6 +109,7 @@
     },
     {
       "name": "Medarbejder- og Kompetencestyrelsen",
+      "article_date_selectors": [".area-content__date-time[datetime]"],
       "responsible_ministry": "Finansministeriet",
       "home_url": "https://medst.dk/",
       "start_urls": ["https://medst.dk/nyheder/nyhedsarkiv/"],

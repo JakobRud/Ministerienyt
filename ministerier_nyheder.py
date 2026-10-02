@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.5"
+APP_VERSION = "7.5.1"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -4514,21 +4514,22 @@ def build_rss(
 
     for entry in entries:
         item = entry.primary
+        source_name = presented_source_name(item, source_lookup)
         node = ET.SubElement(channel, "item")
-        ET.SubElement(node, "title").text = f"{item.source}: {item.title}"
+        ET.SubElement(node, "title").text = f"{source_name}: {item.title}"
         ET.SubElement(node, "link").text = item.url
         guid = ET.SubElement(node, "guid", {"isPermaLink": "false"})
         guid.text = hashlib.sha256(canonical_url(item.url).encode("utf-8")).hexdigest()
         ET.SubElement(node, "pubDate").text = email.utils.format_datetime(item.published)
-        ET.SubElement(node, "category").text = item.source
+        ET.SubElement(node, "category").text = source_name
         article_type = infer_article_type(item, source_lookup.get(item.source))
         if article_type:
             ET.SubElement(node, "category").text = article_type
         source_node = ET.SubElement(node, "source", {"url": item.url})
-        source_node.text = item.source
+        source_node.text = source_name
         description = item.description
         if entry.also:
-            extras = ", ".join(other.source for other in entry.also)
+            extras = ", ".join(presented_source_name(other, source_lookup) for other in entry.also)
             description = clean_text((description + " " if description else "") + f"Også publiceret på {extras}.")
         if description:
             ET.SubElement(node, "description").text = description
@@ -4553,6 +4554,65 @@ def esc(value: str) -> str:
     return html.escape(value or "", quote=True)
 
 
+def source_presentation(
+    sources: list[dict], statuses: list[SourceStatus], ui_config: dict,
+    now: datetime | None = None,
+) -> tuple[list[dict], list[SourceStatus], dict[str, dict], dict[str, str]]:
+    """Saml myndigheder fra ikrafttrædelsesdagen uden at ændre crawl/arkiv/cache.
+
+    Gamle kildeidentiteter forbliver stabile; kun den offentlige kildeliste og
+    filtreringen samles. Historiske kort beholder deres oprindelige afsender.
+    """
+    today = (now or datetime.now(timezone.utc)).astimezone(ZoneInfo("Europe/Copenhagen")).date()
+    lookup = {source["name"]: dict(source) for source in sources}
+    status_lookup = {status.name: status for status in statuses}
+    display_sources = list(lookup.values())
+    display_statuses = list(statuses)
+    aliases: dict[str, str] = {}
+    for transition in ui_config.get("authority_transitions", []):
+        effective = datetime.fromisoformat(transition["effective_from"]).date()
+        if today < effective:
+            continue
+        members = transition["sources"]
+        if not members or any(name not in lookup for name in members):
+            raise ValueError("En myndighedssammenlægning refererer til en ukendt kilde.")
+        name = transition["name"]
+        group = dict(lookup[members[0]], name=name)
+        group["home_url"] = transition.get("home_url", group.get("home_url", ""))
+        for member in members:
+            lookup[member]["_filter_name"] = name
+            lookup[member]["_presentation_since"] = effective.isoformat()
+            aliases[member.casefold()] = name.casefold()
+        lookup[name] = group
+        display_sources = [source for source in display_sources if source["name"] not in members]
+        display_sources.append(group)
+        component_statuses = [status_lookup[member] for member in members if member in status_lookup]
+        combined = SourceStatus(name, group["home_url"])
+        for field in ("fresh_items", "archived_items", "listing_pages", "sitemap_files",
+                      "article_candidates", "article_fetches", "known_candidates_skipped", "accepted_new"):
+            setattr(combined, field, sum(getattr(status, field) for status in component_statuses))
+        combined.methods = list(dict.fromkeys(method for status in component_statuses for method in status.methods or []))
+        combined.public_warning = any(source_has_public_warning(status) for status in component_statuses)
+        combined.self_test = "warn" if combined.public_warning else "pass"
+        for status in component_statuses:
+            if source_has_public_warning(status):
+                combined.self_test_notes.extend(f"{status.name}: {note}" for note in status.self_test_notes or [])
+                combined.errors.extend(f"{status.name}: {error}" for error in status.errors or [])
+        if component_statuses and not any(source_crawl_ok(status) for status in component_statuses):
+            combined.self_test = "fail"
+        display_statuses = [status for status in display_statuses if status.name not in members]
+        display_statuses.append(combined)
+    return display_sources, display_statuses, lookup, aliases
+
+
+def presented_source_name(item: Item, source_lookup: dict[str, dict]) -> str:
+    source = source_lookup.get(item.source, {})
+    since = source.get("_presentation_since")
+    if since and item.published.astimezone(ZoneInfo("Europe/Copenhagen")).date().isoformat() >= since:
+        return source.get("_filter_name", item.source)
+    return item.source
+
+
 def display_entry_payload(entry: DisplayEntry, source_lookup: dict[str, dict]) -> dict:
     """Kompakt, sikker kortmodel til både den første HTML og de opdelte årsarkiver."""
     item = entry.primary
@@ -4563,21 +4623,23 @@ def display_entry_payload(entry: DisplayEntry, source_lookup: dict[str, dict]) -
     first_seen = (item.first_seen_at or item.published).astimezone(timezone.utc).isoformat()
     article_type = infer_article_type(item, source_lookup.get(item.source))
     all_sources = [item.source, *(other.source for other in entry.also)]
+    filter_sources = list(dict.fromkeys(source_lookup.get(name, {}).get("_filter_name", name) for name in all_sources))
+    searchable_sources = list(dict.fromkeys([*all_sources, *filter_sources]))
     responsible_ministry = clean_text(str(source_lookup.get(item.source, {}).get("responsible_ministry", "")))
     return {
         "id": article_id,
         "aliases": " ".join(browser_seen_alias_ids(item.url)),
         "published": item.published.isoformat(),
         "first_seen": first_seen,
-        "sources": "|".join(source.casefold() for source in all_sources),
-        "search": " ".join([*all_sources, responsible_ministry, item.title, description, article_type]).casefold(),
-        "source": item.source,
+        "sources": "|".join(source.casefold() for source in filter_sources),
+        "search": " ".join([*searchable_sources, responsible_ministry, item.title, description, article_type]).casefold(),
+        "source": presented_source_name(item, source_lookup),
         "type": article_type,
         "date": fmt_date_da(item.published),
         "title": item.title,
         "description": description,
         "url": item.url,
-        "also": [{"source": other.source, "url": other.url} for other in entry.also],
+        "also": [{"source": presented_source_name(other, source_lookup), "url": other.url} for other in entry.also],
     }
 
 
@@ -4638,8 +4700,10 @@ def build_html(
     goatcounter_code: str = "",
     ui_config: dict | None = None,
     archive_shards: list[dict] | None = None,
+    presentation_at: datetime | None = None,
 ) -> str:
     ui_config = ui_config or {}
+    sources, statuses, source_lookup, source_aliases = source_presentation(sources, statuses, ui_config, presentation_at)
     site_name = clean_text(str(ui_config.get("site_name", "Ministerienyt"))) or "Ministerienyt"
     site_kind = clean_text(str(ui_config.get("site_kind", "ministries"))).casefold()
     agency_mode = site_kind == "agencies"
@@ -4684,18 +4748,22 @@ def build_html(
     contact_name = "Jakob Flintegaard Rud"
     contact_email = "jakob@rud.net"
     ministries = sorted((source["name"] for source in sources), key=str.casefold)
-    source_lookup = {source["name"]: source for source in sources}
     status_lookup = {status.name: status for status in statuses}
     raw_counts = Counter()
     content_types_by_source: dict[str, set[str]] = {}
     for entry in entries:
-        raw_counts[entry.primary.source] += 1
+        primary_source = source_lookup.get(entry.primary.source, {}).get("_filter_name", entry.primary.source)
+        raw_counts[primary_source] += 1
         primary_type = infer_article_type(entry.primary, source_lookup.get(entry.primary.source)) or "Nyhed"
-        content_types_by_source.setdefault(entry.primary.source, set()).add(primary_type)
+        content_types_by_source.setdefault(primary_source, set()).add(primary_type)
+        counted_sources = {primary_source}
         for extra in entry.also:
-            raw_counts[extra.source] += 1
+            extra_source = source_lookup.get(extra.source, {}).get("_filter_name", extra.source)
+            if extra_source not in counted_sources:
+                raw_counts[extra_source] += 1
+                counted_sources.add(extra_source)
             extra_type = infer_article_type(extra, source_lookup.get(extra.source)) or "Nyhed"
-            content_types_by_source.setdefault(extra.source, set()).add(extra_type)
+            content_types_by_source.setdefault(extra_source, set()).add(extra_type)
     updated = datetime.now(timezone.utc)
     quality_warning_count = sum(1 for status in statuses if source_has_public_warning(status))
 
@@ -4887,11 +4955,13 @@ def build_html(
   const SEEN_KEY = {seen_key_json};
   const VISIT_KEY = {visit_key_json};
   const FAVORITES_KEY = {favorites_key_json};
+  const SOURCE_ALIASES = {source_aliases_json};
   const TOPICS_KEY = {topics_key_json};
   const PAGE_SIZE = {page_size};
   const ARCHIVE_TOTAL = {archive_total};
   const ARCHIVE_SHARDS = {archive_shards_json};
   const norm = value => (value || '').toLocaleLowerCase('da-DK').trim();
+  const currentSource = value => SOURCE_ALIASES[norm(value)] || norm(value);
   let previousIds = null;
   let lastVisit = null;
   let visibleLimit = PAGE_SIZE;
@@ -4907,7 +4977,7 @@ def build_html(
     if (raw) previousIds = new Set(JSON.parse(raw));
     lastVisit = localStorage.getItem(VISIT_KEY);
     const favRaw = localStorage.getItem(FAVORITES_KEY);
-    if (favRaw) favorites = new Set(JSON.parse(favRaw));
+    if (favRaw) favorites = new Set(JSON.parse(favRaw).map(currentSource));
     const topicsRaw = localStorage.getItem(TOPICS_KEY);
     if (topicsRaw) topics = JSON.parse(topicsRaw).map(norm).filter(Boolean).slice(0, 20);
   } catch (error) {
@@ -5364,12 +5434,12 @@ def build_html(
 
   const params = new URLSearchParams(location.search);
   const validFavoriteValues = new Set(favoriteBoxes.map(box => box.value));
-  const sharedFavorites = params.getAll('favorit').map(norm).filter(value => validFavoriteValues.has(value));
+  const sharedFavorites = params.getAll('favorit').map(currentSource).filter(value => validFavoriteValues.has(value));
   const sharedTopics = [...new Set(params.getAll('emne').map(norm).filter(Boolean))].slice(0, 20);
   if (sharedFavorites.length) favorites = new Set(sharedFavorites);
   if (sharedTopics.length) topics = sharedTopics;
   if (params.get('q')) search.value = params.get('q');
-  if (params.get('kilde')) sourceSelect.value = params.get('kilde');
+  if (params.get('kilde')) sourceSelect.value = currentSource(params.get('kilde'));
   if (params.get('nye') === '1') newOnly.setAttribute('aria-pressed', 'true');
   if (params.get('mine') === '1' && favorites.size) mineOnly.setAttribute('aria-pressed', 'true');
   if (params.get('emner') === '1' && topics.length) topicsOnly.setAttribute('aria-pressed', 'true');
@@ -5576,11 +5646,13 @@ def build_html(
         .replace('{seen_key_json}', json.dumps(f'{storage_namespace}.seenArticleIds.v2'))
         .replace('{visit_key_json}', json.dumps(f'{storage_namespace}.lastVisit.v2'))
         .replace('{favorites_key_json}', json.dumps(f'{storage_namespace}.favoriteSources.v1'))
+        .replace('{source_aliases_json}', json.dumps(source_aliases, ensure_ascii=False))
         .replace('{topics_key_json}', json.dumps('ministerienyt.savedTopics.v1')))
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.5</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.5.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.5.1</strong><ul><li>Medarbejder- og Kompetencestyrelsens officielle datofelt understøttes, så artikler fra 2025 frasorteres korrekt uden en misvisende bemærkning.</li><li>DMI og Klimadatastyrelsen vises fra 1. december 2026 som DMI, Kort og Grunddata. Begge arkiver hentes fortsat; historiske afsendere og favoritvalg bevares.</li></ul>'
         '<strong>v7.5</strong><ul><li>Footeren har fået “Om siden og kontakt” med en kort beskrivelse af Ministerienyt og Styrelsesnyt som et uafhængigt, uofficielt hobbyprojekt.</li><li>Kontaktoplysninger til Jakob Flintegaard Rud vises i et tilgængeligt dialogfelt med mail-link til jakob@rud.net.</li></ul>'
         '<strong>v7.4.4</strong><ul><li>VIVEs API prøves straks igen, hvis det svarer korrekt, men midlertidigt returnerer en tom resultatliste.</li><li>Et enkelt nulresultat bliver i den interne diagnostik og vises først som offentlig bemærkning, hvis næste kørsel også finder nul kandidater.</li></ul>'
         '<strong>v7.4.3</strong><ul><li>En enkelt total timeout bliver i den interne diagnostik og vises først offentligt, hvis næste kørsel også fejler; det fjerner Rigspolitiets misvisende engangsbemærkning.</li><li>En delvis fejl bliver intern, når en alternativ metode stadig leverer normal dækning; PETs fungerende sitemap giver derfor ikke en bemærkning på grund af en samtidig forsidetimeout.</li></ul>'
@@ -6098,8 +6170,10 @@ def main() -> int:
         status_output.parent.mkdir(parents=True, exist_ok=True)
         status_output.write_text(json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, source_lookup, config))
-    archive_shards = write_archive_shards(html_output.parent, display_entries, source_lookup)
+    presentation_at = datetime.now(timezone.utc)
+    _, _, display_lookup, _ = source_presentation(sources, statuses, config, presentation_at)
+    rss_output.write_bytes(build_rss(display_entries, args.site_url, args.feed_url, display_lookup, config))
+    archive_shards = write_archive_shards(html_output.parent, display_entries, display_lookup)
     html_output.write_text(
         build_html(
             display_entries, args.feed_url or "feed.xml", sources, statuses,
@@ -6108,6 +6182,7 @@ def main() -> int:
             goatcounter_code=str(config.get("goatcounter_code", "")),
             ui_config=config,
             archive_shards=archive_shards,
+            presentation_at=presentation_at,
         ),
         encoding="utf-8",
     )

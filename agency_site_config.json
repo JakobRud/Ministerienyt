@@ -25,5 +25,17 @@
   "source_retry_wait_seconds": 5,
   "alert_after_failures": 3,
   "footer_about": "Styrelsesnyt samler links til officielle kilder · Artikler åbner hos udgiveren.",
-  "footer_about_mobile": "Styrelsesnyt · officielle kilder · artikler åbner hos udgiveren"
+  "footer_about_mobile": "Styrelsesnyt · officielle kilder · artikler åbner hos udgiveren",
+  "authority_transitions": [
+    {
+      "name": "DMI, Kort og Grunddata",
+      "sources": [
+        "DMI",
+        "Klimadatastyrelsen"
+      ],
+      "effective_from": "2026-12-01",
+      "home_url": "https://www.dmi.dk/",
+      "official_notice": "https://www.kefm.dk/aktuelt/nyheder/2026/sep/dmi-og-klimadatastyrelsen-sammenlaegges-til-ny-styrelse"
+    }
+  ]
 }

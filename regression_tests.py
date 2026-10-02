@@ -1687,7 +1687,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         rows = soup.select("footer .footer-row")
         self.assertEqual(len(rows), 2)
-        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), "v7.5")
+        self.assertEqual(soup.select_one(".changelog > summary").get_text(strip=True), f"v{m.APP_VERSION}")
         self.assertEqual(
             soup.select_one("#about-contact-open .about-label-long").get_text(strip=True),
             "Om siden og kontakt",
@@ -1883,6 +1883,97 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIn("1 bemærkning", soup.select_one("#sources summary").get_text(" ", strip=True))
         self.assertIn("Bemærkning", soup.select_one("#sources tbody tr").get_text(" ", strip=True))
         self.assertIn("En hentemetode fejlede, men en anden lykkedes.", html)
+
+
+class AuthorityTransitionTests(unittest.TestCase):
+    def setUp(self):
+        self.sources = m.load_sources_config(Path(__file__).with_name("agency_sources.json"))
+        self.config = m.load_site_config(Path(__file__).with_name("agency_site_config.json"))
+        self.members = [source for source in self.sources if source["name"] in {"DMI", "Klimadatastyrelsen"}]
+        self.statuses = [m.SourceStatus(source["name"], source["home_url"], listing_pages=1, methods=["HTML"], self_test="pass") for source in self.members]
+        self.before = datetime.fromisoformat("2026-11-30T22:59:59+00:00")
+        self.after = datetime.fromisoformat("2026-11-30T23:00:00+00:00")
+        self.group = "DMI, Kort og Grunddata"
+
+    def item(self, source, date, suffix):
+        return m.Item(source, "En vigtig nyhed om klima og kort " + suffix, "https://www.dmi.dk/nyheder/" + suffix,
+                      datetime.fromisoformat(date + "T00:00:00+00:00"), "Manchet.", "stable-" + suffix,
+                      datetime.fromisoformat("2026-10-01T08:00:00+00:00"))
+
+    def test_merger_uses_danish_midnight_and_keeps_crawl_sources(self):
+        original = json.dumps(self.sources, sort_keys=True)
+        before, _, _, aliases = m.source_presentation(self.sources, self.statuses, self.config, self.before)
+        self.assertEqual(len(before), 79)
+        self.assertEqual(aliases, {})
+        after, _, lookup, aliases = m.source_presentation(self.sources, self.statuses, self.config, self.after)
+        self.assertEqual(len(after), 78)
+        self.assertEqual(sum(source["name"] == self.group for source in after), 1)
+        self.assertNotIn("DMI", [source["name"] for source in after])
+        self.assertNotIn("Klimadatastyrelsen", [source["name"] for source in after])
+        self.assertEqual(set(lookup), {source["name"] for source in self.sources} | {self.group})
+        self.assertEqual(aliases, {"dmi": self.group.casefold(), "klimadatastyrelsen": self.group.casefold()})
+        self.assertEqual(json.dumps(self.sources, sort_keys=True), original)
+
+    def test_history_ids_dates_and_shards_remain_stable(self):
+        old = self.item("DMI", "2026-11-15", "old")
+        new = self.item("Klimadatastyrelsen", "2026-12-01", "new")
+        _, _, lookup, _ = m.source_presentation(self.members, self.statuses, self.config, self.after)
+        payloads = [m.display_entry_payload(m.DisplayEntry(item), lookup) for item in [old, new]]
+        self.assertEqual([p["source"] for p in payloads], ["DMI", self.group])
+        for item, payload in zip([old, new], payloads):
+            self.assertEqual(payload["id"], item.article_id)
+            self.assertEqual(payload["published"], item.published.isoformat())
+            self.assertEqual(payload["first_seen"], item.first_seen_at.isoformat())
+            self.assertEqual(payload["url"], item.url)
+            self.assertEqual(payload["sources"], self.group.casefold())
+        entries = [m.DisplayEntry(old), m.DisplayEntry(new)]
+        with TemporaryDirectory() as tmp:
+            m.write_archive_shards(Path(tmp), entries, lookup)
+            shard = json.loads((Path(tmp) / "archive/2026.json").read_text())
+            self.assertEqual({p["id"] for p in shard["items"]}, {old.article_id, new.article_id})
+            self.assertTrue(all(p["sources"] == self.group.casefold() for p in shard["items"]))
+        rss = m.ET.fromstring(m.build_rss(entries, "https://example.dk/", "feed.xml", lookup, self.config))
+        self.assertEqual([node.findtext("source") for node in rss.findall("channel/item")], ["DMI", self.group])
+
+    def test_combined_source_count_filters_and_component_warning(self):
+        old = self.item("DMI", "2026-11-15", "old")
+        new = self.item("Klimadatastyrelsen", "2026-12-01", "new")
+        html = m.build_html([m.DisplayEntry(old), m.DisplayEntry(new)], "feed.xml", self.members, self.statuses,
+                            ui_config=self.config, presentation_at=self.after)
+        soup = BeautifulSoup(html, "html.parser")
+        self.assertEqual(len(soup.select("#source option")), 2)
+        self.assertEqual(len(soup.select(".favorite-option")), 1)
+        self.assertEqual(soup.select_one("#sources tbody tr").select("td")[3].get_text(strip=True), "2")
+        self.assertIn('"dmi": "dmi, kort og grunddata"', html)
+        self.assertIn("JSON.parse(favRaw).map(currentSource)", html)
+        self.assertIn("params.getAll('favorit').map(currentSource)", html)
+        self.assertIn("sourceSelect.value = currentSource(params.get('kilde'))", html)
+        self.statuses[0].self_test = "fail"
+        self.statuses[0].public_warning = True
+        self.statuses[0].errors = ["Liste kunne ikke hentes"]
+        _, grouped_statuses, _, _ = m.source_presentation(self.members, self.statuses, self.config, self.after)
+        self.assertTrue(m.source_has_public_warning(grouped_statuses[0]))
+        self.assertTrue(m.source_crawl_ok(grouped_statuses[0]))
+        self.assertEqual(grouped_statuses[0].errors, ["Klimadatastyrelsen: Liste kunne ikke hentes"])
+
+    def test_duplicate_story_is_counted_once_in_merged_source_row(self):
+        item = self.item("DMI", "2026-11-15", "duplicate")
+        extra = self.item("Klimadatastyrelsen", "2026-11-15", "duplicate-other")
+        html = m.build_html([m.DisplayEntry(item, [extra])], "feed.xml", self.members, self.statuses,
+                            ui_config=self.config, presentation_at=self.after)
+        soup = BeautifulSoup(html, "html.parser")
+        self.assertEqual(soup.select_one("#sources tbody tr").select("td")[3].get_text(strip=True), "1")
+
+    def test_medst_official_date_beats_year_in_title_and_body(self):
+        source = next(s for s in self.sources if s["name"] == "Medarbejder- og Kompetencestyrelsen")
+        soup = BeautifulSoup('<h1>Cirkulære om satsregulering pr. 1. januar 2026</h1>'
+                             '<li class="area-content__date"><time class="area-content__date-time" datetime="2025-12-19">19.12.2025</time></li>'
+                             '<p>Gælder fra 1. januar 2026.</p>', "html.parser")
+        date = m.date_from_soup(soup, source)
+        self.assertEqual(date.date().isoformat(), "2025-12-19")
+        self.assertLess(date, m.ARCHIVE_START)
+        soup.select_one("time")["datetime"] = "2026-10-01"
+        self.assertEqual(m.date_from_soup(soup, source).date().isoformat(), "2026-10-01")
 
 
 if __name__ == "__main__":
