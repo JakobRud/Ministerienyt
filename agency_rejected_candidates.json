@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-05T11:31:20.556564+00:00",
+  "generated_at": "2026-10-05T20:50:09.596414+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 510,
+  "total_rejected": 512,
   "summary_by_reason": {
     "before_archive_start": 499,
-    "missing_safe_publication_date": 1,
-    "source_filter_mismatch": 10
+    "missing_safe_publication_date": 2,
+    "source_filter_mismatch": 11
   },
   "rejected": [
     {
@@ -4999,12 +4999,21 @@
       "detected_date": "2022-04-21T06:58:16+00:00"
     },
     {
-      "source": "GEUS",
-      "title": "NewsPage test oktober",
-      "url": "https://www.geus.dk/om-geus/nyheder/nyhedsarkiv/newspage-test-oktober",
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Uvedkommende har fået adgang til borgeres CPR-oplysninger",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Uvedkommende-har-faaet-adgang-til-borgeres-CPR-oplysninger",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
+      "discovered_by": "Ny i Danmark API",
+      "detail": ""
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Uvedkommende har fået adgang til borgeres CPR-oplysninger",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Uvedkommende-har-faaet-adgang-til-borgeres-CPR-oplysninger",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Ny i Danmark API",
       "detail": ""
     },
     {
@@ -5096,6 +5105,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "SIRI har opdateret praksisnotat om formodningsreglen",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/SIRI-has-updated-practice-note-on-rule-of-presumption",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-10-05T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
