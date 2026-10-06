@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-06T18:19:48.586428+00:00",
+  "generated_at": "2026-10-06T22:59:54.570958+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 141,
+  "total_rejected": 135,
   "summary_by_reason": {
-    "before_archive_start": 140,
+    "before_archive_start": 134,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -846,66 +846,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-09-10T00:00:00+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Grønt lys til at politiet kan få udbetalt overarbejdstimer",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/groent-lys-til-at-politiet-kan-faa-udbetalt-overarbejdstimer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-07-02T10:00:00+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Opgavebeskrivelse for en samlet informationsindsats vedrørende oplysning til borgerne i forbindelse med folkeafstemning om retsforbeholdet",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/opgavebeskrivelse-for-en-samlet-informationsindsats-vedroerende-oplysning-til-borgerne-i-forbindelse-med-folkeafstemning-om-retsforbeholdet/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-07-06T15:06:32+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Overdragelsesforretning i Justitsministeriet kl. 14.30",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/overdragelsesforretning-i-justitsministeriet-kl-14-30-2/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-06-29T07:55:17+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Pressekontakt i sommerferien",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/pressekontakt-i-sommerferien-2/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-07-03T08:40:49+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Særlig indsatsgruppe mod syrienkrigere",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/saerlig-indsatsgruppe-mod-syrienkrigere/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-07-03T04:25:00+00:00"
-    },
-    {
-      "source": "Justitsministeriet",
-      "title": "Søren Pind ny justitsminister",
-      "url": "https://www.justitsministeriet.dk/pressemeddelelse/soeren-pind-ny-justitsminister/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2015-06-28T12:47:23+00:00"
     },
     {
       "source": "Skatte- og Vækstministeriet",
