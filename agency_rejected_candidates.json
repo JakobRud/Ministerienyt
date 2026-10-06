@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-05T20:50:09.596414+00:00",
+  "generated_at": "2026-10-06T00:52:32.943845+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 512,
+  "total_rejected": 510,
   "summary_by_reason": {
     "before_archive_start": 499,
-    "missing_safe_publication_date": 2,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -5000,24 +4999,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Uvedkommende har fået adgang til borgeres CPR-oplysninger",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Uvedkommende-har-faaet-adgang-til-borgeres-CPR-oplysninger",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Uvedkommende har fået adgang til borgeres CPR-oplysninger",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Uvedkommende-har-faaet-adgang-til-borgeres-CPR-oplysninger",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
       "reason": "source_filter_mismatch",
@@ -5088,6 +5069,16 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Uvedkommende har fået adgang til borgeres CPR-oplysninger",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Uvedkommende-har-faaet-adgang-til-borgeres-CPR-oplysninger",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-10-05T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Ændrede åbningstider for telefonisk betjening i Udlændingestyrelsen",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/04/%C3%86ndrede-%C3%A5bningstider-for-telefonisk-betjening-i-Udl%C3%A6ndingestyrelsen",
       "reason": "source_filter_mismatch",
@@ -5105,16 +5096,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "SIRI har opdateret praksisnotat om formodningsreglen",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/SIRI-has-updated-practice-note-on-rule-of-presumption",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-10-05T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
