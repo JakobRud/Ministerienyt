@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-06T11:14:38.623809+00:00",
+  "generated_at": "2026-10-06T18:19:48.586428+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 142,
+  "total_rejected": 141,
   "summary_by_reason": {
     "before_archive_start": 140,
-    "future_publication_date": 1,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1407,16 +1406,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-10-14T00:00:00+00:00"
-    },
-    {
-      "source": "By-, Land- og Transportministeriet",
-      "title": "Landkommuner får rød løber ved regelbøvl",
-      "url": "https://www.bltm.dk/nyheder/2026/landkommuner-faar-roed-loeber-ved-regelboevl",
-      "reason": "future_publication_date",
-      "reason_da": "Publiceringsdato ligger i fremtiden",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2026-10-06T12:09:20+00:00"
     },
     {
       "source": "Erhvervsministeriet",
