@@ -28,13 +28,14 @@ on:
       - "agency_alerts.json"
       - "agency_source_audit.json"
   schedule:
-    # Lette friskhedstjek i dansk tid: hver time kl. 06-18 samt kl. 21 og 00.
-    - cron: "7 6-18 * * *"
+    # Lette friskhedstjek hver halve time kl. 06-22 i dansk tid.
+    # Minut 17 og 47 giver flere forsøg uden at ramme starten af timen.
+    - cron: "17,47 6-22 * * *"
       timezone: "Europe/Copenhagen"
-    - cron: "7 0,21 * * *"
+    - cron: "17 0 * * *"
       timezone: "Europe/Copenhagen"
     # Kl. 03 køres den daglige dybere kontrol af aktive nyhedsarkiver og sitemaps.
-    - cron: "7 3 * * *"
+    - cron: "17 3 * * *"
       timezone: "Europe/Copenhagen"
     # Månedlig fuld audit: historiske ruter og sitemaps gennemtvinges uanset cache.
     - cron: "23 4 1 * *"
@@ -91,7 +92,7 @@ jobs:
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.full_audit }}" = "true" ]; then
             CRAWL_FLAG="--full-audit"
             echo "Kører manuelt valgt fuld kildeaudit."
-          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "17 3 * * *" ]; then
             echo "Kører dyb kildekontrol."
           else
             CRAWL_FLAG="--fast"
