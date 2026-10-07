@@ -1,4 +1,19 @@
-# Ministerienyt og Styrelsesnyt 7.5.1
+# Ministerienyt og Styrelsesnyt 7.5.2
+
+
+## Nyt i version 7.5.2
+
+- Lette friskhedstjek planlægges hvert 30. minut kl. 06–22, på minut 17 og 47, i dansk tid. Sidste daglige tjek er kl. 22.47.
+- Et ekstra let tjek køres kl. 00.17, den daglige dybere kontrol kl. 03.17 og den månedlige fulde audit fortsat kl. 04.23 den første dag i måneden.
+- Begge visninger opdateres ved hver gennemført kørsel. Statusberegningen følger den nye plan; en driftsbemærkning vises fortsat tidligst efter tre timer og mindst to udeblevne planlagte tjek.
+- Kildernes cache, crawlbegrænsninger og bevaring af arkivet fortsætter. En igangværende kørsel afbrydes ikke af næste planlagte forsøg.
+- GitHub Actions kan forsinke eller udelade planlagte kørsler. Flere forsøg giver flere muligheder for opdatering, men er ikke en garanti for en udgivelse hver halve time.
+
+Kontrol 7. oktober 2026: den eksisterende plan var hver time i dagtimerne, men de seneste døgn havde langt færre gennemførte kørsler. En planlagt kørsel stod også i `waiting`, før nogen trin var startet. Den offentlige status viser ikke en entydig årsag til denne ventetid. Den nye plan skal derfor vurderes ud fra de faktiske kørsler efter upload.
+
+Validering: 95 regressionstests bestået. Genereret JavaScript er syntakskontrolleret for begge visninger, og syv tidsplansscenarier er kontrolleret mod danske klokkeslæt, herunder skift til vinter- og sommertid.
+
+## Version 7.5.1
 
 Version 7.5.1 retter en misvisende kildebemærkning og forbereder den officielt annoncerede sammenlægning af DMI og Klimadatastyrelsen.
 
@@ -187,7 +202,7 @@ De to crawlerkørsler bruger samme gennemprøvede program, men forskellige konfi
 
 ## Drift
 
-Workflowet kører i dansk tid hver time kl. 06–18 samt kl. 21, 00 og 03. De almindelige kørsler og kørslen efter en upload er lette friskhedstjek; kl. 03 foretages en dybere kontrol. Den første dag i hver måned køres en fuld audit.
+Workflowet kører i dansk tid hver halve time kl. 06.17–22.47 samt kl. 00.17 og 03.17. De almindelige kørsler og kørslen efter en upload er lette friskhedstjek; kl. 03.17 foretages en dybere kontrol. Den første dag i hver måned køres en fuld audit kl. 04.23.
 
 Siden viser kun en diskret driftsbemærkning under **Kilder og dækning**, når der er gået mindst tre timer siden seneste opdatering, og mindst to planlagte kørsler ser ud til at være udeblevet. Der gives desuden 20 minutters afslutningstid til hver planlagt kørsel.
 

@@ -1487,11 +1487,11 @@ class IdentityAndSafetyTests(unittest.TestCase):
         updated = m.update_source_state(previous, [status])
         self.assertEqual(updated["sources"]["Testministeriet"]["last_full_candidate_count"], 120)
 
-    def test_workflow_uses_danish_time_and_light_hourly_checks(self):
+    def test_workflow_uses_danish_time_and_light_half_hourly_checks(self):
         workflow = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "7 6-18 * * *"', workflow)
-        self.assertIn('cron: "7 0,21 * * *"', workflow)
-        self.assertIn('cron: "7 3 * * *"', workflow)
+        self.assertIn('cron: "17,47 6-22 * * *"', workflow)
+        self.assertIn('cron: "17 0 * * *"', workflow)
+        self.assertIn('cron: "17 3 * * *"', workflow)
         self.assertGreaterEqual(workflow.count('timezone: "Europe/Copenhagen"'), 4)
         self.assertIn('CRAWL_FLAG="--fast"', workflow)
         self.assertIn('--sources agency_sources.json', workflow)

@@ -1,25 +1,25 @@
-# Opdatér til version 7.5.1
+# Opdatér til version 7.5.2
 
-1. Pak `Ministerienyt-7.5.1.zip` ud.
-2. Åbn roden af [Ministerienyt-repositoryet](https://github.com/JakobRud/Ministerienyt), vælg **Add file → Upload files**, og upload alle seks filer fra pakken:
+1. Pak `Ministerienyt-7.5.2.zip` ud.
+2. Åbn roden af [Ministerienyt-repositoryet](https://github.com/JakobRud/Ministerienyt), vælg **Add file → Upload files**, og upload disse fire filer:
 
    - `ministerier_nyheder.py`
-   - `agency_sources.json`
-   - `agency_site_config.json`
    - `regression_tests.py`
    - `README.md`
    - `TRIN-FOR-TRIN.md`
 
-3. Commit ændringerne til `main`. Den eksisterende Actions-kørsel bygger og udgiver siden.
-4. Kontrollér, at regressionstests og udgivelse bliver grønne, og at footeren viser **v7.5.1**.
-5. Åbn **Kilder og dækning** på Styrelsesnyt. Medarbejder- og Kompetencestyrelsen skal efter en vellykket kørsel stå **OK**, og de eksisterende 63 artikler er bevaret.
+3. Opdatér også den eksisterende **`.github/workflows/pages.yml`**. Åbn [workflowfilen på GitHub](https://github.com/JakobRud/Ministerienyt/blob/main/.github/workflows/pages.yml), vælg blyanten, og erstat hele indholdet med `pages.yml` fra pakkens `.github/workflows`-mappe. Commit til `main`. Filen skal ligge på denne sti, ikke i repositoryets rod. På computere, der skjuler mapper med punktum, kan du slå visning af skjulte filer til.
+4. Kontrollér under **Actions**, at den seneste kørsel bliver grøn, og at begge visninger viser **v7.5.2** i footeren.
+5. De lette tjek er nu planlagt kl. **xx.17 og xx.47 fra kl. 06 til 22**, samt kl. 00.17. Den dybere kontrol ligger kl. 03.17. Alle tider er danske, også efter skift til vintertid.
 
-Pakken indeholder kun de ændrede filer. Du skal ikke uploade eller erstatte artikelarkiver, statusfiler, workflow eller genererede HTML-filer.
+Pakken indeholder fem ændrede filer. Artikelarkiver, kildelister, konfiguration og genererede HTML-filer skal ikke erstattes.
 
-## Sammenlægningen den 1. december 2026
+## Hvis der stadig går mange timer mellem opdateringerne
 
-Der er ikke behov for en ny upload den dag. Første planlagte sideopbygning den 1. december eller senere samler DMI og Klimadatastyrelsen til **DMI, Kort og Grunddata** i kildeliste, kildefilter og favoritmenu.
+Se [Actions-kørslerne](https://github.com/JakobRud/Ministerienyt/actions). GitHub kan forsinke eller udelade planlagte kørsler, selv om planen er korrekt. En kørsel med status `waiting` er endnu ikke nødvendigvis begyndt at hente nyheder.
 
-Indtil da vises begge myndigheder som hidtil. Historiske artikler bevares med deres oprindelige afsender. Begge arkiver hentes fortsat, og gamle favoritvalg og delte links virker efter skiftet. Den samlede liste går fra 79 til 78 myndigheder.
+Hvis en kørsel bliver ved med at stå i `waiting`, åbn den og læs GitHubs konkrete besked. Kontrollér derefter **Settings → Environments → github-pages**, at `main` er tilladt, og at der ikke er utilsigtede godkendelseskrav. De offentlige oplysninger ved kontrollen viste ingen reviewere eller ventetimer, så der er ikke påvist et sådant krav.
 
-Den månedlige myndighedskontrol fortsætter. Når den nye myndigheds permanente nyhedsside er offentliggjort, bør crawlerens indgange kontrolleres.
+Du kan starte et almindeligt let tjek via **Actions → Opdater Ministerienyt og Styrelsesnyt → Run workflow**. Lad feltet for fuld audit være slået fra. Hvis også den manuelle kørsel venter, løser hyppigere tidsplaner ikke selve blokeringen.
+
+Advarslen på siden vises stadig først efter mindst tre timer. Tidsstemplet angiver den faktiske sideopbygning, også når der ikke er fundet nye artikler.
