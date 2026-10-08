@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-08T08:56:34.915390+00:00",
+  "generated_at": "2026-10-08T11:23:10.594276+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 163,
+  "total_rejected": 162,
   "summary_by_reason": {
-    "before_archive_start": 162,
+    "before_archive_start": 161,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -918,16 +918,6 @@
       "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2025-12-19T00:00:00+00:00"
-    },
-    {
-      "source": "Socialministeriet",
-      "title": "Bred aftale fordeler over 550 millioner kroner til udsatte borgere",
-      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/nov/bred-aftale-fordeler-over-550-millioner-kroner-til-udsatte-borgere",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-14T00:00:00+00:00"
     },
     {
       "source": "Socialministeriet",
