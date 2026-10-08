@@ -83,10 +83,10 @@
   },
   {
     "name": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
-    "home_url": "https://ufm.dk/",
+    "home_url": "https://fudm.dk/",
     "start_urls": [
-      "https://ufm.dk/aktuelt/nyheder",
-      "https://ufm.dk/aktuelt/pressemeddelelser"
+      "https://fudm.dk/aktuelt/nyheder",
+      "https://fudm.dk/aktuelt/pressemeddelelser"
     ],
     "article_prefixes": [
       "/aktuelt/nyheder/",
@@ -94,9 +94,12 @@
       "/digitalisering/nyheder/nyhedsarkiv/"
     ],
     "historical_start_urls": [
-      "https://ufm.dk/aktuelt/nyheder/2026",
-      "https://ufm.dk/aktuelt/pressemeddelelser/2026",
+      "https://fudm.dk/aktuelt/nyheder/2026",
+      "https://fudm.dk/aktuelt/pressemeddelelser/2026",
       "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026"
+    ],
+    "extra_hosts": [
+      "ufm.dk"
     ]
   },
   {

@@ -1,4 +1,20 @@
-# Ministerienyt og Styrelsesnyt 7.5.2
+# Ministerienyt og Styrelsesnyt 7.5.3
+
+
+## Rettet i version 7.5.3
+
+- Forsknings-, Uddannelses- og Digitaliseringsministeriets officielle nyheds-, presse- og årsarkiver hentes fra **fudm.dk**. De tidligere indgange på ufm.dk viderestiller nu til forsiden og gav kun fire kandidater mod tidligere 485.
+- Det tidligere Digitaliseringsministeriets supplerende arkiv bevares.
+- Alle 28 eksisterende UFM-artikelstier er genfundet i det officielle sitemap på fudm.dk. Deres links opdateres automatisk ved indlæsning af arkivet. Alle 32 artikler fra kilden, herunder fire fra digmin.dk, bevares med titel, dato, beskrivelse, artikel-ID og tidspunkt for første registrering.
+- De to domæner deler intern URL-identitet. Tidligere browsermarkeringer genkendes, så domæneskiftet ikke giver dubletter eller får gamle artikler til at fremstå som nyopdagede.
+- Tre datobemærkninger i den fulde kontrol stammede fra gamle artikler i årsarkiverne 2020–2022. Som ved sitemap-discovery frasorteres nu også HTML-kandidater med et eksplicit arkivår før 2026 inden artikelhentning. Et URL-år bruges ikke til at opfinde en publiceringsdato, og kontrollen af aktuelle artiklers datoer fortsætter.
+- Opdateringsplanen fra 7.5.2 fortsætter uændret.
+
+Validering: 97 regressionstests bestået, herunder domæneskift, bevarede artikeldata, tidligere læsemarkeringer og dubletkontrol.
+
+Live-kontrol 8. oktober 2026: fuld audit genkendte 486 kandidater og alle 32 eksisterende artikler, uden hentefejl, uventede viderestillinger eller offentlige bemærkninger. Samlet arkiv for kilden: 32 artikler.
+
+Officielle indgange: [nyheder](https://fudm.dk/aktuelt/nyheder/), [pressemeddelelser](https://fudm.dk/aktuelt/pressemeddelelser/) og [sitemap](https://fudm.dk/sitemap.xml).
 
 
 ## Nyt i version 7.5.2

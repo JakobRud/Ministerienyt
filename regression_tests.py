@@ -437,6 +437,53 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(m.canonical_url(origin_url), m.canonical_url(public_url))
         self.assertEqual(m.public_url_for_source(origin_url, source), public_url)
 
+    def test_fudm_domain_move_preserves_identity_and_repairs_archived_links(self):
+        source = next(s for s in m.load_sources_config(Path("sources.json")) if s["home_url"] == "https://fudm.dk/")
+        old_url = "https://ufm.dk/aktuelt/pressemeddelelser/2026/oktober/en-rigtig-nyhed/"
+        new_url = old_url.replace("ufm.dk", "fudm.dk")
+        self.assertTrue(m.looks_like_article(new_url, source))
+        self.assertEqual(m.canonical_url(old_url), m.canonical_url(new_url))
+        self.assertEqual(m.browser_seen_alias_ids(old_url), m.browser_seen_alias_ids(new_url))
+        raw = {
+            "source": source["name"], "title": "En rigtig nyhed fra ministeriet",
+            "url": old_url, "published": "2026-10-05T00:00:00+00:00",
+            "description": "Den oprindelige beskrivelse bevares.",
+            "article_id": "a6-original", "first_seen_at": "2026-10-06T12:00:00+00:00",
+        }
+        item = m.item_from_archive_dict(raw)
+        self.assertEqual(item.url, new_url)
+        self.assertEqual(item.article_id, raw["article_id"])
+        self.assertEqual(item.description, raw["description"])
+        self.assertEqual(item.first_seen_at.isoformat(), raw["first_seen_at"])
+        self.assertEqual(item.published.isoformat(), raw["published"])
+        current = m.Item(source["name"], item.title, new_url, item.published, item.description)
+        self.assertEqual(len(m.merge_archive([item], [current])), 1)
+        raw["url"] = "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026/jan/en-nyhed"
+        self.assertEqual(m.item_from_archive_dict(raw).url, raw["url"])
+
+    def test_old_archive_candidate_without_date_is_excluded_before_fetch(self):
+        source = {"name": "Testministeriet", "home_url": "https://example.dk/"}
+        original_fetch = m.fetch
+        previous_rejections = dict(m.REJECTED_CANDIDATES)
+        try:
+            def forbidden_fetch(*args, **kwargs):
+                self.fail("Et gammelt årsarkiv skal ikke hente artiklen for at finde en dato.")
+            m.fetch = forbidden_fetch
+            m.REJECTED_CANDIDATES.clear()
+            status = m.SourceStatus(source["name"], source["home_url"])
+            for year in (2020, 2021, 2022, 2025):
+                candidate = m.Candidate(f"https://example.dk/nyheder/{year}/juni/en-gammel-nyhed/", "En gammel nyhed uden datofelt")
+                self.assertIsNone(m.item_from_candidate(None, source, candidate, status))
+            self.assertEqual(status.article_fetches, 0)
+            self.assertTrue(all(row["reason"] == "before_archive_start" for row in m.REJECTED_CANDIDATES.values()))
+            status.methods.append("HTML")
+            status.article_candidates = 4
+            m.evaluate_source_self_test(status)
+            self.assertEqual(status.self_test, "pass")
+        finally:
+            m.fetch = original_fetch
+            m.REJECTED_CANDIDATES.clear(); m.REJECTED_CANDIDATES.update(previous_rejections)
+
     def test_feed_discovery_can_be_disabled_for_broken_feed(self):
         source = {
             "start_urls": ["https://example.dk/nyheder/"],
