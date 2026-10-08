@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-08T11:29:20.320976+00:00",
+  "generated_at": "2026-10-08T18:08:27.290071+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 504,
+  "total_rejected": 503,
   "summary_by_reason": {
     "before_archive_start": 493,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -4873,15 +4872,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Nyhed – Ny rapport om muligheder for håndtering af asbestholdigt materiale i eller på jord",
-      "url": "https://mst.dk/nyheder/2026/oktober/nyhed-ny-rapport-om-muligheder-for-haandtering-af-asbestholdigt-materiale-i-eller-paa-jord",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
