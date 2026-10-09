@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-10-09T11:26:24.454910+00:00",
+  "generated_at": "2026-10-09T17:40:37.687130+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 506,
+  "total_rejected": 503,
   "summary_by_reason": {
-    "before_archive_start": 494,
-    "missing_safe_publication_date": 2,
-    "source_filter_mismatch": 10
+    "before_archive_start": 492,
+    "source_filter_mismatch": 11
   },
   "rejected": [
     {
@@ -3121,7 +3120,7 @@
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/december/faa-overblik-over-fakturaprocessen/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-19T00:00:00+00:00"
     },
@@ -3394,16 +3393,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-05-22T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Periode 13.1 er åben",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/periode-131-er-aaben/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-01-14T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -3966,15 +3955,6 @@
       "source": "Statens It",
       "title": "Løsning til brugeradministration runder 10.000 brugere",
       "url": "https://statens-it.dk/nyhedsarkiv/2025/juli/loesning-til-brugeradministration-runder-10000-brugere/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Statens It",
-      "title": "Naturskadebasen - et samfundsvigtigt samarbejde",
-      "url": "https://statens-it.dk/nyhedsarkiv/2025/januar/naturskadebasen-et-samfundsvigtigt-samarbejde/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
@@ -4885,24 +4865,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Udlændingestyrelsen genoptager behandlingen af berosatte sager efter fejl i Kriminalregisteret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Udlaendingestyrelsen-genoptager-behandlingen-af-berosatte-sager-efter-fejl-i-Kriminalregisteret",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Udlændingestyrelsen genoptager behandlingen af berosatte sager efter fejl i Kriminalregisteret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Udlaendingestyrelsen-genoptager-behandlingen-af-berosatte-sager-efter-fejl-i-Kriminalregisteret",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
       "reason": "source_filter_mismatch",
@@ -4960,6 +4922,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-03T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Udlændingestyrelsen genoptager behandlingen af berosatte sager efter fejl i Kriminalregisteret",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Udlaendingestyrelsen-genoptager-behandlingen-af-berosatte-sager-efter-fejl-i-Kriminalregisteret",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-10-09T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
