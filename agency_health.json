@@ -1,6 +1,6 @@
 {
   "version": "7.5.3",
-  "updated_at": "2026-10-08T23:26:51.029835+00:00",
+  "updated_at": "2026-10-09T02:20:41.044045+00:00",
   "archive_start": "2026-01-01",
   "total_archive_items": 2701,
   "display_items_after_deduplication": 2690,
@@ -32,15 +32,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 4.555,
+      "crawl_seconds": 4.704,
       "last_published_at": "2026-10-02T00:00:00+00:00",
-      "days_since_last_publication": 6,
-      "median_publication_gap_days": 13.0,
+      "days_since_last_publication": 7,
+      "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
       "expected_candidate_count": 60.2,
       "candidate_volume_ratio": 0.831,
-      "expected_articles_30_days": 2.0,
+      "expected_articles_30_days": 1.7,
       "quality_flags": [],
       "methods": [
         "Verificeret ERST-arkiv",
@@ -50,8 +50,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Konkurrence- og Forbrugerstyrelsen",
@@ -80,9 +80,9 @@
         "https://www.kfst.dk/menu/presse/nyhedsarkiv -> https://kfst.dk/menu/presse/nyhedsarkiv"
       ],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.54,
+      "crawl_seconds": 3.476,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 7.0,
       "silence_threshold_days": 21,
       "silence_warning": false,
@@ -96,8 +96,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forbrugerombudsmanden",
@@ -123,9 +123,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.176,
+      "crawl_seconds": 2.59,
       "last_published_at": "2026-10-02T00:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": 3.5,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -139,8 +139,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Patent- og Varemærkestyrelsen",
@@ -166,9 +166,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.566,
+      "crawl_seconds": 4.688,
       "last_published_at": "2026-09-29T00:00:00+00:00",
-      "days_since_last_publication": 9,
+      "days_since_last_publication": 10,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -182,8 +182,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Søfartsstyrelsen",
@@ -209,9 +209,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 7.819,
+      "crawl_seconds": 7.871,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 7.0,
       "silence_threshold_days": 21,
       "silence_warning": false,
@@ -225,8 +225,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Nævnenes Hus",
@@ -252,9 +252,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.261,
+      "crawl_seconds": 3.03,
       "last_published_at": "2026-10-07T00:00:00+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 8.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -268,8 +268,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Fødevarestyrelsen",
@@ -295,9 +295,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 31.932,
+      "crawl_seconds": 38.939,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -311,8 +311,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Økonomistyrelsen",
@@ -338,9 +338,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.572,
+      "crawl_seconds": 2.068,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 7.5,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -354,8 +354,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Medarbejder- og Kompetencestyrelsen",
@@ -381,9 +381,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.78,
+      "crawl_seconds": 2.074,
       "last_published_at": "2026-10-06T00:00:00+00:00",
-      "days_since_last_publication": 2,
+      "days_since_last_publication": 3,
       "median_publication_gap_days": 1.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -397,8 +397,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Statens It",
@@ -424,15 +424,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.8,
+      "crawl_seconds": 2.826,
       "last_published_at": "2026-09-16T00:00:00+00:00",
-      "days_since_last_publication": 22,
+      "days_since_last_publication": 23,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
       "expected_candidate_count": 41.0,
       "candidate_volume_ratio": 0.244,
-      "expected_articles_30_days": 0.7,
+      "expected_articles_30_days": 0.3,
       "quality_flags": [],
       "methods": [
         "HTML"
@@ -440,8 +440,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Statens Administration",
@@ -467,9 +467,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.683,
+      "crawl_seconds": 2.154,
       "last_published_at": "2026-10-02T00:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -484,8 +484,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "DREAM",
@@ -511,9 +511,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.252,
+      "crawl_seconds": 2.367,
       "last_published_at": "2026-09-28T00:00:00+00:00",
-      "days_since_last_publication": 10,
+      "days_since_last_publication": 11,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -528,8 +528,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "VIVE",
@@ -555,9 +555,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 0.852,
+      "crawl_seconds": 1.171,
       "last_published_at": "2026-10-05T00:00:00+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": 2.5,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -571,8 +571,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Anklagemyndigheden",
@@ -598,9 +598,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.732,
+      "crawl_seconds": 2.975,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -614,8 +614,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Datatilsynet",
@@ -641,9 +641,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.691,
+      "crawl_seconds": 2.676,
       "last_published_at": "2026-10-07T10:04:21+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 1.5,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -658,8 +658,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Danmarks Domstole/Domstolsstyrelsen",
@@ -685,9 +685,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.593,
+      "crawl_seconds": 1.543,
       "last_published_at": "2026-10-05T00:00:00+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": false,
@@ -701,8 +701,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Danmarks Fængsler",
@@ -728,9 +728,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.342,
+      "crawl_seconds": 3.332,
       "last_published_at": "2026-10-02T04:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -744,8 +744,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Rigspolitiet/politi.dk",
@@ -771,9 +771,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 6.433,
+      "crawl_seconds": 11.689,
       "last_published_at": "2026-09-18T14:00:39+00:00",
-      "days_since_last_publication": 20,
+      "days_since_last_publication": 21,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -787,8 +787,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "PET",
@@ -814,9 +814,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.538,
+      "crawl_seconds": 2.105,
       "last_published_at": "2026-09-24T00:00:00+00:00",
-      "days_since_last_publication": 14,
+      "days_since_last_publication": 15,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -830,8 +830,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Den Uafhængige Politiklagemyndighed",
@@ -857,9 +857,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 6.353,
+      "crawl_seconds": 6.99,
       "last_published_at": "2026-09-01T00:00:00+00:00",
-      "days_since_last_publication": 37,
+      "days_since_last_publication": 38,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": true,
@@ -867,7 +867,7 @@
       "candidate_volume_ratio": 0.417,
       "expected_articles_30_days": 2.0,
       "quality_flags": [
-        "Ingen artikel i 37 dage; normal tærskel er 18 dage."
+        "Ingen artikel i 38 dage; normal tærskel er 18 dage."
       ],
       "methods": [
         "HTML",
@@ -876,8 +876,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Civilstyrelsen",
@@ -903,9 +903,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 7.422,
+      "crawl_seconds": 7.188,
       "last_published_at": "2026-10-07T00:00:00+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -919,8 +919,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Tilsynet med Efterretningstjenesterne",
@@ -946,9 +946,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 4.622,
+      "crawl_seconds": 5.424,
       "last_published_at": "2026-06-17T00:00:00+00:00",
-      "days_since_last_publication": 113,
+      "days_since_last_publication": 114,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -963,8 +963,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Folketingets Ombudsmand",
@@ -990,9 +990,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.919,
+      "crawl_seconds": 1.943,
       "last_published_at": "2026-08-28T00:00:00+00:00",
-      "days_since_last_publication": 41,
+      "days_since_last_publication": 42,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1004,8 +1004,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Rigsrevisionen",
@@ -1031,9 +1031,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.109,
+      "crawl_seconds": 2.407,
       "last_published_at": "2026-10-08T12:00:41+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -1048,8 +1048,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Uddannelses- og Forskningsstyrelsen",
@@ -1075,9 +1075,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.514,
+      "crawl_seconds": 1.949,
       "last_published_at": "2026-09-17T00:00:00+00:00",
-      "days_since_last_publication": 21,
+      "days_since_last_publication": 22,
       "median_publication_gap_days": 7.0,
       "silence_threshold_days": 21,
       "silence_warning": true,
@@ -1085,7 +1085,7 @@
       "candidate_volume_ratio": 0.25,
       "expected_articles_30_days": 2.7,
       "quality_flags": [
-        "Ingen artikel i 21 dage; normal tærskel er 21 dage."
+        "Ingen artikel i 22 dage; normal tærskel er 21 dage."
       ],
       "methods": [
         "HTML"
@@ -1093,8 +1093,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Digitaliseringsstyrelsen",
@@ -1120,9 +1120,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.894,
+      "crawl_seconds": 2.627,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1137,8 +1137,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Danmarks Statistik",
@@ -1164,15 +1164,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.471,
+      "crawl_seconds": 2.824,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 1.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
       "expected_candidate_count": 800.0,
       "candidate_volume_ratio": 0.05,
-      "expected_articles_30_days": 24.0,
+      "expected_articles_30_days": 23.0,
       "quality_flags": [],
       "methods": [
         "HTML"
@@ -1180,8 +1180,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "CPR",
@@ -1207,9 +1207,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.652,
+      "crawl_seconds": 2.996,
       "last_published_at": "2026-10-05T00:00:00+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1224,8 +1224,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Energistyrelsen",
@@ -1251,9 +1251,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.661,
+      "crawl_seconds": 2.238,
       "last_published_at": "2026-10-07T05:07:19+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1267,8 +1267,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Geodatastyrelsen",
@@ -1294,9 +1294,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 5.997,
+      "crawl_seconds": 6.212,
       "last_published_at": "2026-10-01T00:00:00+00:00",
-      "days_since_last_publication": 7,
+      "days_since_last_publication": 8,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1310,8 +1310,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Klimadatastyrelsen",
@@ -1337,9 +1337,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 4.424,
+      "crawl_seconds": 5.25,
       "last_published_at": "2026-09-25T00:00:00+00:00",
-      "days_since_last_publication": 13,
+      "days_since_last_publication": 14,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1353,8 +1353,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forsyningstilsynet",
@@ -1380,15 +1380,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 8.605,
+      "crawl_seconds": 7.623,
       "last_published_at": "2026-10-02T00:00:00+00:00",
-      "days_since_last_publication": 6,
-      "median_publication_gap_days": 4.5,
-      "silence_threshold_days": 14,
+      "days_since_last_publication": 7,
+      "median_publication_gap_days": 4.0,
+      "silence_threshold_days": 12,
       "silence_warning": false,
       "expected_candidate_count": 33.4,
       "candidate_volume_ratio": 1.048,
-      "expected_articles_30_days": 3.7,
+      "expected_articles_30_days": 3.3,
       "quality_flags": [],
       "methods": [
         "Sitemap"
@@ -1396,8 +1396,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "GEUS",
@@ -1423,9 +1423,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 13.973,
+      "crawl_seconds": 15.732,
       "last_published_at": "2026-09-30T00:00:00+00:00",
-      "days_since_last_publication": 8,
+      "days_since_last_publication": 9,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -1439,8 +1439,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "DMI",
@@ -1466,9 +1466,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 11.152,
+      "crawl_seconds": 5.324,
       "last_published_at": "2026-09-25T00:00:00+00:00",
-      "days_since_last_publication": 13,
+      "days_since_last_publication": 14,
       "median_publication_gap_days": 3.5,
       "silence_threshold_days": 10,
       "silence_warning": true,
@@ -1476,7 +1476,7 @@
       "candidate_volume_ratio": 1.0,
       "expected_articles_30_days": 6.7,
       "quality_flags": [
-        "Ingen artikel i 13 dage; normal tærskel er 10 dage."
+        "Ingen artikel i 14 dage; normal tærskel er 10 dage."
       ],
       "methods": [
         "HTML"
@@ -1484,8 +1484,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Banedanmark",
@@ -1511,9 +1511,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.688,
+      "crawl_seconds": 2.035,
       "last_published_at": "2026-10-06T00:00:00+00:00",
-      "days_since_last_publication": 2,
+      "days_since_last_publication": 3,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -1527,8 +1527,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Bygningsstyrelsen",
@@ -1554,9 +1554,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.755,
+      "crawl_seconds": 2.574,
       "last_published_at": "2026-10-02T00:00:00+00:00",
-      "days_since_last_publication": 6,
+      "days_since_last_publication": 7,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1571,8 +1571,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Færdselsstyrelsen",
@@ -1598,9 +1598,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.364,
+      "crawl_seconds": 3.629,
       "last_published_at": "2026-10-01T07:03:39+00:00",
-      "days_since_last_publication": 7,
+      "days_since_last_publication": 8,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -1615,8 +1615,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Plan- og Landdistriktsstyrelsen",
@@ -1642,9 +1642,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.706,
+      "crawl_seconds": 2.49,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -1659,8 +1659,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Trafikstyrelsen",
@@ -1686,9 +1686,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.168,
+      "crawl_seconds": 3.511,
       "last_published_at": "2026-10-08T13:27:19+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": false,
@@ -1703,8 +1703,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Vejdirektoratet",
@@ -1730,9 +1730,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 10.374,
+      "crawl_seconds": 11.509,
       "last_published_at": "2026-10-07T13:09:12+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -1746,8 +1746,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Hjemrejsestyrelsen",
@@ -1773,9 +1773,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.658,
+      "crawl_seconds": 2.022,
       "last_published_at": "2026-09-11T00:00:00+00:00",
-      "days_since_last_publication": 27,
+      "days_since_last_publication": 28,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1789,8 +1789,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for International Rekruttering og Integration",
@@ -1816,9 +1816,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 11.989,
+      "crawl_seconds": 13.507,
       "last_published_at": "2026-10-05T00:00:00+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -1832,8 +1832,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Udlændingestyrelsen",
@@ -1859,9 +1859,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 10.482,
+      "crawl_seconds": 12.492,
       "last_published_at": "2026-10-05T00:00:00+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": 8.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1875,8 +1875,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for It og Læring",
@@ -1904,9 +1904,9 @@
         "https://www.stil.dk/aktuelt -> https://stil.dk/aktuelt"
       ],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.189,
+      "crawl_seconds": 2.948,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1920,8 +1920,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Arbejdstilsynet",
@@ -1947,9 +1947,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.508,
+      "crawl_seconds": 2.914,
       "last_published_at": "2026-10-07T00:00:00+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 9.5,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -1963,8 +1963,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for Arbejdsmarked og Rekruttering",
@@ -1990,9 +1990,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.067,
+      "crawl_seconds": 2.126,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -2006,8 +2006,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Det Nationale Forskningscenter for Arbejdsmiljø",
@@ -2033,9 +2033,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.229,
+      "crawl_seconds": 1.538,
       "last_published_at": "2026-10-04T00:00:00+00:00",
-      "days_since_last_publication": 4,
+      "days_since_last_publication": 5,
       "median_publication_gap_days": 5.0,
       "silence_threshold_days": 15,
       "silence_warning": false,
@@ -2049,8 +2049,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forsvaret/Forsvarskommandoen",
@@ -2076,15 +2076,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.016,
+      "crawl_seconds": 3.495,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 1.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
       "expected_candidate_count": 50.0,
       "candidate_volume_ratio": 1.0,
-      "expected_articles_30_days": 29.3,
+      "expected_articles_30_days": 29.0,
       "quality_flags": [],
       "methods": [
         "Officiel ListPage API",
@@ -2093,8 +2093,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Hjemmeværnet",
@@ -2120,9 +2120,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.19,
+      "crawl_seconds": 2.788,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -2136,8 +2136,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forsvarets Efterretningstjeneste",
@@ -2163,9 +2163,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.598,
+      "crawl_seconds": 2.731,
       "last_published_at": "2026-09-24T00:00:00+00:00",
-      "days_since_last_publication": 14,
+      "days_since_last_publication": 15,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2180,8 +2180,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forsvarsministeriets Materiel- og Indkøbsstyrelse",
@@ -2207,9 +2207,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.605,
+      "crawl_seconds": 2.769,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -2224,8 +2224,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Forsvarsministeriets Auditørkorps",
@@ -2251,9 +2251,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.431,
+      "crawl_seconds": 2.783,
       "last_published_at": "2026-06-30T00:00:00+00:00",
-      "days_since_last_publication": 100,
+      "days_since_last_publication": 101,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2268,8 +2268,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Skattestyrelsen",
@@ -2295,9 +2295,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.986,
+      "crawl_seconds": 2.124,
       "last_published_at": "2026-09-30T00:00:00+00:00",
-      "days_since_last_publication": 8,
+      "days_since_last_publication": 9,
       "median_publication_gap_days": 3.5,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -2311,8 +2311,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Vurderingsstyrelsen",
@@ -2338,9 +2338,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.606,
+      "crawl_seconds": 1.852,
       "last_published_at": "2026-09-07T00:00:00+00:00",
-      "days_since_last_publication": 31,
+      "days_since_last_publication": 32,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2354,8 +2354,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Motorstyrelsen",
@@ -2381,9 +2381,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.638,
+      "crawl_seconds": 1.894,
       "last_published_at": "2026-09-25T00:00:00+00:00",
-      "days_since_last_publication": 13,
+      "days_since_last_publication": 14,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2397,8 +2397,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Gældsstyrelsen",
@@ -2424,9 +2424,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.668,
+      "crawl_seconds": 1.792,
       "last_published_at": "2026-10-07T00:00:00+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2440,8 +2440,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Toldstyrelsen",
@@ -2467,9 +2467,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.758,
+      "crawl_seconds": 1.905,
       "last_published_at": "2026-09-11T00:00:00+00:00",
-      "days_since_last_publication": 27,
+      "days_since_last_publication": 28,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2483,8 +2483,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Spillemyndigheden",
@@ -2510,9 +2510,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.025,
+      "crawl_seconds": 2.265,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": false,
@@ -2526,8 +2526,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Finanstilsynet",
@@ -2553,9 +2553,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 3.125,
+      "crawl_seconds": 3.318,
       "last_published_at": "2026-10-07T07:00:40+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -2570,8 +2570,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Udviklings- og Forenklingsstyrelsen",
@@ -2597,9 +2597,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.468,
+      "crawl_seconds": 1.855,
       "last_published_at": "2026-08-25T00:00:00+00:00",
-      "days_since_last_publication": 44,
+      "days_since_last_publication": 45,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2613,8 +2613,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "It-tilsynet",
@@ -2640,9 +2640,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.333,
+      "crawl_seconds": 1.567,
       "last_published_at": "2026-09-10T00:00:00+00:00",
-      "days_since_last_publication": 28,
+      "days_since_last_publication": 29,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2656,8 +2656,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Lægemiddelstyrelsen",
@@ -2683,9 +2683,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.925,
+      "crawl_seconds": 3.063,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 3.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -2700,8 +2700,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Sundhedsstyrelsen",
@@ -2727,9 +2727,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.213,
+      "crawl_seconds": 1.643,
       "last_published_at": "2026-10-01T04:00:00+00:00",
-      "days_since_last_publication": 7,
+      "days_since_last_publication": 8,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2743,8 +2743,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for Patientsikkerhed",
@@ -2772,9 +2772,9 @@
         "https://stps.dk/da/nyheder -> https://stps.dk/nyt-fra-styrelsen-for-patientsikkerhed"
       ],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.687,
+      "crawl_seconds": 3.007,
       "last_published_at": "2026-10-05T12:38:58+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2789,8 +2789,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Sundhedsdatastyrelsen",
@@ -2816,9 +2816,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.245,
+      "crawl_seconds": 7.575,
       "last_published_at": "2026-10-05T08:02:47+00:00",
-      "days_since_last_publication": 3,
+      "days_since_last_publication": 4,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2833,8 +2833,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Statens Serum Institut",
@@ -2860,9 +2860,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.7,
+      "crawl_seconds": 3.162,
       "last_published_at": "2026-10-07T00:00:00+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 4.5,
       "silence_threshold_days": 14,
       "silence_warning": false,
@@ -2876,8 +2876,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for Patientklager",
@@ -2903,9 +2903,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.542,
+      "crawl_seconds": 2.204,
       "last_published_at": "2026-06-03T00:00:00+00:00",
-      "days_since_last_publication": 127,
+      "days_since_last_publication": 128,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -2919,8 +2919,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
@@ -2946,15 +2946,15 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 6.33,
+      "crawl_seconds": 6.517,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
       "expected_candidate_count": 145.8,
       "candidate_volume_ratio": 1.07,
-      "expected_articles_30_days": 20.0,
+      "expected_articles_30_days": 19.7,
       "quality_flags": [],
       "methods": [
         "Sitemap"
@@ -2962,8 +2962,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Naturstyrelsen",
@@ -2989,9 +2989,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.712,
+      "crawl_seconds": 2.408,
       "last_published_at": "2026-10-07T09:14:21+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -3005,8 +3005,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Slots- og Kulturstyrelsen",
@@ -3032,9 +3032,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 25.233,
+      "crawl_seconds": 32.352,
       "last_published_at": "2026-07-25T00:00:00+00:00",
-      "days_since_last_publication": 75,
+      "days_since_last_publication": 76,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -3048,8 +3048,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Rigsarkivet",
@@ -3075,9 +3075,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 0.868,
+      "crawl_seconds": 1.055,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 6.0,
       "silence_threshold_days": 18,
       "silence_warning": false,
@@ -3091,8 +3091,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Dansk Sprognævn",
@@ -3118,9 +3118,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.731,
+      "crawl_seconds": 2.428,
       "last_published_at": "2026-10-06T00:00:00+00:00",
-      "days_since_last_publication": 2,
+      "days_since_last_publication": 3,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -3134,8 +3134,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Styrelsen for Samfundssikkerhed",
@@ -3161,9 +3161,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.837,
+      "crawl_seconds": 4.6,
       "last_published_at": "2026-10-06T00:00:00+00:00",
-      "days_since_last_publication": 2,
+      "days_since_last_publication": 3,
       "median_publication_gap_days": 6.5,
       "silence_threshold_days": 20,
       "silence_warning": false,
@@ -3178,8 +3178,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Beredskabsstyrelsen",
@@ -3205,9 +3205,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.882,
+      "crawl_seconds": 3.048,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 10.5,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -3222,8 +3222,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Dansk Dekommissionering",
@@ -3249,9 +3249,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 4.622,
+      "crawl_seconds": 4.761,
       "last_published_at": "2026-10-07T11:39:21+00:00",
-      "days_since_last_publication": 1,
+      "days_since_last_publication": 2,
       "median_publication_gap_days": 9.0,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -3266,8 +3266,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Ankestyrelsen",
@@ -3293,9 +3293,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.513,
+      "crawl_seconds": 3.257,
       "last_published_at": "2026-09-30T13:15:55+00:00",
-      "days_since_last_publication": 8,
+      "days_since_last_publication": 9,
       "median_publication_gap_days": 4.0,
       "silence_threshold_days": 12,
       "silence_warning": false,
@@ -3310,8 +3310,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Social- og Boligstyrelsen",
@@ -3337,9 +3337,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 7.69,
+      "crawl_seconds": 7.374,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -3353,8 +3353,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Familieretshuset",
@@ -3380,9 +3380,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 2.106,
+      "crawl_seconds": 2.501,
       "last_published_at": "2026-10-08T00:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": null,
       "silence_threshold_days": null,
       "silence_warning": false,
@@ -3396,8 +3396,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     },
     {
       "name": "Miljøstyrelsen",
@@ -3423,9 +3423,9 @@
       "date_pattern_warning": "",
       "redirects": [],
       "unexpected_redirects": [],
-      "crawl_seconds": 1.968,
+      "crawl_seconds": 3.178,
       "last_published_at": "2026-10-08T12:00:00+00:00",
-      "days_since_last_publication": 0,
+      "days_since_last_publication": 1,
       "median_publication_gap_days": 2.0,
       "silence_threshold_days": 10,
       "silence_warning": false,
@@ -3439,8 +3439,8 @@
       "errors": [],
       "crawl_ok": true,
       "ok": true,
-      "last_checked_at": "2026-10-08T23:26:51.029835+00:00",
-      "last_successful_at": "2026-10-08T23:26:51.029835+00:00"
+      "last_checked_at": "2026-10-09T02:20:41.044045+00:00",
+      "last_successful_at": "2026-10-09T02:20:41.044045+00:00"
     }
   ]
 }
