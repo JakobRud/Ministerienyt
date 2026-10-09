@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-09T17:35:03.619812+00:00",
+  "generated_at": "2026-10-09T21:54:37.975271+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 136,
+  "total_rejected": 135,
   "summary_by_reason": {
-    "before_archive_start": 135,
+    "before_archive_start": 134,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -1148,16 +1148,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-02T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Regeringen vil have nultolerance over for vold og grænseoverskridende adfærd i folkeskolen",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/november/251113-regeringen-vil-have-nultolerance-over-for-vold-og-graenseoverskridende-adfaerd-i-folkeskolen/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-13T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",

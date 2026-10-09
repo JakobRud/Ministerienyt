@@ -1,10 +1,11 @@
 {
-  "generated_at": "2026-10-09T17:40:37.687130+00:00",
+  "generated_at": "2026-10-09T21:59:53.496850+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 503,
   "summary_by_reason": {
     "before_archive_start": 492,
-    "source_filter_mismatch": 11
+    "missing_safe_publication_date": 1,
+    "source_filter_mismatch": 10
   },
   "rejected": [
     {
@@ -4864,6 +4865,15 @@
       "detected_date": "2022-04-21T06:58:16+00:00"
     },
     {
+      "source": "VIVE",
+      "title": "Ny forskning om inddragelse, lov og følelser bliver sat i gang",
+      "url": "https://www.vive.dk/da/nyheder-og-debat/2026/ny-forskning-om-inddragelse-lov-og-foelelser-bliver-sat-i-gang/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "VIVE nyheds-API",
+      "detail": ""
+    },
+    {
       "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
@@ -4922,16 +4932,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-03T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Udlændingestyrelsen genoptager behandlingen af berosatte sager efter fejl i Kriminalregisteret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Udlaendingestyrelsen-genoptager-behandlingen-af-berosatte-sager-efter-fejl-i-Kriminalregisteret",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-10-09T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
