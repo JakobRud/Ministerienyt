@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-09T21:59:53.496850+00:00",
+  "generated_at": "2026-10-10T01:55:02.332065+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 503,
+  "total_rejected": 502,
   "summary_by_reason": {
     "before_archive_start": 492,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -4863,15 +4862,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "VIVE",
-      "title": "Ny forskning om inddragelse, lov og følelser bliver sat i gang",
-      "url": "https://www.vive.dk/da/nyheder-og-debat/2026/ny-forskning-om-inddragelse-lov-og-foelelser-bliver-sat-i-gang/",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "VIVE nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
