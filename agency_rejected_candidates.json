@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-13T11:52:20.415112+00:00",
+  "generated_at": "2026-10-13T18:39:44.264315+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 503,
+  "total_rejected": 502,
   "summary_by_reason": {
     "before_archive_start": 492,
-    "source_filter_mismatch": 11
+    "source_filter_mismatch": 10
   },
   "rejected": [
     {
@@ -4952,16 +4952,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ny erhvervsordning hos SIRI fra 1. januar 2027 – den overenskomstbaserede beløbsordning",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Ny-erhvervsordning-hos-SIRI-fra-1_-januar-2027",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-10-13T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
