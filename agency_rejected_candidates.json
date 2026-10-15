@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-15T09:15:34.302343+00:00",
+  "generated_at": "2026-10-15T14:17:24.485584+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 504,
   "summary_by_reason": {
-    "before_archive_start": 495,
+    "before_archive_start": 494,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -2230,7 +2230,7 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2025-11-12T00:00:00+00:00"
+      "detected_date": "2025-11-28T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
@@ -2240,7 +2240,7 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2024-11-19T00:00:00+00:00"
+      "detected_date": "2024-12-05T00:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
@@ -2250,16 +2250,7 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": "",
-      "detected_date": "2024-05-07T00:00:00+00:00"
-    },
-    {
-      "source": "Nævnenes Hus",
-      "title": "Østre Landsret har afsagt dom i sagen om fredning af Stevns Klint",
-      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/2025/november/oestre-landsret-har-afsagt-dom-i-sagen-om-fredning-af-stevns-klint/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
+      "detected_date": "2024-05-14T00:00:00+00:00"
     },
     {
       "source": "Rigsarkivet",
