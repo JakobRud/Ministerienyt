@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-10-16T09:07:35.403607+00:00",
+  "generated_at": "2026-10-16T14:04:37.765258+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 500,
+  "total_rejected": 498,
   "summary_by_reason": {
-    "before_archive_start": 490,
+    "before_archive_start": 487,
+    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -57,15 +58,6 @@
       "source": "Beredskabsstyrelsen",
       "title": "Boligbrande topper i december",
       "url": "https://www.brs.dk/da/nyheder/2025/boligbrande-topper-i-december/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": ""
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "Flere solcelleanlæg betyder ikke nødvendigvis flere brande",
-      "url": "https://www.brs.dk/da/nyheder/2025/flere-solcelleanlag-betyder-ikke-nodvendigvis-flere-brande/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "Officiel ListPage API",
@@ -2161,15 +2153,6 @@
     },
     {
       "source": "Hjemrejsestyrelsen",
-      "title": "Ny vicedirektør til Hjemrejsestyrelsen",
-      "url": "https://hjemst.dk/nyheder/2023/januar/ny-vicedirektoer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Hjemrejsestyrelsen",
       "title": "Nye telefontider",
       "url": "https://hjemst.dk/nyheder/2025/april/aendring-i-aabne-lukketider/",
       "reason": "before_archive_start",
@@ -3464,16 +3447,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-06-20T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Reminder vedr. salgsprovenu på anlæg",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/reminder-vedr-salgsprovenu-paa-anlaeg/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-01-18T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -4843,6 +4816,15 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
+    },
+    {
+      "source": "Hjemrejsestyrelsen",
+      "title": "Telefonen er lukket fredag d. 16. oktober 2026",
+      "url": "https://hjemst.dk/nyheder/2026/oktober/telefonen-er-lukket-fredag-d-16-oktober-2026/",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "HTML",
+      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
