@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-18T21:37:58.855731+00:00",
+  "generated_at": "2026-10-19T00:31:39.363512+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 498,
+  "total_rejected": 499,
   "summary_by_reason": {
     "before_archive_start": 487,
     "missing_safe_publication_date": 1,
-    "source_filter_mismatch": 10
+    "source_filter_mismatch": 11
   },
   "rejected": [
     {
@@ -4835,6 +4835,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Den nationale sanktionsliste opdateret",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Den-nationale-sanktionsliste-opdateret",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-10-19T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
