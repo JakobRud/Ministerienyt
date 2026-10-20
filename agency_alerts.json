@@ -1,6 +1,16 @@
 {
-  "generated_at": "2026-10-20T18:54:53.672492+00:00",
+  "generated_at": "2026-10-20T22:04:19.517573+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Banedanmark",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://www.bane.dk/da/Presse/Pressemeddelelser: HTTPSConnectionPool(host='www.bane.dk', port=443): Max retries exceeded with url: /da/Presse/Pressemeddelelser (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.bane.dk', port=443) at 0x7ff06a2f4620>, 'Connection to www.bane.dk timed out. (connect timeout=12)'))"
+      ]
+    }
+  ]
 }
