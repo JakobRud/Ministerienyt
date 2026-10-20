@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-20T09:31:55.099303+00:00",
+  "generated_at": "2026-10-20T14:39:48.919002+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 497,
+  "total_rejected": 496,
   "summary_by_reason": {
-    "before_archive_start": 487,
+    "before_archive_start": 486,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -3435,16 +3435,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2023-09-27T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Regnskabserklæringen periode 12 og 13",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/regnskabserklaeringen-periode-12-og-13/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-01-19T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
