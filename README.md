@@ -1,4 +1,19 @@
-# Ministerienyt og Styrelsesnyt 7.5.3
+# Ministerienyt og Styrelsesnyt 7.5.4
+
+
+## Nyt i version 7.5.4
+
+- Banedanmarks egen pressekanal hos Via Ritzau (publisher 13562702) supplerer nu den eksisterende nyhedsoversigt på bane.dk. Den hentes ved hver kørsel gennem den allerede understøttede officielle presse-API.
+- Et svar indeholder op til 100 poster, så det nuværende pressearkiv kan kontrolleres med ét API-kald. Kun allerede publicerede artikler fra 2026 eller senere indgår, med API'ets officielle dato, titel og beskrivelse.
+- Banedanmarks hjemmeside og nyheder uden for Via Ritzau kontrolleres fortsat. Den nye indgang erstatter ikke bane.dk.
+- Eksisterende artikler bevares. Ved genkendte genpubliceringer bevares deres artikel-ID, oprindelige dato og første registrering; kildelinket kan blive det fungerende Via Ritzau-link. Adskilte udgivelser bevares som hidtil.
+- Der skjules ingen reel kildefejl: Hvis bane.dk er utilgængelig, og Via Ritzau kun leverer en del af den forventede dækning, bliver bemærkningen stående. Fejlen hos Banedanmark kan ikke repareres med en ændring i Ministerienyt.
+
+Kontrol 21. oktober 2026: Banedanmarks hjemmeside og nyhedsoversigt kunne ikke hentes (forbindelsestimeout/HTTP 503). Den officielle Via Ritzau-kanal svarede og indeholdt 47 pressemeddelelser fra 2026. Siden havde i forvejen 58 Banedanmark-artikler. Efter sammenlægning med den supplerende kanal er der 80 arkivposter: 22 tilføjes, og alle 58 eksisterende artikel-ID’er, oprindelige datoer og tidspunkter for første registrering er bevaret.
+
+Validering: 98 regressionstests bestået. En simuleret fejl på bane.dk kontrollerer, at API-stof hentes, at hjemmesiden fortsat forsøges, at den reelle dækningstab-bemærkning bevares, og at genpubliceringer ikke mister tidligere artikelidentitet.
+
+Officiel pressekanal: [Banedanmark hos Via Ritzau](https://via.ritzau.dk/nyhedsrum/13562702/banedanmark).
 
 
 ## Rettet i version 7.5.3

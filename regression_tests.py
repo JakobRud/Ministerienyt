@@ -1323,6 +1323,46 @@ class IdentityAndSafetyTests(unittest.TestCase):
         updated = m.update_source_state(state, [status])
         self.assertEqual(updated["sources"]["Testministeriet"]["expected_candidate_count"], 44.0)
 
+    def test_banedanmark_ritzau_supplements_failed_site_and_keeps_warning(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Banedanmark")
+        self.assertTrue(source["ritzau_supplemental"])
+        self.assertEqual(source["ritzau_pressroom_id"], 13562702)
+        payload = {"paging": {"count": 1}, "releases": [{
+            "date": "2026-10-19T10:46:26Z", "versions": {"da": {
+                "title": "Nu kører Svendborgbanen på digitalt signalsystem",
+                "url": "/release/15232600/signalsystem?publisherId=13562702&lang=da",
+                "metadescription": "Banedanmark har taget det nye signalsystem i brug.",
+            }},
+        }]}
+        calls = []
+        original_fetch = m.fetch
+        try:
+            def fake_fetch(session, url, **kwargs):
+                calls.append(url)
+                if "/pressroom/13562702/releases/" in url:
+                    return types.SimpleNamespace(json=lambda: payload)
+                raise RuntimeError("503 Service Unavailable")
+            m.fetch = fake_fetch
+            fresh, status = m.collect_source(None, source, set(), fast=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(len(fresh), 1)
+        self.assertEqual(fresh[0].source, "Banedanmark")
+        self.assertTrue(fresh[0].url.startswith("https://via.ritzau.dk/pressemeddelelse/15232600/"))
+        self.assertIn(source["start_urls"][0], calls)
+        self.assertIn("Via Ritzau API", status.methods)
+        self.assertTrue(status.errors)
+        m.evaluate_source_self_test(status, {"last_full_candidate_count": 105})
+        m.evaluate_source_public_warning(status, {"expected_candidate_count": 105})
+        self.assertTrue(status.public_warning)
+        old = m.with_item_identity(m.Item("Banedanmark", fresh[0].title,
+            "https://www.bane.dk/da/Presse/Pressemeddelelser/signalsystem",
+            datetime(2026, 10, 19, tzinfo=timezone.utc), "Eksisterende beskrivelse"))
+        merged = m.merge_archive([old], fresh)
+        self.assertEqual(len(merged), 1)
+        self.assertEqual(merged[0].article_id, old.article_id)
+        self.assertEqual(merged[0].first_seen_at, old.first_seen_at)
+
     def test_content_consistency_finds_banedanmark_style_mismatch(self):
         wrong = m.Item(
             "Banedanmark",
