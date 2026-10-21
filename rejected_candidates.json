@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-21T18:59:25.515389+00:00",
+  "generated_at": "2026-10-21T22:23:38.940546+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 150,
+  "total_rejected": 153,
   "summary_by_reason": {
-    "before_archive_start": 149,
+    "before_archive_start": 152,
     "missing_safe_publication_date": 1
   },
   "rejected": [
@@ -931,6 +931,16 @@
     },
     {
       "source": "Socialministeriet",
+      "title": "Forsøg med ledsageordning til borgere over 67 år med synshandicap fortsætter i 2026",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/forsoeg-med-ledsageordning-til-borgere-over-67-aar-med-synshandicap-fortsaetter-i-2026",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-12-03T00:00:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
       "title": "GladTeknik modtager årets handicappris",
       "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/gladteknik-modtager-aarets-handicappris",
       "reason": "before_archive_start",
@@ -948,6 +958,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-04T00:00:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Midler til et midlertidigt huslejetilskud skal følge antallet af hjemløse",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/nyhedsside",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-12-01T00:00:00+00:00"
     },
     {
       "source": "Socialministeriet",
@@ -1018,6 +1038,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-12T00:00:00+00:00"
+    },
+    {
+      "source": "Socialministeriet",
+      "title": "Social- og Boligministeriet satte fokus på Housing First under EU-seminar i København",
+      "url": "https://www.sm.dk/nyheder/nyhedsarkiv/2025/dec/social-og-boligministeriet-satte-fokus-paa-housing-first-under-eu-seminar-i-koebenhavn",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2025-12-02T00:00:00+00:00"
     },
     {
       "source": "Socialministeriet",

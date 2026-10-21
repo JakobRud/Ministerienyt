@@ -1,6 +1,16 @@
 {
-  "generated_at": "2026-10-21T19:14:57.376148+00:00",
+  "generated_at": "2026-10-21T22:39:22.948569+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://slks.dk/nyheder/: HTTPSConnectionPool(host='slks.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by NewConnectionError(\"HTTPSConnection(host='slks.dk', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+      ]
+    }
+  ]
 }

@@ -1,6 +1,16 @@
 {
-  "generated_at": "2026-10-21T18:59:29.312954+00:00",
+  "generated_at": "2026-10-21T22:23:42.339540+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Kulturministeriet",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://kum.dk/aktuelt/nyheder: HTTPSConnectionPool(host='kum.dk', port=443): Max retries exceeded with url: /aktuelt/nyheder (Caused by NewConnectionError(\"HTTPSConnection(host='kum.dk', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+      ]
+    }
+  ]
 }
