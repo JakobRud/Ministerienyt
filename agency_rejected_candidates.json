@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-22T09:42:49.491103+00:00",
+  "generated_at": "2026-10-22T14:57:35.228938+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 406,
+  "total_rejected": 417,
   "summary_by_reason": {
-    "before_archive_start": 405,
-    "missing_safe_publication_date": 1
+    "before_archive_start": 417
   },
   "rejected": [
     {
@@ -2132,15 +2131,6 @@
     },
     {
       "source": "Hjemrejsestyrelsen",
-      "title": "Ny vicedirektør til Hjemrejsestyrelsen",
-      "url": "https://hjemst.dk/nyheder/2023/januar/ny-vicedirektoer/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Hjemrejsestyrelsen",
       "title": "Nye telefontider",
       "url": "https://hjemst.dk/nyheder/2025/april/aendring-i-aabne-lukketider/",
       "reason": "before_archive_start",
@@ -2197,6 +2187,146 @@
       "detected_date": "2024-05-14T00:00:00+00:00"
     },
     {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "209 millioner kroner i bibliotekspenge er fordelt",
+      "url": "https://slks.dk/209-millioner-kroner-i-bibliotekspenge-er-fordelt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-07T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Bibliotekspenge bliver nogle dage forsinket for at sikre korrekte udbetalinger",
+      "url": "https://slks.dk/bibliotekspenge-bliver-nogle-dage-forsinket-for-at-sikre-korrekte-udbetalinger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-31T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "De 10 mest opsigtsvækkende arkæologiske fund i 2024",
+      "url": "https://slks.dk/de-10-mest-opsigtsvaekkende-arkaeologiske-fund-i-2024/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-01-29T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Forsker på Rigsarkivet modtager Kulturministeriets Forskningspris, Julius Bomholt-prisen",
+      "url": "https://slks.dk/forsker-paa-rigsarkivet-modtager-kulturministeriets-forskningspris-julius-bomholt-prisen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-02T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Gå på opdagelse i museernes samlinger på ny hjemmeside",
+      "url": "https://slks.dk/gaa-paa-opdagelse-i-museernes-samlinger-paa-ny-hjemmeside/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-18T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "I denne uge åbner kulturpasset",
+      "url": "https://slks.dk/i-denne-uge-aabner-kulturpasset/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Kulturprogram under det danske EU-formandskab offentliggøres",
+      "url": "https://slks.dk/kulturprogram-under-det-danske-eu-formandskab-offentliggoeres/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-24T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Møns Klint er optaget på UNESCOs Verdensarvsliste",
+      "url": "https://slks.dk/moens-klint-er-optaget-paa-unescos-verdensarvsliste/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-13T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Nyborg Slot-projektet går ind i ny fase",
+      "url": "https://slks.dk/nyborg-slot-projektet-gaar-ind-i-ny-fase/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-27T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Seks særlige bøger til børn og unge er nomineret til Kulturministeriets Forfatter- og Illustratorpris",
+      "url": "https://slks.dk/seks-saerlige-boeger-til-boern-og-unge-er-nomineret-til-kulturministeriets-forfatter-og-illustratorpris/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-02-06T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Stor europæisk kulturkonference stiller skarpt på musik, film, kunst og kultur som Europas vej frem",
+      "url": "https://slks.dk/stor-europaeisk-kulturkonference-stiller-skarpt-paa-musik-film-kunst-og-kultur-som-europas-vej-frem/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-01T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Stærke danske aktører er valgt til at stå bag kulturprogram under Danmarks EU-formandskab",
+      "url": "https://slks.dk/staerke-danske-aktoerer-er-valgt-til-at-staa-bag-kulturprogram-under-danmarks-eu-formandskab/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-01-08T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Tag på tur til Fortidsmindedage",
+      "url": "https://slks.dk/tag-paa-tur-til-fortidsmindedage/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-25T00:00:00+00:00"
+    },
+    {
+      "source": "Slots- og Kulturstyrelsen",
+      "title": "Tidligere entreprenørskole i Ebeltoft fredes",
+      "url": "https://slks.dk/tidligere-entreprenoerskole-i-ebeltoft-fredes/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-04T00:00:00+00:00"
+    },
+    {
       "source": "Statens Administration",
       "title": "2. godkenderfunktion implementeret i Statens Lønløsning",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/marts/2-godkenderfunktion-implementeret-i-statens-loenloesning/",
@@ -2225,16 +2355,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2023-01-30T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Bevillingsafregning",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/bevillingsafregning/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-01-25T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
@@ -3996,15 +4116,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Rapport over kortlægning af brancher, der udleder PFAS til luften",
-      "url": "https://mst.dk/nyheder/2026/oktober/rapport-over-kortlaegning-af-brancher-der-udleder-pfas-til-luften",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     }
   ]
 }
