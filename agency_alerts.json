@@ -1,33 +1,42 @@
 {
-  "generated_at": "2026-10-22T19:05:02.682788+00:00",
+  "generated_at": "2026-10-22T22:33:45.546305+00:00",
   "threshold": 3,
-  "active_alerts": 3,
+  "active_alerts": 4,
   "alerts": [
+    {
+      "source": "DMI",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://www.dmi.dk/nyhedsoverblik: 403 Client Error: Access from your location is not allowed. for url: https://www.dmi.dk/nyhedsoverblik"
+      ]
+    },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
       "severity": "error",
-      "consecutive_failures": 7,
-      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
+      "consecutive_failures": 8,
+      "message": "Kilden har fejlet teknisk i 8 kørsel(er) i træk.",
       "errors": [
-        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7feac48b2c60>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
-        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7feac48b0740>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
+        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f48bb4cb560>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
+        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f48bb0e8fe0>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
       ]
     },
     {
       "source": "Udlændingestyrelsen",
       "severity": "error",
-      "consecutive_failures": 7,
-      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
+      "consecutive_failures": 8,
+      "message": "Kilden har fejlet teknisk i 8 kørsel(er) i træk.",
       "errors": [
-        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7feac455b950>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
-        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7feac48b0a70>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
+        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f48bb0ea180>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
+        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f48bb00fa10>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
       ]
     },
     {
       "source": "Rigsarkivet",
       "severity": "error",
-      "consecutive_failures": 7,
-      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
+      "consecutive_failures": 8,
+      "message": "Kilden har fejlet teknisk i 8 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.rigsarkivet.dk/nyheder/: HTTPSConnectionPool(host='www.rigsarkivet.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
       ]
