@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-10-22T06:30:07.310229+00:00",
+  "generated_at": "2026-10-22T09:43:06.779728+00:00",
   "threshold": 3,
   "active_alerts": 5,
   "alerts": [
     {
       "source": "Styrelsen for International Rekruttering og Integration",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
-        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7fbe14abbe90>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
-        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7fbe14ae90a0>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
+        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f1201c5a420>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
+        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f1201b62180>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
       ]
     },
     {
       "source": "Udlændingestyrelsen",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
-        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7fbe15df6180>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
-        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7fbe14ee12e0>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
+        "Ny i Danmarks officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /api/news/getNews?newsTypeTag=all (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f12018423f0>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))",
+        "Liste kunne ikke hentes: https://www.nyidanmark.dk/da/Nyheder: HTTPSConnectionPool(host='www.nyidanmark.dk', port=443): Max retries exceeded with url: /da/Nyheder (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nyidanmark.dk', port=443) at 0x7f12015d42f0>, 'Connection to www.nyidanmark.dk timed out. (connect timeout=12)'))"
       ]
     },
     {
       "source": "Slots- og Kulturstyrelsen",
       "severity": "error",
-      "consecutive_failures": 5,
-      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
+      "consecutive_failures": 6,
+      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://slks.dk/nyheder/: HTTPSConnectionPool(host='slks.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by NewConnectionError(\"HTTPSConnection(host='slks.dk', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
       ]
@@ -35,8 +35,8 @@
     {
       "source": "Rigsarkivet",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.rigsarkivet.dk/nyheder/: HTTPSConnectionPool(host='www.rigsarkivet.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
       ]
@@ -44,8 +44,8 @@
     {
       "source": "Dansk Dekommissionering",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://dekom.dk/nyheder/: 403 Client Error: Forbidden for url: https://dekom.dk/nyheder/"
       ]
