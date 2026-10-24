@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-23T09:22:01.820077+00:00",
+  "generated_at": "2026-10-24T00:47:07.414392+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 181,
+  "total_rejected": 180,
   "summary_by_reason": {
-    "before_archive_start": 180,
-    "missing_safe_publication_date": 1
+    "before_archive_start": 180
   },
   "rejected": [
     {
@@ -1786,15 +1785,6 @@
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Nyhedsarkiv",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/sep-1",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
       "detail": ""
     }
   ]

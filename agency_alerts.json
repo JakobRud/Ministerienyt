@@ -1,24 +1,15 @@
 {
-  "generated_at": "2026-10-23T09:29:04.659342+00:00",
+  "generated_at": "2026-10-24T00:53:54.397527+00:00",
   "threshold": 3,
-  "active_alerts": 2,
+  "active_alerts": 1,
   "alerts": [
     {
       "source": "DMI",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.dmi.dk/nyhedsoverblik: 403 Client Error: Access from your location is not allowed. for url: https://www.dmi.dk/nyhedsoverblik"
-      ]
-    },
-    {
-      "source": "Rigsarkivet",
-      "severity": "error",
-      "consecutive_failures": 11,
-      "message": "Kilden har fejlet teknisk i 11 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://www.rigsarkivet.dk/nyheder/: HTTPSConnectionPool(host='www.rigsarkivet.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
       ]
     }
   ]

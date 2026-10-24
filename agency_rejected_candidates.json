@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-23T09:28:47.946161+00:00",
+  "generated_at": "2026-10-24T00:53:37.601385+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 431,
+  "total_rejected": 503,
   "summary_by_reason": {
-    "before_archive_start": 418,
-    "missing_safe_publication_date": 3,
+    "before_archive_start": 482,
+    "missing_safe_publication_date": 11,
     "source_filter_mismatch": 10
   },
   "rejected": [
@@ -2198,6 +2198,646 @@
       "detected_date": "2024-03-05T00:00:00+00:00"
     },
     {
+      "source": "Rigsarkivet",
+      "title": "\"Bør ikke fortsætte som lærer\"",
+      "url": "https://www.rigsarkivet.dk/nyheder/boer-ikke-fortsaette-som-laerer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-08-26T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "300 år gamle noder kan føres tilbage til Tordenskiolds skib",
+      "url": "https://www.rigsarkivet.dk/nyheder/300-aar-gamle-noder-kan-foeres-tilbage-til-tordenskiolds-skib/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-15T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "350 års søfartshistorie er nu digitaliseret",
+      "url": "https://www.rigsarkivet.dk/nyheder/350-aars-soefartshistorie-er-nu-digitaliseret/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-23T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Arkivalieronline og Daisy flytter: ingen ændringer for dig",
+      "url": "https://www.rigsarkivet.dk/nyheder/arkivalieronline-og-daisy-flytter-ingen-aendringer-for-dig/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-19T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Arne-databasen nomineret til Digitaliseringsprisen",
+      "url": "https://www.rigsarkivet.dk/nyheder/arne-databasen-nomineret-til-digitaliseringsprisen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-02-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Bodil Begtrup: Første kvindelige ambassadør",
+      "url": "https://www.rigsarkivet.dk/nyheder/bodil-begtrup-den-forste-kvindelige-ambassador/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-11T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Bruddet med samarbejdspolitikken for 80 år siden",
+      "url": "https://www.rigsarkivet.dk/nyheder/bruddet-med-samarbejdspolitikken-for-80-aar-siden/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-08-29T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Byggesten til det moderne Grønland - ny kildepakke",
+      "url": "https://www.rigsarkivet.dk/nyheder/byggesten-til-det-moderne-gronland-ny-kildepakke/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-12-22T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Cubakrisen 60 år: Atomtruslen var helt ude i første række!",
+      "url": "https://www.rigsarkivet.dk/nyheder/cubakrisen-60-aar-atomtruslen-var-helt-ude-i-foerste-raekke/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-11-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Danmarks nye Rigsarkivar er fundet",
+      "url": "https://www.rigsarkivet.dk/nyheder/danmarks-nye-rigsarkivar-er-fundet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-01-27T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Danmarks vigtigste dokumenter digitaliseres og fremtidssikres",
+      "url": "https://www.rigsarkivet.dk/nyheder/danmarks-vigtigste-dokumenter-digitaliseres-og-fremtidssikres/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-10-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Danmarkskort over børnesagsakter",
+      "url": "https://www.rigsarkivet.dk/nyheder/danmarkskort-over-boernesagsakter/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-02-24T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Dansk arkivformat til databaser anbefales af det amerikanske nationalarkiv",
+      "url": "https://www.rigsarkivet.dk/nyheder/dansk-arkivformat-til-databaser-anbefales-af-det-amerikanske-nationalarkiv/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-12-20T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Data om kommunalvalg og -politik fra 1970'erne til i dag",
+      "url": "https://www.rigsarkivet.dk/nyheder/data-om-kommunalvalg-og-politik-fra-1970erne-til-i-dag/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-10T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Der er varslet skybrud over Danmark",
+      "url": "https://www.rigsarkivet.dk/nyheder/skybrud-over-danmark/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-05-15T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Dokumentation af reaktioner på klimaforandringer",
+      "url": "https://www.rigsarkivet.dk/nyheder/dokumentation-af-reaktioner-paa-klimaforandringer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-21T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Eksamensdata: Fra håndskrevne protokoller til digitale databaser",
+      "url": "https://www.rigsarkivet.dk/nyheder/eksamensdata-fra-haandskrevne-protokoller-til-digitale-databaser/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Felt i kirkebøger sløres på Arkivalieronline",
+      "url": "https://www.rigsarkivet.dk/nyheder/felt-i-kirkeboeger-sloeres-paa-arkivalieronline/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-17T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Find historiske sogneoplysninger på DigDag.dk",
+      "url": "https://www.rigsarkivet.dk/nyheder/find-historiske-sogneoplysninger-paa-digdag-dk/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-04-26T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Forlænget ekspeditionstid på arkivalier fra København i marts måned",
+      "url": "https://www.rigsarkivet.dk/nyheder/forlaenget-ekspeditionstid-paa-arkivalier-fra-koebenhavn-i-marts-maaned/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-02-24T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Forsker i dansk Holocaust historie modtager forskningspris",
+      "url": "https://www.rigsarkivet.dk/nyheder/forsker-i-dansk-holocaust-historie-modtager-forskningspris/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-02T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Forsker ved Rigsarkivet: vold mod kvinder blev ikke straffet",
+      "url": "https://www.rigsarkivet.dk/nyheder/forsker-ved-rigsarkivet-vold-mod-kvinder-blev-ikke-straffet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Fortidens vejr skal klæde os på til fremtidens klima",
+      "url": "https://www.rigsarkivet.dk/nyheder/fortidens-vejr-skal-klaede-os-paa-til-fremtidens-klima/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-27T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Frivillige skal lære maskine at aflæse medicinalberetninger",
+      "url": "https://www.rigsarkivet.dk/nyheder/frivillige-skal-laere-maskine-at-aflaese-medicinalberetninger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-03-29T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Følg konserveringen af grundloven og få nyt fra Danmarks hukommelse",
+      "url": "https://www.rigsarkivet.dk/nyheder/foelg-konserveringen-af-grundloven-og-faa-nyt-fra-danmarks-hukommelse/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-10-06T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Gendannede arkiver kompletterer CPR-registret",
+      "url": "https://www.rigsarkivet.dk/nyheder/gendannede-arkiver-kompletterer-cpr-registret/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-05-03T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Grundloven og det sorte får",
+      "url": "https://www.rigsarkivet.dk/nyheder/grundloven-og-det-sorte-faar/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-01-12T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Har I styr på arkiverne ved skybrud og vandskade?",
+      "url": "https://www.rigsarkivet.dk/nyheder/har-i-styr-paa-arkiverne-ved-skybrud-og-vandskade/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-06-26T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Historisk Medicinsk Fødselsregister skal afsløre skjulte sygdomme",
+      "url": "https://www.rigsarkivet.dk/nyheder/historisk-medicinsk-foedselsregister-skal-afsloere-skjulte-sygdomme/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-10-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Historisk Personregister udpeget som ny national forskningsinfrastruktur og støttes med næsten 16 mio. kr",
+      "url": "https://www.rigsarkivet.dk/nyheder/historisk-personregister-udpeget-som-ny-national-forskningsinfrastruktur-og-stoettes-med-naesten-16-mio/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-19T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Husk sundhedskort og billed-ID på læsesalene fra og med 28. juli",
+      "url": "https://www.rigsarkivet.dk/nyheder/husk-sundhedskort-og-billed-id-paa-laesesalene-fra-og-med-28-juli/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-07-14T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Hvad er koldest? Gruelig, klingende eller umenneskelig frost?",
+      "url": "https://www.rigsarkivet.dk/nyheder/hvad-er-koldest-gruelig-klingende-eller-umenneskelig-frost/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-01-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Jubilæumsår: Grundloven fra 1849 er fremtidssikret og udstilles i Folketinget",
+      "url": "https://www.rigsarkivet.dk/nyheder/jubilaeumsaar-grundloven-fra-1849-er-fremtidssikret-og-udstilles-i-folketinget/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Kan data fra regneark bevares for evigt?",
+      "url": "https://www.rigsarkivet.dk/nyheder/kan-data-fra-regneark-bevares-for-evigt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-08-31T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Klimamatch er sat i søen: elever hjælper klimaforskning",
+      "url": "https://www.rigsarkivet.dk/nyheder/klimamatch-er-sat-i-soeen-elever-hjaelper-klimaforskning/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-05T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Klimamatch: Vinderen er fundet",
+      "url": "https://www.rigsarkivet.dk/nyheder/klimamatch-vinderen-er-fundet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-06T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Kommunalvalg kommer også til Rigsarkivet",
+      "url": "https://www.rigsarkivet.dk/nyheder/kommunalvalg-kommer-ogsaa-til-rigsarkivet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-13T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Kulturministeriet søger ny Rigsarkivar",
+      "url": "https://www.rigsarkivet.dk/nyheder/kulturministeriet-soeger-ny-rigsarkivar/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-09-22T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Kunstig intelligens åbner for ny anvendelse af Danmarks ældste kirkebøger",
+      "url": "https://www.rigsarkivet.dk/nyheder/kunstig-intelligens-aabner-for-ny-anvendelse-af-danmarks-aeldste-kirkeboeger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-07-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Læsesalen i Viborg får nyt tag",
+      "url": "https://www.rigsarkivet.dk/nyheder/laesesalen-i-viborg-faar-nyt-tag/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-07T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Midlertidigt lukket for at søge i afskrifter af dokumenter, når du søger i samlingerne",
+      "url": "https://www.rigsarkivet.dk/nyheder/midlertidigt-lukket-for-at-soege-i-afskrifter-af-dokumenter-naar-du-soeger-i-samlingerne/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-10-28T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Multispektral digitalisering gør kilder fra Tranquebar læselige",
+      "url": "https://www.rigsarkivet.dk/nyheder/multispektral-digitalisering-goer-kilder-fra-tranquebar-laeselige/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-09T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Mød Rigsarkivet til Historiske Dage",
+      "url": "https://www.rigsarkivet.dk/nyheder/moed-rigsarkivet-til-historiske-dage/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-18T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Nu kan du finde dine tipoldeforældre og deres husstand på Link-Lives hjemmeside",
+      "url": "https://www.rigsarkivet.dk/nyheder/nu-kan-du-finde-dine-tipoldeforaeldre-og-deres-husstand-paa-link-lives-hjemmeside/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-14T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Ny kildepakke om Danmarks vej ind i Fællesmarkedet",
+      "url": "https://www.rigsarkivet.dk/nyheder/ny-kildepakke-om-danmarks-vej-ind-i-faellesmarkedet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Ny platform gør det nemmere at finde digitalt skabte data",
+      "url": "https://www.rigsarkivet.dk/nyheder/ny-platform-goer-det-nemmere-at-finde-digitalt-skabte-data/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-07-08T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Ny samling af data om danskernes holdning til EU siden 1992",
+      "url": "https://www.rigsarkivet.dk/nyheder/ny-samling-af-data-om-danskernes-holdning-til-eu-siden-1992/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-05-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Ny sæson af Forsvundne Arvinger",
+      "url": "https://www.rigsarkivet.dk/nyheder/ny-saeson-af-forsvundne-arvinger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-24T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Ny vej til kilder og vejledning om Dansk Vestindien",
+      "url": "https://www.rigsarkivet.dk/nyheder/ny-vej-til-kilder-og-vejledning-om-dansk-vestindien/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Nyt datasæt skal lære maskiner at læse håndskrift",
+      "url": "https://www.rigsarkivet.dk/nyheder/nyt-datasaet-skal-laere-maskiner-at-laese-haandskrift/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-01-03T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Overdragelse af vigtige brikker til Ukraines historie",
+      "url": "https://www.rigsarkivet.dk/nyheder/overdragelse-af-vigtige-brikker-til-ukraines-historie/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-09T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Registre over 1800-tallets ’offentlige fruentimmere’ på Arkivalieronline",
+      "url": "https://www.rigsarkivet.dk/nyheder/registre-over-1800-tallets-offentlige-fruentimmere-paa-arkivalieronline/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-02-28T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivet indsamler danske veteraners historier",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivet-indsamler-danske-veteraners-historier/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-05T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivet lancerer ny og samlet søgeplatform",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivet-lancerer-ny-og-samlet-soegeplatform/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-10-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivet modtager Sammenhængsprisen for Arne-databasen",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivet-modtager-sammenhaengsprisen-for-arne-databasen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-06T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivet vil kun bevare udsnit af Aula for eftertiden",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivet-vil-kun-bevare-udsnit-af-aula-for-eftertiden/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-13T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivet ændrer visuelt udtryk",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivet-aendrer-visuelt-udtryk/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-30T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Rigsarkivets samarbejde med frivillige fortsætter",
+      "url": "https://www.rigsarkivet.dk/nyheder/rigsarkivets-samarbejde-med-frivillige-fortsaetter/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-20T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Se udstilling om Folketinget under Besættelsen",
+      "url": "https://www.rigsarkivet.dk/nyheder/se-udstilling-om-folketinget-under-besaettelsen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-28T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Skoleelever som klimaforskere",
+      "url": "https://www.rigsarkivet.dk/nyheder/skoleelever-som-klimaforskere/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-15T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Strakstilladelser fjernes permanent fra Rigsarkivets læsesale",
+      "url": "https://www.rigsarkivet.dk/nyheder/strakstilladelser-fjernes-permanent-fra-rigsarkivets-laesesale/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-11-08T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Tilbageblik: Hvordan vandt Mette Frederiksen statsministerposten?",
+      "url": "https://www.rigsarkivet.dk/nyheder/tilbageblik-hvordan-vandt-mette-statsministerposten/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-10-05T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Undersøgelser af grundlovens allermindste detaljer",
+      "url": "https://www.rigsarkivet.dk/nyheder/undersoegelser-af-grundlovens-mindste-detaljer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-06-05T00:00:00+00:00"
+    },
+    {
+      "source": "Rigsarkivet",
+      "title": "Vacciner og sundhedsdata i Rigsarkivet",
+      "url": "https://www.rigsarkivet.dk/nyheder/vacciner-og-sundhedsdata-i-rigsarkivet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-12T00:00:00+00:00"
+    },
+    {
       "source": "Slots- og Kulturstyrelsen",
       "title": "209 millioner kroner i bibliotekspenge er fordelt",
       "url": "https://slks.dk/209-millioner-kroner-i-bibliotekspenge-er-fordelt/",
@@ -4150,6 +4790,78 @@
       "source": "Miljøstyrelsen",
       "title": "Rapport over kortlægning af brancher, der udleder PFAS til luften",
       "url": "https://mst.dk/nyheder/2026/oktober/rapport-over-kortlaegning-af-brancher-der-udleder-pfas-til-luften",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Naturstyrelsen",
+      "title": "Gravemaskiner skal give plads til naturen ved Tim Å",
+      "url": "https://naturstyrelsen.dk/nyheder/2026/oktober/gravemaskiner-skal-give-plads-til-naturen-ved-tim-aa",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Naturstyrelsen",
+      "title": "Ny hvepseart fundet i Danmark",
+      "url": "https://naturstyrelsen.dk/nyheder/2026/oktober/ny-hvepseart-fundet-i-danmark",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Adgang til lister over offentliggjorte patentdokumenter",
+      "url": "https://www.dkpto.dk/nyheder/2026/maj/adgang-til-lister-over-offentliggjorte-patentdokumenter",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Begrænset adgang til Patent- og Varemærkestyrelsen og vores systemer",
+      "url": "https://www.dkpto.dk/nyheder/2026/august/begraenset-adgang-til-patent-og-varemaerkestyrelsen-og-vores-systemer",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Forbedringer af Patent- og Varemærkestyrelsens elektroniske indleveringssystem",
+      "url": "https://www.dkpto.dk/nyheder/2026/september/forbedringer-af-patent-og-varemaerkestyrelsens-elektroniske-indleveringssystem",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Lydbaseret fiskeriløsning er Danmarks finalist til Nordic Innovation Award 2026",
+      "url": "https://www.dkpto.dk/nyheder/2026/april/lydbaseret-fiskeriloesning-er-danmarks-finalist-til-nordic-innovation-award-2026",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Ny praksis for vurdering af varemærkeansøgninger",
+      "url": "https://www.dkpto.dk/nyheder/2026/februar/ny-praksis-for-vurdering-af-varemaerkeansoegninger",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Patent- og Varemærkestyrelsen",
+      "title": "Vær ekstra opmærksom på uopfordrede henvendelser – som fx fakturaer",
+      "url": "https://www.dkpto.dk/nyheder/2026/januar/vaer-ekstra-opmaerksom-paa-uopfordrede-henvendelser-som-fx-fakturaer",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
