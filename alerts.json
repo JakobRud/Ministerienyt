@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-25T07:37:38.841444+00:00",
+  "generated_at": "2026-10-25T09:49:38.540324+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Sundheds- og Kirkeministeriet",
       "severity": "error",
-      "consecutive_failures": 9,
-      "message": "Kilden har fejlet teknisk i 9 kørsel(er) i træk.",
+      "consecutive_failures": 10,
+      "message": "Kilden har fejlet teknisk i 10 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.ism.dk/nyheder: 404 Client Error: Not Found for url: https://www.ism.dk/nyheder"
       ]
