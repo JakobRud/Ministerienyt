@@ -1,15 +1,24 @@
 {
-  "generated_at": "2026-10-25T17:53:55.405960+00:00",
+  "generated_at": "2026-10-25T20:50:33.163493+00:00",
   "threshold": 3,
-  "active_alerts": 1,
+  "active_alerts": 2,
   "alerts": [
     {
       "source": "Sundheds- og Kirkeministeriet",
       "severity": "error",
-      "consecutive_failures": 12,
-      "message": "Kilden har fejlet teknisk i 12 kørsel(er) i træk.",
+      "consecutive_failures": 13,
+      "message": "Kilden har fejlet teknisk i 13 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.ism.dk/nyheder: 404 Client Error: Not Found for url: https://www.ism.dk/nyheder"
+      ]
+    },
+    {
+      "source": "Socialministeriet",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://www.sm.dk/nyheder: 403 Client Error: Forbidden for url: https://www.sm.dk/nyheder"
       ]
     }
   ]
