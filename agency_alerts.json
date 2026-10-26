@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-10-26T11:12:21.244061+00:00",
+  "generated_at": "2026-10-26T17:47:20.935287+00:00",
   "threshold": 3,
-  "active_alerts": 1,
-  "alerts": [
-    {
-      "source": "DMI",
-      "severity": "error",
-      "consecutive_failures": 23,
-      "message": "Kilden har fejlet teknisk i 23 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://www.dmi.dk/nyhedsoverblik: 403 Client Error: Access from your location is not allowed. for url: https://www.dmi.dk/nyhedsoverblik"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }

@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-10-26T11:12:12.744643+00:00",
+  "generated_at": "2026-10-26T17:47:12.452139+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 496,
   "summary_by_reason": {
-    "before_archive_start": 482,
-    "missing_safe_publication_date": 13,
-    "source_filter_mismatch": 10
+    "before_archive_start": 481,
+    "missing_safe_publication_date": 15
   },
   "rejected": [
     {
@@ -103,15 +102,6 @@
       "source": "Beredskabsstyrelsen",
       "title": "Ny film om brandtests i solcellepaneler giver praksisnær viden om indsatsteknik og -taktik",
       "url": "https://www.brs.dk/da/nyheder/2025/brandtests-i-solcellepaneler-giver-ny-praksisnar-viden-om-indsatsteknik-og--taktik/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": ""
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "Nye watertubes styrker beredskabet",
-      "url": "https://www.brs.dk/da/nyheder/2025/nye-watertubes-styrker-beredskabet/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "Officiel ListPage API",
@@ -4814,6 +4804,24 @@
       "detail": ""
     },
     {
+      "source": "Miljøstyrelsen",
+      "title": "Stormen har sat spor ved Vestkysten – men kystbeskyttelsen virker",
+      "url": "https://mst.dk/nyheder/2026/oktober/stormen-har-sat-spor-ved-vestkysten-men-kystbeskyttelsen-virker",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Naturstyrelsen",
+      "title": "Borgermøder i Ålbæk og Estvad om ulv",
+      "url": "https://naturstyrelsen.dk/nyheder/2026/oktober/borgermoeder-i-aalbaek-og-estvad-om-ulv",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
       "source": "Naturstyrelsen",
       "title": "Gravemaskiner skal give plads til naturen ved Tim Å",
       "url": "https://naturstyrelsen.dk/nyheder/2026/oktober/gravemaskiner-skal-give-plads-til-naturen-ved-tim-aa",
@@ -4884,106 +4892,6 @@
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
       "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-17T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Information til ukrainske mænd i den militærpligtige alder (23-60 år) om mulig lovændring",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/06/Information-til-ukrainske-m%C3%A6nd-i-den-milit%C3%A6rpligtige-alder-(23-60-%C3%A5r)-om-mulig-lov%C3%A6ndring",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-06-25T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Mange ansøgninger om pas påvirker den telefoniske tilgængelighed hos Udlændingestyrelsen",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Mange-ans%C3%B8gninger-om-pas-p%C3%A5virker-den-telefoniske-tilg%C3%A6ngelighed-hos-Udl%C3%A6ndingestyrelsen",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-19T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Ny adgang til indrejse til Færøerne og Grønland for tredjelandsstatsborgere",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Ny-adgang-til-indrejse-til-F%C3%A6r%C3%B8erne-og-Gr%C3%B8nland-for-tredjelandsstatsborgere-",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-20T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Nye digitale pasansøgninger",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/04/Nye-digitale-pasans%C3%B8gninger",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-04-20T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Nye regler for ukrainske mænd i den militærpligtige alder (23-59 år)",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Nye-regler-for-ukrainske-m%C3%A6nd-i-den-milit%C3%A6rpligtige-alder-(23-59-%C3%A5r)-",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-03T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Udrejsefrister forlænges for personer fra Libanon",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/03/Udrejsefrister-forl%C3%A6nges-for-personer-fra-Libanon",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-03-16T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Ændrede åbningstider for telefonisk betjening i Udlændingestyrelsen",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/04/%C3%86ndrede-%C3%A5bningstider-for-telefonisk-betjening-i-Udl%C3%A6ndingestyrelsen",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-04-22T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Ændrede åbningstider for telefoniske henvendelser i Udlændingestyrelsen i uge 22",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/05/%C3%85bningstider-uge-22",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-05-20T00:00:00+00:00"
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Ændringer i SIRIs digitale ansøgning AR6",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/%C3%86ndringer-til-SIRIs-digitale-ans%C3%B8gning-AR6",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-09-29T00:00:00+00:00"
     }
   ]
 }
