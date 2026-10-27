@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-27T16:10:56.312258+00:00",
+  "generated_at": "2026-10-27T20:48:16.333851+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 437,
+  "total_rejected": 507,
   "summary_by_reason": {
-    "before_archive_start": 410,
+    "before_archive_start": 480,
     "missing_safe_publication_date": 17,
     "source_filter_mismatch": 10
   },
@@ -3909,6 +3909,706 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": ""
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "2.940 erstatningsankesager i 2021",
+      "url": "https://www.stpk.dk/nyheder/2940-erstatningsankesager-i-2021/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-30T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Afgørelse principiel dom i Højesteret",
+      "url": "https://www.stpk.dk/nyheder/afgorelse-principiel-dom-i-hojesteret/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-02-01T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Afgørelse: Kritik for manglende journalføring af assistance",
+      "url": "https://www.stpk.dk/nyheder/afgorelse-kritik-for-manglende-journalforing-af-assistance/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-11-06T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Afgørelse: Regionen skal ikke udbetale kørselsgodtgørelse...",
+      "url": "https://www.stpk.dk/nyheder/afgorelse-regionen-skal-ikke-udbetale-korselsgodtgorelse-nar-patienten-selv-betaler-for-behandlingen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-11-05T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Afgørelse: Sygehus får kritik for utilstrækkelig bedøvels...",
+      "url": "https://www.stpk.dk/nyheder/afgorelse-sygehus-far-kritik-for-utilstraekkelig-bedovelse-af-et-3-arigt-barn/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-11-02T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Asbestordning udvides",
+      "url": "https://www.stpk.dk/nyheder/asbestordning-udvides/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-06-30T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Bliv læge i et nævn",
+      "url": "https://www.stpk.dk/nyheder/bliv-laege-i-et-naevn/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-27T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "COVID-19 påvirker afholdelse af dialogsamtaler",
+      "url": "https://www.stpk.dk/nyheder/covid-19-pavirker-afholdelse-af-dialogsamtaler/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-04-14T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "COVID-19-opgaver i styrelsen",
+      "url": "https://www.stpk.dk/nyheder/covid-19-opgaver-i-styrelsen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-12-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Coronapandemi forlænger handleplan",
+      "url": "https://www.stpk.dk/nyheder/coronapandemi-forlaenger-handleplan/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-08-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Covid-19: Vigtigt at ledelse afgiver udtalelse i klagesager",
+      "url": "https://www.stpk.dk/nyheder/covid-19-vigtigt-at-ledelse-afgiver-udtalelse-i-klagesager/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-03-20T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Dialogsager sendes igen til regionerne",
+      "url": "https://www.stpk.dk/nyheder/covid-19dialogsager-sendes-igen-til-regionerne/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-05-12T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Dom giver mulighed for genoptagelse",
+      "url": "https://www.stpk.dk/nyheder/dom-giver-mulighed-for-genoptagelse/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-12-15T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Et mere enkelt patientklagesystem",
+      "url": "https://www.stpk.dk/nyheder/et-mere-enkelt-patientklagesystem/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Et år med Ankenævn for Tilsynsafgørelse",
+      "url": "https://www.stpk.dk/nyheder/et-ar-med-ankenaevn-for-tilsynsafgorelse/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-07-01T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Få viden om klagesager med STPK i tal",
+      "url": "https://www.stpk.dk/nyheder/fa-viden-om-klagesager-med-stpk-i-tal/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-01-10T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Gode resultater i 2023",
+      "url": "https://www.stpk.dk/nyheder/gode-resultater-i-2023/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-03T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "KBU-lægers ansvar beskrevet",
+      "url": "https://www.stpk.dk/nyheder/kbu-laegers-ansvar-beskrevet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-08-31T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Kender du dine klagemuligheder?",
+      "url": "https://www.stpk.dk/nyheder/kender-du-dine-klagemuligheder/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-23T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Klager over psykologbehandlinger",
+      "url": "https://www.stpk.dk/nyheder/klager-over-psykologbehandlinger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-12-16T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Klageskemaer er ikke tilgængelige",
+      "url": "https://www.stpk.dk/nyheder/klageskemaer-er-ikke-tilgaengelige/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-02-20T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Klagevejledning i afgørelser om aktindsigt",
+      "url": "https://www.stpk.dk/nyheder/klagevejledning-i-afgorelser-om-aktindsigt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-05-03T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Lydfiler fra lægevagten i Region Syddanmark",
+      "url": "https://www.stpk.dk/nyheder/lydfiler-fra-laegevagten-i-region-syddanmark/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-06-10T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Norm for journalføring i tandsager beskrevet",
+      "url": "https://www.stpk.dk/nyheder/norm-for-journalforing-i-tandsager-beskrevet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-08T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Normen for udredning af brystkræft er blevet beskrevet",
+      "url": "https://www.stpk.dk/nyheder/normen-for-udredning-af-brystkraeft-er-blevet-beskrevet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-02-24T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny bekendtgørelse suspenderer midlertidigt visse patientr...",
+      "url": "https://www.stpk.dk/nyheder/covid-19-ny-bekendtgorelse-suspenderer-midlertidigt-visse-patientrettigheder/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-03-19T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny casesamling giver viden om video hos vagtlæger",
+      "url": "https://www.stpk.dk/nyheder/ny-casesamling-giver-viden-om-video-hos-vagtlaeger/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny praksis i sager om fritagelse for tolkegebyr",
+      "url": "https://www.stpk.dk/nyheder/ny-praksis-i-sager-om-fritagelse-for-tolkegebyr/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-05-25T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny årsberetning fra Abortankenævnet",
+      "url": "https://www.stpk.dk/nyheder/ny-arsberetning-fra-abortankenaevnet/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny årsberetning fra Det Psykiatriske Ankenævn",
+      "url": "https://www.stpk.dk/nyheder/ny-arsberetning-fra-det-psykiatriske-ankenaevn-1/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-06-27T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Ny årsrapport fra Ankenævnet for Patienterstatningen",
+      "url": "https://www.stpk.dk/nyheder/ny-arsrapport-fra-ankenaevnet-for-patienterstatningen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-04-28T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nye intuitive klageskemaer",
+      "url": "https://www.stpk.dk/nyheder/nye-intuitive-klageskemaer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-12-07T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt ankenævn giver klagemulighed for sundhedspersoner",
+      "url": "https://www.stpk.dk/nyheder/nyt-ankenaevn-giver-klagemulighed-for-sundhedspersoner/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-07-01T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt brevdesign",
+      "url": "https://www.stpk.dk/nyheder/nyt-brevdesign/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-02-21T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt nationalt abortnævn",
+      "url": "https://www.stpk.dk/nyheder/nyt-nationalt-abortnaevn/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-31T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt og gratis undervisningsmateriale til sundhedsstuderende",
+      "url": "https://www.stpk.dk/nyheder/nyt-og-gratis-undervisningsmateriale-til-sundhedsstuderende/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-12T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt opslagsværk afdækker praksis for informeret samtykke",
+      "url": "https://www.stpk.dk/nyheder/nyt-opslagsvaerk-afdaekker-praksis-for-informeret-samtykke/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt opslagsværk skal skabe klarhed om journalopslag",
+      "url": "https://www.stpk.dk/nyheder/nyt-opslagsvaerk-skal-skabe-klarhed-om-journalopslag/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Nyt sagsoverblik til borgere",
+      "url": "https://www.stpk.dk/nyheder/nyt-sagsoverblik-til-borgere/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-01T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Pas på fupopkald fra vores hovednummer",
+      "url": "https://www.stpk.dk/nyheder/pas-pa-fupopkald-fra-vores-hovednummer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-28T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Patientklagesystemet skal forbedres til gavn for patiente...",
+      "url": "https://www.stpk.dk/nyheder/patientklagesystemet-skal-forbedres-til-gavn-for-patienter-og-sundhedspersonale/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-01-11T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Prakissændring: Undersøgelse afbryder ikke frist for udvi...",
+      "url": "https://www.stpk.dk/nyheder/praksisaendring-forundersogelse-afbryder-ikke-frist-for-udvidet-frit-sygehusvalg/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksis for afhængighedsskabende lægemidler kortlagt",
+      "url": "https://www.stpk.dk/nyheder/praksis-for-afhaengighedsskabende-laegemidler-kortlagt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-04T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksis for journalføring kortlagt",
+      "url": "https://www.stpk.dk/nyheder/praksis-for-journalforing-kortlagt/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-06-07T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksissammenfatning beskriver retten til hurtig udredning",
+      "url": "https://www.stpk.dk/nyheder/praksissammenfatning-beskriver-retten-til-hurtig-udredning/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-11-28T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksisændring i Det Psykiatriske Ankenævn",
+      "url": "https://www.stpk.dk/nyheder/praksisaendring-i-det-psykiatriske-ankenaevn/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-07-06T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksisændring: Frit sygehusvalg kan afhænge af ventetid",
+      "url": "https://www.stpk.dk/nyheder/praksisaendring-frit-sygehusvalg-kan-afhaenge-af-ventetid/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Praksisændring: Manglende kapacitet må ikke være årsag ti...",
+      "url": "https://www.stpk.dk/nyheder/praksisaendring-manglende-kapacitet-ma-ikke-vaere-arsag-til-forsinket-udredning/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-11-04T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Principiel dom i sag om blodtransfusion",
+      "url": "https://www.stpk.dk/nyheder/principiel-dom-i-sag-om-blodtransfusion/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-11-13T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Psykiatrisk patientklagenævn flyttes",
+      "url": "https://www.stpk.dk/nyheder/psykiatrisk-patientklagenaevn-flyttes/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-23T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Påskelukket",
+      "url": "https://www.stpk.dk/nyheder/paskelukket/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-03-25T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Sagkyndig: ”Alle burde prøve det”",
+      "url": "https://www.stpk.dk/nyheder/sagkyndig-alle-burde-prove-det/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-24T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Samtykke eller ej",
+      "url": "https://www.stpk.dk/nyheder/samtykke-eller-ej/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-10-16T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Selvbetjening lukket tirsdag morgen",
+      "url": "https://www.stpk.dk/nyheder/selvbetjening-lukket-tirsdag-morgen/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-05-08T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Spørgsmål om COVID-19 og klagesager",
+      "url": "https://www.stpk.dk/nyheder/sporgsmal-om-covid-19-og-klagesager/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-03-26T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Strategi 2025",
+      "url": "https://www.stpk.dk/nyheder/strategi-2025/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-02-07T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Tekniske problemer ved opkald",
+      "url": "https://www.stpk.dk/nyheder/tekniske-problemer-ved-opkald/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-01-16T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Telefontid kl. 16-18 den 15. juni",
+      "url": "https://www.stpk.dk/nyheder/telefonerne-er-lukkede-torsdag-den-15-juni/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-05-31T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Vejledning og webinar til psykologer",
+      "url": "https://www.stpk.dk/nyheder/vejledning-og-webinar-til-psykologer/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-30T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Velkommen til vores nye hjemmeside",
+      "url": "https://www.stpk.dk/nyheder/velkommen-til-vores-nye-hjemmeside/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-03-15T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Vi mangler læger til nævnsarbejde",
+      "url": "https://www.stpk.dk/nyheder/vi-mangler-laeger-til-naevnsarbejde/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-05-15T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Vi søger sagkyndige",
+      "url": "https://www.stpk.dk/nyheder/vi-soger-sagkyndige/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-09-30T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Vil du arbejde for retssikkerhed og høj faglighed?",
+      "url": "https://www.stpk.dk/nyheder/vil-du-arbejde-for-retssikkerhed-og-hoj-faglighed/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-02-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Visse patientrettigheder kan stadig suspenderes",
+      "url": "https://www.stpk.dk/nyheder/covid-19-visse-patientrettigheder-kan-stadig-suspenderes/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-12-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Webinar: Faglige vejledninger til sundhedspersoner",
+      "url": "https://www.stpk.dk/nyheder/webinar-om-faglige-vejledninger-til-sundhedspersoner/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-22T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Årsberetning 2020: Færre abortankesager",
+      "url": "https://www.stpk.dk/nyheder/arsberetning-2020-faerre-abortankesager/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-07-02T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Årsberetning 2022 offentliggjort",
+      "url": "https://www.stpk.dk/nyheder/arsberetning-2022-offentliggjort/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-08-13T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Årsrapport viser stor stigning i afgjorte sager",
+      "url": "https://www.stpk.dk/nyheder/arsrapport-viser-stor-stigning-i-afgjorte-sager/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2021-03-23T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "Årsrapport: Historisk mange afgørelser",
+      "url": "https://www.stpk.dk/nyheder/arsrapport-historisk-mange-afgorelser/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2022-03-18T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for Patientklager",
+      "title": "”Det er vigtigt at sikre det høje faglige niveau i Danmark”",
+      "url": "https://www.stpk.dk/nyheder/en-sagkyndig-fortaeller/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2020-08-21T00:00:00+00:00"
     },
     {
       "source": "Tilsynet med Efterretningstjenesterne",
