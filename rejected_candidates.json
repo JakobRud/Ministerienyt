@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-28T17:26:14.057472+00:00",
+  "generated_at": "2026-10-28T21:00:59.222422+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 186,
+  "total_rejected": 179,
   "summary_by_reason": {
-    "before_archive_start": 179,
-    "missing_safe_publication_date": 7
+    "before_archive_start": 179
   },
   "rejected": [
     {
@@ -1776,69 +1775,6 @@
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Endeligt bekræftet: Lolland Kommune får industripark",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/sep/endeligt-bekraeftet-lolland-kommune-faar-industripark",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Erhvervs- og konkurrencekraftsministeren ansætter Christoffer Lehmann som særlig rådgiver",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/jun/erhvervs-og-konkurrencekraftsministeren-ansaetter-christoffer-lehmann-som-saerlig-raadgiver",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Erhvervsministeren rejser til Kina med stor erhvervsdelegation",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/jan/erhvervsministeren-rejser-til-kina-med-stor-erhvervsdelegation",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Københavnsk biosolutions styrkes med trecifret millioninvestering",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/jan/koebenhavnsk-biosolutions-styrkes-med-trecifret-millioninvestering",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Nu får demokratiske virksomheder deres egne anbefalinger for god ledelse",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/okt/nu-faar-demokratiske-virksomheder-deres-egne-anbefalinger-for-god-ledelse",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Ny formand for Danmarks Erhvervsfremmebestyrelse skal styrke konkurrencekraften i danske SMV’er",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/okt/ny-formand-for-danmarks-erhvervsfremme-bestyrelse-skal-styrke-konkurrencekraften-i-danske-smv%E2%80%99er",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Nyhedsarkiv",
-      "url": "https://www.em.dk/aktuelt/nyheder/2026/sep-1",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
       "detail": ""
     }
   ]
