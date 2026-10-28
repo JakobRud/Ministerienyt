@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.5.4"
+APP_VERSION = "7.5.5"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -214,6 +214,7 @@ TRACKING_QUERY_KEYS = {
     "mc_eid",
 }
 PAGINATION_QUERY_KEYS = {
+    "pg",
     "page",
     "p",
     "offset",
@@ -227,6 +228,8 @@ PAGINATION_QUERY_KEYS = {
 # Domæneskift, hvor gamle og nye officielle URL'er kan pege på samme artikel.
 # Bruges kun til intern dublet-/cacheidentifikation; det viste link bevares.
 CANONICAL_HOST_ALIASES = {
+    "ism.dk": "www.ism.dk",
+    "skim.dk": "www.ism.dk",
     # FUDM bevarer artikelstierne fra UFM. Den gamle identitet er stabil.
     "ufm.dk": "ufm.dk",
     "fudm.dk": "ufm.dk",
@@ -481,6 +484,8 @@ def browser_seen_alias_ids(url: str) -> list[str]:
     groups = []
     if host in {"trm.dk", "bltm.dk"}:
         groups = ["trm.dk", "www.trm.dk", "bltm.dk", "www.bltm.dk"]
+    elif host in {"ism.dk", "skim.dk"}:
+        groups = ["ism.dk", "www.ism.dk", "skim.dk", "www.skim.dk"]
     elif host in {"ufm.dk", "fudm.dk"}:
         groups = ["ufm.dk", "www.ufm.dk", "fudm.dk", "www.fudm.dk"]
     elif host in {"aeldremin.dk", "baebm.dk"}:
@@ -766,6 +771,14 @@ def labeled_publication_date_from_soup(soup: BeautifulSoup) -> datetime | None:
     label_re = re.compile(r"\b(?:publiceret|offentliggjort|udgivet|publiceringsdato)\b", re.IGNORECASE)
     for text_node in soup.find_all(string=label_re):
         node = getattr(text_node, "parent", None)
+        # GoBasic: en særskilt Publiceret-label efterfølges af et datofelt.
+        # Accepter kun det direkte søskendefelt med eksplicit data-date.
+        if node is not None and re.fullmatch(r"(?:publiceret|offentliggjort|udgivet|publiceringsdato)\s*:?[\s\xa0]*", clean_text(node.get_text(" ", strip=True)), flags=re.IGNORECASE):
+            sibling = node.find_next_sibling()
+            if sibling is not None and sibling.get("data-date"):
+                parsed = parse_date(str(sibling["data-date"]))
+                if parsed:
+                    return parsed
         # Gå kun få niveauer op og accepter kun små metadata-lignende blokke.
         for _ in range(4):
             if node is None:
@@ -1752,6 +1765,7 @@ def gobasic_dynamic_listing_pages(
         return []
 
     result: list[BeautifulSoup] = []
+    received_items = 0
     for page in range(1, page_limit + 1):
         payload = {
             "config": config,
@@ -1808,7 +1822,8 @@ def gobasic_dynamic_listing_pages(
         except (TypeError, ValueError):
             total = 0
         page_size = len(page_soup.select(".item"))
-        if total and page_size and page * page_size >= total:
+        received_items += page_size
+        if total and received_items >= total:
             break
     return result
 
@@ -2951,6 +2966,10 @@ def collect_mst_news_items(
         next_data = json.loads(next_data_node.string or next_data_node.get_text()) if next_data_node else {}
         root_key = content_overview_root_key(next_data)
         api_base = clean_text(str(nested_value(next_data, "runtimeConfig", "NEXT_PUBLIC_SEARCH_API_URL") or ""))
+        if not api_base:
+            runtime_node = soup.find("script", id="__PUBLIC_RUNTIME_CONFIG__")
+            public_runtime = json.loads(runtime_node.string or runtime_node.get_text()) if runtime_node else {}
+            api_base = clean_text(str(nested_value(public_runtime, "NEXT_PUBLIC_SEARCH_API_URL") or ""))
         api_hostname = clean_text(str(nested_value(next_data, "props", "pageProps", "content", "host") or ""))
         if not root_key or not api_base or not api_hostname:
             raise ValueError("arkivnøgle, API-adresse eller værts-id blev ikke fundet")
@@ -3679,7 +3698,11 @@ def evaluate_source_self_test(status: SourceStatus, previous_state: dict | None 
         if status.unexpected_redirects:
             status.self_test = "warn"
             notes.append("En officiel URL viderestillede til et uventet domæne.")
-        previous_candidates = int(previous_state.get("last_full_candidate_count", previous_state.get("last_candidate_count", 0)) or 0)
+        previous_candidates = max(
+            int(previous_state.get("last_full_candidate_count", 0) or 0),
+            int(previous_state.get("last_candidate_count", 0) or 0),
+            int(float(previous_state.get("expected_candidate_count", 0) or 0)),
+        )
         if previous_candidates > 0 and status.listing_pages > 0 and status.article_candidates == 0 and "RSS/Atom" not in (status.methods or []):
             status.self_test = "warn"
             notes.append("Nyhedssiden kunne hentes, men ingen artikelkandidater blev genkendt; layoutet kan være ændret.")
@@ -3845,14 +3868,24 @@ def collect_fresh_items(
                 append_error(status, f"Uventet kildefejl: {exc}")
                 items = []
             status.retry_attempts = attempt - 1
-            if source_crawl_ok(status):
+            previous_volume = max(
+                int(previous.get("last_full_candidate_count", 0) or 0),
+                int(previous.get("last_candidate_count", 0) or 0),
+                int(float(previous.get("expected_candidate_count", 0) or 0)),
+            )
+            retry_empty = (
+                attempt == 1 and attempt < max_attempts and previous_volume > 0
+                and status.article_candidates == 0 and status.known_candidates_skipped == 0
+                and not items and source_crawl_ok(status)
+            )
+            if source_crawl_ok(status) and not retry_empty:
                 if first_errors:
                     for message in first_errors[:3]:
                         append_error(status, "Tidligere forsøg: " + message)
                 break
             first_errors.extend(status.errors or [])
             if attempt < max_attempts:
-                print(f"  -> teknisk fejl; prøver igen ({attempt + 1}/{max_attempts}) ...", file=sys.stderr)
+                print(f"  -> {'tomt resultat' if retry_empty else 'teknisk fejl'}; prøver igen ({attempt + 1}/{max_attempts}) ...", file=sys.stderr)
                 if wait_seconds:
                     time.sleep(wait_seconds)
 
@@ -3892,6 +3925,12 @@ def item_from_archive_dict(raw: dict) -> Item | None:
             and re.match(r"^/aktuelt/(?:nyheder|pressemeddelelser)/\d{4}/", parsed_url.path)
         ):
             url = urlunparse(("https", "fudm.dk", parsed_url.path, "", parsed_url.query, ""))
+        if (
+            source == "Sundheds- og Kirkeministeriet"
+            and normalize_host(parsed_url.netloc) == "ism.dk"
+            and parsed_url.path.startswith("/nyheder/")
+        ):
+            url = urlunparse(("https", "www.skim.dk", parsed_url.path, "", parsed_url.query, ""))
         description = clean_text(str(raw.get("description", "")))[:900]
         if not source or is_generic_title(title) or not url:
             return None
@@ -4391,6 +4430,7 @@ def update_source_state(previous_payload: dict, statuses: list[SourceStatus]) ->
             and not status.pagination_limited
             and not status.historical_pages_skipped
             and not status.sitemap_skipped_by_cache
+            and status.self_test not in {"warn", "fail"}
         ):
             row["last_full_candidate_count"] = status.article_candidates
             previous_expected_raw = old.get("expected_candidate_count", 0)
@@ -5679,7 +5719,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.5.4</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.5.5</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.5.5</strong><ul><li>Fælles datolæsning for GoBasic og nye API-indstillinger for Miljøstyrelsen og Naturstyrelsen.</li><li>Sundheds- og Kirkeministeriets domæneskift samt Anklagemyndighedens nye nyhedsarkiv understøttes.</li><li>Socialministeriets officielle pressekanal supplerer hjemmesiden ved adgangsfejl.</li><li>Uventede tomme svar prøves igen én gang. Fejlede kontroller sænker ikke det normale sammenligningsniveau; reelle fejl og manglende dækning vises fortsat.</li></ul>'
         '<strong>v7.5.4</strong><ul><li>Banedanmarks officielle Via Ritzau-pressekanal supplerer nu bane.dk, så pressemeddelelser fortsat kan hentes ved udfald på hjemmesiden.</li><li>Arkivet bevares og dubletter samles. En vedvarende fejl på bane.dk vises fortsat, hvis den alternative kanal ikke giver fuld dækning.</li></ul>'
         '<strong>v7.5.3</strong><ul><li>Forsknings-, Uddannelses- og Digitaliseringsministeriets nyhedsindgange opdateres til fudm.dk efter domæneskiftet.</li><li>Eksisterende UFM-artikellinks peger på det nye arkiv; artikelidentiteter, datoer og læsemarkeringer bevares.</li><li>Artikler fra tydeligt ældre årsarkiver frasorteres uden misvisende datobemærkninger.</li></ul>'
         '<strong>v7.5.2</strong><ul><li>Lette friskhedstjek planlægges hver halve time kl. 06–22 i dansk tid og suppleres med natlige kontroller.</li><li>Driftsbemærkningen følger den nye plan og vises fortsat tidligst efter tre timer.</li></ul>'

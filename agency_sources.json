@@ -161,15 +161,21 @@
       "name": "Anklagemyndigheden",
       "responsible_ministry": "Justitsministeriet",
       "home_url": "https://anklagemyndigheden.dk/",
-      "start_urls": ["https://anklagemyndigheden.dk/da/nyheder"],
-      "article_prefixes": ["/da/"],
-      "article_link_selectors": [".view-list-hyheder-article .views-row .col-md-12 > a[href]"],
+      "start_urls": [
+        "https://anklagemyndigheden.dk/nyheder/?type=post&from=2026-01-01"
+      ],
+      "article_link_selectors": [
+        "[data-search-results] h2 a[href]",
+        ".view-list-hyheder-article .views-row .col-md-12 > a[href]"
+      ],
       "allow_plain_listing_date": true,
       "disable_sitemap": true,
       "max_listing_pages": 6,
       "stop_pagination_before_archive_start": true,
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 15
+      "refresh_before_schema": 15,
+      "article_url_regex": "^/(?:da/)?[^/?]+/?$",
+      "pagination_next_only": true
     },
     {
       "name": "Datatilsynet",
@@ -747,13 +753,18 @@
       "name": "Naturstyrelsen",
       "responsible_ministry": "Ministeriet for Natur og Dyrevelfærd",
       "home_url": "https://naturstyrelsen.dk/",
-      "start_urls": ["https://naturstyrelsen.dk/nyheder"],
+      "start_urls": [
+        "https://naturstyrelsen.dk/nyheder"
+      ],
       "article_url_regex": "^/nyheder/2026/",
       "disable_sitemap": false,
       "mst_news_api": true,
       "mst_news_max_pages": 5,
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 15
+      "refresh_before_schema": 15,
+      "article_date_selectors": [
+        "time[datetime]:has([class*=\"ArticleDate_\"])"
+      ]
     },
 
     {
@@ -863,13 +874,20 @@
       "name": "Miljøstyrelsen",
       "responsible_ministry": "Miljøministeriet",
       "home_url": "https://mst.dk/",
-      "start_urls": ["https://mst.dk/nyheder"],
-      "article_prefixes": ["/nyheder/"],
+      "start_urls": [
+        "https://mst.dk/nyheder"
+      ],
+      "article_prefixes": [
+        "/nyheder/"
+      ],
       "disable_sitemap": false,
       "mst_news_api": true,
       "mst_news_max_pages": 5,
       "full_audit_on_refresh": true,
-      "refresh_before_schema": 15
+      "refresh_before_schema": 15,
+      "article_date_selectors": [
+        "time[datetime]:has([class*=\"ArticleDate_\"])"
+      ]
     }
   ]
 }

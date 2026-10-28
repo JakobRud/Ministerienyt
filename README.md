@@ -1,4 +1,47 @@
-# Ministerienyt og Styrelsesnyt 7.5.4
+# Ministerienyt og Styrelsesnyt 7.5.5
+
+
+## Rettet og robustgjort i version 7.5.5
+
+De tre offentlige bemærkninger på Ministerienyt og fire på Styrelsesnyt er gennemgået mod de berørte officielle hjemmesider den 28. oktober 2026.
+
+| Kilde | Årsag og rettelse |
+| --- | --- |
+| Erhvervsministeriet | GoBasic har en separat “Publiceret”-label med et tilstødende `data-date`-felt. Dette afgrænsede officielle felt læses nu også ved lange artikeltekster. Månedsoversigten `sep-1` genkendes ikke længere som en artikel. |
+| Sundheds- og Kirkeministeriet | Domæneskift fra ism.dk til skim.dk. Nyhedsindgange og RSS opdateres, og den officielle dynamiske GoBasic-liste og årsarkivet bruges som supplement. Gamle artikellinks flyttes automatisk, mens ID, læsemarkeringer og artikeldata bevares. |
+| Socialministeriet | sm.dk afviser automatiske kald med HTTP 403. Ministeriets egen Via Ritzau-pressekanal (13560921) tilføjes som supplement; hjemmesiden forsøges fortsat, og fejlen bevares i diagnostikken. |
+| Patent- og Varemærkestyrelsen | Samme GoBasic-datofelt som Erhvervsministeriet. Publiceringsdatoen læses nu korrekt. |
+| Anklagemyndigheden | Nyt WordPress-arkiv med nye artikeladresser og kort. Kilden bruger nu den filtrerede liste over almindelige nyheder, de nye kort og `pg`-paginering. Den særskilte regionale “Anklager Updates”-strøm tilføjes ikke. Eksisterende historier bevares ved genkendelse. |
+| Naturstyrelsen | Platformen har flyttet den offentlige API-konfiguration fra Next-data til et særskilt `__PUBLIC_RUNTIME_CONFIG__`-felt. Begge former understøttes. Artikelhovedets eksplicitte publiceringstid kan desuden læses som reserve. |
+| Miljøstyrelsen | Samme API- og datoændring som Naturstyrelsen. Både den officielle nyheds-API og reservevejen gennem sitemap og artikelhovedets dato virker igen. |
+
+### Fælles forbedringer
+
+- GoBasic stopper efter det samlede officielle antal resultater, også når sidste side er kortere. Dermed undgås ekstra kald efter sidste side.
+
+- Ved et uventet helt tomt resultat fra en kilde med tidligere artikler foretages ét ekstra forsøg inden for det eksisterende retry-budget. Ingen ekstra forsøg, når alle fund blot allerede kendes.
+- En fejlet eller advarselsramt fuld kontrol sænker ikke længere det normale kandidatniveau i driftsdata. Vedvarende fejl skal fortsat kunne ses og må ikke gradvist blive opfattet som normal drift.
+- Datoer tages fra officielle publiceringsfelter, ikke fra brødtekst, ændringsdato eller et gættet URL-år. Fremtidsfilteret og den eksisterende dubletkontrol bevares.
+- De eksisterende artikelarkiver og artikel-ID’er bevares. Den normale opdateringsplan, tre-timersgrænsen, GoatCounter og kontaktfeltet ændres ikke.
+
+Validering: 106 regressionstests bestået. Alle syv kilder er live-kontrolleret mod de eksisterende arkiver og driftsdata, herunder at ingen eksisterende artikel-ID’er går tabt ved sammenlægning. Resultaterne fra kontrollen fremgår nedenfor. Socialministeriets 403 findes fortsat i den interne diagnostik; pressekanalen giver en fungerende alternativ hentemetode. Der gives ingen garanti for fremtidige udfald hos kilderne.
+
+
+### Resultater fra live-kontrollen 28. oktober 2026
+
+Antallene er arkivposter for den enkelte kilde før den fælles visnings dubletkontrol. Gennemgangen bruger det eksisterende arkiv som grundlag; ingen af dets artikel-ID’er er fjernet.
+
+| Kilde | Før | Efter sammenlægning | Offentlig bemærkning i kontrollen |
+| --- | ---: | ---: | --- |
+| Erhvervsministeriet | 27 | 28 | Ingen |
+| Sundheds- og Kirkeministeriet | 59 | 70 | Ingen |
+| Socialministeriet | 34 | 36 | Ingen |
+| Patent- og Varemærkestyrelsen | 24 | 24 | Ingen |
+| Anklagemyndigheden | 19 | 19 | Ingen |
+| Naturstyrelsen | 44 | 49 | Ingen |
+| Miljøstyrelsen | 140 | 146 | Ingen |
+
+Sundheds- og Kirkeministeriets årsarkiv oplyste 68 resultater. Den dybere kontrol genkendte samlet 80 kandidater fra API, HTML og RSS, uden hentefejl; tidligere gemte poster, der ikke længere findes i oversigten, bevares også. De lette kontroller af de øvrige kilder var uden offentlige bemærkninger. En intern adgangsfejl fra sm.dk er fortsat dokumenteret og erstattes ikke af en påstand om, at hjemmesiden virker.
 
 
 ## Nyt i version 7.5.4

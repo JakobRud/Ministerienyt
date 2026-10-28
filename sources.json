@@ -54,7 +54,8 @@
     "default_article_type": "Nyhed",
     "historical_start_urls": [
       "https://www.em.dk/aktuelt/nyheder/2026"
-    ]
+    ],
+    "article_url_regex": "^/aktuelt/nyheder/20\\d{2}/[^/]+/[^/?]+/?(?:\\?.*)?$"
   },
   {
     "name": "Finansministeriet",
@@ -221,9 +222,10 @@
   },
   {
     "name": "Sundheds- og Kirkeministeriet",
-    "home_url": "https://www.ism.dk/",
+    "home_url": "https://www.skim.dk/",
     "start_urls": [
-      "https://www.ism.dk/nyheder"
+      "https://www.skim.dk/nyheder",
+      "https://www.skim.dk/nyheder/2026"
     ],
     "article_prefixes": [
       "/nyheder/"
@@ -231,8 +233,12 @@
     "allow_unlabeled_header_date": true,
     "default_article_type": "Nyhed",
     "rss_urls": [
-      "https://www.ism.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
-    ]
+      "https://www.skim.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
+    ],
+    "extra_hosts": [
+      "ism.dk"
+    ],
+    "gobasic_dynamic_list": true
   },
   {
     "name": "Ministeriet for Natur og Dyrevelfærd",
@@ -335,7 +341,10 @@
     ],
     "historical_start_urls": [
       "https://www.sm.dk/nyheder/nyhedsarkiv/2026"
-    ]
+    ],
+    "ritzau_pressroom_id": 13560921,
+    "ritzau_supplemental": true,
+    "ritzau_page_size": 100
   },
   {
     "name": "Miljøministeriet",

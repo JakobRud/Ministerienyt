@@ -19,6 +19,20 @@ import ministerier_nyheder as m
 
 
 class DateRegressionTests(unittest.TestCase):
+    def test_explicit_publication_sibling_survives_large_gobasic_article(self):
+        soup = BeautifulSoup('<div class="news-page"><h1>En rigtig nyhed</h1><span>Publiceret </span><span data-date="2026-10-09T08:21:00Z">09-10-2026</span><p>' + ('Lang artikeltekst. ' * 100) + 'Mødet er den 1. januar 2020.</p></div>', "html.parser")
+        self.assertEqual(m.date_from_soup(soup).isoformat(), "2026-10-09T08:21:00+00:00")
+        unrelated = BeautifulSoup('<h1>En rigtig nyhed</h1><span>Frist</span><span data-date="2026-10-09T08:21:00Z">09-10-2026</span>', "html.parser")
+        self.assertIsNone(m.date_from_soup(unrelated))
+
+    def test_mst_article_uses_publication_time_but_never_updated_metadata(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Miljøstyrelsen")
+        soup = BeautifulSoup('<meta name="Search.Updated" content="2026-10-26"><h1>En rigtig nyhed</h1><time datetime="2026-10-22T09:13:25Z"><p class="ArticleDate_ArticleDate__NIJDx">22. oktober 2026</p></time>', "html.parser")
+        self.assertEqual(m.date_from_soup(soup, source).isoformat(), "2026-10-22T09:13:25+00:00")
+        soup.find("time").decompose()
+        self.assertIsNone(m.date_from_soup(soup, source))
+
+
     def test_dst_cludo_publication_metadata(self):
         soup = BeautifulSoup(
             '<meta property="cludo:DstPubReleaseDateTime" content="07-09-2026 08:00">',
@@ -537,6 +551,25 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(title, "En kulturhistorisk nyhed")
         self.assertEqual(published.date().isoformat(), "2026-07-25")
 
+    def test_gobasic_stops_after_short_final_page(self):
+        source = {"name": "Testministeriet", "home_url": "https://example.dk/", "gobasic_dynamic_list": True}
+        shell = BeautifulSoup('<div class="archive-search-result" data-config="{}"></div>', "html.parser")
+        calls = []
+        class Session:
+            def post(self, url, **kwargs):
+                page = kwargs["json"]["page"]
+                calls.append(page)
+                if page > 2:
+                    raise AssertionError("Kald efter sidste officielle resultatside")
+                count = 3 if page == 1 else 1
+                page_html = ''.join(f'<div class="item"><a href="/nyheder/{page}-{i}">Nyhed</a></div>' for i in range(count))
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"pageHtml": page_html, "totalResultCount": {"All": 4}})
+        status = m.SourceStatus(source["name"], source["home_url"])
+        pages = m.gobasic_dynamic_listing_pages(Session(), source, shell, "https://example.dk/nyheder", status, 4)
+        self.assertEqual(calls, [1, 2])
+        self.assertEqual(len(pages), 2)
+        self.assertEqual(status.errors, [])
+
     def test_gobasic_dynamic_archive_returns_article_candidates(self):
         source = {
             "name": "Ankestyrelsen",
@@ -891,6 +924,92 @@ class IdentityAndSafetyTests(unittest.TestCase):
         source = next(row for row in payload["sources"] if row["name"] == "It-tilsynet")
         self.assertTrue(source.get("next_index_search"))
         self.assertEqual(source.get("next_index_name"), "itti-da")
+
+    def test_mst_api_reads_separate_public_runtime_configuration(self):
+        source = {"name": "Miljøstyrelsen", "home_url": "https://mst.dk/", "start_urls": ["https://mst.dk/nyheder"], "article_prefixes": ["/nyheder/"], "mst_news_api": True}
+        shell = '<script id="__NEXT_DATA__">' + json.dumps({"props": {"pageProps": {"content": {"host": "http://mst.local:3001", "page": {"properties": {"pageSections": [{"content": {"documentType": "contentPageOverview", "properties": {"rootFolder": {"key": "news-root"}}}}]}}}}}}) + '</script><script id="__PUBLIC_RUNTIME_CONFIG__">{"NEXT_PUBLIC_SEARCH_API_URL":"https://search.mst.dk/"}</script>'
+        calls = []
+        class Session:
+            def post(self, url, **kwargs):
+                calls.append((url, kwargs))
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"searchResults": [{"header": "En rigtig nyhed fra styrelsen", "url": "/nyheder/2026/oktober/en-rigtig-nyhed", "date": "2026-10-22T09:13:25Z"}], "pagination": {"totalResults": 1}})
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(text=shell)
+            status = m.SourceStatus(source["name"], source["home_url"])
+            items, ok = m.collect_mst_news_items(Session(), source, set(), status)
+        finally:
+            m.fetch = original_fetch
+        self.assertTrue(ok)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(status.errors, [])
+        self.assertEqual(calls[0][0], "https://search.mst.dk/api/News/Search")
+        self.assertEqual(calls[0][1]["json"]["key"], "news-root")
+        self.assertEqual(calls[0][1]["headers"]["Hostname"], "http://mst.local:3001")
+
+    def test_new_anklagemyndigheden_archive_excludes_regional_update_stream(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Anklagemyndigheden")
+        self.assertIn("type=post", source["start_urls"][0])
+        self.assertTrue(m.looks_like_article("https://anklagemyndigheden.dk/dom-i-voldssag-ankes-ikke/", source))
+        self.assertFalse(m.looks_like_article("https://anklagemyndigheden.dk/anklagerupdates/en-lokal-sag/", source))
+        anchor = BeautifulSoup('<a href="?type=post&amp;from=2026-01-01&amp;pg=2">Næste</a>', "html.parser").a
+        self.assertTrue(m.listing_link_candidate(anchor, "https://anklagemyndigheden.dk/nyheder/?type=post&from=2026-01-01&pg=2", source["start_urls"][0], source))
+
+    def test_skim_move_preserves_article_identity_and_seen_aliases(self):
+        source = next(s for s in m.load_sources_config(Path("sources.json")) if s["name"] == "Sundheds- og Kirkeministeriet")
+        self.assertTrue(source["gobasic_dynamic_list"])
+        self.assertIn("https://www.skim.dk/nyheder/2026", source["start_urls"])
+        old_url = "https://www.ism.dk/nyheder/2026/oktober/en-rigtig-nyhed"
+        new_url = old_url.replace("www.ism.dk", "www.skim.dk")
+        raw = {"source": "Sundheds- og Kirkeministeriet", "title": "En rigtig nyhed fra ministeriet", "url": old_url, "published": "2026-10-09T00:00:00+00:00", "article_id": "a6-old", "first_seen_at": "2026-10-10T12:00:00+00:00"}
+        item = m.item_from_archive_dict(raw)
+        self.assertEqual(item.url, new_url)
+        self.assertEqual(item.article_id, raw["article_id"])
+        self.assertEqual(item.first_seen_at.isoformat(), raw["first_seen_at"])
+        self.assertEqual(m.canonical_url(old_url), m.canonical_url(new_url))
+        self.assertEqual(m.browser_seen_alias_ids(old_url), m.browser_seen_alias_ids(new_url))
+
+    def test_successful_empty_source_with_history_retries_once(self):
+        source = {"name": "Testministeriet", "home_url": "https://example.dk/"}
+        calls = []
+        original = m.collect_source
+        session_original = m.create_session
+        config = dict(m.RUNTIME_CONFIG)
+        try:
+            m.RUNTIME_CONFIG.update(source_retry_attempts=2, source_retry_wait_seconds=0)
+            m.create_session = lambda: None
+            def collect(*args, **kwargs):
+                calls.append(1)
+                status = m.SourceStatus(source["name"], source["home_url"])
+                status.fast_mode = True
+                status.listing_pages = 1
+                status.methods.append("HTML")
+                status.article_candidates = 0 if len(calls) == 1 else 20
+                return [], status
+            m.collect_source = collect
+            _, rows = m.collect_fresh_items([source], set(), {source["name"]: {"last_full_candidate_count": 20}}, fast=True)
+        finally:
+            m.collect_source = original
+            m.create_session = session_original
+            m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(config)
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(rows[0].retry_attempts, 1)
+        self.assertFalse(rows[0].public_warning)
+
+    def test_failed_empty_scan_keeps_healthy_baseline_across_runs(self):
+        status = m.SourceStatus("Testministeriet", "https://example.dk/")
+        status.listing_pages = 1
+        status.methods.append("HTML")
+        previous = {"last_full_candidate_count": 20, "expected_candidate_count": 20, "last_self_test": "pass", "last_candidate_count": 20}
+        m.evaluate_source_self_test(status, previous)
+        m.evaluate_source_public_warning(status, previous)
+        state = m.update_source_state({"sources": {status.name: previous}}, [status])["sources"][status.name]
+        self.assertEqual(state["last_full_candidate_count"], 20)
+        self.assertEqual(state["expected_candidate_count"], 20)
+        m.evaluate_source_self_test(status, state)
+        m.evaluate_source_public_warning(status, state)
+        self.assertTrue(status.public_warning)
+        self.assertEqual(status.self_test, "warn")
 
     def test_mst_news_api_returns_dated_official_articles(self):
         source = {
