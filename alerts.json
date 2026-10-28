@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-28T02:20:32.168217+00:00",
+  "generated_at": "2026-10-28T08:30:04.266918+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Socialministeriet",
       "severity": "error",
-      "consecutive_failures": 16,
-      "message": "Kilden har fejlet teknisk i 16 kørsel(er) i træk.",
+      "consecutive_failures": 17,
+      "message": "Kilden har fejlet teknisk i 17 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://www.sm.dk/nyheder: 403 Client Error: Forbidden for url: https://www.sm.dk/nyheder"
       ]
