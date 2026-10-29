@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-29T17:38:42.423752+00:00",
+  "generated_at": "2026-10-29T22:06:42.824160+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 512,
+  "total_rejected": 511,
   "summary_by_reason": {
     "before_archive_start": 500,
-    "source_filter_mismatch": 12
+    "source_filter_mismatch": 11
   },
   "rejected": [
     {
@@ -4997,16 +4997,6 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-03T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Politiets Efterretningstjeneste advarer om forsøg på rekruttering af personer til spionage og sabotage",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Advarsel-om-spionage-og-sabotage",
-      "reason": "source_filter_mismatch",
-      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
-      "discovered_by": "Ny i Danmark API",
-      "detail": "",
-      "detected_date": "2026-10-29T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
