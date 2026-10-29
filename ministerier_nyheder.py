@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.5.5"
+APP_VERSION = "7.5.6"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -1742,13 +1742,21 @@ def gobasic_dynamic_listing_pages(
     page_limit: int,
 ) -> list[BeautifulSoup]:
     """Hent resultatsider fra GoBasic-arkiver, som ellers kun vises via JS."""
-    if not source.get("gobasic_dynamic_list") or page_limit <= 0:
+    if source.get("gobasic_dynamic_list") is False or page_limit <= 0:
         return []
 
     selector = clean_text(str(source.get("gobasic_list_selector", ""))) or ".archive-search-result[data-config]"
     config_node = shell_soup.select_one(selector)
     if config_node is None:
-        append_error(status, f"GoBasic-listen blev ikke fundet med selector {selector}.")
+        if source.get("gobasic_dynamic_list"):
+            append_error(status, f"GoBasic-listen blev ikke fundet med selector {selector}.")
+        return []
+    if not source.get("gobasic_dynamic_list") and any(
+        looks_like_article(urljoin(base_url, str(anchor.get("href", ""))), source)
+        for anchor in shell_soup.find_all("a", href=True)
+    ):
+        # Automatisk reserve kun ved en tom liste med den officielle GoBasic-
+        # arkivkonfiguration. Statiske lister udløser ikke ekstra API-kald.
         return []
     try:
         config = json.loads(str(config_node.get("data-config", "")))
@@ -5719,7 +5727,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.5.5</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v7.5.6</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v7.5.6</strong><ul><li>Folketingets Ombudsmands dynamiske nyhedsarkiv hentes nu gennem sidens officielle GoBasic-listefunktion.</li><li>Hele årsarkivet gennemgås, og eksisterende artikler og læsemarkeringer bevares.</li><li>Tomme GoBasic-arkiver genkendes automatisk ud fra sidens officielle listekonfiguration.</li></ul>'
         '<strong>v7.5.5</strong><ul><li>Fælles datolæsning for GoBasic og nye API-indstillinger for Miljøstyrelsen og Naturstyrelsen.</li><li>Sundheds- og Kirkeministeriets domæneskift samt Anklagemyndighedens nye nyhedsarkiv understøttes.</li><li>Socialministeriets officielle pressekanal supplerer hjemmesiden ved adgangsfejl.</li><li>Uventede tomme svar prøves igen én gang. Fejlede kontroller sænker ikke det normale sammenligningsniveau; reelle fejl og manglende dækning vises fortsat.</li></ul>'
         '<strong>v7.5.4</strong><ul><li>Banedanmarks officielle Via Ritzau-pressekanal supplerer nu bane.dk, så pressemeddelelser fortsat kan hentes ved udfald på hjemmesiden.</li><li>Arkivet bevares og dubletter samles. En vedvarende fejl på bane.dk vises fortsat, hvis den alternative kanal ikke giver fuld dækning.</li></ul>'
         '<strong>v7.5.3</strong><ul><li>Forsknings-, Uddannelses- og Digitaliseringsministeriets nyhedsindgange opdateres til fudm.dk efter domæneskiftet.</li><li>Eksisterende UFM-artikellinks peger på det nye arkiv; artikelidentiteter, datoer og læsemarkeringer bevares.</li><li>Artikler fra tydeligt ældre årsarkiver frasorteres uden misvisende datobemærkninger.</li></ul>'

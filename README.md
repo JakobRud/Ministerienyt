@@ -1,4 +1,19 @@
-# Ministerienyt og Styrelsesnyt 7.5.5
+# Ministerienyt og Styrelsesnyt 7.5.6
+
+
+## Rettet i version 7.5.6
+
+Folketingets Ombudsmands nyhedsarkiv leverer nu en dynamisk GoBasic-liste. Crawleren kunne hente selve siden, men fik ingen artikellinks og viste derfor en reel bemærkning om nul kandidater. Den officielle årsoversigt indeholder også nyheder fra oktober, mens det gemte arkiv stoppede i august.
+
+- Kilden bruger nu sidens egen GoBasic-listefunktion, herunder alle resultatsider i den fulde kontrol.
+- Der er desuden automatisk genkendelse af GoBasic-arkiver: Når HTML-siden er tom for artikellinks, men indeholder den officielle `.archive-search-result[data-config]`-konfiguration, prøves listefunktionen inden for det eksisterende sidebudget.
+- Den automatiske reserve kræver en konkret listekonfiguration på kildens egen hjemmeside. Den foretager ingen ekstra API-kald, når siden allerede leverer genkendte artikellinks. Et eksplicit `gobasic_dynamic_list: false` respekteres fortsat.
+- Eksisterende artikel-ID’er og det gemte arkiv bevares ved sammenlægning. Publiceringsdatoer kontrolleres fortsat på artikelsiderne; datoer fra brødtekst bruges ikke.
+- Der ændres ikke på grænserne for offentlige bemærkninger, opdateringsplan eller besøgstæller.
+
+Validering: 108 regressionstests bestået, inklusive automatisk genkendelse, fravalg, statiske lister uden ekstra kald og en dynamisk årsoversigt med flere resultatsider. Fuld live-kontrol 29. oktober 2026: 19 kandidater genkendt, ingen hentefejl og ingen offentlig bemærkning. Arkivet går fra 16 til 19 historier; de tre manglende historier er fra 6., 9. og 26. oktober. Alle eksisterende artikel-ID’er er bevaret. De øvrige to genhentede poster genkendes som eksisterende historier. Den automatiske reserve er desuden live-kontrolleret hos Erhvervsministeriet og Patent- og Varemærkestyrelsen uden offentlige bemærkninger eller hentefejl.
+
+Officielt arkiv: [Folketingets Ombudsmand – nyheder 2026](https://www.ombudsmanden.dk/find-viden/nyheder/2026).
 
 
 ## Rettet og robustgjort i version 7.5.5

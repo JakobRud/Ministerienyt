@@ -257,6 +257,7 @@
 
     {
       "name": "Folketingets Ombudsmand",
+      "gobasic_dynamic_list": true,
       "responsible_ministry": "Folketinget",
       "home_url": "https://www.ombudsmanden.dk/",
       "start_urls": ["https://www.ombudsmanden.dk/find-viden/nyheder/2026"],

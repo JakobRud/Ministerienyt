@@ -551,6 +551,52 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertEqual(title, "En kulturhistorisk nyhed")
         self.assertEqual(published.date().isoformat(), "2026-07-25")
 
+    def test_gobasic_empty_archive_auto_detects_but_static_lists_add_no_calls(self):
+        source = {"name": "Testministeriet", "home_url": "https://example.dk/", "article_prefixes": ["/nyheder/"]}
+        config = '<div class="archive-search-result" data-config="{}"></div>'
+        calls = []
+        class Session:
+            def post(self, url, **kwargs):
+                calls.append(url)
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"pageHtml": '<div class="item"><a href="/nyheder/en-rigtig-nyhed">En rigtig nyhed</a></div>', "totalResultCount": {"All": 1}})
+        status = m.SourceStatus(source["name"], source["home_url"])
+        pages = m.gobasic_dynamic_listing_pages(Session(), source, BeautifulSoup(config, "html.parser"), "https://example.dk/nyheder", status, 2)
+        self.assertEqual(len(pages), 1)
+        self.assertEqual(len(calls), 1)
+        static = BeautifulSoup(config + '<a href="/nyheder/en-statisk-nyhed">En rigtig nyhed</a>', "html.parser")
+        self.assertEqual(m.gobasic_dynamic_listing_pages(Session(), source, static, "https://example.dk/nyheder", status, 2), [])
+        self.assertEqual(m.gobasic_dynamic_listing_pages(Session(), source, BeautifulSoup('<div>Intet GoBasic-arkiv</div>', "html.parser"), "https://example.dk/nyheder", status, 2), [])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(status.errors, [])
+        source["gobasic_dynamic_list"] = False
+        self.assertEqual(m.gobasic_dynamic_listing_pages(Session(), source, BeautifulSoup(config, "html.parser"), "https://example.dk/nyheder", status, 2), [])
+        self.assertEqual(len(calls), 1)
+
+    def test_ombudsman_dynamic_archive_finds_dated_articles_in_empty_shell(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Folketingets Ombudsmand")
+        shell = '<div class="archive-search-result" data-config="{}"></div>'
+        calls = []
+        class Session:
+            def post(self, url, **kwargs):
+                page = kwargs["json"]["page"]
+                calls.append(page)
+                if page > 2:
+                    raise AssertionError("Kald efter sidste resultatside")
+                body = f'<div class="item"><h2><a href="/find-viden/nyheder/2026/en-officiel-nyhed-{page}">En officiel nyhed {page}</a></h2><span data-date="2026-10-0{page}T10:00:00Z">Dato</span></div>'
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"pageHtml": body, "totalResultCount": {"All": 2}})
+        original_fetch = m.fetch
+        try:
+            m.fetch = lambda *args, **kwargs: types.SimpleNamespace(url=source["start_urls"][0], headers={"content-type": "text/html"}, content=shell.encode(), text=shell)
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(Session(), source, status, full_audit=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(calls, [1, 2])
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual({c.published.date().isoformat() for c in candidates.values()}, {"2026-10-01", "2026-10-02"})
+        self.assertIn("GoBasic API", status.methods)
+        self.assertEqual(status.errors, [])
+
     def test_gobasic_stops_after_short_final_page(self):
         source = {"name": "Testministeriet", "home_url": "https://example.dk/", "gobasic_dynamic_list": True}
         shell = BeautifulSoup('<div class="archive-search-result" data-config="{}"></div>', "html.parser")
