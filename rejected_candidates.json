@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-29T09:58:25.020543+00:00",
+  "generated_at": "2026-10-29T11:32:25.085745+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 180,
+  "total_rejected": 179,
   "summary_by_reason": {
-    "before_archive_start": 180
+    "before_archive_start": 179
   },
   "rejected": [
     {
@@ -486,16 +486,6 @@
     },
     {
       "source": "Finansministeriet",
-      "title": "Regeringen indgår bred aftale om skattereform",
-      "url": "https://fm.dk/nyheder/nyhedsarkiv/2023/december/regeringen-indgaar-bred-aftale-om-skattereform/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2023-12-14T00:00:00+00:00"
-    },
-    {
-      "source": "Finansministeriet",
       "title": "Regeringen lancerer statsligt arbejdsprogram med administrationsbesparelser for mindst 5,5 mia. kr. i 2030",
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2025/juni/regeringen-lancerer-statsligt-arbejdsprogram-med-administrationsbesparelser-for-mindst-5-5-mia-kr-i-2030/",
       "reason": "before_archive_start",
@@ -510,7 +500,7 @@
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2025/december/regeringen-nedsaetter-ekspertgruppe-for-omlaegning-af-bilafgifter/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-09T00:00:00+00:00"
     },

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-29T10:03:22.008831+00:00",
+  "generated_at": "2026-10-29T11:37:51.557800+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 510,
+  "total_rejected": 511,
   "summary_by_reason": {
     "before_archive_start": 500,
-    "source_filter_mismatch": 10
+    "source_filter_mismatch": 11
   },
   "rejected": [
     {
@@ -4937,6 +4937,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Forlængelse af opholdstilladelse efter Ukraine-særloven",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Forl%C3%A6ngelse-af-opholdstilladelse-efter-Ukraine-s%C3%A6rloven",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-10-29T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
