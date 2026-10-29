@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-29T08:36:08.492529+00:00",
+  "updated_at": "2026-10-29T10:03:39.573125+00:00",
   "note": "Vedvarende driftsstatus til retry, cache og fejlalarmer. Publiceres ikke på GitHub Pages.",
   "sources": {
     "Erhvervsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 75,
+      "last_candidate_count": 51,
       "last_fresh_items": 0,
       "last_methods": [
         "Verificeret ERST-arkiv",
@@ -16,28 +16,28 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 75,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_historical_scan_at": "2026-09-10T08:22:00.565162+00:00",
       "expected_candidate_count": 73.2
     },
     "Konkurrence- og Forbrugerstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 3,
-      "last_fresh_items": 0,
+      "last_fresh_items": 1,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
       "last_full_candidate_count": 38,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_sitemap_scan_at": "2026-10-28T08:38:20.197784+00:00",
       "expected_candidate_count": 35.4
     },
     "Forbrugerombudsmanden": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 63,
       "last_fresh_items": 0,
@@ -47,41 +47,43 @@
       "last_errors": [],
       "last_full_candidate_count": 63,
       "expected_candidate_count": 61.6,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00"
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00"
     },
     "Patent- og Varemærkestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 24,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 24,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 23.6
     },
     "Søfartsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 37,
-      "last_fresh_items": 3,
+      "last_candidate_count": 10,
+      "last_fresh_items": 1,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 37,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 36.8
     },
     "Nævnenes Hus": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 15,
       "last_fresh_items": 0,
@@ -89,20 +91,21 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 15,
       "expected_candidate_count": 14.8
     },
     "Fødevarestyrelsen": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 41,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "Sitemap"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1: HTTPSConnectionPool(host='foedevarestyrelsen.dk', port=443): Max retries exceeded with url: /nyheder/pressemeddelelser?Page=1 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)')))",
+        "Liste kunne ikke hentes: https://foedevarestyrelsen.dk/nyheder/webnyheder?Page=1: HTTPSConnectionPool(host='foedevarestyrelsen.dk', port=443): Max retries exceeded with url: /nyheder/webnyheder?Page=1 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)')))"
       ],
-      "last_errors": [],
       "last_success_at": "2026-10-29T08:36:08.492529+00:00",
       "last_full_candidate_count": 41,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
@@ -110,79 +113,79 @@
     },
     "Økonomistyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 30,
       "expected_candidate_count": 30.0
     },
     "Medarbejder- og Kompetencestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 80,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 80,
       "expected_candidate_count": 79.8
     },
     "Statens It": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 42,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 42,
       "expected_candidate_count": 41.8
     },
     "Statens Administration": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 30,
       "expected_candidate_count": 29.4
     },
     "DREAM": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 30,
       "expected_candidate_count": 29.8
     },
     "VIVE": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 87,
       "last_fresh_items": 0,
@@ -192,11 +195,11 @@
       "last_errors": [],
       "last_full_candidate_count": 87,
       "expected_candidate_count": 84.8,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00"
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00"
     },
     "Anklagemyndigheden": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 19,
       "last_fresh_items": 0,
@@ -204,42 +207,42 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 19,
       "expected_candidate_count": 29.2
     },
     "Datatilsynet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 42,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 42,
       "expected_candidate_count": 40.6
     },
     "Danmarks Domstole/Domstolsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 60,
-      "last_fresh_items": 2,
+      "last_candidate_count": 12,
+      "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
       "last_full_candidate_count": 60,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "expected_candidate_count": 50.4
     },
     "Danmarks Fængsler": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 10,
       "last_fresh_items": 0,
@@ -247,13 +250,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 10,
       "expected_candidate_count": 10.0
     },
     "Rigspolitiet/politi.dk": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 13,
       "last_fresh_items": 0,
@@ -261,13 +264,13 @@
         "Politiets nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 13,
       "expected_candidate_count": 12.8
     },
     "PET": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 3,
       "last_fresh_items": 0,
@@ -275,73 +278,77 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 8,
       "last_sitemap_scan_at": "2026-10-28T08:38:20.197784+00:00",
       "expected_candidate_count": 7.8
     },
     "Den Uafhængige Politiklagemyndighed": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 25,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 25,
       "expected_candidate_count": 24.8
     },
     "Civilstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 26,
+      "last_candidate_count": 10,
       "last_fresh_items": 1,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 26,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 24.9
     },
     "Tilsynet med Efterretningstjenesterne": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 48,
+      "last_candidate_count": 16,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 48,
       "expected_candidate_count": 48.0
     },
     "Folketingets Ombudsmand": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "warn",
-      "last_candidate_count": 0,
-      "last_fresh_items": 0,
-      "last_methods": [],
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 3,
+      "last_methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "last_errors": [],
       "last_full_candidate_count": 0,
       "expected_candidate_count": 16.0,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00"
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00"
     },
     "Rigsrevisionen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 90,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
@@ -350,11 +357,40 @@
       "last_errors": [],
       "last_full_candidate_count": 90,
       "expected_candidate_count": 87.9,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00"
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00"
     },
     "Uddannelses- og Forskningsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_full_candidate_count": 40,
+      "expected_candidate_count": 40.0
+    },
+    "Digitaliseringsstyrelsen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML",
+        "RSS/Atom"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_full_candidate_count": 30,
+      "expected_candidate_count": 30.0
+    },
+    "Danmarks Statistik": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 40,
       "last_fresh_items": 0,
@@ -362,57 +398,28 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_full_candidate_count": 40,
-      "expected_candidate_count": 40.0
-    },
-    "Digitaliseringsstyrelsen": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 30,
-      "last_fresh_items": 0,
-      "last_methods": [
-        "HTML",
-        "RSS/Atom"
-      ],
-      "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_full_candidate_count": 30,
-      "expected_candidate_count": 30.0
-    },
-    "Danmarks Statistik": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 240,
-      "last_fresh_items": 0,
-      "last_methods": [
-        "HTML"
-      ],
-      "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 800,
       "expected_candidate_count": 800
     },
     "CPR": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 6,
+      "last_candidate_count": 3,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 6,
       "expected_candidate_count": 5.8
     },
     "Energistyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 1,
       "last_fresh_items": 0,
@@ -420,88 +427,92 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 16,
       "last_sitemap_scan_at": "2026-10-28T08:38:20.197784+00:00",
       "expected_candidate_count": 15.8
     },
     "Geodatastyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 9,
+      "last_candidate_count": 30,
       "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 9,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 8.2
     },
     "Klimadatastyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 12,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 12,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 11.4
     },
     "Forsyningstilsynet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 38,
-      "last_fresh_items": 1,
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 38,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 36.8
     },
     "GEUS": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 41,
-      "last_fresh_items": 1,
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 41,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 40.0
     },
     "DMI": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 40,
-      "last_fresh_items": 0,
+      "last_candidate_count": 20,
+      "last_fresh_items": 1,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 0,
       "expected_candidate_count": 20
     },
     "Banedanmark": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 56,
       "last_fresh_items": 4,
@@ -510,74 +521,74 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 153,
       "last_historical_scan_at": "2026-10-23T06:19:51.629405+00:00",
       "expected_candidate_count": 114.6
     },
     "Bygningsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "last_candidate_count": 20,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 30,
       "expected_candidate_count": 30.0
     },
     "Færdselsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 90,
+      "last_candidate_count": 30,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 90,
       "expected_candidate_count": 90.0
     },
     "Plan- og Landdistriktsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 40,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 40,
       "expected_candidate_count": 38.3
     },
     "Trafikstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 60,
-      "last_fresh_items": 1,
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 60,
       "expected_candidate_count": 51.8
     },
     "Vejdirektoratet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 100,
       "last_fresh_items": 0,
@@ -585,27 +596,27 @@
         "Drupal JSON:API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 100,
       "expected_candidate_count": 100.0
     },
     "Hjemrejsestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 32,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 32,
       "expected_candidate_count": 32.2
     },
     "Styrelsen for International Rekruttering og Integration": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 69,
       "last_fresh_items": 1,
@@ -613,13 +624,13 @@
         "Ny i Danmark API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 69,
       "expected_candidate_count": 68.8
     },
     "Udlændingestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 69,
       "last_fresh_items": 9,
@@ -627,27 +638,27 @@
         "Ny i Danmark API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 69,
       "expected_candidate_count": 68.8
     },
     "Styrelsen for It og Læring": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 20,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 20,
       "expected_candidate_count": 20.0
     },
     "Arbejdstilsynet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 34,
       "last_fresh_items": 0,
@@ -655,14 +666,14 @@
         "Sitemap"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 34,
-      "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_sitemap_scan_at": "2026-10-29T10:03:39.573125+00:00",
       "expected_candidate_count": 33.8
     },
     "Styrelsen for Arbejdsmarked og Rekruttering": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 10,
       "last_fresh_items": 0,
@@ -670,42 +681,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 10,
       "expected_candidate_count": 10.0
     },
     "Det Nationale Forskningscenter for Arbejdsmiljø": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 10,
-      "last_fresh_items": 1,
-      "last_methods": [
-        "HTML"
-      ],
-      "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_full_candidate_count": 10,
-      "expected_candidate_count": 10.0
-    },
-    "Forsvaret/Forsvarskommandoen": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 50,
-      "last_fresh_items": 1,
-      "last_methods": [
-        "Officiel ListPage API",
-        "HTML"
-      ],
-      "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
-      "last_full_candidate_count": 50,
-      "expected_candidate_count": 50
-    },
-    "Hjemmeværnet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 10,
       "last_fresh_items": 0,
@@ -713,13 +695,42 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_full_candidate_count": 10,
+      "expected_candidate_count": 10.0
+    },
+    "Forsvaret/Forsvarskommandoen": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 50,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "Officiel ListPage API",
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_full_candidate_count": 50,
+      "expected_candidate_count": 50
+    },
+    "Hjemmeværnet": {
+      "consecutive_failures": 0,
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
+      "last_self_test": "pass",
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
+      "last_methods": [
+        "HTML"
+      ],
+      "last_errors": [],
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 10,
       "expected_candidate_count": 9.8
     },
     "Forsvarets Efterretningstjeneste": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -728,13 +739,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 20,
       "expected_candidate_count": 20
     },
     "Forsvarsministeriets Materiel- og Indkøbsstyrelse": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -743,13 +754,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 30,
       "expected_candidate_count": 30
     },
     "Forsvarsministeriets Auditørkorps": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 19,
       "last_fresh_items": 0,
@@ -758,13 +769,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 19,
       "expected_candidate_count": 19
     },
     "Skattestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 536,
       "last_fresh_items": 0,
@@ -772,27 +783,27 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 536,
       "expected_candidate_count": 535.4
     },
     "Vurderingsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 131,
-      "last_fresh_items": 0,
+      "last_candidate_count": 132,
+      "last_fresh_items": 1,
       "last_methods": [
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 131,
       "expected_candidate_count": 130.8
     },
     "Motorstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 186,
       "last_fresh_items": 0,
@@ -800,13 +811,13 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 186,
       "expected_candidate_count": 185.8
     },
     "Gældsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 93,
       "last_fresh_items": 0,
@@ -814,13 +825,13 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 93,
       "expected_candidate_count": 92.8
     },
     "Toldstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 289,
       "last_fresh_items": 0,
@@ -828,13 +839,13 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 289,
       "expected_candidate_count": 288.4
     },
     "Spillemyndigheden": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 324,
       "last_fresh_items": 0,
@@ -842,28 +853,28 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 324,
       "expected_candidate_count": 323.5
     },
     "Finanstilsynet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 80,
+      "last_candidate_count": 20,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 80,
       "expected_candidate_count": 80.0
     },
     "Udviklings- og Forenklingsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 59,
       "last_fresh_items": 0,
@@ -871,13 +882,13 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 59,
       "expected_candidate_count": 59.0
     },
     "It-tilsynet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 15,
       "last_fresh_items": 0,
@@ -885,28 +896,28 @@
         "Officielt nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 15,
       "expected_candidate_count": 15.0
     },
     "Lægemiddelstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 63,
+      "last_candidate_count": 40,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 63,
       "expected_candidate_count": 73.9
     },
     "Sundhedsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 28,
       "last_fresh_items": 0,
@@ -915,12 +926,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 28,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "expected_candidate_count": 27.4
     },
     "Styrelsen for Patientsikkerhed": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 7,
       "last_fresh_items": 0,
@@ -929,28 +940,28 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 7,
       "expected_candidate_count": 7.2
     },
     "Sundhedsdatastyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 20,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 20,
       "expected_candidate_count": 20.0
     },
     "Statens Serum Institut": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 44,
       "last_fresh_items": 0,
@@ -958,13 +969,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 44,
       "expected_candidate_count": 43.8
     },
     "Styrelsen for Patientklager": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 71,
       "last_fresh_items": 0,
@@ -972,13 +983,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 71,
       "expected_candidate_count": 71.0
     },
     "Styrelsen for Grøn Arealomlægning og Vandmiljø": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 169,
       "last_fresh_items": 5,
@@ -986,14 +997,14 @@
         "Sitemap"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 169,
-      "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_sitemap_scan_at": "2026-10-29T10:03:39.573125+00:00",
       "expected_candidate_count": 165.6
     },
     "Naturstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 49,
       "last_fresh_items": 0,
@@ -1001,14 +1012,14 @@
         "Officielt MST-nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_sitemap_scan_at": "2026-10-28T17:33:23.646771+00:00",
       "last_full_candidate_count": 49,
       "expected_candidate_count": 46.4
     },
     "Slots- og Kulturstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -1016,13 +1027,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 20,
       "expected_candidate_count": 20.0
     },
     "Rigsarkivet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 89,
       "last_fresh_items": 0,
@@ -1030,15 +1041,15 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 89,
       "expected_candidate_count": 89.2
     },
     "Dansk Sprognævn": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 23,
+      "last_candidate_count": 12,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
@@ -1046,26 +1057,26 @@
       "last_errors": [],
       "last_full_candidate_count": 23,
       "expected_candidate_count": 23.0,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00"
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00"
     },
     "Styrelsen for Samfundssikkerhed": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 75,
+      "last_candidate_count": 24,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML",
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 75,
       "expected_candidate_count": 73.9
     },
     "Beredskabsstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 48,
       "last_fresh_items": 0,
@@ -1074,13 +1085,13 @@
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 48,
       "expected_candidate_count": 48
     },
     "Dansk Dekommissionering": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 11,
       "last_fresh_items": 0,
@@ -1089,15 +1100,15 @@
         "RSS/Atom"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 0,
       "expected_candidate_count": 9
     },
     "Ankestyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "GoBasic API",
@@ -1105,41 +1116,42 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 30,
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "expected_candidate_count": 29.4
     },
     "Social- og Boligstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 104,
-      "last_fresh_items": 1,
+      "last_candidate_count": 10,
+      "last_fresh_items": 0,
       "last_methods": [
-        "Sitemap"
+        "GoBasic API",
+        "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 104,
       "last_sitemap_scan_at": "2026-10-29T08:36:08.492529+00:00",
       "expected_candidate_count": 103.1
     },
     "Familieretshuset": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
-      "last_candidate_count": 20,
+      "last_candidate_count": 10,
       "last_fresh_items": 0,
       "last_methods": [
         "HTML"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 20,
       "expected_candidate_count": 20.0
     },
     "Miljøstyrelsen": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_attempt_at": "2026-10-29T10:03:39.573125+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 199,
       "last_fresh_items": 0,
@@ -1147,7 +1159,7 @@
         "Officielt MST-nyheds-API"
       ],
       "last_errors": [],
-      "last_success_at": "2026-10-29T08:36:08.492529+00:00",
+      "last_success_at": "2026-10-29T10:03:39.573125+00:00",
       "last_full_candidate_count": 199,
       "last_sitemap_scan_at": "2026-10-28T17:33:23.646771+00:00",
       "expected_candidate_count": 159.2
