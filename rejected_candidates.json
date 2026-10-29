@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-29T11:32:25.085745+00:00",
+  "generated_at": "2026-10-29T17:33:59.729421+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 179,
+  "total_rejected": 193,
   "summary_by_reason": {
-    "before_archive_start": 179
+    "before_archive_start": 193
   },
   "rejected": [
     {
@@ -306,16 +306,6 @@
     },
     {
       "source": "Finansministeriet",
-      "title": "Grønne statsobligationer er nu en velfungerende del af det danske statsgældsmarked",
-      "url": "https://fm.dk/nyheder/nyhedsarkiv/2023/december/groenne-statsobligationer-er-nu-en-velfungerende-del-af-det-danske-statsgaeldsmarked/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2023-12-20T00:00:00+00:00"
-    },
-    {
-      "source": "Finansministeriet",
       "title": "Grønne statsobligationer: Udgivelse af allokeringsrapport for 2023",
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2024/november/groenne-statsobligationer-udgivelse-af-allokeringsrapport-for-2023/",
       "reason": "before_archive_start",
@@ -480,7 +470,7 @@
       "url": "https://fm.dk/nyheder/nyhedsarkiv/2025/december/regeringen-hjemtager-og-konkurrenceudsaetter-en-del-af-statens-juridiske-opgaver/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom+HTML",
+      "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-18T00:00:00+00:00"
     },
@@ -1366,6 +1356,141 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2015-06-28T12:47:23+00:00"
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "20 millioner kroner til at styrke økologisk landbrug",
+      "url": "https://www.mgtp.dk/nyheder/2025/aug/20-millioner-kroner-til-at-styrke-oekologisk-landbrug",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "38 millioner til ulvesikring af hegn og ny ansøgningsrunde",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/38-millioner-til-ulvesikring-af-hegn-og-ny-ansoegningsrunde-httpsadminmgtpdkcms",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Arbejdsgruppe for Tange Sø er på plads",
+      "url": "https://www.mgtp.dk/nyheder/2025/sep/arbejdsgruppe-for-tange-soe-er-paa-plads",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Danmark planter træer til fremtidens skove på søndag",
+      "url": "https://www.mgtp.dk/nyheder/2025/okt/danmark-planter-traeer-til-fremtidens-skove-paa-soendag",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Danmark skal rådgive Ukraine om trepart",
+      "url": "https://www.mgtp.dk/nyheder/2025/sep/danmark-skal-raadgive-ukraine-om-trepart",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Danmark vil have hele EU med på visionen om fremtidens bioøkonomi",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/danmark-vil-have-hele-eu-med-paa-visionen-om-fremtidens-biooekonomi",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Danmarkshistoriens største tilskud til rejsning af skov åbner",
+      "url": "https://www.mgtp.dk/nyheder/2025/sep/danmarkshistoriens-stoerste-tilskud-til-rejsning-af-skov-aabner",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Flere penge til jordbytte og til et særligt udfordret område",
+      "url": "https://www.mgtp.dk/nyheder/2025/okt/flere-penge-til-jordbytte-og-til-et-saerligt-udfordret-omraade",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Flere penge til jordfordeling",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/flere-penge-til-jordfordeling",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Forslag: Markant højere straf for gylle på frossen jord",
+      "url": "https://www.mgtp.dk/nyheder/2025/sep/forslag-markant-hoejere-straf-for-gylle-paa-frossen-jord",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Grøn trepart sikrer endnu mere natur",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/groen-trepart-sikrer-endnu-mere-natur",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Historisk reduktion af landbrugets udledninger af kvælstof",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/ny-aftale-historisk-reduktion-af-landbrugets-udledninger-af-kvaelstof",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Hårdere straffe på vej for naturkriminalitet",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/haardere-straffe-paa-vej-for-naturkriminalitet",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Ny strategi for bioøkonomi skal gøre EU mere grøn og uafhængig",
+      "url": "https://www.mgtp.dk/nyheder/2025/dec/ny-strategi-for-biooekonomi-skal-goere-eu-mere-groen-og-uafhaengig",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
+    },
+    {
+      "source": "Ministeriet for Natur og Dyrevelfærd",
+      "title": "Rekordstor søgning til vand- og klimaprojekter",
+      "url": "https://www.mgtp.dk/nyheder/2025/nov/rekordstor-soegning-til-vand-og-klimaprojekter",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "GoBasic API",
+      "detail": ""
     },
     {
       "source": "Skatte- og Vækstministeriet",
