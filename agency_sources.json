@@ -87,13 +87,17 @@
     {
       "name": "Fødevarestyrelsen",
       "responsible_ministry": "Erhvervs- og Konkurrencekraftministeriet",
-      "home_url": "https://foedevarestyrelsen.dk/",
+      "home_url": "https://www.foedevarestyrelsen.dk/",
       "start_urls": [
-        "https://foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1",
-        "https://foedevarestyrelsen.dk/nyheder/webnyheder?Page=1"
+        "https://www.foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1",
+        "https://www.foedevarestyrelsen.dk/nyheder/webnyheder?Page=1"
       ],
       "article_prefixes": ["/nyheder/pressemeddelelser/", "/nyheder/webnyheder/"],
       "disable_sitemap": false,
+      "public_origin": "https://www.foedevarestyrelsen.dk",
+      "fetch_public_origin": true,
+      "fast_listing_pages": 4,
+      "gobasic_fast_pages_per_entry": 1,
       "allow_unlabeled_after_h1_date": true,
       "after_h1_date_max_text_nodes": 12,
       "refresh_before_schema": 14

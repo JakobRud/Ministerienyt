@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "7.5.6"
+APP_VERSION = "8.0"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -228,6 +228,7 @@ PAGINATION_QUERY_KEYS = {
 # Domæneskift, hvor gamle og nye officielle URL'er kan pege på samme artikel.
 # Bruges kun til intern dublet-/cacheidentifikation; det viste link bevares.
 CANONICAL_HOST_ALIASES = {
+    "foedevarestyrelsen.dk": "foedevarestyrelsen.dk",
     "ism.dk": "www.ism.dk",
     "skim.dk": "www.ism.dk",
     # FUDM bevarer artikelstierne fra UFM. Den gamle identitet er stabil.
@@ -426,6 +427,13 @@ def public_url_for_source(url: str, source: dict) -> str:
     )
 
 
+def source_fetch_url(url: str, source: dict) -> str:
+    """Brug kun en udtrykkeligt konfigureret offentlig origin til hentning."""
+    if source.get("fetch_public_origin") and same_source_site(url, source):
+        return public_url_for_source(url, source)
+    return url
+
+
 def identity_title_key(title: str) -> str:
     """Stabil titelkerne til artikelidentitet uafhaengigt af URL/domaene."""
     value = unicodedata.normalize("NFKC", clean_text(title)).casefold()
@@ -484,6 +492,8 @@ def browser_seen_alias_ids(url: str) -> list[str]:
     groups = []
     if host in {"trm.dk", "bltm.dk"}:
         groups = ["trm.dk", "www.trm.dk", "bltm.dk", "www.bltm.dk"]
+    elif host == "foedevarestyrelsen.dk":
+        groups = ["foedevarestyrelsen.dk", "www.foedevarestyrelsen.dk"]
     elif host in {"ism.dk", "skim.dk"}:
         groups = ["ism.dk", "www.ism.dk", "skim.dk", "www.skim.dk"]
     elif host in {"ufm.dk", "fudm.dk"}:
@@ -1970,7 +1980,7 @@ def crawl_listing_pages(
     elif fast:
         # Besøg alle aktive indgange, men kun få paginerede sider. Den daglige
         # dybe kørsel og den månedlige audit tager sig af resten af arkivet.
-        fast_pages = cfg_int("fast_listing_pages", DEFAULT_FAST_LISTING_PAGES, 1, 20)
+        fast_pages = max(1, min(20, int(source.get("fast_listing_pages", cfg_int("fast_listing_pages", DEFAULT_FAST_LISTING_PAGES, 1, 20)))))
         max_pages = min(configured_max_pages, max(len(queued_urls), fast_pages))
     else:
         deep_pages = cfg_int("deep_listing_pages", DEFAULT_DEEP_LISTING_PAGES, 4, 80)
@@ -1981,7 +1991,7 @@ def crawl_listing_pages(
     except (TypeError, ValueError):
         listing_page_delay = 0.0
     while queue and len(visited) < max_pages:
-        requested_url = queue.popleft()
+        requested_url = source_fetch_url(queue.popleft(), source)
         page_key = normalize_url(requested_url, keep_query=True)
         if not page_key or page_key in visited:
             continue
@@ -2033,6 +2043,8 @@ def crawl_listing_pages(
         feed_urls.extend(discovered_feed_urls(soup, final_url))
 
         dynamic_budget = max(0, max_pages - status.listing_pages)
+        if fast and source.get("gobasic_fast_pages_per_entry"):
+            dynamic_budget = min(dynamic_budget, max(1, int(source["gobasic_fast_pages_per_entry"])))
         listing_soups: list[tuple[BeautifulSoup, bool, str]] = [(soup, True, "HTML")]
         listing_soups.extend(
             (dynamic_soup, False, "GoBasic API")
@@ -2240,7 +2252,7 @@ def sitemap_seed_urls(session: requests.Session, source: dict, status: SourceSta
                     result.append(normalize_url(line.split(":", 1)[1].strip(), keep_query=True))
         except Exception:
             pass
-    return list(dict.fromkeys(url for url in result if url))
+    return list(dict.fromkeys(source_fetch_url(url, source) for url in result if url))
 
 
 def discover_sitemap_candidates(
@@ -2391,7 +2403,7 @@ def item_from_candidate(
     )
     if must_fetch:
         try:
-            response = fetch(session, candidate.url)
+            response = fetch(session, source_fetch_url(candidate.url, source))
             status.article_fetches += 1
             final_url = normalize_url(response.url, keep_query=True) or candidate.url
             article_soup = BeautifulSoup(response.text, "html.parser")
@@ -3939,6 +3951,12 @@ def item_from_archive_dict(raw: dict) -> Item | None:
             and parsed_url.path.startswith("/nyheder/")
         ):
             url = urlunparse(("https", "www.skim.dk", parsed_url.path, "", parsed_url.query, ""))
+        if (
+            source == "Fødevarestyrelsen"
+            and normalize_host(parsed_url.netloc) == "foedevarestyrelsen.dk"
+            and parsed_url.path.startswith(("/nyheder/pressemeddelelser/", "/nyheder/webnyheder/"))
+        ):
+            url = urlunparse(("https", "www.foedevarestyrelsen.dk", parsed_url.path, "", parsed_url.query, ""))
         description = clean_text(str(raw.get("description", "")))[:900]
         if not source or is_generic_title(title) or not url:
             return None
@@ -4936,6 +4954,7 @@ def build_html(
 <div class="about-contact-content"><h2 id="about-contact-title">Om siden og kontakt</h2>
 <p>Ministerienyt og Styrelsesnyt er et uafhængigt og uofficielt hobbyprojekt, som er udviklet og drives af {esc(contact_name)}. Siden samler links og korte uddrag fra danske ministerier, styrelser og myndigheder.</p>
 <p>Indholdet tilhører de oprindelige udgivere, og artiklerne åbnes altid hos den officielle kilde.</p>
+<p>Oversigten kan være forsinket eller ufuldstændig. Kontrollér altid oplysningerne hos den officielle kilde.</p>
 <h3>Kontakt</h3><p>Har du fundet en fejl, savner du en relevant myndighed, eller har du forslag til siden, er du velkommen til at skrive til <a href="mailto:{esc(contact_email)}">{esc(contact_email)}</a>.</p>
 <form method="dialog" class="about-contact-actions"><button class="about-contact-close" type="submit">Luk</button></form></div>
 </dialog>'''
@@ -5727,7 +5746,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v7.5.6</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v8.0</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v8.0</strong><ul><li>Opdateringskontrol undgår dobbelte hentninger, og bygge- og udgivelsestrin er adskilt. Understøtter en uafhængig ekstern udløser.</li><li>Fem kilder med usædvanlig stilhed er kontrolleret mod de officielle arkiver.</li><li>Fødevarestyrelsen hentes fra den fungerende www-adresse med normal certifikatkontrol; eksisterende artikellinks og identiteter bevares.</li><li>Om siden forklarer nu, at oversigten kan være forsinket eller ufuldstændig.</li></ul>'
         '<strong>v7.5.6</strong><ul><li>Folketingets Ombudsmands dynamiske nyhedsarkiv hentes nu gennem sidens officielle GoBasic-listefunktion.</li><li>Hele årsarkivet gennemgås, og eksisterende artikler og læsemarkeringer bevares.</li><li>Tomme GoBasic-arkiver genkendes automatisk ud fra sidens officielle listekonfiguration.</li></ul>'
         '<strong>v7.5.5</strong><ul><li>Fælles datolæsning for GoBasic og nye API-indstillinger for Miljøstyrelsen og Naturstyrelsen.</li><li>Sundheds- og Kirkeministeriets domæneskift samt Anklagemyndighedens nye nyhedsarkiv understøttes.</li><li>Socialministeriets officielle pressekanal supplerer hjemmesiden ved adgangsfejl.</li><li>Uventede tomme svar prøves igen én gang. Fejlede kontroller sænker ikke det normale sammenligningsniveau; reelle fejl og manglende dækning vises fortsat.</li></ul>'
         '<strong>v7.5.4</strong><ul><li>Banedanmarks officielle Via Ritzau-pressekanal supplerer nu bane.dk, så pressemeddelelser fortsat kan hentes ved udfald på hjemmesiden.</li><li>Arkivet bevares og dubletter samles. En vedvarende fejl på bane.dk vises fortsat, hvis den alternative kanal ikke giver fuld dækning.</li></ul>'

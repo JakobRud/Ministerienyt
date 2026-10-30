@@ -16,6 +16,60 @@ except ImportError:  # gør filen testbar i offline udviklingsmiljøer
 
 from bs4 import BeautifulSoup
 import ministerier_nyheder as m
+import update_gate as gate
+
+
+class UpdateGateTests(unittest.TestCase):
+    def setUp(self):
+        self.now = datetime(2026, 10, 29, 12, tzinfo=timezone.utc)
+
+    def stamp(self, minutes=5, version="8.0"):
+        return {"version": version, "updated_at": (self.now - m.timedelta(minutes=minutes)).isoformat()}
+
+    def test_both_views_must_be_recent(self):
+        self.assertTrue(gate.both_views_fresh([self.stamp(), self.stamp(19)], self.now))
+        self.assertFalse(gate.both_views_fresh([self.stamp(), self.stamp(20)], self.now))
+        self.assertFalse(gate.both_views_fresh([self.stamp(60), self.stamp()], self.now))
+
+    def test_invalid_missing_or_future_status_never_blocks_update(self):
+        for bad in ({}, {"version": "8.0", "updated_at": "forkert"}, self.stamp(-10), {"version": "8.0", "updated_at": "2026-10-29T12:00:00"}):
+            self.assertFalse(gate.both_views_fresh([self.stamp(), bad], self.now))
+        self.assertFalse(gate.both_views_fresh([self.stamp()], self.now))
+        self.assertFalse(gate.both_views_fresh([self.stamp(version="7.5.6"), self.stamp()], self.now))
+
+    def test_deep_audit_and_manual_runs_bypass_freshness_skip(self):
+        self.assertEqual(gate.update_mode("schedule", gate.AUDIT_SCHEDULE, False), "full")
+        self.assertEqual(gate.update_mode("schedule", gate.DEEP_SCHEDULE, False), "deep")
+        self.assertEqual(gate.update_mode("workflow_dispatch", "", True), "full")
+        self.assertTrue(gate.should_check_freshness("workflow_dispatch", "fast", True))
+        self.assertTrue(gate.should_check_freshness("schedule", "fast", False))
+        self.assertFalse(gate.should_check_freshness("push", "fast", False))
+        self.assertFalse(gate.should_check_freshness("workflow_dispatch", "fast", False))
+        self.assertFalse(gate.should_check_freshness("schedule", "deep", True))
+        self.assertFalse(gate.should_check_freshness("workflow_dispatch", "full", True))
+
+    def test_status_network_failure_still_runs_and_emits_workflow_outputs(self):
+        import os
+        from unittest.mock import patch
+        with TemporaryDirectory() as tmp:
+            output = Path(tmp) / "output"
+            with patch.dict(os.environ, {"UPDATE_EVENT": "workflow_dispatch", "ONLY_IF_STALE": "true", "FULL_AUDIT": "false", "GITHUB_OUTPUT": str(output), "PAGES_URL": "https://example.dk/"}), patch.object(gate, "read_public_status", side_effect=TimeoutError()):
+                self.assertEqual(gate.main(), 0)
+            self.assertEqual(output.read_text(), "run=true\nmode=fast\n")
+
+    def test_environment_only_protects_publish_job(self):
+        try:
+            import yaml
+        except ImportError:
+            self.skipTest("YAML-validering køres særskilt, når PyYAML er installeret.")
+        workflow = yaml.load(Path(".github/workflows/pages.yml").read_text(), Loader=yaml.BaseLoader)
+        jobs = workflow["jobs"]
+        self.assertNotIn("environment", jobs["build"])
+        self.assertIn("environment", jobs["deploy"])
+        self.assertEqual(jobs["deploy"]["needs"], "build")
+        self.assertEqual(jobs["build"]["concurrency"]["group"], "pages")
+        self.assertNotEqual(jobs["deploy"]["concurrency"]["group"], "pages")
+        self.assertEqual(jobs["deploy"]["timeout-minutes"], "10")
 
 
 class DateRegressionTests(unittest.TestCase):
@@ -571,6 +625,69 @@ class IdentityAndSafetyTests(unittest.TestCase):
         source["gobasic_dynamic_list"] = False
         self.assertEqual(m.gobasic_dynamic_listing_pages(Session(), source, BeautifulSoup(config, "html.parser"), "https://example.dk/nyheder", status, 2), [])
         self.assertEqual(len(calls), 1)
+
+    def test_food_authority_www_move_preserves_archive_and_identity(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Fødevarestyrelsen")
+        old_url = "https://foedevarestyrelsen.dk/nyheder/webnyheder/2026/oktober/en-rigtig-nyhed"
+        new_url = old_url.replace("https://", "https://www.", 1)
+        raw = {"source": source["name"], "title": "En rigtig nyhed fra styrelsen", "url": old_url, "published": "2026-10-27T00:00:00+00:00", "first_seen_at": "2026-10-27T12:00:00+00:00", "article_id": "a6-food-original"}
+        item = m.item_from_archive_dict(raw)
+        self.assertEqual(item.url, new_url)
+        self.assertEqual(item.article_id, raw["article_id"])
+        self.assertEqual(item.first_seen_at.isoformat(), raw["first_seen_at"])
+        self.assertEqual(m.canonical_url(old_url), m.canonical_url(new_url))
+        self.assertEqual(m.browser_seen_alias_ids(old_url), m.browser_seen_alias_ids(new_url))
+        self.assertTrue(all(u.startswith("https://www.foedevarestyrelsen.dk/") for u in source["start_urls"]))
+
+    def test_food_authority_fetches_configured_valid_origin_before_article_request(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Fødevarestyrelsen")
+        old_url = "https://foedevarestyrelsen.dk/nyheder/webnyheder/2026/oktober/en-rigtig-nyhed"
+        new_url = old_url.replace("https://", "https://www.", 1)
+        calls = []
+        original_fetch = m.fetch
+        try:
+            def fake_fetch(session, url, **kwargs):
+                calls.append(url)
+                self.assertEqual(url, new_url)
+                return types.SimpleNamespace(url=new_url, text='<h1>En rigtig nyhed fra styrelsen</h1><time itemprop="datePublished" datetime="2026-10-27T10:00:00Z"></time><p>Den rigtige beskrivelse fra styrelsen.</p>')
+            m.fetch = fake_fetch
+            status = m.SourceStatus(source["name"], source["home_url"])
+            item = m.item_from_candidate(None, source, m.Candidate(old_url, "En rigtig nyhed fra styrelsen"), status)
+        finally:
+            m.fetch = original_fetch
+        self.assertIsNotNone(item)
+        self.assertEqual(item.url, new_url)
+        self.assertEqual(calls, [new_url])
+        self.assertEqual(status.errors, [])
+        # Publicering på en anden origin må ikke i sig selv flytte hentningen.
+        self.assertEqual(m.source_fetch_url("https://origin.example/nyheder/en-nyhed", {"public_origin": "https://public.example"}), "https://origin.example/nyheder/en-nyhed")
+
+    def test_food_authority_fast_mode_checks_both_news_streams(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Fødevarestyrelsen")
+        shell = '<div class="archive-search-result" data-config="{}"></div>'
+        post_calls = []
+        get_calls = []
+        class Session:
+            def post(self, url, **kwargs):
+                stream = "pressemeddelelser" if "pressemeddelelser" in kwargs["headers"]["Referer"] else "webnyheder"
+                post_calls.append((stream, kwargs["json"]["page"]))
+                page = f'<div class="item"><h2><a href="/nyheder/{stream}/2026/en-rigtig-nyhed">En rigtig nyhed fra {stream}</a></h2><span data-date="2026-10-27T10:00:00Z">Dato</span></div>'
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"pageHtml": page, "totalResultCount": {"All": 100}})
+        original_fetch = m.fetch
+        try:
+            def fake_fetch(session, url, **kwargs):
+                get_calls.append(url)
+                return types.SimpleNamespace(url=url, text=shell, content=shell.encode(), headers={"content-type": "text/html"})
+            m.fetch = fake_fetch
+            status = m.SourceStatus(source["name"], source["home_url"])
+            candidates, _ = m.crawl_listing_pages(Session(), source, status, fast=True)
+        finally:
+            m.fetch = original_fetch
+        self.assertEqual(post_calls, [("pressemeddelelser", 1), ("webnyheder", 1)])
+        self.assertEqual(len(get_calls), 2)
+        self.assertEqual(status.listing_pages, 4)
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual(status.errors, [])
 
     def test_ombudsman_dynamic_archive_finds_dated_articles_in_empty_shell(self):
         source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Folketingets Ombudsmand")
@@ -1748,7 +1865,9 @@ class IdentityAndSafetyTests(unittest.TestCase):
         self.assertIn('CRAWL_FLAG="--fast"', workflow)
         self.assertIn('--sources agency_sources.json', workflow)
         self.assertIn('--archive agency_archive.json', workflow)
-        self.assertIn('else\n            CRAWL_FLAG="--fast"', workflow)
+        self.assertIn('CRAWL_MODE: ${{ needs.check.outputs.mode }}', workflow)
+        self.assertIn("if: needs.check.outputs.run == 'true'", workflow)
+        self.assertIn('ref: main', workflow)
         self.assertIn('--html-output site/styrelsesnyt/index.html', workflow)
 
     def test_next_only_pagination_ignores_far_numeric_page_links(self):
@@ -1947,6 +2066,8 @@ class IdentityAndSafetyTests(unittest.TestCase):
         dialog = soup.select_one("#about-contact-dialog")
         self.assertIsNotNone(dialog)
         self.assertIn("uofficielt hobbyprojekt", dialog.get_text(" ", strip=True))
+        self.assertIn("Oversigten kan være forsinket eller ufuldstændig.", dialog.get_text(" ", strip=True))
+        self.assertIn("Kontrollér altid oplysningerne hos den officielle kilde.", dialog.get_text(" ", strip=True))
         self.assertIn("Jakob Flintegaard Rud", dialog.get_text(" ", strip=True))
         self.assertEqual(dialog.select_one('a[href^="mailto:"]')["href"], "mailto:jakob@rud.net")
         self.assertIn("aboutContactDialog.showModal()", html)

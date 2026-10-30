@@ -1,4 +1,60 @@
-# Ministerienyt og Styrelsesnyt 7.5.6
+# Ministerienyt og Styrelsesnyt 8.0
+
+
+## Version 8.0 – drift og klarere forventninger
+
+### 1. Opdateringsrytmen
+
+De seneste kørsler gennemføres normalt på 8–11 minutter. De observerede pauser på op til seks timer ligger mellem GitHubs planlagte udløsninger. En ændret cron-frekvens alene giver derfor ikke stabil opdatering.
+
+- Workflowet understøtter en uafhængig ekstern udløser gennem `workflow_dispatch` med `only_if_stale: true`.
+- Det nye `update_gate.py` kontrollerer begge offentlige statusfiler. Er begge visninger under 20 minutter gamle og på samme version, springes ekstra hentning over.
+- Manglende, ugyldig, fremtidsdateret eller utilgængelig status udløser en opdatering. Upload, almindelig manuel kørsel, natlig dyb kontrol og fuld audit springes aldrig over på grund af friskhedstjekket.
+- Workflowet har tre job: `check`, `build` og `deploy`. GitHub Pages-miljøet beskytter kun udgivelsen; en ventende udgivelse spærrer derfor ikke nye arkivhentninger.
+- Builds kører fortsat ét ad gangen og henter den aktuelle `main`, så kølagte kørsler bruger seneste arkiv. Tidsplaner og den eksterne udløser afbryder ikke en igangværende crawl. En upload eller eksplicit manuel genstart kan erstatte et gammelt build.
+- En nyere udgivelse kan erstatte en ældre ventende udgivelse. Den eksisterende tre-timersgrænse og kildealarmer bevares.
+
+**Aktivering kræver én manuel opsætning:** Følg [EKSTERN-OPDATERING.md](EKSTERN-OPDATERING.md). Ingen konto, nøgle eller ekstern tidsplan er oprettet eller aktiveret af denne versionspakke. GitHubs indbyggede tidsplan fortsætter som reserve. Den uafhængige udløser mindsker afhængigheden af GitHubs cron, men GitHub Actions skal stadig være tilgængelig for at bygge og udgive.
+
+### 2. Kontrol af de fem kilder med usædvanlig stilhed
+
+De fem kilder er kontrolleret den 29. oktober 2026 gennem deres officielle arkiver og den fulde crawlerkontrol. Der blev ikke fundet nyere historier, som manglede i det gemte arkiv. Alle eksisterende artikel-ID’er er bevaret ved sammenlægningen. SIRIs ene genhentede post blev genkendt som eksisterende, så arkivet blev ikke udvidet af den.
+
+| Kilde | Seneste verificerede artikel | Arkivposter | Resultat |
+| --- | --- | ---: | --- |
+| Finansministeriet | 9. oktober 2026 | 28 | Ingen nyere manglende historier fundet |
+| Justitsministeriet | 14. oktober 2026 | 44 | Ingen nyere manglende historier fundet |
+| Sundheds- og Kirkeministeriet | 9. oktober 2026 | 70 | Ingen nyere manglende historier fundet |
+| Styrelsen for International Rekruttering og Integration | 13. oktober 2026 | 42 | Ingen nyere manglende historier fundet |
+| Styrelsen for Arbejdsmarked og Rekruttering | 19. oktober 2026 | 22 | Ingen nyere manglende historier fundet |
+
+Stilhedssignalerne er interne kontrolsignaler og ikke i sig selv bevis på en fejl. De er ikke deaktiveret eller givet kunstigt nyere datoer. Kontrollen er et dateret øjebliksbillede; den garanterer ikke fremtidig fuldstændighed. Artikler, der er fjernet fra kildernes aktuelle oversigter, bevares fortsat i arkivet.
+
+### Fødevarestyrelsen: rettet før udgivelse af 8.0
+
+En ny bemærkning den 29. oktober skyldtes et udløbet certifikat på adressen uden www. Den officielle www-adresse kunne hentes med normal certifikatkontrol.
+
+- Startadresserne og de offentlige artikellinks bruger nu `https://www.foedevarestyrelsen.dk`.
+- Kilden bruger denne udtrykkeligt konfigurerede origin til liste- og artikelhentning. Andre kilders særlige hente-origins ændres ikke, og TLS-kontrollen er ikke slået fra.
+- Gamle artikellinks flyttes ved indlæsning. Canonical-identitet, artikel-ID og læsemarkeringer bevares på tværs af www og ikke-www.
+- Det lette tjek afsætter én API-side til hver af de to nyhedsstrømme, så både pressemeddelelser og webnyheder bliver kontrolleret ved hver kørsel. Dybe kontroller følger fortsat hele arkivet inden for kildebudgettet.
+- Live-kontrollen af det lette tjek gav 18 kandidater fordelt på begge strømme, ingen hentefejl og ingen offentlig bemærkning. Alle 41 eksisterende historier er bevaret. Tre genhentede poster genkendes som eksisterende og giver ingen ekstra arkivposter. Den fulde kontrol gav 78 kandidater, ingen hentefejl og ingen offentlig bemærkning; alle 41 historier og deres artikel-ID’er er fortsat bevaret.
+
+Pakken indeholder derfor også den ændrede `agency_sources.json` og i alt otte filer.
+
+### 3. Tydelige forventninger
+
+Under **Om siden og kontakt** på begge visninger står nu: “Oversigten kan være forsinket eller ufuldstændig. Kontrollér altid oplysningerne hos den officielle kilde.” Teksten føjes til den eksisterende beskrivelse af hobbyprojektet. Forsiden får ingen ekstra bannertekst.
+
+### Validering
+
+- 116 lokale regressionstests bestået, inklusive friskhedsgrænse, begge visninger, netværksfejl, ugyldige tidsstempler, natlig audit, manuelle kørsler og den nye Om-tekst.
+- Workflowet er valideret med actionlint 1.7.12 uden fejl. Eksempler på frisk og gammel status er testet; statusfejl udløser opdatering.
+- Friskhedskontrollen er kørt mod de aktuelle offentlige statusfiler. Den starter ikke selv en GitHub-kørsel; udløserens POST skal afprøves efter opsætning.
+- Begge sider er genereret fra de eksisterende arkiver og JavaScript-syntakskontrolleret. Den progressive indlæsning og tre-timersgrænsen er bevaret.
+- De fem kilder er fuldt gennemgået uden fund af nyere manglende artikler eller hentefejl.
+
+Versionen er klargjort og lokalt testet; workflowets faktiske build og deploy kan først bekræftes efter upload. Den eksterne tidsplan kan først bekræftes efter din opsætning og test. Kildelistens medlemskab, artikelarkiver, perioder, kontaktoplysninger og den fælles besøgstæller ændres ikke. Fødevarestyrelsens henteadresser er opdateret som beskrevet ovenfor.
 
 
 ## Rettet i version 7.5.6

@@ -1,16 +1,33 @@
-# Opdatér til version 7.5.6
+# Opdatér til version 8.0
 
-1. Pak `Ministerienyt-7.5.6.zip` ud.
-2. Åbn roden af [Ministerienyt-repositoryet](https://github.com/JakobRud/Ministerienyt), vælg **Add file → Upload files**, og upload alle fem filer fra pakken:
+## Upload de otte filer samlet
 
-   - `ministerier_nyheder.py`
-   - `agency_sources.json`
-   - `regression_tests.py`
-   - `README.md`
-   - `TRIN-FOR-TRIN.md`
+Pakken indeholder syv filer i roden og én workflowfil:
 
-3. Commit til `main`. Den eksisterende Actions-kørsel bygger og udgiver begge visninger.
-4. Kontrollér, at regressionstests og udgivelse bliver grønne, og at footeren viser **v7.5.6**.
-5. Under **Kilder og dækning** på Styrelsesnyt skal Folketingets Ombudsmand efter en vellykket kørsel hente via **GoBasic API** uden den tidligere bemærkning om nul kandidater. De tidligere historier bevares, og de manglende oktoberhistorier hentes.
+- `ministerier_nyheder.py`
+- `agency_sources.json` **(Fødevarestyrelsens adresse rettet)**
+- `regression_tests.py`
+- `update_gate.py` **(ny hjælpefil)**
+- `README.md`
+- `TRIN-FOR-TRIN.md`
+- `EKSTERN-OPDATERING.md` **(ny vejledning)**
+- `.github/workflows/pages.yml` **(skal erstatte den eksisterende workflowfil)**
 
-De almindelige kørsler henter de aktuelle resultater først. Den natlige dybere kontrol gennemgår resten af årsarkivet. Du skal ikke erstatte artikelarkiver, statusfiler, site-konfiguration, sources.json, workflow eller genererede HTML-filer.
+1. Pak `Ministerienyt-8.0.zip` ud.
+2. Åbn [repositoryets rod](https://github.com/JakobRud/Ministerienyt), og vælg **Add file → Upload files**.
+3. Træk de syv rod-filer samt mappen **`.github`** fra pakken ind i uploadfeltet. Kontrollér, at GitHub viser workflowfilen på stien **`.github/workflows/pages.yml`**. Den må ikke ende som `pages.yml` i roden eller under en ekstra Ministerienyt-mappe.
+4. Commit alle otte filer til `main` i samme commit, så hjælpefil og workflow følges ad.
+5. Under **Actions** skal den nye kørsel vise tre job: **check → build → deploy**. Den første upload skal bygge og udgive, også selv om siden blev opdateret for få minutter siden.
+6. Når udgivelsen er grøn, skal begge visninger vise **v8.0**. Åbn **Om siden og kontakt**, og kontrollér den nye tekst om forsinkelse og fuldstændighed.
+
+Mapper med punktum kan være skjulte på nogle computere. Slå om nødvendigt visning af skjulte filer til. Alternativt kan [GitHubs webeditor](https://github.dev/JakobRud/Ministerienyt) bruges til at ændre alle otte filer og committe dem samlet.
+
+Du skal ikke erstatte artikelarkiver, andre kildelister, statusfiler, site-konfiguration eller genererede HTML-filer.
+
+## Aktivér den mere stabile udløser
+
+Følg **EKSTERN-OPDATERING.md** efter upload. Den viser den præcise opsætning af én uafhængig tidsplan hos cron-job.org.
+
+**Den eksterne tidsplan er ikke aktiveret af ZIP-filen.** Indtil den er sat op, bruger siden fortsat GitHubs eksisterende tidsplan og kan derfor stadig have de hidtidige lange pauser. GitHub-nøglen indtastes privat hos den eksterne tjeneste og må ikke uploades til repositoryet.
+
+Efter opsætningen kan kørsler, der kun udfører `check` og derefter springer hentning over, være helt normale. Det betyder, at siden netop er opdateret. En reel crawl- eller udgivelsesfejl vil fortsat være synlig i Actions og den eksisterende statusvisning efter dens normale grænse.
