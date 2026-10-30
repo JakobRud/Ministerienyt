@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-10-30T11:30:24.709764+00:00",
+  "generated_at": "2026-10-30T17:19:06.415659+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 509,
+  "total_rejected": 508,
   "summary_by_reason": {
     "before_archive_start": 497,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4899,15 +4898,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Opgørelse af målsætning for pesticidbelastningsindikatoren for 2025",
-      "url": "https://mst.dk/nyheder/2026/oktober/opgoerelse-af-maalsaetning-for-pesticidbelastningsindikatoren-for-2025",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",

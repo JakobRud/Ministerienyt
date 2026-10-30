@@ -1,24 +1,15 @@
 {
-  "generated_at": "2026-10-30T11:25:19.178912+00:00",
+  "generated_at": "2026-10-30T17:14:30.043550+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 192,
+  "total_rejected": 187,
   "summary_by_reason": {
-    "before_archive_start": 192
+    "before_archive_start": 187
   },
   "rejected": [
     {
       "source": "Erhvervsministeriet",
       "title": "Briller før brag: Nye tiltag skal mindske antallet af fyrværkeriulykker",
       "url": "https://www.em.dk/aktuelt/nyheder/2025/dec/briller-foer-brag-nye-tiltag-skal-mindske-antallet-af-fyrvaerkeriulykker",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Dansk EU-formandskab opnår enighed om securitisering og tager vigtigt skridt mod opbygning af en europæisk opsparings- og investeringsunion",
-      "url": "https://www.em.dk/aktuelt/nyheder/2025/dec/dansk-eu-formandskab-opnaar-enighed-om-securitisering-og-tager-vigtigt-skridt-mod-opbygning-af-en-europaeisk-opsparings-og-investeringsunion",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
@@ -1404,15 +1395,6 @@
     },
     {
       "source": "Ministeriet for Natur og Dyrevelfærd",
-      "title": "Danmarkshistoriens største tilskud til rejsning af skov åbner",
-      "url": "https://www.mgtp.dk/nyheder/2025/sep/danmarkshistoriens-stoerste-tilskud-til-rejsning-af-skov-aabner",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Ministeriet for Natur og Dyrevelfærd",
       "title": "Flere penge til jordbytte og til et særligt udfordret område",
       "url": "https://www.mgtp.dk/nyheder/2025/okt/flere-penge-til-jordbytte-og-til-et-saerligt-udfordret-omraade",
       "reason": "before_archive_start",
@@ -1424,15 +1406,6 @@
       "source": "Ministeriet for Natur og Dyrevelfærd",
       "title": "Flere penge til jordfordeling",
       "url": "https://www.mgtp.dk/nyheder/2025/dec/flere-penge-til-jordfordeling",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Ministeriet for Natur og Dyrevelfærd",
-      "title": "Forslag: Markant højere straf for gylle på frossen jord",
-      "url": "https://www.mgtp.dk/nyheder/2025/sep/forslag-markant-hoejere-straf-for-gylle-paa-frossen-jord",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
@@ -1645,16 +1618,6 @@
     },
     {
       "source": "Undervisningsministeriet",
-      "title": "Nu kommer EU-formandskabet ud i klasselokalerne",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/november/251121-nu-kommer-eu-formandskabet-ud-i-klasselokalerne/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-24T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
       "title": "Nu vender skolebiblioteket tilbage på landets folkeskoler",
       "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251211-nu-vender-skolebiblioteket-tilbage-paa-landets-folkeskoler/",
       "reason": "before_archive_start",
@@ -1712,16 +1675,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Over 70 procent af boggavemidlerne går nu til fysiske bøger",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/november/251120-over-70-procent-af-boggavemidlerne-gaar-nu-til-fysiske-boeger/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-11-19T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
