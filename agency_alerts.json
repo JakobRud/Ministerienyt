@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-10-30T02:44:52.199345+00:00",
+  "generated_at": "2026-10-30T08:53:10.644606+00:00",
   "threshold": 3,
-  "active_alerts": 1,
-  "alerts": [
-    {
-      "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
-      "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://sgav.dk/alle-nyheder?Page=1: HTTPSConnectionPool(host='sgav.dk', port=443): Max retries exceeded with url: /alle-nyheder?Page=1 (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'sgav.dk'. (_ssl.c:1010)\")))"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }
