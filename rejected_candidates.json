@@ -1,20 +1,11 @@
 {
-  "generated_at": "2026-10-31T07:39:29.026488+00:00",
+  "generated_at": "2026-10-31T08:10:57.887256+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 187,
+  "total_rejected": 186,
   "summary_by_reason": {
-    "before_archive_start": 187
+    "before_archive_start": 186
   },
   "rejected": [
-    {
-      "source": "Erhvervsministeriet",
-      "title": "Briller før brag: Nye tiltag skal mindske antallet af fyrværkeriulykker",
-      "url": "https://www.em.dk/aktuelt/nyheder/2025/dec/briller-foer-brag-nye-tiltag-skal-mindske-antallet-af-fyrvaerkeriulykker",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
     {
       "source": "Finansministeriet",
       "title": "Aftale mellem staten, Naalakkersuisut og KommuneKredit om statsgaranti til grønlandske kommuner",
