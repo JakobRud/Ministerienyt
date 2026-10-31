@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-31T10:09:47.694586+00:00",
+  "updated_at": "2026-10-31T10:40:43.474992+00:00",
   "note": "Vedvarende driftsstatus til retry, cache og fejlalarmer. Publiceres ikke på GitHub Pages.",
   "sources": {
     "Statsministeriet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 46,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "Sitemap"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://stm.dk/presse/pressemeddelelser/: 406 Client Error: Not Acceptable for url: https://stm.dk/presse/pressemeddelelser/"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 46,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
@@ -20,15 +20,15 @@
       "expected_candidate_count": 43.8
     },
     "Økonomi- og Indenrigsministeriet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "HTML"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://oem.dk/nyheder/nyhedsarkiv/: 406 Client Error: Not Acceptable for url: https://oem.dk/nyheder/nyhedsarkiv/"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 85,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
@@ -36,7 +36,7 @@
     },
     "Udenrigsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 66,
       "last_fresh_items": 1,
@@ -45,12 +45,12 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 66,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "expected_candidate_count": 65.4
     },
     "Erhvervsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -60,22 +60,21 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 40,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-31T08:11:01.667088+00:00",
       "expected_candidate_count": 27.2
     },
     "Finansministeriet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "HTML",
-        "RSS/Atom"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://fm.dk/nyheder/nyhedsarkiv/: 406 Client Error: Not Acceptable for url: https://fm.dk/nyheder/nyhedsarkiv/"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 324,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
@@ -83,7 +82,7 @@
     },
     "Justitsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 39,
       "last_fresh_items": 0,
@@ -92,29 +91,32 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 824,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 824
     },
     "Forsknings-, Uddannelses- og Digitaliseringsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 20,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "warn",
+      "last_candidate_count": 4,
       "last_fresh_items": 0,
       "last_methods": [
-        "HTML"
+        "Sitemap"
       ],
-      "last_errors": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://fudm.dk/aktuelt/nyheder: 406 Client Error: Not Acceptable for url: https://fudm.dk/aktuelt/nyheder",
+        "Liste kunne ikke hentes: https://fudm.dk/aktuelt/pressemeddelelser: 406 Client Error: Not Acceptable for url: https://fudm.dk/aktuelt/pressemeddelelser"
+      ],
       "last_full_candidate_count": 4,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
-      "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
+      "last_sitemap_scan_at": "2026-10-31T10:40:43.474992+00:00",
       "expected_candidate_count": 388.8
     },
     "Klima-, Energi- og Forsyningsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -125,14 +127,14 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 50,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 34.7
     },
     "By-, Land- og Transportministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 40,
       "last_fresh_items": 0,
@@ -141,37 +143,36 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 29,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
-      "last_sitemap_scan_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_sitemap_scan_at": "2026-10-31T10:40:43.474992+00:00",
       "expected_candidate_count": 29
     },
     "Udlændinge- og Integrationsministeriet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "HTML"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://uim.dk/nyhedsarkiv: 406 Client Error: Not Acceptable for url: https://uim.dk/nyhedsarkiv"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 683,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 683
     },
     "Undervisningsministeriet": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 30,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "HTML",
-        "RSS/Atom"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://uvm.dk/aktuelt/nyheder: 406 Client Error: Not Acceptable for url: https://uvm.dk/aktuelt/nyheder"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 90,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
@@ -179,7 +180,7 @@
     },
     "Beskæftigelses- og Ligestillingsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 10,
       "last_fresh_items": 0,
@@ -188,13 +189,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 10,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 10.0
     },
     "Forsvarsministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 0,
       "last_fresh_items": 0,
@@ -203,14 +204,14 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 53,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 50.4
     },
     "Skatte- og Vækstministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 60,
       "last_fresh_items": 0,
@@ -219,14 +220,14 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 59,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
-      "last_sitemap_scan_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_sitemap_scan_at": "2026-10-31T10:40:43.474992+00:00",
       "expected_candidate_count": 53.4
     },
     "Sundheds- og Kirkeministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -237,13 +238,13 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 80,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 60.9
     },
     "Ministeriet for Natur og Dyrevelfærd": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 45,
       "last_fresh_items": 0,
@@ -253,14 +254,14 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 29,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-31T08:27:42.023724+00:00",
       "expected_candidate_count": 26.0
     },
     "Kulturministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 30,
       "last_fresh_items": 0,
@@ -269,19 +270,19 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 50,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "expected_candidate_count": 50.0
     },
     "Ministeriet for Samfundssikkerhed og Beredskab": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 34,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "Sitemap"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://mssb.dk/nyheder/: 406 Client Error: Not Acceptable for url: https://mssb.dk/nyheder/"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 34,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_sitemap_scan_at": "2026-10-31T10:09:47.694586+00:00",
@@ -289,7 +290,7 @@
     },
     "Børne-, Ældre- og Boligministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 20,
       "last_fresh_items": 0,
@@ -299,30 +300,32 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 65,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 48.8
     },
     "Socialministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "warn",
       "last_candidate_count": 25,
       "last_fresh_items": 0,
       "last_methods": [
         "Via Ritzau API"
       ],
-      "last_errors": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://www.sm.dk/nyheder: 406 Client Error: Not Acceptable for url: https://sm.dk/nyheder"
+      ],
       "last_full_candidate_count": 31,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 29.6
     },
     "Miljøministeriet": {
       "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
       "last_self_test": "pass",
       "last_candidate_count": 42,
       "last_fresh_items": 0,
@@ -331,20 +334,20 @@
       ],
       "last_errors": [],
       "last_full_candidate_count": 83,
-      "last_success_at": "2026-10-31T10:09:47.694586+00:00",
+      "last_success_at": "2026-10-31T10:40:43.474992+00:00",
       "last_sitemap_scan_at": "2026-10-30T08:42:16.468017+00:00",
       "expected_candidate_count": 81.3
     },
     "Regeringen.dk": {
-      "consecutive_failures": 0,
-      "last_attempt_at": "2026-10-31T10:09:47.694586+00:00",
-      "last_self_test": "pass",
-      "last_candidate_count": 21,
+      "consecutive_failures": 1,
+      "last_attempt_at": "2026-10-31T10:40:43.474992+00:00",
+      "last_self_test": "fail",
+      "last_candidate_count": 0,
       "last_fresh_items": 0,
-      "last_methods": [
-        "Sitemap"
+      "last_methods": [],
+      "last_errors": [
+        "Liste kunne ikke hentes: https://regeringen.dk/aktuelt/nyheder/: 406 Client Error: Not Acceptable for url: https://regeringen.dk/aktuelt/nyheder/"
       ],
-      "last_errors": [],
       "last_full_candidate_count": 21,
       "last_success_at": "2026-10-31T10:09:47.694586+00:00",
       "last_historical_scan_at": "2026-10-30T08:42:16.468017+00:00",
