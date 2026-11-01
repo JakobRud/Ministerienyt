@@ -1,5 +1,23 @@
-# Ministerienyt og Styrelsesnyt 8.0
+# Ministerienyt og Styrelsesnyt 8.0.1
 
+
+## Version 8.0.1 – DNS-genkontrol og kommende myndighedsændringer
+
+Dansk Dekommissionerings bemærkning den 1. november 2026 skyldes DNS-fejl på dekom.dk. Både Google Public DNS og Cloudflare svarede SERVFAIL; Cloudflare angav ingen tilgængelig autoritativ navneserver. Både dekom.dk og www.dekom.dk var berørt. Det kan ikke repareres i denne crawler, og en anden URL eller deaktiveret certifikatkontrol er ikke en løsning.
+
+- Efter de normale kildeforsøg genkontrolleres totalt fejlede DNS-hentninger én gang med en ny HTTP-session, efter at de øvrige kilder er behandlet og tidligst 15 sekunder efter sidste forsøg. Højst tre kilder får denne ekstra kontrol pr. visning og kørsel.
+- En genoprettet kilde får sin aktuelle selvtest og dækning kontrolleret igen. De tidligere fejl bevares i statusfilens `recovery_errors`. Et vedvarende udfald beholder sin fejlstatus og følger den eksisterende regel for offentlige bemærkninger. Der anvendes fortsat normal DNS og TLS-kontrol.
+- De 11 eksisterende artikler fra Dansk Dekommissionering bevares. Pakken kan ikke love, at bemærkningen forsvinder, før myndighedens DNS virker igen.
+- Sundhedsdatastyrelsen hentes fortsat frem til 31. december 2026. Fra 1. januar 2027 dansk tid stopper hentningen automatisk. Kilden vises som **Arkiv**, og historiske artikler, artikel-ID'er, datoer og favoritvalg bevares. Ophøret tælles ikke som en ny fejl eller en frisk hentning.
+- `agency_site_config.json` dokumenterer Dyrevelfærdskontrollen og Digital Sundhed Danmark som kommende kilder, der skal verificeres. Listen udfører ikke automatisk internetsøgning eller gætter nye URL'er. Dyrevelfærdskontrollen tilføjes først ved bekræftet etablering og fungerende officiel nyhedskilde; præcis startdato er endnu ikke bekræftet. En officiel nyhedskilde for Digital Sundhed Danmark skal ligeledes verificeres før aktivering.
+- Den allerede forberedte DMI/Klimadatastyrelsen-fusion fra 1. december 2026 bevares.
+
+Officielle kilder:
+
+- [Sundhedsdatastyrelsen om overgangen til Digital Sundhed Danmark](https://sundhedsdatastyrelsen.dk/om-os/organisation/digital-sundhed-danmark): Sundhedsdatastyrelsen ophører 31. december 2026; den nye organisation etableres 1. januar 2027.
+- [Justitsministeriets meddelelse på Regeringen.dk, 29. september 2026](https://regeringen.dk/aktuelt/nyheder/2026/flere-kontroller-og-haardere-konsekvenser-regeringen-styrker-kontrollen-af-dyrevelfaerd-markant/): Dyrevelfærdskontrollen planlægges som selvstændig styrelse i begyndelsen af 2027.
+
+Validering: 122 regressionstests består, inklusive DNS-genopretning, vedvarende udfald, certifikatfejl, dansk datoskift og arkivstatus. Begge visninger er genereret lokalt fra de eksisterende arkiver. Ingen arkivfiler eller GitHub-workflow er ændret i denne pakke. Den eksisterende cron-job.org-opsætning skal ikke ændres.
 
 ## Version 8.0 – drift og klarere forventninger
 

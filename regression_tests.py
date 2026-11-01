@@ -19,6 +19,88 @@ import ministerier_nyheder as m
 import update_gate as gate
 
 
+class RecoveryAndRetirementTests(unittest.TestCase):
+    def collect_fixture(self, recover=True, error="NameResolutionError: Failed to resolve 'dekom.dk'"):
+        from unittest.mock import patch, MagicMock
+        sources = [{"name": name, "home_url": "https://example.dk/", "start_urls": ["https://example.dk/nyheder/"]} for name in ["Dansk Dekommissionering", "Anden kilde"]]
+        calls = []
+        def collect(session, source, *args, **kwargs):
+            calls.append(source["name"])
+            status = m.SourceStatus(source["name"], source["home_url"], fast_mode=True)
+            if source["name"] == "Dansk Dekommissionering" and (not recover or calls.count(source["name"]) <= 2):
+                status.errors.append(error)
+            else:
+                status.listing_pages = 1
+                status.article_candidates = 11
+                status.methods.append("HTML")
+            return [], status
+        config = dict(m.RUNTIME_CONFIG)
+        try:
+            m.RUNTIME_CONFIG.update(source_retry_attempts=2, source_retry_wait_seconds=0)
+            with patch.object(m, "collect_source", side_effect=collect), patch.object(m, "create_session", side_effect=lambda: MagicMock()), patch.object(m.time, "sleep"):
+                _, statuses = m.collect_fresh_items(sources, set(), {sources[0]["name"]: {"consecutive_failures": 2}}, fast=True)
+        finally:
+            m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(config)
+        return calls, statuses
+
+    def test_dns_recovery_runs_after_other_sources_and_keeps_diagnostics(self):
+        calls, statuses = self.collect_fixture()
+        self.assertEqual(calls, ["Dansk Dekommissionering", "Dansk Dekommissionering", "Anden kilde", "Dansk Dekommissionering"])
+        status = statuses[0]
+        self.assertEqual(status.self_test, "pass")
+        self.assertFalse(status.public_warning)
+        self.assertEqual(status.article_candidates, 11)
+        self.assertTrue(status.recovery_errors)
+        self.assertEqual(status.retry_attempts, 2)
+
+    def test_persistent_dns_error_remains_failed_and_keeps_archive(self):
+        _, statuses = self.collect_fixture(recover=False)
+        self.assertTrue(statuses[0].public_warning)
+        self.assertFalse(m.source_crawl_ok(statuses[0]))
+        self.assertEqual(statuses[0].retry_attempts, 2)
+        item = m.with_item_identity(m.Item("Dansk Dekommissionering", "Historisk nyhed", "https://dekom.dk/2026/10/07/test/", datetime(2026, 10, 7, tzinfo=timezone.utc)))
+        self.assertEqual(m.merge_archive([item], []), [item])
+
+    def test_certificate_failure_does_not_take_dns_recovery_route(self):
+        calls, statuses = self.collect_fixture(recover=False, error="SSLError: certificate verify failed")
+        self.assertEqual(calls.count("Dansk Dekommissionering"), 2)
+        self.assertTrue(statuses[0].public_warning)
+
+    def test_retirement_uses_danish_date_and_keeps_source_in_archive_config(self):
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "Sundhedsdatastyrelsen")
+        self.assertFalse(m.source_is_retired(source, datetime(2026, 12, 31, 22, 59, tzinfo=timezone.utc)))
+        self.assertTrue(m.source_is_retired(source, datetime(2026, 12, 31, 23, 0, tzinfo=timezone.utc)))
+
+    def test_retired_source_is_not_fetched_or_marked_fresh_or_alerted(self):
+        from unittest.mock import patch, MagicMock
+        source = {"name": "Ophørt kilde", "home_url": "https://example.dk/", "retired_from": "2026-01-01"}
+        old = {"last_success_at": "2025-12-31", "consecutive_failures": 4}
+        with patch.object(m, "collect_source") as collect, patch.object(m, "create_session", return_value=MagicMock()):
+            _, statuses = m.collect_fresh_items([source], set(), {source["name"]: old}, full_audit=True)
+        collect.assert_not_called()
+        self.assertEqual(statuses[0].self_test, "retired")
+        self.assertFalse(m.source_has_public_warning(statuses[0]))
+        state = m.update_source_state({"sources": {source["name"]: old}}, statuses)
+        self.assertEqual(state["sources"][source["name"]]["last_success_at"], old["last_success_at"])
+        self.assertEqual(m.alerts_payload(state, statuses)["active_alerts"], 0)
+        previous = {source["name"]: {"last_checked_at": "2025-12-31", "last_successful_at": "2025-12-31"}}
+        health = m.health_payload(statuses, [], previous, 0)
+        self.assertEqual(health["active_source_count"], 0)
+        self.assertEqual(health["retired_source_count"], 1)
+        self.assertEqual(health["sources"][0]["last_successful_at"], "2025-12-31")
+        self.assertEqual(health["sources"][0]["last_checked_at"], "2025-12-31")
+        html = m.build_html([], "feed.xml", [dict(source, start_urls=[source["home_url"]])], statuses)
+        self.assertIn('<span>Arkiv</span>', html)
+        self.assertIn("Kilden er ophørt; arkivet bevares.", html)
+
+    def test_pending_authorities_are_documented_without_invented_active_sources(self):
+        config = m.load_site_config(Path("agency_site_config.json"))
+        planned = {row["name"] for row in config["authority_watchlist"]}
+        active = {row["name"] for row in m.load_sources_config(Path("agency_sources.json"))}
+        self.assertEqual(planned, {"Dyrevelfærdskontrollen", "Digital Sundhed Danmark"})
+        self.assertTrue(planned.isdisjoint(active))
+
+
 class UpdateGateTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 10, 29, 12, tzinfo=timezone.utc)
@@ -473,7 +555,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         original_collect_source = m.collect_source
         original_create_session = m.create_session
         try:
-            m.create_session = lambda: object()
+            m.create_session = lambda: types.SimpleNamespace(close=lambda: None)
 
             def fake_collect_source(session, current, known_urls, previous, *, fast, full_audit):
                 calls.append((fast, full_audit))
@@ -1140,7 +1222,7 @@ class IdentityAndSafetyTests(unittest.TestCase):
         config = dict(m.RUNTIME_CONFIG)
         try:
             m.RUNTIME_CONFIG.update(source_retry_attempts=2, source_retry_wait_seconds=0)
-            m.create_session = lambda: None
+            m.create_session = lambda: types.SimpleNamespace(close=lambda: None)
             def collect(*args, **kwargs):
                 calls.append(1)
                 status = m.SourceStatus(source["name"], source["home_url"])

@@ -37,5 +37,21 @@
       "home_url": "https://www.dmi.dk/",
       "official_notice": "https://www.kefm.dk/aktuelt/nyheder/2026/sep/dmi-og-klimadatastyrelsen-sammenlaegges-til-ny-styrelse"
     }
+  ],
+  "authority_watchlist": [
+    {
+      "name": "Dyrevelfærdskontrollen",
+      "change": "Ny selvstændig styrelse under Justitsministeriet",
+      "expected_from": "Begyndelsen af 2027; præcis dato endnu ikke bekræftet",
+      "action": "Tilføj først en aktiv kilde, når etablering og en officiel nyhedsside er verificeret.",
+      "official_notice": "https://regeringen.dk/aktuelt/nyheder/2026/flere-kontroller-og-haardere-konsekvenser-regeringen-styrker-kontrollen-af-dyrevelfaerd-markant/"
+    },
+    {
+      "name": "Digital Sundhed Danmark",
+      "effective_from": "2027-01-01",
+      "change": "Sundhedsdatastyrelsen indgår i ny fællesejet organisation",
+      "action": "Verificér officiel nyhedskilde som afløser. Ingen automatisk omdøbning af historiske artikler eller antagelse om ny URL.",
+      "official_notice": "https://sundhedsdatastyrelsen.dk/om-os/organisation/digital-sundhed-danmark"
+    }
   ]
 }

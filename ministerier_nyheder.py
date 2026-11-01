@@ -51,7 +51,7 @@ from defusedxml import ElementTree as SafeET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-APP_VERSION = "8.0"
+APP_VERSION = "8.0.1"
 ARCHIVE_START = datetime(2026, 1, 1, tzinfo=timezone.utc)
 USER_AGENT = f"Ministerienyt/{APP_VERSION} (+https://github.com/JakobRud/Ministerienyt; public Danish government news aggregator)"
 CONNECT_TIMEOUT = 12
@@ -319,6 +319,8 @@ class SourceStatus:
     quality_flags: list[str] | None = None
     methods: list[str] | None = None
     errors: list[str] | None = None
+    recovery_errors: list[str] | None = None
+    retired_from: str = ""
 
     def __post_init__(self) -> None:
         if self.methods is None:
@@ -3851,6 +3853,23 @@ def annotate_date_pattern_warning(status: SourceStatus, items: list[Item]) -> No
             status.self_test_notes.append(status.date_pattern_warning)
 
 
+def source_is_retired(source: dict, now: datetime | None = None) -> bool:
+    since = source.get("retired_from")
+    if not since:
+        return False
+    today = (now or datetime.now(timezone.utc)).astimezone(ZoneInfo("Europe/Copenhagen")).date()
+    return today >= datetime.fromisoformat(since).date()
+
+
+def needs_dns_recovery(status: SourceStatus) -> bool:
+    """Kun totalt mislykkede DNS-hentninger; TLS-, layout- og HTTP-fejl ændres ikke."""
+    return not status.retired_from and not source_crawl_ok(status) and any(
+        marker in str(error).casefold()
+        for error in status.errors or []
+        for marker in ("nameresolutionerror", "temporary failure in name resolution", "failed to resolve")
+    )
+
+
 def collect_fresh_items(
     sources: list[dict],
     known_urls: set[str],
@@ -3862,11 +3881,18 @@ def collect_fresh_items(
     session = create_session()
     all_items: dict[str, Item] = {}
     statuses: list[SourceStatus] = []
+    dns_recovery: list[tuple[int, dict, float]] = []
     source_state = source_state or {}
     max_attempts = cfg_int("source_retry_attempts", DEFAULT_SOURCE_RETRY_ATTEMPTS, 1, 4)
     wait_seconds = cfg_int("source_retry_wait_seconds", DEFAULT_SOURCE_RETRY_WAIT_SECONDS, 0, 30)
 
     for index, source in enumerate(sources, start=1):
+        if source_is_retired(source):
+            statuses.append(SourceStatus(
+                source["name"], source.get("home_url", ""),
+                retired_from=source["retired_from"], self_test="retired", public_warning=False,
+            ))
+            continue
         print(f"[{index}/{len(sources)}] Henter {source['name']} ...", file=sys.stderr)
         started = time.monotonic()
         items: list[Item] = []
@@ -3918,12 +3944,55 @@ def collect_fresh_items(
         duration = time.monotonic() - started
         status.crawl_seconds = round(duration, 3)
         statuses.append(status)
+        if needs_dns_recovery(status) and len(dns_recovery) < 3:
+            dns_recovery.append((len(statuses) - 1, source, time.monotonic()))
         method_text = ", ".join(dict.fromkeys(status.methods or [])) or "ingen fund"
         print(
             f"  -> {len(items)} nye/opdaterede, {status.article_candidates} kandidater, "
             f"{method_text}, selvtest={status.self_test}, {duration:.1f} sek.",
             file=sys.stderr,
         )
+
+    session.close()
+    # Vent til de øvrige kilder er behandlet. En kort resolverfejl får dermed
+    # tid til at forsvinde, i stedet for kun at få to tætliggende forsøg.
+    # Højst tre ekstra kildeforsøg beskytter køretiden ved et generelt DNS-udfald.
+    for position, source, failed_at in dns_recovery:
+        old = statuses[position]
+        previous = source_state.get(source["name"], {})
+        remaining = 15 - (time.monotonic() - failed_at)
+        if remaining > 0:
+            time.sleep(remaining)
+        print(f"DNS-genkontrol før udgivelse: {source['name']}", file=sys.stderr)
+        started = time.monotonic()
+        recovery_session = create_session()
+        try:
+            items, recovered = collect_source(
+                recovery_session, source, known_urls, previous,
+                fast=old.fast_mode,
+                full_audit=full_audit or bool(source.get("_full_audit_on_refresh")),
+            )
+            if source_crawl_ok(recovered):
+                recovered.retry_attempts += old.retry_attempts + 1
+                recovered.recovery_errors = list(old.errors or [])
+                recovered.crawl_seconds = round(old.crawl_seconds + time.monotonic() - started, 3)
+                evaluate_source_self_test(recovered, previous)
+                annotate_date_pattern_warning(recovered, items)
+                evaluate_source_public_warning(recovered, previous)
+                statuses[position] = recovered
+                for item in items:
+                    key = canonical_url(item.url) or item.article_id
+                    all_items[key] = better_item(all_items.get(key), item)
+            else:
+                for error in recovered.errors or []:
+                    append_error(old, "DNS-genkontrol: " + error)
+        except Exception as exc:
+            append_error(old, f"DNS-genkontrol mislykkedes: {exc}")
+        finally:
+            recovery_session.close()
+        if statuses[position] is old:
+            old.retry_attempts += 1
+            old.crawl_seconds = round(old.crawl_seconds + time.monotonic() - started, 3)
 
     return sorted(all_items.values(), key=lambda item: item.published, reverse=True), statuses
 
@@ -4374,6 +4443,8 @@ def annotate_silence_warnings(statuses: list[SourceStatus], items: list[Item]) -
 
     for status in statuses:
         source_items = by_source.get(status.name, [])
+        if status.retired_from:
+            continue
         if not source_items:
             continue
         latest = max(source_items, key=lambda item: item.published)
@@ -4439,6 +4510,9 @@ def update_source_state(previous_payload: dict, statuses: list[SourceStatus]) ->
     rows: dict[str, dict] = {}
     for status in statuses:
         old = old_sources.get(status.name, {}) if isinstance(old_sources, dict) else {}
+        if status.retired_from:
+            rows[status.name] = {**old, "retired_from": status.retired_from}
+            continue
         ok = source_crawl_ok(status)
         consecutive = 0 if ok else int(old.get("consecutive_failures", 0) or 0) + 1
         row = dict(old) if isinstance(old, dict) else {}
@@ -4493,6 +4567,8 @@ def alerts_payload(state_payload: dict, statuses: list[SourceStatus]) -> dict:
     alerts: list[dict] = []
     status_lookup = {status.name: status for status in statuses}
     for name, row in state_sources.items():
+        if row.get("retired_from"):
+            continue
         failures = int((row or {}).get("consecutive_failures", 0) or 0)
         if failures < threshold:
             continue
@@ -4885,13 +4961,17 @@ def build_html(
             methods = "Arkiv"
         crawl_ok = source_crawl_ok(status) if status else False
         quality_warning = bool(status and source_has_public_warning(status))
-        if quality_warning and not crawl_ok:
+        if status and status.retired_from:
+            state = '<span>Arkiv</span>'
+        elif quality_warning and not crawl_ok:
             state = '<span class="source-warn">Tjek</span>'
         elif quality_warning:
             state = '<span class="source-warn">Bemærkning</span>'
         else:
             state = '<span class="source-ok">OK</span>'
         notes: list[str] = []
+        if status and status.retired_from:
+            notes.append("Kilden er ophørt; arkivet bevares. Hentning stoppet fra " + status.retired_from + ".")
         if quality_warning and status:
             notes.extend(status.self_test_notes or [])
             notes.extend(status.errors or [])
@@ -5746,7 +5826,8 @@ def build_html(
     changelog_html = '''<details class="changelog"><summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong><ul><li>Workflowet opdaterer hver time kl. 06–18 samt kl. 21, 00 og 03 i dansk tid; de hyppige tjek er begrænset til få aktive sider pr. kilde.</li><li>En diskret driftsbemærkning vises først efter to udeblevne planlagte opdateringer.</li><li>Kildetjek og advarsler er fjernet fra toppen; konkrete bemærkninger vises i stedet under “Kilder og dækning”.</li><li>“Mine ministerier” samler nu valg og filtrering i én tydelig menu.</li><li>Mellemrum ved tælleren for unikke besøg er rettet.</li></ul><strong>v6.2</strong><ul><li>Sitemap-baserede kilder kontrolleres nu ved hver kørsel, når HTML, RSS og Ritzau ikke giver kandidater.</li><li>Fuld audit springer sikre før-2026-URLer over og kan startes manuelt fra Actions.</li><li>Gamle generiske overskrifter kan heles automatisk, og det medfølgende arkiv har fået 10 manglende artikler.</li><li>Delte visninger med “Mine ministerier” indeholder nu de valgte favoritter.</li><li>Kvalitetsadvarsler, social metadata og offentlig status.json er gjort tydeligere.</li></ul><strong>v6.1</strong><ul><li>Datoaflæsning rettet for STM, Kulturministeriet, Natur og Dyrevelfærd, Samfundssikkerhed og Miljø.</li><li>Miljøministeriets officielle Via Ritzau-pressroom bruges som supplerende discovery-kilde, så det dynamiske arkiv ikke giver huller.</li><li>Artikeloverskrifter foretrækker nu en meningsfuld H1 frem for generiske site-metadata, bl.a. hos BAEBM.</li><li>Selvtesten advarer internt, hvis mange kandidater findes men kasseres pga. manglende sikker dato.</li><li>Berørte kilder genopbygges kontrolleret fra schema 9.</li></ul><strong>v6.0</strong><ul><li>Automatiske selvtests, genforsøg, cache og senest-gode-resultat beskytter alle 22 kilder.</li><li>Permanente artikel-ID'er og stærkere dubletkontrol gør domæne- og URL-skift mindre synlige for brugerne.</li><li>Interne driftsalarmer efter gentagne reelle kildefejl samt månedlig fuld kildeaudit.</li><li>Udvidet diagnostics.json og en intern diagnostics.html med kandidater, afvisninger, cache og selvtest.</li><li>Visuel finpudsning af status, filtre, kort og footer uden at gøre forsiden mere kompleks.</li></ul><strong>v5.6</strong><ul><li>Historisk backfill markeres ikke længere som "Ny siden sidst"; lidt forsinkede artikler får en 7-dages tolerance.</li><li>TRM/BLTM-domæneskift behandles som samme artikelidentitet, hvor URL-stien svarer til hinanden.</li><li>Footeren er låst til to kompakte rækker med en kort mobiltekst.</li><li>Workflowet kører to gange i timen for at mindske virkningen af forsinkede eller droppede GitHub-schedules.</li></ul><strong>v5.5</strong><ul><li>Footer strammet op til to tydelige linjer på almindelige skærme.</li><li>Mere kompakt topområde og mere ensartede artikelkort.</li><li>Relativ status for seneste opdatering samt advarsel, hvis siden ikke er blevet opdateret i over tre timer.</li><li>Del visning-knap, tydeligere resultattæller og tastaturgenveje.</li><li>Diskret Til toppen-knap og finpudset layout på mobil og meget brede skærme.</li></ul><strong>v5.4</strong><ul><li>Diskret tæller for unikke besøg på hele Ministerienyt de seneste 30 dage via valgfri GoatCounter-integration.</li><li>Footer komprimeret: RSS-feed, version og besøgstal samles på samme linje.</li><li>RSS-linket fjernet fra topbjælken, så det kun vises ét sted.</li><li>Den ekstra introduktionslinje under overskriften er fjernet for en lavere top.</li></ul><strong>v5.3</strong><ul><li>BAEBM-kilden gjort robust over for domæneskiftet mellem aeldremin.dk og baebm.dk.</li><li>BAEBM accepterer nu den officielle rene datolinje umiddelbart efter artikeloverskriften.</li><li>Kildestatus måler nu kun teknisk crawl-status; perioder uden nye artikler reducerer ikke antallet af kilder OK.</li></ul><strong>v5.2</strong><ul><li>Alle 21 aktive ministerielle nyhedskilder gennemgået pr. 24. august 2026.</li><li>Børne-, Ældre- og Boligministeriets aktive domæne opdateret til baebm.dk.</li><li>Ekstra officielle RSS- og årsarkiver tilføjet, hvor de giver mere robust dækning.</li></ul><strong>v5.1</strong><ul><li>Advarsel ved usædvanlig stilhed fra normalt aktive kilder.</li><li>Kopiér-link på hver artikel.</li><li>Filtre for alle, 7 dage og 30 dage.</li><li>Installerbar webapp (PWA) og forbedret mobilbetjening.</li><li>Intern diagnostics.json med kvalitetsmålinger.</li></ul><strong>v5.0</strong><ul><li>Kildestatus, dubletkontrol, artikeltyper, favoritter og delbare filtre.</li></ul><strong>v4.7</strong><ul><li>Nye siden sidst sorteres øverst.</li></ul><strong>v4.6</strong><ul><li>Skjult log over afviste kandidater.</li></ul><strong>v4.5</strong><ul><li>Sikker datohåndtering for bl.a. Kulturministeriet og Skatte- og Vækstministeriet.</li></ul></div></details>'''
     changelog_html = changelog_html.replace(
         '<summary>v6.3</summary><div class="changelog-panel"><h3>Ændringslog</h3><strong>v6.3</strong>',
-        '<summary>v8.0</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<summary>v8.0.1</summary><div class="changelog-panel"><h3>Ændringslog</h3>'
+        '<strong>v8.0.1</strong><ul><li>DNS-fejl genkontrolleres med en ny forbindelse før udgivelse; vedvarende fejl vises fortsat.</li><li>Sundhedsdatastyrelsens kilde overgår til bevaret arkiv fra 1. januar 2027. Kommende myndighedsændringer er dokumenteret.</li></ul>'
         '<strong>v8.0</strong><ul><li>Opdateringskontrol undgår dobbelte hentninger, og bygge- og udgivelsestrin er adskilt. Understøtter en uafhængig ekstern udløser.</li><li>Fem kilder med usædvanlig stilhed er kontrolleret mod de officielle arkiver.</li><li>Fødevarestyrelsen hentes fra den fungerende www-adresse med normal certifikatkontrol; eksisterende artikellinks og identiteter bevares.</li><li>Om siden forklarer nu, at oversigten kan være forsinket eller ufuldstændig.</li></ul>'
         '<strong>v7.5.6</strong><ul><li>Folketingets Ombudsmands dynamiske nyhedsarkiv hentes nu gennem sidens officielle GoBasic-listefunktion.</li><li>Hele årsarkivet gennemgås, og eksisterende artikler og læsemarkeringer bevares.</li><li>Tomme GoBasic-arkiver genkendes automatisk ud fra sidens officielle listekonfiguration.</li></ul>'
         '<strong>v7.5.5</strong><ul><li>Fælles datolæsning for GoBasic og nye API-indstillinger for Miljøstyrelsen og Naturstyrelsen.</li><li>Sundheds- og Kirkeministeriets domæneskift samt Anklagemyndighedens nye nyhedsarkiv understøttes.</li><li>Socialministeriets officielle pressekanal supplerer hjemmesiden ved adgangsfejl.</li><li>Uventede tomme svar prøves igen én gang. Fejlede kontroller sænker ikke det normale sammenligningsniveau; reelle fejl og manglende dækning vises fortsat.</li></ul>'
@@ -5795,7 +5876,7 @@ def build_html(
 <style>{style}</style></head><body>
 <div class="top"><div class="wrap">{brand_navigation}<div class="top-actions"><button id="install-app" class="install-app" type="button" hidden>Installér app</button></div></div></div>
 <header class="hero"><div class="wrap"><h1>{esc(page_heading)}</h1><div class="run-status"><span id="updated-status" class="updated-status" data-updated="{esc(updated.isoformat())}" title="Senest opdateret {esc(fmt_datetime_da(updated))}">Senest opdateret netop nu</span></div><div class="controls" role="search"><div class="search-field"><label class="sr-only" for="search">Søg i nyheder</label><input id="search" type="search" placeholder="Søg fx klima, økonomi eller sundhed" aria-label="Søg i nyheder" autocomplete="off"></div><div><label class="sr-only" for="source">Kilde</label><select id="source">{''.join(options)}</select></div><div class="quick-actions"><button id="new-only" class="filter-button" type="button" aria-pressed="false">Kun nye</button><details id="favorites-menu" class="favorites-menu"><summary id="favorites-summary">★ {esc(favorites_label)}</summary><div class="favorites-panel"><p class="favorites-help">{esc(favorites_help)}</p><button id="mine-only" class="filter-button mine-filter" type="button" aria-pressed="false">Vis kun mine</button><div class="favorites-grid">{favorite_checks}</div><div class="favorites-footer"><span id="favorites-count">0 valgt</span><button id="clear-favorites" class="text-button" type="button">Ryd valg</button></div></div></details><details id="topics-menu" class="favorites-menu topics-menu"><summary id="topics-summary">Mine emner</summary><div class="favorites-panel"><p class="favorites-help">Gem op til 20 emner adskilt med komma. De samme emner bruges på Ministerienyt og Styrelsesnyt.</p><form id="topics-form" class="topics-form"><label class="sr-only" for="topics-input">Mine emner</label><input id="topics-input" type="text" placeholder="Fx klima, Ukraine, arbejdsmiljø" autocomplete="off"><button class="filter-button" type="submit">Gem</button></form><div class="topics-actions"><button id="topics-only" class="filter-button" type="button" aria-pressed="false">Vis mine emner</button><button id="clear-topics" class="text-button" type="button">Ryd emner</button></div><div id="topics-preview" class="topics-preview" aria-live="polite">Ingen emner gemt</div></div></details><button id="share-view" class="filter-button share-view" type="button" title="Del eller kopiér den aktuelle filtrerede visning">Del visning</button></div></div><div class="period-row" role="group" aria-label="Tidsperiode"><span>Periode:</span><button class="period-button" type="button" data-days="" aria-pressed="true">Alle</button><button class="period-button" type="button" data-days="today" aria-pressed="false">I dag</button><button class="period-button" type="button" data-days="3" aria-pressed="false">3 dage</button><button class="period-button" type="button" data-days="7" aria-pressed="false">7 dage</button><button class="period-button" type="button" data-days="30" aria-pressed="false">30 dage</button></div><div class="year-row" role="group" aria-label="År"><span>År:</span>{''.join(year_buttons)}</div></div></header>
-<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} Kolonnen “Indhold” viser de artikeltyper, der findes i arkivet. “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” betyder, at mindst én hentemetode lykkedes, men at der også var en delvis fejl; den konkrete forklaring står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Indhold</th><th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
+<main class="wrap"><div class="head"><div class="head-left"><h2>Nyhedsarkiv</h2><button id="new-summary" class="new-summary" type="button" disabled aria-live="polite"></button></div><div class="head-tools"><p id="count">{len(entries)} artikler</p></div></div><section class="list" id="list">{''.join(cards)}</section><button id="load-more" class="load-more" type="button" hidden>Vis flere nyheder</button><div class="empty" id="empty">Ingen nyheder matcher dit filter.</div><details class="sources" id="sources"><summary>Kilder og dækning <span class="source-count">({len(ministries)} kilder{esc(source_warning_label)})</span><span id="outage-status" class="outage-status" aria-live="polite" hidden></span></summary><div class="sources-content"><p>{esc(dedup_explanation)} Kolonnen “Indhold” viser de artikeltyper, der findes i arkivet. “OK” betyder, at crawleren teknisk kunne hente kilden. “Bemærkning” angiver en delvis fejl eller usikker dækning, og “Tjek” angiver, at kilden ikke kunne hentes. “Arkiv” er en ophørt kilde, hvis artikler bevares. Forklaringen står i sidste kolonne.</p><div class="table-wrap"><table><thead><tr><th>Kilde</th>{source_table_parent_header}<th>Indhold</th><th>Artikler</th><th>Status</th><th>Fundet via</th><th>Bemærkning</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div></div></details></main>
 <footer><div class="wrap"><div class="footer-row footer-about"><span class="footer-about-long">{esc(footer_about)}</span><span class="footer-about-short">{esc(footer_about_mobile)}</span></div><div class="footer-row footer-meta"><a href="{feed_href}">RSS-feed</a><span class="footer-sep" aria-hidden="true">·</span>{about_contact_button}<span class="footer-sep" aria-hidden="true">·</span>{changelog_html}{visit_counter_html}</div></div></footer>
 {about_contact_dialog}
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Til toppen" title="Til toppen" hidden>↑</button>
@@ -5829,7 +5910,7 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         previous_row = previous.get(status.name, {})
         raw["crawl_ok"] = crawl_ok
         raw["ok"] = ok
-        raw["last_checked_at"] = now
+        raw["last_checked_at"] = previous_row.get("last_checked_at") if status.retired_from else now
         raw["last_successful_at"] = now if crawl_ok else previous_row.get("last_successful_at")
         rows.append(raw)
     return {
@@ -5840,6 +5921,8 @@ def health_payload(statuses: list[SourceStatus], items: list[Item], previous: di
         "display_items_after_deduplication": display_count,
         "source_count": len(statuses),
         "healthy_sources": sum(1 for row in rows if row.get("ok")),
+        "active_source_count": sum(1 for row in rows if not row.get("retired_from")),
+        "retired_source_count": sum(1 for row in rows if row.get("retired_from")),
         "unusually_silent_sources": sum(1 for row in rows if row.get("silence_warning")),
         "sources": rows,
     }

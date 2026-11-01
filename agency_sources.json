@@ -720,7 +720,9 @@
       "article_exclude_regex": "^/nyheder/newspage/?$",
       "gobasic_dynamic_list": true,
       "max_listing_pages": 5,
-      "refresh_before_schema": 14
+      "refresh_before_schema": 14,
+      "retired_from": "2027-01-01",
+      "retirement_notice": "https://sundhedsdatastyrelsen.dk/om-os/organisation/digital-sundhed-danmark"
     },
     {
       "name": "Statens Serum Institut",
