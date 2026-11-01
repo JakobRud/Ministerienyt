@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T03:01:33.336699+00:00",
+  "generated_at": "2026-11-01T11:14:51.659194+00:00",
   "full_audit": true,
   "source_count": 79,
   "technical_ok": 79,
@@ -16,7 +16,8 @@
       "self_test": "pass",
       "methods": [
         "Verificeret ERST-arkiv",
-        "Via Ritzau API"
+        "Via Ritzau API",
+        "HTML"
       ],
       "redirects": [],
       "unexpected_redirects": [],
@@ -72,6 +73,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -89,6 +92,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -114,16 +119,18 @@
     },
     {
       "source": "Fødevarestyrelsen",
-      "home_url": "https://foedevarestyrelsen.dk/",
+      "home_url": "https://www.foedevarestyrelsen.dk/",
       "active_start_urls": [
-        "https://foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1",
-        "https://foedevarestyrelsen.dk/nyheder/webnyheder?Page=1"
+        "https://www.foedevarestyrelsen.dk/nyheder/pressemeddelelser?Page=1",
+        "https://www.foedevarestyrelsen.dk/nyheder/webnyheder?Page=1"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -238,7 +245,7 @@
       "source": "Anklagemyndigheden",
       "home_url": "https://anklagemyndigheden.dk/",
       "active_start_urls": [
-        "https://anklagemyndigheden.dk/da/nyheder"
+        "https://anklagemyndigheden.dk/nyheder/?type=post&from=2026-01-01"
       ],
       "historical_start_urls": [],
       "rss_urls": [],
@@ -369,6 +376,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -403,7 +412,10 @@
       "rss_urls": [],
       "technical_ok": true,
       "self_test": "pass",
-      "methods": [],
+      "methods": [
+        "GoBasic API",
+        "HTML"
+      ],
       "redirects": [],
       "unexpected_redirects": [],
       "errors": []
@@ -527,6 +539,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -544,6 +558,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -561,6 +577,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -578,6 +596,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -614,6 +634,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "Via Ritzau API",
         "HTML"
       ],
       "redirects": [],
@@ -1193,7 +1214,9 @@
       "methods": [
         "Sitemap"
       ],
-      "redirects": [],
+      "redirects": [
+        "https://sgav.dk/alle-nyheder?Page=1 -> https://www.sgav.dk/alle-nyheder?Page=1"
+      ],
       "unexpected_redirects": [],
       "errors": []
     },
@@ -1206,15 +1229,13 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
-        "Sitemap"
+        "Officielt MST-nyheds-API"
       ],
       "redirects": [],
       "unexpected_redirects": [],
-      "errors": [
-        "Officielt MST-nyheds-API kunne ikke hentes: 400 Client Error: Bad Request for url: https://search.mst.dk/api/News/Search"
-      ]
+      "errors": []
     },
     {
       "source": "Slots- og Kulturstyrelsen",
@@ -1352,6 +1373,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],

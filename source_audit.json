@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T02:42:02.046244+00:00",
+  "generated_at": "2026-11-01T10:53:46.405485+00:00",
   "full_audit": true,
   "source_count": 22,
   "technical_ok": 22,
@@ -71,6 +71,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
         "HTML",
         "Sitemap"
       ],
@@ -119,20 +120,21 @@
     },
     {
       "source": "Forsknings-, Uddannelses- og Digitaliseringsministeriet",
-      "home_url": "https://ufm.dk/",
+      "home_url": "https://fudm.dk/",
       "active_start_urls": [
-        "https://ufm.dk/aktuelt/nyheder",
-        "https://ufm.dk/aktuelt/pressemeddelelser"
+        "https://fudm.dk/aktuelt/nyheder",
+        "https://fudm.dk/aktuelt/pressemeddelelser"
       ],
       "historical_start_urls": [
-        "https://ufm.dk/aktuelt/nyheder/2026",
-        "https://ufm.dk/aktuelt/pressemeddelelser/2026",
+        "https://fudm.dk/aktuelt/nyheder/2026",
+        "https://fudm.dk/aktuelt/pressemeddelelser/2026",
         "https://www.digmin.dk/digitalisering/nyheder/nyhedsarkiv/2026"
       ],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
+        "GoBasic API",
         "HTML",
         "Sitemap"
       ],
@@ -155,6 +157,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "RSS/Atom",
         "Sitemap"
       ],
@@ -193,7 +197,7 @@
       "historical_start_urls": [],
       "rss_urls": [],
       "technical_ok": true,
-      "self_test": "warn",
+      "self_test": "pass",
       "methods": [
         "HTML",
         "Sitemap"
@@ -255,6 +259,7 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "RSS/Atom",
         "Sitemap"
       ],
       "redirects": [],
@@ -287,17 +292,20 @@
     },
     {
       "source": "Sundheds- og Kirkeministeriet",
-      "home_url": "https://www.ism.dk/",
+      "home_url": "https://www.skim.dk/",
       "active_start_urls": [
-        "https://www.ism.dk/nyheder"
+        "https://www.skim.dk/nyheder",
+        "https://www.skim.dk/nyheder/2026"
       ],
       "historical_start_urls": [],
       "rss_urls": [
-        "https://www.ism.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
+        "https://www.skim.dk/handlers/DynamicRss.ashx?id=3276f6e0-8386-41d5-b08a-642563d6a4c9"
       ],
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "RSS/Atom",
         "Sitemap"
       ],
@@ -318,9 +326,14 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
-      "redirects": [],
+      "redirects": [
+        "https://mgtp.dk/nyheder -> https://www.mgtp.dk/nyheder",
+        "https://mgtp.dk/nyheder/2026/ -> https://www.mgtp.dk/nyheder/2026/"
+      ],
       "unexpected_redirects": [],
       "errors": []
     },
@@ -375,6 +388,8 @@
       "technical_ok": true,
       "self_test": "pass",
       "methods": [
+        "GoBasic API",
+        "HTML",
         "Sitemap"
       ],
       "redirects": [],
@@ -394,14 +409,17 @@
         "https://www.sm.dk/handlers/DynamicRss.ashx?id=d66aadb0-8d96-4027-9a8f-7a3176ad49f9"
       ],
       "technical_ok": true,
-      "self_test": "pass",
+      "self_test": "warn",
       "methods": [
-        "RSS/Atom",
-        "Sitemap"
+        "Via Ritzau API"
       ],
-      "redirects": [],
+      "redirects": [
+        "https://www.sm.dk/nyheder -> https://sm.dk/nyheder"
+      ],
       "unexpected_redirects": [],
-      "errors": []
+      "errors": [
+        "Liste kunne ikke hentes: https://www.sm.dk/nyheder/nyhedsarkiv/2026: 404 Client Error: Not Found for url: https://sm.dk/nyheder/nyhedsarkiv/2026"
+      ]
     },
     {
       "source": "Miljøministeriet",
