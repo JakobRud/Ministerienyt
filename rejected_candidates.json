@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-02T09:42:15.163108+00:00",
+  "generated_at": "2026-11-02T10:09:43.146189+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 186,
+  "total_rejected": 185,
   "summary_by_reason": {
-    "before_archive_start": 186
+    "before_archive_start": 185
   },
   "rejected": [
     {
@@ -1361,15 +1361,6 @@
       "source": "Ministeriet for Natur og Dyrevelfærd",
       "title": "Danmark planter træer til fremtidens skove på søndag",
       "url": "https://www.mgtp.dk/nyheder/2025/okt/danmark-planter-traeer-til-fremtidens-skove-paa-soendag",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Ministeriet for Natur og Dyrevelfærd",
-      "title": "Danmark skal rådgive Ukraine om trepart",
-      "url": "https://www.mgtp.dk/nyheder/2025/sep/danmark-skal-raadgive-ukraine-om-trepart",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
