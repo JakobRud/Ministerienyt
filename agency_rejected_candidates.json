@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-02T06:46:12.379848+00:00",
+  "generated_at": "2026-11-02T07:16:55.995239+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 508,
+  "total_rejected": 507,
   "summary_by_reason": {
-    "before_archive_start": 497,
+    "before_archive_start": 496,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -39,15 +39,6 @@
       "source": "Beredskabsstyrelsen",
       "title": "Beredskabsstyrelsen og politiet tester sirener i Skagen",
       "url": "https://www.brs.dk/da/nyheder/2025/beredskabsstyrelsen-og-politiet-tester-sirener-i-skagen/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": ""
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "Beredskabsstyrelsen træner måling af radioaktiv forurening ved kysterne og på havet",
-      "url": "https://www.brs.dk/da/nyheder/2025/beredskabsstyrelsen-traner-maling-af-radioaktiv-forurening-ved-kysterne-og-pa-havet/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "Officiel ListPage API",
