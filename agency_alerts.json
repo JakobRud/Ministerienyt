@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-11-02T13:18:23.631075+00:00",
+  "generated_at": "2026-11-02T13:45:43.237941+00:00",
   "threshold": 3,
-  "active_alerts": 1,
-  "alerts": [
-    {
-      "source": "Dansk Dekommissionering",
-      "severity": "error",
-      "consecutive_failures": 24,
-      "message": "Kilden har fejlet teknisk i 24 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://dekom.dk/nyheder/: HTTPSConnectionPool(host='dekom.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='dekom.dk', port=443): Read timed out. (read timeout=12)\"))"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }
