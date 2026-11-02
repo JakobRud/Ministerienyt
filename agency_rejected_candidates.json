@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-02T08:46:43.816182+00:00",
+  "generated_at": "2026-11-02T09:17:04.392092+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 507,
+  "total_rejected": 508,
   "summary_by_reason": {
-    "before_archive_start": 496,
+    "before_archive_start": 497,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -3128,6 +3128,16 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2023-01-30T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
+      "title": "Bevillingsafregning",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/bevillingsafregning/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-01-25T00:00:00+00:00"
     },
     {
       "source": "Statens Administration",
