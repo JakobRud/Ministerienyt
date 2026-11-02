@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-02T11:53:41.332878+00:00",
+  "generated_at": "2026-11-02T12:22:27.907272+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Dansk Dekommissionering",
       "severity": "error",
-      "consecutive_failures": 21,
-      "message": "Kilden har fejlet teknisk i 21 kørsel(er) i træk.",
+      "consecutive_failures": 22,
+      "message": "Kilden har fejlet teknisk i 22 kørsel(er) i træk.",
       "errors": [
-        "Liste kunne ikke hentes: https://dekom.dk/nyheder/: HTTPSConnectionPool(host='dekom.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='dekom.dk', port=443) at 0x7f60cc623830>, 'Connection to dekom.dk timed out. (connect timeout=12)'))"
+        "Liste kunne ikke hentes: https://dekom.dk/nyheder/: HTTPSConnectionPool(host='dekom.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='dekom.dk', port=443) at 0x7f0d294710d0>, 'Connection to dekom.dk timed out. (connect timeout=12)'))"
       ]
     }
   ]
