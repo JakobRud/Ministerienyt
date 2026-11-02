@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-01T21:47:23.916331+00:00",
+  "generated_at": "2026-11-02T02:53:13.008485+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Dansk Dekommissionering",
       "severity": "error",
-      "consecutive_failures": 5,
-      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
+      "consecutive_failures": 6,
+      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://dekom.dk/nyheder/: HTTPSConnectionPool(host='dekom.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by NameResolutionError(\"HTTPSConnection(host='dekom.dk', port=443): Failed to resolve 'dekom.dk' ([Errno -3] Temporary failure in name resolution)\"))",
         "DNS-genkontrol: Liste kunne ikke hentes: https://dekom.dk/nyheder/: HTTPSConnectionPool(host='dekom.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by NameResolutionError(\"HTTPSConnection(host='dekom.dk', port=443): Failed to resolve 'dekom.dk' ([Errno -3] Temporary failure in name resolution)\"))"
