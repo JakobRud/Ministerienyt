@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-11-02T13:45:26.248622+00:00",
+  "generated_at": "2026-11-02T14:13:44.606457+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 509,
+  "total_rejected": 508,
   "summary_by_reason": {
     "before_archive_start": 497,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4900,15 +4899,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Kristian Hansted vender tilbage til Miljøstyrelsen som ny vicedirektør",
-      "url": "https://mst.dk/nyheder/2026/november/kristian-hansted-vender-tilbage-til-miljoestyrelsen-som-ny-vicedirektoer",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
