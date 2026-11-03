@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-03T17:13:43.572455+00:00",
+  "generated_at": "2026-11-03T17:45:47.193542+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 508,
+  "total_rejected": 543,
   "summary_by_reason": {
-    "before_archive_start": 497,
+    "before_archive_start": 532,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -2225,6 +2225,166 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
       "detail": ""
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "100.000 fÃ¦rre skyldnere har gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/100000-faerre-skyldnere-har-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-30T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "16.000 indbetalinger modtaget gennem ny selvbetjeningslÃ¸sning fra GÃ¦ldsstyrelsen",
+      "url": "https://gaeldst.dk/nyheder/16000-indbetalinger-modtaget-gennem-ny-selvbetjeningsloesning-fra-gaeldsstyrelsen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-11-14T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "200.000 borgere bliver nu orienteret om gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/200000-borgere-bliver-nu-orienteret-om-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen gennemfÃ¸rer nye regler for at trÃ¦kke skyldnere i deres indkomst",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-gennemfoerer-nye-regler-for-at-traekke-skyldnere-i-deres-indkomst",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-10-03T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen inddriver over 15 mia. kr. i 2024",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-inddriver-over-15-mia-kr-i-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-16T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen lancerer ny mulighed for at tjekke gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-lancerer-ny-mulighed-for-at-tjekke-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-14T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen lancerer samlet digitalt overblik over gÃ¦ld til det offentlige for borgere",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-lancerer-samlet-digitalt-overblik-over-gaeld-til-det-offentlige-for-borgere",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen offentliggÃ¸r Ã¥rlig analyse af danskernes gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/danskernes-gaeld-loenindeholdelse-som-inddrivelsesvaerktoej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-12-22T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen pÃ¥tÃ¦nker personaletilpasninger",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-paataenker-personaletilpasninger",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-24T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen undersÃ¸ger gÃ¦ld vedrÃ¸rende underholdsbidrag",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-undersoeger-gaeld-vedroerende-underholdsbidrag",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Modregning i overskydende skatter sender milliarder i fÃ¦lleskassen",
+      "url": "https://gaeldst.dk/nyheder/modregning-i-overskydende-skatter-sender-milliarder-i-faelleskassen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-25T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Ny direktÃ¸r for GÃ¦ldsstyrelsen",
+      "url": "https://gaeldst.dk/nyheder/ny-direktoer-for-gaeldsstyrelsen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-24T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Ny opgÃ¸relse: SÃ¥dan fordeler gÃ¦lden sig i Danmark",
+      "url": "https://gaeldst.dk/nyheder/ny-opgoerelse-saadan-fordeler-gaelden-sig-i-danmark",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "RekordhÃ¸jt: GÃ¦ldsstyrelsen inddrev 14 mia. kr. i 2023",
+      "url": "https://gaeldst.dk/nyheder/rekordhoejt-gaeldsstyrelsen-inddrev-14-mia-kr-i-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Stor samfundsgevinst: Hundredetusindevis af borgere med gÃ¦ld bliver modregnet i deres overskydende skat",
+      "url": "https://gaeldst.dk/nyheder/stor-samfundsgevinst-hundredetusindevis-af-borgere-med-gaeld-bliver-modregnet-i-deres-overskydende-skat",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-17T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "StÃ¦rkt samarbejde med frivillige gÃ¦ldsrÃ¥dgivere skal hjÃ¦lpe gÃ¦ldsramte borgere og virksomheder",
+      "url": "https://gaeldst.dk/nyheder/staerkt-samarbejde-med-frivillige-gaeldsraadgivere-skal-hjaelpe-gaeldsramte-borgere-og-virksomheder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-29T00:00:00+00:00"
     },
     {
       "source": "Hjemrejsestyrelsen",
@@ -4899,6 +5059,196 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Business Analyst: Det gode samarbejde om vores it-systemer med resten af Skatteforvaltningen er det bedste",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-mikael-sommer-bjoernsgaard",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-10-14T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Digital lÃ¦ringsspecialist svinger kameraet i formidlingens navn",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-christian-holger-pedersen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-05T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Fra journalist til Data Scientist i UFST",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-anja-ruder-christensen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-09-14T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Fra sergent i Forsvaret til Service Delivery Manager i UFST",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-christian-jan-beer-arnsberg-service-delivery-manager-i-ufst",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-09-10T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Fra student til systemejer: SÃ¥dan gjorde hun",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-rikke-refshammer-frandsen-systemejer",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-12-13T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "God dokumentation vil gÃ¸re den kommende udvikling nemmere",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-kira-haervig-roenning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-06-02T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "IT-supporter: âDet er bÃ¥de udfordrende og motiverende at vide, at det arbejde, vi udfÃ¸rer, betyder nogetâ",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-it-supporter-lene-brun",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-21T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "It-tilsynet vurderer, at det er muligt at overholde tidsplan for 2020-vurderinger",
+      "url": "https://ufst.dk/nyheder/it-tilsynet-vurderer-at-det-er-muligt-at-overholde-tidsplan-for-2020-vurderinger-1",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-03-12T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Karrieren i UFST tog ham fra arkitekt til projektleder til souschef",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-johnny-lehto-larsen-projektleder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-06T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Rigsrevisionen anerkender forbedret styring af ejendomsvurderingsprojektet",
+      "url": "https://ufst.dk/nyheder/rigsrevisionen-anerkender-forbedret-styring-af-ejendomsvurderingsprojektet",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-01-11T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Skatteministeriets basale it-drift overdrages til Statens It",
+      "url": "https://ufst.dk/nyheder/skm-basale-it-drift-overdrages-til-statens-it",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-13T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen fÃ¥r ny direktÃ¸r",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-faar-ny-direktoer-1",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-10-29T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen pÃ¥tÃ¦nker personale-tilpasninger",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-paataenker-afskedigelser",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-24T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen sÃ¸ger ny styrelsesdirektÃ¸r",
+      "url": "https://ufst.dk/nyheder/styrelsesdirektoer-til-udviklings-og-forenklingsstyrelsen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-09-11T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen tager beretning om revisionen af statens forvaltning i 2023 til efterretning",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-tager-beretning-om-revisionen-af-statens-forvaltning-i-2023-til-efterretning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-12T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen tager beretning om revisionen af statens forvaltning i 2024 til efterretning",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-tager-beretning-om-revisionen-af-statens-forvaltning-i-2024-til-efterretning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-08-18T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen tager beretning om revisionen af statsregnskabet for 2023 til efterretning",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-tager-beretning-om-revisionen-af-statsregnskabet-for-2023-til-efterretning",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-08-12T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "Udviklings- og Forenklingsstyrelsen udsat for datatyveri af tidligere medarbejder",
+      "url": "https://ufst.dk/nyheder/udviklings-og-forenklingsstyrelsen-udsat-for-datatyveri-af-tidligere-medarbejder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-06-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udviklings- og Forenklingsstyrelsen",
+      "title": "âJeg er allermest tilfreds, nÃ¥r jeg kan overdrage et nyudviklet vÃ¦rktÃ¸j til kundenâ",
+      "url": "https://ufst.dk/nyheder/medarbejderportraet-sebastian-nygaard-hansen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-01-10T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
