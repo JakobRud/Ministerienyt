@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-11-03T10:43:27.797797+00:00",
+  "generated_at": "2026-11-03T11:14:13.310291+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 509,
+  "total_rejected": 508,
   "summary_by_reason": {
     "before_archive_start": 497,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4900,15 +4899,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Lægemiddelstyrelsen",
-      "title": "Det klausulerede tilskud til migrænemedicinen Vydura bortfalder den 25. maj 2026",
-      "url": "https://laegemiddelstyrelsen.dk/da/nyheder/2026/det-klausulerede-tilskud-til-migraenemedicinen-vydura-bortfalder-den-25-maj-2026/",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "HTML",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
