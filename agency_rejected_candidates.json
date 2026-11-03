@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-11-03T15:13:37.872961+00:00",
+  "generated_at": "2026-11-03T15:43:37.844066+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 509,
+  "total_rejected": 508,
   "summary_by_reason": {
     "before_archive_start": 497,
-    "missing_safe_publication_date": 1,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4900,15 +4899,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Nye tal for naturens og miljøets tilstand 2025",
-      "url": "https://mst.dk/nyheder/2026/november/nye-tal-for-naturens-og-miljoeets-tilstand-2025",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
