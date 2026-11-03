@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-11-03T08:13:23.212035+00:00",
+  "generated_at": "2026-11-03T08:53:37.305291+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 510,
+  "total_rejected": 509,
   "summary_by_reason": {
     "before_archive_start": 497,
-    "missing_safe_publication_date": 2,
-    "source_filter_mismatch": 11
+    "source_filter_mismatch": 12
   },
   "rejected": [
     {
@@ -4903,24 +4902,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Den-nationale-sanktionsliste-opdateret_2",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Den nationale sanktionsliste opdateret",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Den-nationale-sanktionsliste-opdateret_2",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
       "reason": "source_filter_mismatch",
@@ -4928,6 +4909,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-09-17T00:00:00+00:00"
+    },
+    {
+      "source": "Styrelsen for International Rekruttering og Integration",
+      "title": "Den nationale sanktionsliste opdateret",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/10/Den-nationale-sanktionsliste-opdateret_2",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-11-03T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
