@@ -1,27 +1,6 @@
 {
-  "generated_at": "2026-11-05T09:50:22.618574+00:00",
+  "generated_at": "2026-11-05T10:14:44.673797+00:00",
   "threshold": 3,
-  "active_alerts": 2,
-  "alerts": [
-    {
-      "source": "Naturstyrelsen",
-      "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
-      "errors": [
-        "Officielt MST-nyheds-API kunne ikke forberedes: HTTPSConnectionPool(host='naturstyrelsen.dk', port=443): Max retries exceeded with url: /nyheder (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))",
-        "Liste kunne ikke hentes: https://naturstyrelsen.dk/nyheder: HTTPSConnectionPool(host='naturstyrelsen.dk', port=443): Max retries exceeded with url: /nyheder (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
-      ]
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
-      "errors": [
-        "Officielt MST-nyheds-API kunne ikke forberedes: HTTPSConnectionPool(host='mst.dk', port=443): Max retries exceeded with url: /nyheder (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))",
-        "Liste kunne ikke hentes: https://mst.dk/nyheder: HTTPSConnectionPool(host='mst.dk', port=443): Max retries exceeded with url: /nyheder (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }
