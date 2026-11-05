@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-05T07:45:00.882234+00:00",
+  "generated_at": "2026-11-05T08:26:16.141743+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 507,
+  "total_rejected": 506,
   "summary_by_reason": {
-    "before_archive_start": 496,
+    "before_archive_start": 495,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -2122,15 +2122,6 @@
       "source": "Geodatastyrelsen",
       "title": "Ny Print on Demand løsning på vej for papirsøkort",
       "url": "https://gst.dk/nyheder/2025/mar/ny-print-on-demand-loesning-paa-vej-for-papirsoekort",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Geodatastyrelsen",
-      "title": "Ny organisering på plads",
-      "url": "https://gst.dk/nyheder/2024/nov/ny-organisering-paa-plads",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
