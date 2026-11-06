@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-06T07:13:56.104234+00:00",
+  "generated_at": "2026-11-06T07:43:56.236331+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 506,
+  "total_rejected": 505,
   "summary_by_reason": {
-    "before_archive_start": 495,
+    "before_archive_start": 494,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -1674,16 +1674,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-08-20T00:00:00+00:00"
-    },
-    {
-      "source": "Digitaliseringsstyrelsen",
-      "title": "Søg dansk medfinansiering til at deltage i Digital Europe-projekter",
-      "url": "https://digst.dk/nyheder/nyhedsarkiv/2024/april/soeg-dansk-medfinansiering-til-at-deltage-i-digital-europe-projekter/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2024-04-18T00:00:00+00:00"
     },
     {
       "source": "Digitaliseringsstyrelsen",
