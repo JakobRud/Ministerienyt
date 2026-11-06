@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-06T15:43:42.553389+00:00",
+  "generated_at": "2026-11-06T16:13:38.057917+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 506,
+  "total_rejected": 505,
   "summary_by_reason": {
-    "before_archive_start": 495,
+    "before_archive_start": 494,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -2260,16 +2260,6 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Nu åbner kystpuljen 2024",
-      "url": "https://mst.dk/nyheder/2026/maj/nu-aabner-kystpuljen-2024",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2024-05-31T06:00:00+00:00"
     },
     {
       "source": "Nævnenes Hus",
