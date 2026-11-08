@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-08T02:37:27.675081+00:00",
+  "generated_at": "2026-11-08T05:14:15.804416+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 521,
   "summary_by_reason": {
-    "before_archive_start": 494,
+    "before_archive_start": 510,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -2197,6 +2197,166 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
       "detail": ""
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "100.000 fÃ¦rre skyldnere har gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/100000-faerre-skyldnere-har-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-30T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "16.000 indbetalinger modtaget gennem ny selvbetjeningslÃ¸sning fra GÃ¦ldsstyrelsen",
+      "url": "https://gaeldst.dk/nyheder/16000-indbetalinger-modtaget-gennem-ny-selvbetjeningsloesning-fra-gaeldsstyrelsen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-11-14T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "200.000 borgere bliver nu orienteret om gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/200000-borgere-bliver-nu-orienteret-om-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-06-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen gennemfÃ¸rer nye regler for at trÃ¦kke skyldnere i deres indkomst",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-gennemfoerer-nye-regler-for-at-traekke-skyldnere-i-deres-indkomst",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-10-03T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen inddriver over 15 mia. kr. i 2024",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-inddriver-over-15-mia-kr-i-2024",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-03-16T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen lancerer ny mulighed for at tjekke gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-lancerer-ny-mulighed-for-at-tjekke-gaeld-til-det-offentlige",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-14T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen lancerer samlet digitalt overblik over gÃ¦ld til det offentlige for borgere",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-lancerer-samlet-digitalt-overblik-over-gaeld-til-det-offentlige-for-borgere",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen offentliggÃ¸r Ã¥rlig analyse af danskernes gÃ¦ld til det offentlige",
+      "url": "https://gaeldst.dk/nyheder/danskernes-gaeld-loenindeholdelse-som-inddrivelsesvaerktoej",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-12-22T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen pÃ¥tÃ¦nker personaletilpasninger",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-paataenker-personaletilpasninger",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-11-24T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "GÃ¦ldsstyrelsen undersÃ¸ger gÃ¦ld vedrÃ¸rende underholdsbidrag",
+      "url": "https://gaeldst.dk/nyheder/gaeldsstyrelsen-undersoeger-gaeld-vedroerende-underholdsbidrag",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-07-04T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Modregning i overskydende skatter sender milliarder i fÃ¦lleskassen",
+      "url": "https://gaeldst.dk/nyheder/modregning-i-overskydende-skatter-sender-milliarder-i-faelleskassen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2025-04-25T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Ny direktÃ¸r for GÃ¦ldsstyrelsen",
+      "url": "https://gaeldst.dk/nyheder/ny-direktoer-for-gaeldsstyrelsen",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-24T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Ny opgÃ¸relse: SÃ¥dan fordeler gÃ¦lden sig i Danmark",
+      "url": "https://gaeldst.dk/nyheder/ny-opgoerelse-saadan-fordeler-gaelden-sig-i-danmark",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-12-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "RekordhÃ¸jt: GÃ¦ldsstyrelsen inddrev 14 mia. kr. i 2023",
+      "url": "https://gaeldst.dk/nyheder/rekordhoejt-gaeldsstyrelsen-inddrev-14-mia-kr-i-2023",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-04-11T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "Stor samfundsgevinst: Hundredetusindevis af borgere med gÃ¦ld bliver modregnet i deres overskydende skat",
+      "url": "https://gaeldst.dk/nyheder/stor-samfundsgevinst-hundredetusindevis-af-borgere-med-gaeld-bliver-modregnet-i-deres-overskydende-skat",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2024-05-17T00:00:00+00:00"
+    },
+    {
+      "source": "Gældsstyrelsen",
+      "title": "StÃ¦rkt samarbejde med frivillige gÃ¦ldsrÃ¥dgivere skal hjÃ¦lpe gÃ¦ldsramte borgere og virksomheder",
+      "url": "https://gaeldst.dk/nyheder/staerkt-samarbejde-med-frivillige-gaeldsraadgivere-skal-hjaelpe-gaeldsramte-borgere-og-virksomheder",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "HTML",
+      "detail": "",
+      "detected_date": "2023-11-29T00:00:00+00:00"
     },
     {
       "source": "Hjemrejsestyrelsen",
