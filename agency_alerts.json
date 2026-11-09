@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-09T09:14:25.052189+00:00",
+  "generated_at": "2026-11-09T09:44:21.291638+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Det Nationale Forskningscenter for Arbejdsmiljø",
       "severity": "error",
-      "consecutive_failures": 85,
-      "message": "Kilden har fejlet teknisk i 85 kørsel(er) i træk.",
+      "consecutive_failures": 86,
+      "message": "Kilden har fejlet teknisk i 86 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://nfa.dk/nyt/: HTTPSConnectionPool(host='nfa.dk', port=443): Max retries exceeded with url: /nyt/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)')))"
       ]
