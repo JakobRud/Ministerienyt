@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-09T12:14:13.493083+00:00",
+  "generated_at": "2026-11-09T12:44:30.851406+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 508,
+  "total_rejected": 507,
   "summary_by_reason": {
-    "before_archive_start": 494,
+    "before_archive_start": 493,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
@@ -3965,15 +3965,6 @@
       "source": "Statens It",
       "title": "Digitale teoriprøver - en fremtidssikret løsning",
       "url": "https://statens-it.dk/nyhedsarkiv/2025/juli/digitale-teoriproever-en-fremtidssikret-loesning/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Statens It",
-      "title": "Graduates styrker analyseenhed",
-      "url": "https://statens-it.dk/nyhedsarkiv/2025/februar/graduates-styrker-analyseenhed/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
