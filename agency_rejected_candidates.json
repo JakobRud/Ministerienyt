@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-11T10:13:55.012509+00:00",
+  "generated_at": "2026-11-11T10:44:26.811507+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 508,
+  "total_rejected": 507,
   "summary_by_reason": {
     "before_archive_start": 493,
-    "missing_safe_publication_date": 4,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4863,15 +4863,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Ændring i Miljøstyrelsens brugerbetalingsgebyr",
-      "url": "https://mst.dk/nyheder/2026/november/aendring-i-miljoestyrelsens-brugerbetalingsgebyr",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
