@@ -1,25 +1,6 @@
 {
-  "generated_at": "2026-11-12T05:32:11.640801+00:00",
+  "generated_at": "2026-11-12T06:13:58.638908+00:00",
   "threshold": 3,
-  "active_alerts": 2,
-  "alerts": [
-    {
-      "source": "Styrelsen for Arbejdsmarked og Rekruttering",
-      "severity": "error",
-      "consecutive_failures": 3,
-      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://star.dk/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering: 503 Server Error: Service Unavailable for url: https://star.dk/om-styrelsen/nyt/nyheder-og-aktuelt-fra-styrelsen-for-arbejdsmarked-og-rekruttering"
-      ]
-    },
-    {
-      "source": "Det Nationale Forskningscenter for Arbejdsmiljø",
-      "severity": "error",
-      "consecutive_failures": 3,
-      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://nfa.dk/nyt/: 503 Server Error: Service Unavailable for url: https://nfa.dk/nyt/"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }
