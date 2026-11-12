@@ -1,6 +1,17 @@
 {
-  "generated_at": "2026-11-12T03:52:41.918912+00:00",
+  "generated_at": "2026-11-12T05:22:39.233170+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Beskæftigelses- og Ligestillingsministeriet",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://bm.dk/nyheder/: HTTPSConnectionPool(host='bm.dk', port=443): Max retries exceeded with url: /nyheder/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='bm.dk', port=443): Read timed out. (read timeout=35)\"))",
+        "Liste kunne ikke hentes: https://bm.dk/soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=%2A&sort-desc=ManualDate: HTTPSConnectionPool(host='bm.dk', port=443): Max retries exceeded with url: /soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestill"
+      ]
+    }
+  ]
 }
