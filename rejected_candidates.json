@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-12T11:09:30.129010+00:00",
+  "generated_at": "2026-11-12T11:39:41.758024+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 956,
+  "total_rejected": 955,
   "summary_by_reason": {
-    "before_archive_start": 955,
+    "before_archive_start": 954,
     "future_publication_date": 1
   },
   "rejected": [
@@ -879,16 +879,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Forsvarsministeriet",
-      "title": "En række lande bidrager med antidrone-kapaciteter til det kommende EU-topmøde i København",
-      "url": "https://www.fmn.dk/da/nyheder/2025/en-rakke-lande-bidrager-med-antidrone-kapaciteter-til-det-kommende-eu-topmode-i-kobenhavn/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-09-29T00:00:00+00:00"
     },
     {
       "source": "Forsvarsministeriet",
