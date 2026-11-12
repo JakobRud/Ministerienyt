@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-12T10:43:50.558448+00:00",
+  "generated_at": "2026-11-12T11:20:31.273127+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 507,
+  "total_rejected": 508,
   "summary_by_reason": {
     "before_archive_start": 493,
-    "missing_safe_publication_date": 3,
+    "missing_safe_publication_date": 4,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4863,6 +4863,15 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
+    },
+    {
+      "source": "Miljøstyrelsen",
+      "title": "Vindue til havbunden: Miljøstyrelsen og GEUS har gennemført kortlægning af de lavvandede områder i Lillebælt",
+      "url": "https://mst.dk/nyheder/2026/november/vindue-til-havbunden-miljoestyrelsen-og-geus-har-gennemfoert-kortlaegning-af-de-lavvandede-omraader-i-lillebaelt",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Officielt MST-nyheds-API",
+      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
