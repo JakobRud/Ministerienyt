@@ -1,10 +1,9 @@
 {
-  "generated_at": "2026-11-12T12:09:29.525574+00:00",
+  "generated_at": "2026-11-12T12:39:44.705266+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 955,
+  "total_rejected": 954,
   "summary_by_reason": {
-    "before_archive_start": 954,
-    "future_publication_date": 1
+    "before_archive_start": 954
   },
   "rejected": [
     {
@@ -9516,16 +9515,6 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": ""
-    },
-    {
-      "source": "By-, Land- og Transportministeriet",
-      "title": "Nye regler skal gøre det lettere at bo i det åbne land",
-      "url": "https://www.bltm.dk/nyheder/2026/nye-regler-skal-goere-det-lettere-at-bo-i-det-aabne-land",
-      "reason": "future_publication_date",
-      "reason_da": "Publiceringsdato ligger i fremtiden",
-      "discovered_by": "Sitemap",
-      "detail": "",
-      "detected_date": "2026-11-12T12:20:00+00:00"
     }
   ]
 }
