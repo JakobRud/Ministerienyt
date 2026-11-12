@@ -1,17 +1,6 @@
 {
-  "generated_at": "2026-11-12T15:11:07.253404+00:00",
+  "generated_at": "2026-11-12T15:39:31.079102+00:00",
   "threshold": 3,
-  "active_alerts": 1,
-  "alerts": [
-    {
-      "source": "Beskæftigelses- og Ligestillingsministeriet",
-      "severity": "error",
-      "consecutive_failures": 3,
-      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
-      "errors": [
-        "Liste kunne ikke hentes: https://bm.dk/nyheder/: 404 Client Error: Not Found for url: https://bm.dk/nyheder/",
-        "Liste kunne ikke hentes: https://bm.dk/soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=%2A&sort-desc=ManualDate: 404 Client Error: Not Found for url: https://bm.dk/soeg2?ContentTags=Nyhed&ContentTags=Nyhed+-+Ligestilling&ContentTags=Pressemeddelelse&ContentTags=Pressemeddelelse+-+Ligestilling&q=%2A&sort-desc=Manual"
-      ]
-    }
-  ]
+  "active_alerts": 0,
+  "alerts": []
 }
