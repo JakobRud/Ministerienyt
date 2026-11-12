@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-12T08:13:54.554500+00:00",
+  "generated_at": "2026-11-12T08:43:52.206798+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 507,
+  "total_rejected": 509,
   "summary_by_reason": {
     "before_archive_start": 493,
-    "missing_safe_publication_date": 3,
+    "missing_safe_publication_date": 5,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4863,6 +4863,24 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
+    },
+    {
+      "source": "Miljøstyrelsen",
+      "title": "WEBINAR for systemudviklere - 26. november 2026",
+      "url": "https://mst.dk/nyheder/2026/november/webinar-for-systemudviklere-26-november-2026",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Officielt MST-nyheds-API",
+      "detail": ""
+    },
+    {
+      "source": "Naturstyrelsen",
+      "title": "Ny skov på Hindsholm skal beskytte drikkevandet",
+      "url": "https://naturstyrelsen.dk/nyheder/2026/november/ny-skov-paa-hindsholm-skal-beskytte-drikkevandet",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Officielt MST-nyheds-API",
+      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
