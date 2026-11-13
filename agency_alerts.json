@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-13T07:14:57.307426+00:00",
+  "generated_at": "2026-11-13T07:44:09.639166+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Statens Administration",
       "severity": "error",
-      "consecutive_failures": 7,
-      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
+      "consecutive_failures": 8,
+      "message": "Kilden har fejlet teknisk i 8 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://statens-adm.dk/nyheder/nyhedsarkiv/: HTTPSConnectionPool(host='statens-adm.dk', port=443): Max retries exceeded with url: /nyheder/nyhedsarkiv/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)')))"
       ]
