@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-13T06:44:02.293287+00:00",
+  "generated_at": "2026-11-13T07:14:38.038694+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 420,
+  "total_rejected": 418,
   "summary_by_reason": {
-    "before_archive_start": 405,
-    "missing_safe_publication_date": 4,
+    "before_archive_start": 404,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -1415,16 +1415,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-06-11T00:00:00+00:00"
-    },
-    {
-      "source": "Digitaliseringsstyrelsen",
-      "title": "Ny analyse understreger vigtigheden af fokus på digital inklusion",
-      "url": "https://digst.dk/nyheder/nyhedsarkiv/2024/april/ny-analyse-understreger-vigtigheden-af-fokus-paa-digital-inklusion/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2024-04-29T00:00:00+00:00"
     },
     {
       "source": "Digitaliseringsstyrelsen",
@@ -3983,15 +3973,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Bynær skov ved Skanderborg har vokseværk",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/november/bynaer-skov-ved-skanderborg-har-voksevaerk",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
