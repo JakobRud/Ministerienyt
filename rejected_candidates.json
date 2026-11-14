@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-14T10:09:57.282467+00:00",
+  "generated_at": "2026-11-14T10:39:12.452355+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 952,
+  "total_rejected": 951,
   "summary_by_reason": {
-    "before_archive_start": 952
+    "before_archive_start": 951
   },
   "rejected": [
     {
@@ -225,16 +225,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2024-06-06T00:00:00+00:00"
-    },
-    {
-      "source": "Finansministeriet",
-      "title": "Finansministeriet livestreamer præsentation af OECD's landerapport om Danmark",
-      "url": "https://fm.dk/nyheder/nyhedsarkiv/2024/januar/finansministeriet-livestreamer-praesentation-af-oecds-landerapport-om-danmark/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2024-01-09T00:00:00+00:00"
     },
     {
       "source": "Finansministeriet",

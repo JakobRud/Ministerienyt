@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-11-14T10:25:00.254844+00:00",
+  "generated_at": "2026-11-14T10:53:31.900489+00:00",
   "threshold": 3,
   "active_alerts": 2,
   "alerts": [
     {
       "source": "Rigspolitiet/politi.dk",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
-        "Politiets officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='politi.dk', port=443): Max retries exceeded with url: /nyhedsliste?district=Rigspolitiet (Caused by ConnectTimeoutError(<HTTPSConnection(host='politi.dk', port=443) at 0x7f9437e5e030>, 'Connection to politi.dk timed out. (connect timeout=12)'))",
-        "Liste kunne ikke hentes: https://politi.dk/nyhedsliste?district=Rigspolitiet: HTTPSConnectionPool(host='politi.dk', port=443): Max retries exceeded with url: /nyhedsliste?district=Rigspolitiet (Caused by ConnectTimeoutError(<HTTPSConnection(host='politi.dk', port=443) at 0x7f9437e5ea50>, 'Connection to politi.dk timed out. (connect timeout=12)'))"
+        "Politiets officielle nyheds-API kunne ikke hentes: HTTPSConnectionPool(host='politi.dk', port=443): Max retries exceeded with url: /nyhedsliste?district=Rigspolitiet (Caused by ConnectTimeoutError(<HTTPSConnection(host='politi.dk', port=443) at 0x7fa7ef556210>, 'Connection to politi.dk timed out. (connect timeout=12)'))",
+        "Liste kunne ikke hentes: https://politi.dk/nyhedsliste?district=Rigspolitiet: HTTPSConnectionPool(host='politi.dk', port=443): Max retries exceeded with url: /nyhedsliste?district=Rigspolitiet (Caused by ConnectTimeoutError(<HTTPSConnection(host='politi.dk', port=443) at 0x7fa7ef556ae0>, 'Connection to politi.dk timed out. (connect timeout=12)'))"
       ]
     },
     {
       "source": "PET",
       "severity": "error",
-      "consecutive_failures": 4,
-      "message": "Kilden har fejlet teknisk i 4 kørsel(er) i træk.",
+      "consecutive_failures": 5,
+      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
       "errors": [
-        "Liste kunne ikke hentes: https://pet.dk/: HTTPSConnectionPool(host='pet.dk', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='pet.dk', port=443) at 0x7f94380892e0>, 'Connection to pet.dk timed out. (connect timeout=12)'))"
+        "Liste kunne ikke hentes: https://pet.dk/: HTTPSConnectionPool(host='pet.dk', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='pet.dk', port=443) at 0x7fa7ef6d0890>, 'Connection to pet.dk timed out. (connect timeout=12)'))"
       ]
     }
   ]
