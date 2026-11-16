@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-16T13:09:16.255863+00:00",
+  "generated_at": "2026-11-16T13:39:05.374002+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 951,
+  "total_rejected": 950,
   "summary_by_reason": {
-    "before_archive_start": 951
+    "before_archive_start": 950
   },
   "rejected": [
     {
@@ -5133,15 +5133,6 @@
       "source": "Ministeriet for Natur og Dyrevelfærd",
       "title": "38 millioner til ulvesikring af hegn og ny ansøgningsrunde",
       "url": "https://www.mgtp.dk/nyheder/2025/dec/38-millioner-til-ulvesikring-af-hegn-og-ny-ansoegningsrunde-httpsadminmgtpdkcms",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "GoBasic API",
-      "detail": ""
-    },
-    {
-      "source": "Ministeriet for Natur og Dyrevelfærd",
-      "title": "Danmark planter træer til fremtidens skove på søndag",
-      "url": "https://www.mgtp.dk/nyheder/2025/okt/danmark-planter-traeer-til-fremtidens-skove-paa-soendag",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "GoBasic API",
