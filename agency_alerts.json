@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-16T14:14:36.824422+00:00",
+  "generated_at": "2026-11-16T14:44:00.455218+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "Styrelsen for Patientsikkerhed",
       "severity": "error",
-      "consecutive_failures": 6,
-      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
+      "consecutive_failures": 7,
+      "message": "Kilden har fejlet teknisk i 7 kørsel(er) i træk.",
       "errors": [
         "Liste kunne ikke hentes: https://stps.dk/da/nyheder: 403 Client Error: Forbidden for url: https://stps.dk/da/nyheder"
       ]
