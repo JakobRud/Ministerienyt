@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-16T11:43:11.958009+00:00",
+  "generated_at": "2026-11-16T12:13:14.297863+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 504,
   "summary_by_reason": {
-    "before_archive_start": 491,
+    "before_archive_start": 490,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
@@ -49,15 +49,6 @@
       "source": "Beredskabsstyrelsen",
       "title": "Boligbrande topper i december",
       "url": "https://www.brs.dk/da/nyheder/2025/boligbrande-topper-i-december/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": ""
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "Højt smittetryk fra fugleinfluenza kræver støtte fra Beredskabsstyrelsen",
-      "url": "https://www.brs.dk/da/nyheder/2025/hojt-smittetryk-fra-fugleinfluenza-kraver-stotte-fra-beredskabsstyrelsen/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "Officiel ListPage API",
