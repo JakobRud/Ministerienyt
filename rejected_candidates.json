@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-17T06:39:43.682163+00:00",
+  "generated_at": "2026-11-17T07:09:25.248970+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 903,
+  "total_rejected": 902,
   "summary_by_reason": {
-    "before_archive_start": 903
+    "before_archive_start": 902
   },
   "rejected": [
     {
@@ -8760,16 +8760,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-15T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Flere unge får fritidsjob i ældreplejen og daginstitutioner",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251201-flere-unge-faar-fritidsjob-i-aeldreplejen-og-daginstitutioner/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-01T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
