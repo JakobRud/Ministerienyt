@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-17T15:13:48.389916+00:00",
+  "generated_at": "2026-11-17T15:43:29.506594+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 504,
   "summary_by_reason": {
     "before_archive_start": 490,
-    "missing_safe_publication_date": 4,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4835,15 +4835,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Vejledning og håndhævelse af de nye regler i fiskerikontrolforordningen - præcisering af nyheden af 9. juli 2026",
-      "url": "https://mst.dk/nyheder/2026/november/vejledning-og-haandhaevelse-af-de-nye-regler-i-fiskerikontrolforordningen-praecisering-af-nyheden-af-9-juli-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
