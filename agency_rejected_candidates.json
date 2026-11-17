@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T12:43:42.010455+00:00",
+  "generated_at": "2026-11-17T13:13:21.268280+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 504,
   "summary_by_reason": {
@@ -4839,6 +4839,15 @@
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
       "title": "Nyheder",
+      "url": "https://www.sgav.dk/alle-nyheder/nyheder/2026/nov-4",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
+      "title": "Nyheder",
       "url": "https://www.sgav.dk/alle-nyheder/nyheder/2026/nov-2",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
@@ -4849,15 +4858,6 @@
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
       "title": "Nyheder",
       "url": "https://www.sgav.dk/alle-nyheder/nyheder/2026/nov-3",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Sitemap",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
-      "title": "Nyheder",
-      "url": "https://www.sgav.dk/alle-nyheder/nyheder/2026/nov-4",
       "reason": "missing_safe_publication_date",
       "reason_da": "Ingen sikker publiceringsdato",
       "discovered_by": "Sitemap",
