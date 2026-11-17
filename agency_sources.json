@@ -142,6 +142,7 @@
       "start_urls": ["https://dreamgruppen.dk/nyheder/"],
       "article_prefixes": ["/nyheder/"],
       "gobasic_dynamic_list": true,
+      "disable_sitemap": false,
       "max_listing_pages": 5,
       "refresh_before_schema": 14
     },

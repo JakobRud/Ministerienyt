@@ -101,6 +101,81 @@ class RecoveryAndRetirementTests(unittest.TestCase):
         self.assertTrue(planned.isdisjoint(active))
 
 
+class NovemberSourceRecoveryTests(unittest.TestCase):
+    def test_gobasic_retries_same_read_only_search_and_keeps_recovery_history(self):
+        from unittest.mock import Mock, patch
+        status = m.SourceStatus("Test", "https://example.dk/")
+        response = Mock()
+        session = Mock()
+        session.post.side_effect = [m.requests.ReadTimeout("midlertidig timeout"), response]
+        payload = {"page": 2, "config": {"test": True}}
+        with patch.object(m.time, "sleep"):
+            result = m.gobasic_search_response(session, "https://example.dk/gbapi/search/getPage", payload, {}, status)
+        self.assertIs(result, response)
+        self.assertEqual(session.post.call_count, 2)
+        self.assertEqual(session.post.call_args_list[0], session.post.call_args_list[1])
+        self.assertEqual(status.retry_attempts, 1)
+        self.assertEqual(status.errors, [])
+        self.assertTrue(status.recovery_errors)
+
+    def test_gobasic_permanent_http_error_is_not_retried(self):
+        from unittest.mock import Mock
+        response = Mock(status_code=403)
+        session = Mock()
+        session.post.side_effect = m.requests.HTTPError("forbidden", response=response)
+        with self.assertRaises(m.requests.HTTPError):
+            m.gobasic_search_response(session, "https://example.dk/gbapi/search/getPage", {}, {}, m.SourceStatus("Test", "https://example.dk/"))
+        self.assertEqual(session.post.call_count, 1)
+
+    def test_gobasic_repeated_timeout_keeps_a_real_error(self):
+        from unittest.mock import Mock, patch
+        source = {"name": "Test", "home_url": "https://example.dk/", "gobasic_dynamic_list": True}
+        shell = BeautifulSoup('<div class="archive-search-result" data-config="{}"></div>', "html.parser")
+        status = m.SourceStatus("Test", source["home_url"])
+        session = Mock()
+        session.post.side_effect = m.requests.ReadTimeout("vedvarende timeout")
+        with patch.object(m.time, "sleep"):
+            pages = m.gobasic_dynamic_listing_pages(session, source, shell, source["home_url"], status, 3)
+        self.assertEqual(pages, [])
+        self.assertEqual(session.post.call_count, 2)
+        self.assertTrue(status.errors)
+
+    def test_successful_source_retry_does_not_recreate_old_warning(self):
+        from unittest.mock import Mock, patch
+        source = {"name": "Færdselsstyrelsen", "home_url": "https://www.fstyr.dk/"}
+        failed = m.SourceStatus(source["name"], source["home_url"], errors=["Liste kunne ikke hentes: timeout"])
+        succeeded = m.SourceStatus(source["name"], source["home_url"], listing_pages=2, article_candidates=30, methods=["HTML", "GoBasic API"], fast_mode=True)
+        config = dict(m.RUNTIME_CONFIG)
+        try:
+            m.RUNTIME_CONFIG.update(source_retry_attempts=2, source_retry_wait_seconds=0)
+            with patch.object(m, "collect_source", side_effect=[([], failed), ([], succeeded)]), patch.object(m, "create_session", return_value=Mock()):
+                _, statuses = m.collect_fresh_items([source], set(), {source["name"]: {"expected_candidate_count": 90}}, fast=True)
+        finally:
+            m.RUNTIME_CONFIG.clear(); m.RUNTIME_CONFIG.update(config)
+        self.assertEqual(statuses[0].self_test, "pass")
+        self.assertFalse(statuses[0].public_warning)
+        self.assertEqual(statuses[0].errors, [])
+        self.assertEqual(statuses[0].recovery_errors, failed.errors)
+
+    def test_dream_sitemap_reserve_is_enabled_and_filters_old_years(self):
+        from unittest.mock import patch
+        source = next(s for s in m.load_sources_config(Path("agency_sources.json")) if s["name"] == "DREAM")
+        self.assertFalse(source["disable_sitemap"])
+        xml = b'<urlset><url><loc>https://dreamgruppen.dk/nyheder/2026/november/ny-analyse</loc></url><url><loc>https://dreamgruppen.dk/nyheder/2025/november/gammel-analyse</loc><lastmod>2026-11-17</lastmod></url><url><loc>https://dreamgruppen.dk/om-os</loc></url></urlset>'
+        response = types.SimpleNamespace(content=xml)
+        with patch.object(m, "sitemap_seed_urls", return_value=["https://dreamgruppen.dk/sitemap.xml"]), patch.object(m, "fetch", return_value=response):
+            candidates = m.discover_sitemap_candidates(None, source, m.SourceStatus("DREAM", source["home_url"]))
+        self.assertEqual(len(candidates), 1)
+        self.assertIn("/2026/", next(iter(candidates.values())).url)
+        self.assertIsNone(next(iter(candidates.values())).published)
+
+    def test_nature_fast_budget_keeps_daily_deep_archive_enabled(self):
+        source = next(s for s in m.load_sources_config(Path("sources.json")) if s["name"] == "Ministeriet for Natur og Dyrevelfærd")
+        self.assertEqual(source["fast_listing_pages"], 2)
+        self.assertTrue(source["historical_start_urls"])
+        self.assertFalse(source.get("disable_sitemap", False))
+
+
 class UpdateGateTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 10, 29, 12, tzinfo=timezone.utc)

@@ -1,5 +1,18 @@
-# Ministerienyt og Styrelsesnyt 8.0.1
+# Ministerienyt og Styrelsesnyt 8.0.2
 
+
+## Version 8.0.2 – tre kildebemærkninger rettet
+
+Kontrolleret den 17. november 2026 mod den aktuelle version 8.0.1:
+
+- **DREAM:** Nyhedsarkivets GoBasic-søgning svarede 200, men uden resultater. Det officielle sitemap virker og aktiveres nu som reserve. Crawleren besøger det også ved et tomt arkiv, selv om et tidligere sitemap-tjek er cachet. Sitemappets ændringsdato bruges ikke som publiceringsdato; nye artikler skal stadig have en sikker dato på artikelsiden. Sitemappet gav 14 aktuelle 2026-kandidater, og alle 16 arkivposter blev bevaret. To ældre gemte adresser optræder ikke længere i det nuværende sitemap; de slettes ikke af den grund. Et sitemap er myndighedens egen oversigt og kan også være ufuldstændigt.
+- **Ministeriet for Natur og Dyrevelfærd:** En timeout på anden GoBasic-resultatside gav en bemærkning. De hyppige fast-kørsler bruger nu én HTML-side og den nyeste API-resultatside med 15 kandidater. Den daglige dybe kontrol og den fulde audit beholder deres bredere arkivgennemgang. Alle 38 gemte artikler bevares.
+- **Færdselsstyrelsen:** Et mislykket første forsøg blev føjet til fejlene fra et vellykket genforsøg. Overståede fejl gemmes nu særskilt i `recovery_errors`, og det aktuelle resultat vurderes selvstændigt. Aktuelle fejl fra sidste forsøg og dækningstjek vises fortsat. Alle 50 arkivposter bevares.
+- Læsende GoBasic-POST-søgninger genforsøges én gang efter et sekund ved timeout, forbindelsesfejl og HTTP 502/503/504. Det samme søgekald gentages; 403 og andre vedvarende fejl genforsøges ikke af denne mekanisme. Fejl efter sidste forsøg beholdes.
+
+De tre kilder er prøvet direkte i både let og dyb kørsel: alle bestod selvtesten uden offentlig bemærkning, og alle eksisterende artikel-ID'er blev bevaret. 128 regressionstests består, inklusive vedvarende fejl, vellykket genopretning, sitemap-årsfiltrering og tidligere myndighedsrettelser. Begge visninger er genereret lokalt, og JavaScript-syntaksen er kontrolleret.
+
+Pakken ændrer kun crawler, tests, de to kildelister og vejledninger. Eksisterende arkiver, myndighedsovergangen ved årsskiftet, workflow og cron-job.org bevares.
 
 ## Version 8.0.1 – DNS-genkontrol og kommende myndighedsændringer
 
