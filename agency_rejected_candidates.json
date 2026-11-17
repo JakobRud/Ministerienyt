@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-17T16:43:04.906756+00:00",
+  "generated_at": "2026-11-17T17:13:33.484472+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 504,
+  "total_rejected": 503,
   "summary_by_reason": {
-    "before_archive_start": 490,
+    "before_archive_start": 489,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
@@ -4635,16 +4635,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2020-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Styrelsen for Patientklager",
-      "title": "Webinar: Faglige vejledninger til sundhedspersoner",
-      "url": "https://www.stpk.dk/nyheder/webinar-om-faglige-vejledninger-til-sundhedspersoner/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-10-22T00:00:00+00:00"
     },
     {
       "source": "Styrelsen for Patientklager",
