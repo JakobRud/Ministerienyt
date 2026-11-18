@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-18T15:13:59.689917+00:00",
+  "generated_at": "2026-11-18T15:45:51.602799+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 503,
+  "total_rejected": 501,
   "summary_by_reason": {
-    "before_archive_start": 488,
-    "missing_safe_publication_date": 4,
+    "before_archive_start": 487,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -3486,16 +3486,6 @@
     },
     {
       "source": "Statens Administration",
-      "title": "Reminder vedr. salgsprovenu på anlæg",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/reminder-vedr-salgsprovenu-paa-anlaeg/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-01-18T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
       "title": "Resultatet af årets kundetilfredshedsundersøgelse er nu klar",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2023/oktober/resultatet-af-aarets-kundetilfredshedsundersoegelse-er-nu-klar/",
       "reason": "before_archive_start",
@@ -4815,15 +4805,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Naturstyrelsen udliciterer høst, forarbejdning og salg af skovfrø.",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/november/naturstyrelsen-udliciterer-hoest-forarbejdning-og-salg-af-skovfroe",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
