@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-18T19:24:06.040033+00:00",
+  "generated_at": "2026-11-18T19:55:23.222876+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 501,
+  "total_rejected": 498,
   "summary_by_reason": {
-    "before_archive_start": 487,
+    "before_archive_start": 484,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
@@ -2233,36 +2233,6 @@
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
       "detail": ""
-    },
-    {
-      "source": "Nævnenes Hus",
-      "title": "Informationer",
-      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/?pageNumber=3",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2025-01-29T00:00:00+00:00"
-    },
-    {
-      "source": "Nævnenes Hus",
-      "title": "Informationer",
-      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/?pageNumber=4",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2024-05-28T00:00:00+00:00"
-    },
-    {
-      "source": "Nævnenes Hus",
-      "title": "Informationer",
-      "url": "https://naevneneshus.dk/information-fra-naevnenes-hus/?pageNumber=5",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2024-03-05T00:00:00+00:00"
     },
     {
       "source": "Rigsarkivet",
