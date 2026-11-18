@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-17T22:45:25.987103+00:00",
+  "generated_at": "2026-11-18T04:32:45.852003+00:00",
   "threshold": 3,
   "active_alerts": 1,
   "alerts": [
     {
       "source": "VIVE",
       "severity": "error",
-      "consecutive_failures": 5,
-      "message": "Kilden har fejlet teknisk i 5 kørsel(er) i træk.",
+      "consecutive_failures": 6,
+      "message": "Kilden har fejlet teknisk i 6 kørsel(er) i træk.",
       "errors": [
         "VIVEs officielle nyheds-API kunne ikke hentes: 403 Client Error: Forbidden for url: https://www.vive.dk/api/news?pageId=10714&cultureId=1113&years=2026&limit=100&offset=0",
         "Liste kunne ikke hentes: https://www.vive.dk/da/nyheder-og-debat/: 403 Client Error: Forbidden for url: https://www.vive.dk/da/nyheder-og-debat/"
