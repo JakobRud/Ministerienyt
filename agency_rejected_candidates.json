@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-18T08:14:06.383637+00:00",
+  "generated_at": "2026-11-18T08:43:39.179914+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 505,
+  "total_rejected": 504,
   "summary_by_reason": {
-    "before_archive_start": 489,
+    "before_archive_start": 488,
     "missing_safe_publication_date": 5,
     "source_filter_mismatch": 11
   },
@@ -2933,16 +2933,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2025-01-29T00:00:00+00:00"
-    },
-    {
-      "source": "Slots- og Kulturstyrelsen",
-      "title": "Forsker på Rigsarkivet modtager Kulturministeriets Forskningspris, Julius Bomholt-prisen",
-      "url": "https://slks.dk/forsker-paa-rigsarkivet-modtager-kulturministeriets-forskningspris-julius-bomholt-prisen/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2024-12-02T00:00:00+00:00"
     },
     {
       "source": "Slots- og Kulturstyrelsen",
