@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-18T06:44:15.907112+00:00",
+  "generated_at": "2026-11-18T07:14:09.143453+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 503,
+  "total_rejected": 505,
   "summary_by_reason": {
     "before_archive_start": 489,
-    "missing_safe_publication_date": 3,
+    "missing_safe_publication_date": 5,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4825,6 +4825,24 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
+    },
+    {
+      "source": "DREAM",
+      "title": "Forsyningsmodellen opdateret til Klimafremskrivning 2026",
+      "url": "https://dreamgruppen.dk/nyheder/2026/november/opdateret-version-af-partiel-forsyningsmodel",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
+    },
+    {
+      "source": "DREAM",
+      "title": "Omkostninger og gevinster ved kernekraft i Danmark",
+      "url": "https://dreamgruppen.dk/nyheder/2026/november/erhvervslivets-taenketank-analyse",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "Sitemap",
+      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
