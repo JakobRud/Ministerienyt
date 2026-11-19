@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-19T05:39:27.205997+00:00",
+  "generated_at": "2026-11-19T06:09:39.052073+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 937,
+  "total_rejected": 936,
   "summary_by_reason": {
-    "before_archive_start": 937
+    "before_archive_start": 936
   },
   "rejected": [
     {
@@ -9178,16 +9178,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-08T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Ny rapport: Dagtilbudsledere efterspørger flere kompetencer til det pædagogiske arbejde",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251202-ny-rapport-dagtilbudsledere-efterspoerger-flere-kompetencer-til-det-paedagogiske-arbejde/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-02T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
