@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-19T07:43:36.975995+00:00",
+  "generated_at": "2026-11-19T08:13:32.334940+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 503,
+  "total_rejected": 501,
   "summary_by_reason": {
     "before_archive_start": 487,
-    "missing_safe_publication_date": 5,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4805,24 +4805,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "IT-flytning medfører midlertidig lukning af vagttelefonen den 23. og 26. november 2026",
-      "url": "https://mst.dk/nyheder/2026/november/it-flytning-medfoerer-midlertidig-lukning-af-vagttelefonen-den-23-og-26-november-2026",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
-    },
-    {
-      "source": "Miljøstyrelsen",
-      "title": "Rapport fra PFAS Demonstrationsprojekterne er nu klar",
-      "url": "https://mst.dk/nyheder/2026/november/rapport-fra-pfas-demonstrationsprojekterne-er-nu-klar-forsoegene-viser-potentiale-i-termisk-oprensning-af-pfas-forurenet-jord",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
