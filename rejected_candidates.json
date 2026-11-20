@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-20T05:39:21.758945+00:00",
+  "generated_at": "2026-11-20T06:09:26.701409+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 936,
+  "total_rejected": 935,
   "summary_by_reason": {
-    "before_archive_start": 936
+    "before_archive_start": 935
   },
   "rejected": [
     {
@@ -9198,16 +9198,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-17T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Regeringen vil bekæmpe antisemitisme med 17 initiativer frem mod 2030",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251202-regeringen-vil-bekaempe-antisemitisme-med-17-initiativer-frem-mod-2030/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-02T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
