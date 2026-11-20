@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-11-20T10:39:37.504243+00:00",
+  "generated_at": "2026-11-20T11:09:34.495630+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 936,
   "summary_by_reason": {
-    "before_archive_start": 936
+    "before_archive_start": 935,
+    "missing_safe_publication_date": 1
   },
   "rejected": [
     {
@@ -9151,16 +9152,6 @@
     },
     {
       "source": "Undervisningsministeriet",
-      "title": "Nu får kommuner penge til flere ansatte og lavere forældrebetaling i dagtilbud",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251205-nu-faar-kommuner-penge-til-flere-ansatte-og-lavere-foraeldrebetaling-i-dagtilbud/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-04T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
       "title": "Nu vender skolebiblioteket tilbage på landets folkeskoler",
       "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251211-nu-vender-skolebiblioteket-tilbage-paa-landets-folkeskoler/",
       "reason": "before_archive_start",
@@ -9345,6 +9336,15 @@
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
+      "detail": ""
+    },
+    {
+      "source": "Sundheds- og Kirkeministeriet",
+      "title": "Regeringen styrker indsatsen mod ludomani",
+      "url": "https://www.skim.dk/nyheder/2026/november/regeringen-styrker-indsatsen-mod-ludomani",
+      "reason": "missing_safe_publication_date",
+      "reason_da": "Ingen sikker publiceringsdato",
+      "discovered_by": "GoBasic API",
       "detail": ""
     }
   ]
