@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-21T07:43:38.142728+00:00",
+  "generated_at": "2026-11-21T08:19:50.327473+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 499,
+  "total_rejected": 498,
   "summary_by_reason": {
-    "before_archive_start": 485,
+    "before_archive_start": 484,
     "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
@@ -1716,16 +1716,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-08-26T00:00:00+00:00"
-    },
-    {
-      "source": "Energistyrelsen",
-      "title": "Pressemeddelelser",
-      "url": "https://ens.dk/om-os/pressemeddelelser",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": "",
-      "detected_date": "2024-12-09T14:26:27+00:00"
     },
     {
       "source": "Familieretshuset",
