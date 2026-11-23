@@ -1,6 +1,16 @@
 {
-  "generated_at": "2026-11-23T16:50:14.284829+00:00",
+  "generated_at": "2026-11-23T17:49:40.424223+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Justitsministeriet",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://www.justitsministeriet.dk/pressemeddelelse/: 502 Server Error: Bad Gateway for url: https://www.justitsministeriet.dk/pressemeddelelse/"
+      ]
+    }
+  ]
 }
