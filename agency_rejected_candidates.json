@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T08:24:15.279572+00:00",
+  "generated_at": "2026-11-23T08:54:14.761083+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
   "total_rejected": 499,
   "summary_by_reason": {
@@ -3066,6 +3066,16 @@
     },
     {
       "source": "Statens Administration",
+      "title": "Bevillingsafregning",
+      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/januar/bevillingsafregning/",
+      "reason": "before_archive_start",
+      "reason_da": "Publiceringsdato er før 1. januar 2026",
+      "discovered_by": "RSS/Atom",
+      "detail": "",
+      "detected_date": "2022-01-25T00:00:00+00:00"
+    },
+    {
+      "source": "Statens Administration",
       "title": "Digital signering fjernes i Lønportalen",
       "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2025/april/digital-signering-fjernes-i-loenportalen/",
       "reason": "before_archive_start",
@@ -3873,16 +3883,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2022-01-27T00:00:00+00:00"
-    },
-    {
-      "source": "Statens Administration",
-      "title": "Ønsker I hjælp til beregning af feriepengeforpligtelsen i forbindelse med årsafslutningen 2022?",
-      "url": "https://statens-adm.dk/nyheder/nyhedsarkiv/2022/oktober/oensker-i-hjaelp-til-beregning-af-feriepengeforpligtelsen-i-forbindelse-med-aarsafslutningen-2022/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2022-10-12T12:49:33+00:00"
     },
     {
       "source": "Statens It",
