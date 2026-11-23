@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-23T06:43:59.206480+00:00",
+  "generated_at": "2026-11-23T07:13:14.165850+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 500,
+  "total_rejected": 499,
   "summary_by_reason": {
     "before_archive_start": 485,
-    "missing_safe_publication_date": 4,
+    "missing_safe_publication_date": 3,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -4785,15 +4785,6 @@
       "discovered_by": "HTML",
       "detail": "",
       "detected_date": "2022-04-21T06:58:16+00:00"
-    },
-    {
-      "source": "Naturstyrelsen",
-      "title": "Bliv klar til december: Tag en juletur i skoven",
-      "url": "https://naturstyrelsen.dk/nyheder/2026/november/bliv-klar-til-december-tag-en-juletur-i-skoven",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Officielt MST-nyheds-API",
-      "detail": ""
     },
     {
       "source": "Styrelsen for Grøn Arealomlægning og Vandmiljø",
