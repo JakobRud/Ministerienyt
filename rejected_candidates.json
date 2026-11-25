@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-25T00:43:39.691996+00:00",
+  "generated_at": "2026-11-25T05:09:18.086797+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 932,
+  "total_rejected": 931,
   "summary_by_reason": {
-    "before_archive_start": 932
+    "before_archive_start": 931
   },
   "rejected": [
     {
@@ -9138,16 +9138,6 @@
       "discovered_by": "RSS/Atom",
       "detail": "",
       "detected_date": "2025-12-18T00:00:00+00:00"
-    },
-    {
-      "source": "Undervisningsministeriet",
-      "title": "Mattias Tesfaye: Der skal være plads til alle børn i skolen, men ikke til al opførsel",
-      "url": "https://uvm.dk/aktuelt/nyheder/2025/december/251210-mattias-tesfaye-der-skal-vaere-plads-til-alle-boern-i-skolen-men-ikke-til-al-opfoersel/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "RSS/Atom",
-      "detail": "",
-      "detected_date": "2025-12-10T00:00:00+00:00"
     },
     {
       "source": "Undervisningsministeriet",
