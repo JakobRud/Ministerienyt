@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-26T09:14:02.245142+00:00",
+  "generated_at": "2026-11-26T09:43:45.588065+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 496,
+  "total_rejected": 495,
   "summary_by_reason": {
-    "before_archive_start": 485,
+    "before_archive_start": 484,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -1730,15 +1730,6 @@
       "source": "Familieretshuset",
       "title": "Erklæring til udbetaling af børne- og ungeydelse",
       "url": "https://familieretshuset.dk/nyheder/2025/december/erklaering-til-udbetaling-af-boerne-og-ungeydelse/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "HTML",
-      "detail": ""
-    },
-    {
-      "source": "Familieretshuset",
-      "title": "Vi beklager ventetiden. Du er ikke glemt.",
-      "url": "https://familieretshuset.dk/nyheder/2025/december/vi-beklager-ventetiden-du-er-ikke-glemt/",
       "reason": "before_archive_start",
       "reason_da": "Publiceringsdato er før 1. januar 2026",
       "discovered_by": "HTML",
