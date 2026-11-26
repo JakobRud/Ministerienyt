@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-26T11:44:06.183217+00:00",
+  "generated_at": "2026-11-26T12:13:22.768275+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 498,
+  "total_rejected": 497,
   "summary_by_reason": {
     "before_archive_start": 484,
-    "missing_safe_publication_date": 3,
-    "source_filter_mismatch": 11
+    "missing_safe_publication_date": 1,
+    "source_filter_mismatch": 12
   },
   "rejected": [
     {
@@ -4788,24 +4788,6 @@
     },
     {
       "source": "Styrelsen for International Rekruttering og Integration",
-      "title": "Styrelsen for International Rekruttering og Integration (SIRI) har besluttet at lukke mailadressen siri@siri.dk fra den 1. december 2026.",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/11/Lukning-af-mailadresse",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Udlændingestyrelsen",
-      "title": "Styrelsen for International Rekruttering og Integration (SIRI) har besluttet at lukke mailadressen siri@siri.dk fra den 1. december 2026.",
-      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/11/Lukning-af-mailadresse",
-      "reason": "missing_safe_publication_date",
-      "reason_da": "Ingen sikker publiceringsdato",
-      "discovered_by": "Ny i Danmark API",
-      "detail": ""
-    },
-    {
-      "source": "Styrelsen for International Rekruttering og Integration",
       "title": "Asylsager vedrørende personer fra Iran berostilles ikke længere",
       "url": "https://www.nyidanmark.dk/da/Nyheder/2026/09/Asylsager-vedr%C3%B8rende-personer-fra-Iran-berostilles-ikke-l%C3%A6ngere",
       "reason": "source_filter_mismatch",
@@ -4903,6 +4885,16 @@
       "discovered_by": "Ny i Danmark API",
       "detail": "",
       "detected_date": "2026-05-20T00:00:00+00:00"
+    },
+    {
+      "source": "Udlændingestyrelsen",
+      "title": "Styrelsen for International Rekruttering og Integration (SIRI) har besluttet at lukke mailadressen siri@siri.dk fra den 1. december 2026.",
+      "url": "https://www.nyidanmark.dk/da/Nyheder/2026/11/Lukning-af-mailadresse",
+      "reason": "source_filter_mismatch",
+      "reason_da": "Artiklen tilhører ikke den valgte myndighed",
+      "discovered_by": "Ny i Danmark API",
+      "detail": "",
+      "detected_date": "2026-11-26T00:00:00+00:00"
     },
     {
       "source": "Udlændingestyrelsen",
