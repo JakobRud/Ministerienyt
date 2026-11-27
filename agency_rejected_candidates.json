@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-27T07:43:12.118952+00:00",
+  "generated_at": "2026-11-27T08:13:55.017388+00:00",
   "note": "Diagnostik fra seneste crawl. Filen publiceres ikke på GitHub Pages.",
-  "total_rejected": 495,
+  "total_rejected": 494,
   "summary_by_reason": {
-    "before_archive_start": 484,
+    "before_archive_start": 483,
     "source_filter_mismatch": 11
   },
   "rejected": [
@@ -16,15 +16,6 @@
       "discovered_by": "Sitemap",
       "detail": "",
       "detected_date": "2025-12-01T00:00:00+00:00"
-    },
-    {
-      "source": "Beredskabsstyrelsen",
-      "title": "App fra Beredskabsstyrelsen skal hjælpe ukrainere i krig",
-      "url": "https://www.brs.dk/da/nyheder/2025/app-fra-beredskabsstyrelsen-skal-hjalpe-ukrainere-i-krig/",
-      "reason": "before_archive_start",
-      "reason_da": "Publiceringsdato er før 1. januar 2026",
-      "discovered_by": "Officiel ListPage API",
-      "detail": ""
     },
     {
       "source": "Beredskabsstyrelsen",
