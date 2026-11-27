@@ -1,6 +1,16 @@
 {
-  "generated_at": "2026-11-27T05:18:36.026700+00:00",
+  "generated_at": "2026-11-27T05:44:09.698011+00:00",
   "threshold": 3,
-  "active_alerts": 0,
-  "alerts": []
+  "active_alerts": 1,
+  "alerts": [
+    {
+      "source": "Uddannelses- og Forskningsstyrelsen",
+      "severity": "error",
+      "consecutive_failures": 3,
+      "message": "Kilden har fejlet teknisk i 3 kørsel(er) i træk.",
+      "errors": [
+        "Liste kunne ikke hentes: https://ufsn.dk/aktuelt/nyheder/: HTTPSConnectionPool(host='ufsn.dk', port=443): Max retries exceeded with url: /aktuelt/nyheder/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)')))"
+      ]
+    }
+  ]
 }
